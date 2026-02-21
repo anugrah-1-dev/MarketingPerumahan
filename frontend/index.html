@@ -107,51 +107,17 @@
             <p class="section-subtitle">Berbagai tipe rumah dengan desain modern dan harga terjangkau.</p>
         </div>
 
-        <div class="units-grid">
-            <div class="unit-card fade-in">
-                <div class="unit-image">Gambar Tipe 36</div>
-                <div class="unit-info">
-                    <div class="unit-type">Tipe 36/72</div>
-                    <div class="unit-name">Rumah Tipe Dahlia</div>
-                    <div class="unit-specs">
-                        <span>2 KT</span>
-                        <span>1 KM</span>
-                        <span>LT 72m²</span>
-                    </div>
-                    <div class="unit-price">Rp 350 Juta <small>/ unit</small></div>
-                    <div class="unit-status status-available">✓ Tersedia</div>
-                </div>
+        <div class="units-grid" id="units-container">
+            <!-- Loading State -->
+            <div class="units-loading" id="units-loading">
+                <div class="loading-spinner"></div>
+                <p>Memuat data unit...</p>
             </div>
-
-            <div class="unit-card fade-in">
-                <div class="unit-image">Gambar Tipe 45</div>
-                <div class="unit-info">
-                    <div class="unit-type">Tipe 45/90</div>
-                    <div class="unit-name">Rumah Tipe Melati</div>
-                    <div class="unit-specs">
-                        <span>2 KT</span>
-                        <span>1 KM</span>
-                        <span>LT 90m²</span>
-                    </div>
-                    <div class="unit-price">Rp 480 Juta <small>/ unit</small></div>
-                    <div class="unit-status status-available">✓ Tersedia</div>
-                </div>
+            <!-- Error State -->
+            <div class="units-error" id="units-error" style="display:none;">
+                <p>⚠️ Gagal memuat data unit. <a href="#" onclick="loadUnits(); return false;">Coba lagi</a></p>
             </div>
-
-            <div class="unit-card fade-in">
-                <div class="unit-image">Gambar Tipe 60</div>
-                <div class="unit-info">
-                    <div class="unit-type">Tipe 60/120</div>
-                    <div class="unit-name">Rumah Tipe Anggrek</div>
-                    <div class="unit-specs">
-                        <span>3 KT</span>
-                        <span>2 KM</span>
-                        <span>LT 120m²</span>
-                    </div>
-                    <div class="unit-price">Rp 650 Juta <small>/ unit</small></div>
-                    <div class="unit-status status-available">✓ Tersedia</div>
-                </div>
-            </div>
+            <!-- Unit cards will be rendered here by app.js -->
         </div>
     </section>
 
