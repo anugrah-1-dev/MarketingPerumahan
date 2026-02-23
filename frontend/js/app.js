@@ -1,4 +1,5 @@
 // ===== API Configuration =====
+// Menggunakan port 8000 untuk 'php artisan serve' (Cara 2)
 var API_BASE_URL = 'http://localhost:8000/api';
 
 // ===== Navbar Scroll Effect =====
@@ -121,7 +122,7 @@ function getStatusLabel(status) {
 
 function getFullImageUrl(path) {
     if (!path) return null;
-    // Jika path sudah berupa URL lengkap, gunakan langsung
+    // Jika path sudah berupa URL lengkap (seperti Unsplash), gunakan langsung
     if (path.startsWith('http')) return path;
     // Jika path adalah relative path dari backend
     return 'http://localhost:8000/' + path;
@@ -146,8 +147,8 @@ function renderUnits(units) {
         card.innerHTML =
             '<div class="unit-image">' +
                 (imageUrl
-                    ? '<img src="' + imageUrl + '" alt="Tipe ' + unit.nama + '" onerror="this.parentElement.innerHTML=\'Gambar Tipe ' + unit.nama + '\'"> '
-                    : 'Gambar Tipe ' + unit.nama) +
+                    ? '<img src="' + imageUrl + '" alt="Tipe ' + unit.nama + '" onerror="this.style.display=\'none\'; this.parentElement.innerHTML=\'<div class=\\\'unit-image-placeholder\\\'>Gambar Tipe ' + unit.nama + '</div>\'"> '
+                    : '<div class="unit-image-placeholder">Gambar Tipe ' + unit.nama + '</div>') +
             '</div>' +
             '<div class="unit-info">' +
                 '<div class="unit-type">Tipe ' + unit.tipe + '</div>' +
