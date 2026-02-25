@@ -2,6 +2,15 @@
 
 @section('title', 'Perumahan Zahra – Pilihan Rumah Terbaik')
 
+@php
+    // Bangun URL & pesan WhatsApp berdasarkan agent yang aktif
+    $waPeran  = $agent['jabatan'] ?? 'Marketing';
+    $waNama   = $agent['nama'] ?? 'Tim Kami';
+    $waNomor  = $agent['wa'] ?? '6283876766055';
+    $waPesan  = urlencode("Halo, saya tertarik dengan Perumahan Zahra. Saya dari website – PIC {$waNama}.");
+    $waUrl    = "https://wa.me/{$waNomor}?text={$waPesan}";
+@endphp
+
 @section('content')
 
     {{-- ================================================================
@@ -169,6 +178,30 @@
             </div>
         </div>
     </section>
+
+    {{-- ================================================================
+     FLOATING WHATSAPP BUTTON – dinamis berdasarkan agent di URL
+     ================================================================ --}}
+    <a  href="{{ $waUrl }}"
+        target="_blank"
+        rel="noopener noreferrer"
+        title="Chat dengan {{ $waNama }}"
+        class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#25D366] text-white
+               px-5 py-3 rounded-full shadow-2xl
+               hover:bg-[#1ebe5d] hover:scale-105 active:scale-95
+               transition-all duration-200 group">
+
+        {{-- Ikon WA --}}
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor"
+             class="w-6 h-6 shrink-0">
+            <path d="M16.003 2C8.28 2 2 8.28 2 16.003c0 2.46.666 4.843 1.93 6.93L2 30l7.27-1.904A13.938 13.938 0 0016.003 30C23.72 30 30 23.72 30 16.003 30 8.28 23.72 2 16.003 2zm0 25.447a11.93 11.93 0 01-6.09-1.666l-.437-.26-4.316 1.13 1.153-4.204-.284-.45A11.938 11.938 0 014.063 16.003c0-6.582 5.356-11.94 11.94-11.94 6.583 0 11.94 5.358 11.94 11.94 0 6.583-5.357 11.944-11.94 11.944zm6.54-8.942c-.357-.18-2.114-1.043-2.443-1.163-.328-.12-.566-.18-.804.18-.238.358-.924 1.163-1.133 1.402-.208.24-.417.27-.775.09-.357-.18-1.504-.554-2.865-1.77-1.058-.946-1.773-2.116-1.98-2.473-.208-.358-.022-.55.156-.729.16-.16.358-.417.536-.625.18-.208.24-.358.358-.596.12-.24.06-.447-.03-.626-.09-.18-.803-1.938-1.1-2.653-.29-.697-.584-.6-.804-.61-.207-.01-.447-.012-.685-.012-.238 0-.625.09-.953.447-.328.358-1.25 1.22-1.25 2.978 0 1.757 1.28 3.455 1.46 3.694.178.238 2.52 3.847 6.103 5.394.854.37 1.52.59 2.04.756.857.272 1.638.234 2.254.142.688-.102 2.114-.864 2.413-1.7.298-.835.298-1.549.208-1.7-.09-.149-.328-.238-.685-.417z"/>
+        </svg>
+
+        {{-- Label --}}
+        <span class="font-semibold text-sm leading-tight">
+            Chat {{ $waNama }}
+        </span>
+    </a>
 
 @endsection
 

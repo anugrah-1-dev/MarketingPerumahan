@@ -10,3 +10,10 @@ Route::get('/site-plan',             [PageController::class, 'sitePlan'])->name(
 Route::get('/detail-rumah/{blok?}',  [PageController::class, 'detailRumah'])->name('detail-rumah');
 Route::get('/booking/{blok?}',       [PageController::class, 'formBooking'])->name('form-booking');
 Route::post('/booking',              [PageController::class, 'storeBooking'])->name('store-booking');
+
+// -------------------------------------------------------
+// Dynamic agent route – HARUS di paling bawah agar tidak
+// menimpa route-route spesifik di atas.
+// Contoh: /anugrah, /fajar, /rizky
+// -------------------------------------------------------
+Route::get('/{nama}',                [PageController::class, 'agentLanding'])->name('agent-landing');

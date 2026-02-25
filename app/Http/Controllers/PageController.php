@@ -6,9 +6,50 @@ use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
+    /**
+     * ✅ 1 NOMOR WHATSAPP untuk semua agent.
+     * Format internasional: 62 + nomor (tanpa awalan 0)
+     * Contoh: 081231333063 → 6281231333063
+     */
+    private string $waNumber = '6283876766055';
+
+    /**
+     * Data anggota tim marketing.
+     * Cukup isi nama & jabatan — nomor WA sudah terpusat di $waNumber.
+     * Tambah agent baru: 'slug' => ['nama' => 'Nama', 'jabatan' => '...']
+     */
+    private array $team = [
+        'anugrah' => ['nama' => 'Anugrah', 'jabatan' => 'Marketing Executive'],
+        'fajar'   => ['nama' => 'Fajar',   'jabatan' => 'Marketing Executive'],
+        'rizky'   => ['nama' => 'Rizky',   'jabatan' => 'Marketing Executive'],
+    ];
+
+    /**
+     * Landing page utama (tanpa agent).
+     * URL: /  → nomor WA & nama default (gunakan agent pertama di $team).
+     */
     public function landing()
     {
-        return view('landing');
+        // Halaman utama: gunakan agent pertama sebagai default
+        $agent = array_values($this->team)[0];
+        $agent['wa'] = $this->waNumber;
+        return view('landing', compact('agent'));
+    }
+
+    /**
+     * Landing page dinamis per anggota tim.
+     * URL: /{nama}  e.g. /anugrah, /fajar, /rizky
+     */
+    public function agentLanding(string $nama)
+    {
+        $key = strtolower($nama);
+
+        // Jika nama tidak dikenal, tampilkan 404
+        abort_unless(array_key_exists($key, $this->team), 404);
+
+        // Gabungkan data agent + nomor WA terpusat
+        $agent = array_merge($this->team[$key], ['wa' => $this->waNumber]);
+        return view('landing', compact('agent'));
     }
 
     public function login()
