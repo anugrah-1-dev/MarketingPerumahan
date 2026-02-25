@@ -3,52 +3,51 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Agent;
 
 class PageController extends Controller
 {
     /**
      * ✅ 1 NOMOR WHATSAPP untuk semua agent.
      * Format internasional: 62 + nomor (tanpa awalan 0)
-     * Contoh: 081231333063 → 6281231333063
      */
     private string $waNumber = '6283876766055';
 
     /**
-     * Data anggota tim marketing.
-     * Cukup isi nama & jabatan — nomor WA sudah terpusat di $waNumber.
-     * Tambah agent baru: 'slug' => ['nama' => 'Nama', 'jabatan' => '...']
-     */
-    private array $team = [
-        'anugrah' => ['nama' => 'Anugrah', 'jabatan' => 'Marketing Executive'],
-        'fajar'   => ['nama' => 'Fajar',   'jabatan' => 'Marketing Executive'],
-        'rizky'   => ['nama' => 'Rizky',   'jabatan' => 'Marketing Executive'],
-    ];
-
-    /**
-     * Landing page utama (tanpa agent).
-     * URL: /  → nomor WA & nama default (gunakan agent pertama di $team).
+     * Landing page utama (/).
+     * Gunakan agent pertama yang aktif sebagai default.
      */
     public function landing()
     {
-        // Halaman utama: gunakan agent pertama sebagai default
-        $agent = array_values($this->team)[0];
-        $agent['wa'] = $this->waNumber;
+        $agentModel = Agent::aktif()->first();
+
+        $agent = [
+            'nama'    => $agentModel?->nama    ?? 'Tim Kami',
+            'jabatan' => $agentModel?->jabatan ?? 'Marketing',
+            'wa'      => $this->waNumber,
+        ];
+
         return view('landing', compact('agent'));
     }
 
     /**
      * Landing page dinamis per anggota tim.
      * URL: /{nama}  e.g. /anugrah, /fajar, /rizky
+     * Data diambil dari tabel agents di database.
      */
     public function agentLanding(string $nama)
     {
-        $key = strtolower($nama);
+        // Cari agent berdasarkan slug & harus aktif — auto 404 jika tidak ada
+        $agentModel = Agent::where('slug', strtolower($nama))
+                           ->where('aktif', true)
+                           ->firstOrFail();
 
-        // Jika nama tidak dikenal, tampilkan 404
-        abort_unless(array_key_exists($key, $this->team), 404);
+        $agent = [
+            'nama'    => $agentModel->nama,
+            'jabatan' => $agentModel->jabatan,
+            'wa'      => $this->waNumber,
+        ];
 
-        // Gabungkan data agent + nomor WA terpusat
-        $agent = array_merge($this->team[$key], ['wa' => $this->waNumber]);
         return view('landing', compact('agent'));
     }
 
