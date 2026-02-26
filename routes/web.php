@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\AgentController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
@@ -10,9 +11,15 @@ Route::post('/logout',               [PageController::class, 'logout'])->name('l
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',          fn() => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
-    Route::get('/agents',    fn() => view('admin.agents'))->name('agents');
     Route::get('/tracking',  fn() => view('admin.tracking'))->name('tracking');
     Route::get('/closing',   fn() => view('admin.closing'))->name('closing');
+
+    // ── Agent pages & API ──────────────────────────────────────────────────
+    Route::get('/agents',                [AgentController::class, 'index'])->name('agents');
+    Route::post('/agents',               [AgentController::class, 'store'])->name('agents.store');
+    Route::put('/agents/{id}',           [AgentController::class, 'update'])->name('agents.update');
+    Route::delete('/agents/{id}',        [AgentController::class, 'destroy'])->name('agents.destroy');
+    Route::patch('/agents/{id}/status',  [AgentController::class, 'toggleStatus'])->name('agents.toggle');
 });
 
 Route::get('/unit-tersedia',         [PageController::class, 'unitTersedia'])->name('unit-tersedia');

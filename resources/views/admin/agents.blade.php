@@ -3,6 +3,9 @@
 @section('page-title', 'Manajemen Agent')
 
 @section('content')
+    {{-- CSRF token untuk dipakai oleh agents.js --}}
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Action Bar -->
     <div class="action-bar">
         <button class="btn btn-primary" onclick="openAddAgentModal()">
@@ -21,11 +24,21 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Agent</th><th>Email / Telepon</th><th>Link Affiliate</th>
-                            <th>Klik</th><th>Closing</th><th>Status</th><th>Aksi</th>
+                            <th>Agent</th>
+                            <th>Email / Telepon</th>
+                            <th>Link Affiliate</th>
+                            <th>Komisi</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
-                    <tbody id="agentsTableBody"></tbody>
+                    <tbody id="agentsTableBody">
+                        <tr>
+                            <td colspan="6" style="text-align:center; padding:2rem; color:#94a3b8;">
+                                <i class="fas fa-spinner fa-spin"></i> Memuat data…
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -41,27 +54,47 @@
             <div class="modal-body">
                 <form id="agentForm">
                     <input type="hidden" id="agentId">
+
                     <div class="form-group">
                         <label for="agentName">Nama Agent *</label>
-                        <input type="text" id="agentName" required>
+                        <input type="text" id="agentName" placeholder="Contoh: Budi Santoso" required>
                     </div>
+
                     <div class="form-group">
-                        <label for="agentEmail">Email *</label>
-                        <input type="email" id="agentEmail" required>
+                        <label for="agentJabatan">Jabatan *</label>
+                        <input type="text" id="agentJabatan" placeholder="Contoh: Marketing Executive" required>
                     </div>
+
                     <div class="form-group">
-                        <label for="agentPhone">Telepon *</label>
-                        <input type="tel" id="agentPhone" required>
+                        <label for="agentEmail">Email</label>
+                        <input type="email" id="agentEmail" placeholder="agent@email.com">
                     </div>
+
                     <div class="form-group">
-                        <label for="agentCommission">Komisi (%) *</label>
-                        <input type="number" id="agentCommission" min="0" max="100" step="0.5" required>
+                        <label for="agentPhone">Telepon</label>
+                        <input type="tel" id="agentPhone" placeholder="Contoh: 081234567890">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="agentCommission">Komisi (%)</label>
+                        <input type="number" id="agentCommission" min="0" max="100" step="0.5" placeholder="Contoh: 2.5">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Slug (URL) — otomatis dari nama</label>
+                        <div style="display:flex; align-items:center; gap:.5rem;">
+                            <span style="color:#64748b; font-size:.875rem;">{{ url('/') }}/</span>
+                            <input type="text" id="agentSlug" style="flex:1;" readonly>
+                        </div>
+                        <small style="color:#94a3b8;">Digunakan sebagai link landing page agent.</small>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeAgentModal()">Batal</button>
-                <button class="btn btn-primary" onclick="saveAgent()">Simpan</button>
+                <button class="btn btn-primary" id="saveBtn" onclick="saveAgent()">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
             </div>
         </div>
     </div>

@@ -1,116 +1,136 @@
-// Mock Agents Data
-let agents = [
-    {
-        id: 1,
-        name: 'Budi Santoso',
-        email: 'budi@example.com',
-        phone: '081234567890',
-        affiliateCode: 'AGT001',
-        clicks: 156,
-        closings: 5,
-        commission: 2.5,
-        status: 'active'
-    },
-    {
-        id: 2,
-        name: 'Siti Nurhaliza',
-        email: 'siti@example.com',
-        phone: '081234567891',
-        affiliateCode: 'AGT002',
-        clicks: 142,
-        closings: 4,
-        commission: 2.5,
-        status: 'active'
-    },
-    {
-        id: 3,
-        name: 'Ahmad Rizki',
-        email: 'ahmad@example.com',
-        phone: '081234567892',
-        affiliateCode: 'AGT003',
-        clicks: 128,
-        closings: 4,
-        commission: 2.0,
-        status: 'active'
-    },
-    {
-        id: 4,
-        name: 'Dewi Lestari',
-        email: 'dewi@example.com',
-        phone: '081234567893',
-        affiliateCode: 'AGT004',
-        clicks: 115,
-        closings: 3,
-        commission: 2.0,
-        status: 'inactive'
-    },
-    {
-        id: 5,
-        name: 'Rudi Hartono',
-        email: 'rudi@example.com',
-        phone: '081234567894',
-        affiliateCode: 'AGT005',
-        clicks: 98,
-        closings: 3,
-        commission: 1.5,
-        status: 'active'
-    }
-];
+/**
+ * agents.js — Agent CRUD via Laravel API
+ * Kolom: nama, jabatan, email, phone, commission, slug, aktif
+ */
 
-let editingAgentId = null;
+// ──────────────────────────────────────────────────────────────
+// Helpers
+// ──────────────────────────────────────────────────────────────
+function getCsrf() {
+    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+}
 
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
+function getInitials(name) {
+    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
+}
+
+function slugify(text) {
+    return text.toString().toLowerCase()
+        .replace(/\s+/g, '-')
+        .replace(/[^\w\-]+/g, '')
+        .replace(/\-\-+/g, '-')
+        .trim();
+}
+
+function showLoading(cols = 6) {
+    document.getElementById('agentsTableBody').innerHTML = `
+        <tr>
+            <td colspan="${cols}" style="text-align:center; padding:2rem; color:#94a3b8;">
+                <i class="fas fa-spinner fa-spin"></i> Memuat data…
+            </td>
+        </tr>`;
+}
+
+// ──────────────────────────────────────────────────────────────
+// Init
+// ──────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
     loadAgents();
+
+    // Auto-generate slug dari input nama
+    document.getElementById('agentName').addEventListener('input', function () {
+        document.getElementById('agentSlug').value = slugify(this.value);
+    });
 });
 
-// Load Agents
-function loadAgents() {
+// ──────────────────────────────────────────────────────────────
+// READ — Load agents dari API
+// ──────────────────────────────────────────────────────────────
+async function loadAgents() {
+    showLoading();
+    try {
+        const resp = await fetch('/admin/agents', {
+            headers: { 'Accept': 'application/json' }
+        });
+        if (!resp.ok) throw new Error('Gagal memuat data agent.');
+
+        const agents = await resp.json();
+        renderTable(agents);
+    } catch (err) {
+        document.getElementById('agentsTableBody').innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align:center;padding:2rem;color:#ef4444;">
+                    <i class="fas fa-exclamation-circle"></i> ${err.message}
+                </td>
+            </tr>`;
+    }
+}
+
+// ──────────────────────────────────────────────────────────────
+// Render tabel
+// ──────────────────────────────────────────────────────────────
+function renderTable(agents) {
     const tbody = document.getElementById('agentsTableBody');
+
+    if (agents.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="6" style="text-align:center;padding:2rem;color:#94a3b8;">
+                    Belum ada agent. Klik "Tambah Agent" untuk menambahkan.
+                </td>
+            </tr>`;
+        return;
+    }
+
     tbody.innerHTML = '';
-    
     agents.forEach(agent => {
-        const tr = document.createElement('tr');
-        
-        const statusBadge = agent.status === 'active' 
-            ? '<span class="badge success">Aktif</span>' 
+        const tr          = document.createElement('tr');
+        const statusBadge = agent.aktif
+            ? '<span class="badge success">Aktif</span>'
             : '<span class="badge danger">Nonaktif</span>';
-        
-        const affiliateLink = `${window.location.origin}/property?ref=${agent.affiliateCode}`;
-        
+
+        const origin        = window.location.origin;
+        const affiliateLink = `${origin}/${agent.slug}`;
+        const emailRow      = agent.email ? `<div>${agent.email}</div>` : '';
+        const phoneRow      = agent.phone
+            ? `<div style="color:#64748b;font-size:.875rem;">${agent.phone}</div>`
+            : '';
+        const commission    = agent.commission != null ? `${agent.commission}%` : '—';
+
         tr.innerHTML = `
             <td>
-                <div style="display: flex; align-items: center; gap: 0.75rem;">
-                    <div class="agent-avatar">${getInitials(agent.name)}</div>
+                <div style="display:flex;align-items:center;gap:.75rem;">
+                    <div class="agent-avatar">${getInitials(agent.nama)}</div>
                     <div>
-                        <strong>${agent.name}</strong>
+                        <strong>${agent.nama}</strong>
+                        <div style="color:#64748b;font-size:.875rem;">${agent.jabatan}</div>
                     </div>
                 </div>
             </td>
             <td>
-                <div>${agent.email}</div>
-                <div style="color: #64748b; font-size: 0.875rem;">${agent.phone}</div>
+                ${emailRow}
+                ${phoneRow}
+                ${!agent.email && !agent.phone ? '<span style="color:#94a3b8;">—</span>' : ''}
             </td>
             <td>
-                <div style="display: flex; align-items: center; gap: 0.5rem;">
-                    <code style="background: #f1f5f9; padding: 0.25rem 0.5rem; border-radius: 0.25rem; font-size: 0.875rem;">
-                        ${agent.affiliateCode}
+                <div style="display:flex;align-items:center;gap:.5rem;">
+                    <code style="background:#f1f5f9;padding:.25rem .5rem;border-radius:.25rem;font-size:.875rem;">
+                        /${agent.slug}
                     </code>
-                    <button class="btn-icon" onclick="copyAffiliateLink('${affiliateLink}')" title="Copy link">
+                    <button class="btn-icon" onclick="copyLink('${affiliateLink}', event)" title="Salin link affiliate">
                         <i class="fas fa-copy"></i>
                     </button>
                 </div>
             </td>
-            <td>${agent.clicks}</td>
-            <td>${agent.closings}</td>
+            <td>${commission}</td>
             <td>${statusBadge}</td>
             <td>
-                <div style="display: flex; gap: 0.5rem;">
+                <div style="display:flex;gap:.5rem;">
                     <button class="btn-icon" onclick="editAgent(${agent.id})" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-icon" onclick="toggleAgentStatus(${agent.id})" title="Toggle Status">
-                        <i class="fas fa-${agent.status === 'active' ? 'ban' : 'check'}"></i>
+                    <button class="btn-icon" onclick="toggleStatus(${agent.id})" title="${agent.aktif ? 'Nonaktifkan' : 'Aktifkan'}">
+                        <i class="fas fa-${agent.aktif ? 'ban' : 'check'}"></i>
                     </button>
                     <button class="btn-icon danger" onclick="deleteAgent(${agent.id})" title="Hapus">
                         <i class="fas fa-trash"></i>
@@ -122,173 +142,162 @@ function loadAgents() {
     });
 }
 
-// Get Initials
-function getInitials(name) {
-    return name.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2);
-}
-
-// Search Agents
-function searchAgents() {
-    const searchTerm = document.getElementById('searchAgent').value.toLowerCase();
-    const tbody = document.getElementById('agentsTableBody');
-    const rows = tbody.getElementsByTagName('tr');
-    
-    Array.from(rows).forEach(row => {
-        const text = row.textContent.toLowerCase();
-        row.style.display = text.includes(searchTerm) ? '' : 'none';
-    });
-}
-
-// Open Add Agent Modal
+// ──────────────────────────────────────────────────────────────
+// Modal helpers
+// ──────────────────────────────────────────────────────────────
 function openAddAgentModal() {
-    editingAgentId = null;
     document.getElementById('modalTitle').textContent = 'Tambah Agent';
     document.getElementById('agentForm').reset();
-    document.getElementById('agentId').value = '';
+    document.getElementById('agentId').value   = '';
+    document.getElementById('agentSlug').value = '';
     document.getElementById('agentModal').style.display = 'flex';
 }
 
-// Edit Agent
-function editAgent(id) {
-    const agent = agents.find(a => a.id === id);
-    if (!agent) return;
-    
-    editingAgentId = id;
-    document.getElementById('modalTitle').textContent = 'Edit Agent';
-    document.getElementById('agentId').value = agent.id;
-    document.getElementById('agentName').value = agent.name;
-    document.getElementById('agentEmail').value = agent.email;
-    document.getElementById('agentPhone').value = agent.phone;
-    document.getElementById('agentCommission').value = agent.commission;
-    document.getElementById('agentModal').style.display = 'flex';
-}
-
-// Close Modal
 function closeAgentModal() {
     document.getElementById('agentModal').style.display = 'none';
     document.getElementById('agentForm').reset();
-    editingAgentId = null;
 }
 
-// Save Agent
-function saveAgent() {
-    const name = document.getElementById('agentName').value;
-    const email = document.getElementById('agentEmail').value;
-    const phone = document.getElementById('agentPhone').value;
-    const commission = parseFloat(document.getElementById('agentCommission').value);
-    
-    if (!name || !email || !phone || !commission) {
-        alert('Mohon lengkapi semua field!');
+async function editAgent(id) {
+    try {
+        const resp   = await fetch('/admin/agents', { headers: { 'Accept': 'application/json' } });
+        const agents = await resp.json();
+        const agent  = agents.find(a => a.id === id);
+        if (!agent) { alert('Agent tidak ditemukan.'); return; }
+
+        document.getElementById('modalTitle').textContent     = 'Edit Agent';
+        document.getElementById('agentId').value              = agent.id;
+        document.getElementById('agentName').value            = agent.nama;
+        document.getElementById('agentJabatan').value         = agent.jabatan;
+        document.getElementById('agentEmail').value           = agent.email   ?? '';
+        document.getElementById('agentPhone').value           = agent.phone   ?? '';
+        document.getElementById('agentCommission').value      = agent.commission ?? '';
+        document.getElementById('agentSlug').value            = agent.slug;
+        document.getElementById('agentModal').style.display  = 'flex';
+    } catch {
+        alert('Gagal memuat data agent.');
+    }
+}
+
+// ──────────────────────────────────────────────────────────────
+// CREATE / UPDATE
+// ──────────────────────────────────────────────────────────────
+async function saveAgent() {
+    const nama       = document.getElementById('agentName').value.trim();
+    const jabatan    = document.getElementById('agentJabatan').value.trim();
+    const email      = document.getElementById('agentEmail').value.trim();
+    const phone      = document.getElementById('agentPhone').value.trim();
+    const commission = document.getElementById('agentCommission').value;
+    const id         = document.getElementById('agentId').value;
+
+    if (!nama || !jabatan) {
+        alert('Nama dan Jabatan wajib diisi!');
         return;
     }
-    
-    if (editingAgentId) {
-        // Update existing agent
-        const index = agents.findIndex(a => a.id === editingAgentId);
-        if (index !== -1) {
-            agents[index].name = name;
-            agents[index].email = email;
-            agents[index].phone = phone;
-            agents[index].commission = commission;
+
+    const btn = document.getElementById('saveBtn');
+    btn.disabled   = true;
+    btn.innerHTML  = '<i class="fas fa-spinner fa-spin"></i> Menyimpan…';
+
+    try {
+        const isEdit = !!id;
+        const url    = isEdit ? `/admin/agents/${id}` : '/admin/agents';
+        const method = isEdit ? 'PUT' : 'POST';
+
+        const payload = { nama, jabatan };
+        if (email)      payload.email      = email;
+        if (phone)      payload.phone      = phone;
+        if (commission) payload.commission = parseFloat(commission);
+
+        const resp = await fetch(url, {
+            method,
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept':       'application/json',
+                'X-CSRF-TOKEN': getCsrf(),
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!resp.ok) {
+            const err = await resp.json();
+            const msg = err.errors
+                ? Object.values(err.errors).flat().join('\n')
+                : (err.message || 'Terjadi kesalahan.');
+            alert(msg);
+            return;
         }
-        
-        // In Laravel, you would make a PUT/PATCH request:
-        // fetch(`/api/agents/${editingAgentId}`, {
-        //     method: 'PUT',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ name, email, phone, commission })
-        // });
-        
-        alert('Agent berhasil diupdate!');
-    } else {
-        // Add new agent
-        const newAgent = {
-            id: agents.length + 1,
-            name,
-            email,
-            phone,
-            affiliateCode: `AGT${String(agents.length + 1).padStart(3, '0')}`,
-            clicks: 0,
-            closings: 0,
-            commission,
-            status: 'active'
-        };
-        agents.push(newAgent);
-        
-        // In Laravel, you would make a POST request:
-        // fetch('/api/agents', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ name, email, phone, commission })
-        // });
-        
-        alert('Agent berhasil ditambahkan!');
-    }
-    
-    loadAgents();
-    closeAgentModal();
-}
 
-// Toggle Agent Status
-function toggleAgentStatus(id) {
-    const agent = agents.find(a => a.id === id);
-    if (!agent) return;
-    
-    const newStatus = agent.status === 'active' ? 'inactive' : 'active';
-    const confirmMsg = `Apakah Anda yakin ingin ${newStatus === 'active' ? 'mengaktifkan' : 'menonaktifkan'} agent ini?`;
-    
-    if (confirm(confirmMsg)) {
-        agent.status = newStatus;
-        
-        // In Laravel, you would make a PATCH request:
-        // fetch(`/api/agents/${id}/status`, {
-        //     method: 'PATCH',
-        //     headers: { 'Content-Type': 'application/json' },
-        //     body: JSON.stringify({ status: newStatus })
-        // });
-        
-        loadAgents();
-        alert(`Status agent berhasil diubah menjadi ${newStatus === 'active' ? 'aktif' : 'nonaktif'}!`);
+        closeAgentModal();
+        await loadAgents();
+    } catch {
+        alert('Gagal menyimpan. Cek koneksi atau coba lagi.');
+    } finally {
+        btn.disabled  = false;
+        btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
     }
 }
 
-// Delete Agent
-function deleteAgent(id) {
-    if (confirm('Apakah Anda yakin ingin menghapus agent ini? Data tidak dapat dikembalikan!')) {
-        agents = agents.filter(a => a.id !== id);
-        
-        // In Laravel, you would make a DELETE request:
-        // fetch(`/api/agents/${id}`, {
-        //     method: 'DELETE'
-        // });
-        
-        loadAgents();
-        alert('Agent berhasil dihapus!');
+// ──────────────────────────────────────────────────────────────
+// TOGGLE STATUS
+// ──────────────────────────────────────────────────────────────
+async function toggleStatus(id) {
+    if (!confirm('Ubah status agent ini?')) return;
+    try {
+        const resp = await fetch(`/admin/agents/${id}/status`, {
+            method:  'PATCH',
+            headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
+        });
+        if (!resp.ok) throw new Error();
+        await loadAgents();
+    } catch {
+        alert('Gagal mengubah status agent.');
     }
 }
 
-// Copy Affiliate Link
-function copyAffiliateLink(link) {
-    navigator.clipboard.writeText(link).then(() => {
-        // Show temporary success message
-        const btn = event.target.closest('button');
-        const originalHTML = btn.innerHTML;
-        btn.innerHTML = '<i class="fas fa-check"></i>';
-        btn.style.color = '#10b981';
-        
-        setTimeout(() => {
-            btn.innerHTML = originalHTML;
-            btn.style.color = '';
-        }, 2000);
-    }).catch(err => {
-        alert('Gagal menyalin link: ' + err);
+// ──────────────────────────────────────────────────────────────
+// DELETE
+// ──────────────────────────────────────────────────────────────
+async function deleteAgent(id) {
+    if (!confirm('Hapus agent ini? Data tidak dapat dikembalikan!')) return;
+    try {
+        const resp = await fetch(`/admin/agents/${id}`, {
+            method:  'DELETE',
+            headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
+        });
+        if (!resp.ok) throw new Error();
+        await loadAgents();
+    } catch {
+        alert('Gagal menghapus agent.');
+    }
+}
+
+// ──────────────────────────────────────────────────────────────
+// SEARCH (filter di sisi klien)
+// ──────────────────────────────────────────────────────────────
+function searchAgents() {
+    const term = document.getElementById('searchAgent').value.toLowerCase();
+    const rows = document.querySelectorAll('#agentsTableBody tr');
+    rows.forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
     });
 }
 
-// Close modal when clicking outside
-window.onclick = function(event) {
-    const modal = document.getElementById('agentModal');
-    if (event.target === modal) {
-        closeAgentModal();
-    }
+// ──────────────────────────────────────────────────────────────
+// COPY LINK
+// ──────────────────────────────────────────────────────────────
+function copyLink(link, event) {
+    navigator.clipboard.writeText(link).then(() => {
+        const btn = event.target.closest('button');
+        const ori = btn.innerHTML;
+        btn.innerHTML   = '<i class="fas fa-check"></i>';
+        btn.style.color = '#10b981';
+        setTimeout(() => { btn.innerHTML = ori; btn.style.color = ''; }, 2000);
+    }).catch(() => alert('Gagal menyalin link.'));
 }
+
+// Close modal bila klik di luar
+window.onclick = function (event) {
+    const modal = document.getElementById('agentModal');
+    if (event.target === modal) closeAgentModal();
+};

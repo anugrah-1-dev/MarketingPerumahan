@@ -10,9 +10,9 @@ class AgentSeeder extends Seeder
     public function run(): void
     {
         $agents = [
-            ['nama' => 'Anugrah', 'jabatan' => 'Marketing Executive', 'slug' => 'anugrah', 'aktif' => true],
-            ['nama' => 'Fajar',   'jabatan' => 'Marketing Executive', 'slug' => 'fajar',   'aktif' => true],
-            ['nama' => 'Rizky',   'jabatan' => 'Marketing Executive', 'slug' => 'rizky',   'aktif' => true],
+            ['nama' => 'Anugrah', 'jabatan' => 'Marketing Executive', 'slug' => 'anugrah', 'aktif' => true, 'email' => 'anugrah@example.com', 'phone' => '081200000001', 'commission' => 2.5],
+            ['nama' => 'Fajar',   'jabatan' => 'Marketing Executive', 'slug' => 'fajar',   'aktif' => true, 'email' => 'fajar@example.com',   'phone' => '081200000002', 'commission' => 2.5],
+            ['nama' => 'Rizky',   'jabatan' => 'Marketing Executive', 'slug' => 'rizky',   'aktif' => true, 'email' => 'rizky@example.com',   'phone' => '081200000003', 'commission' => 2.0],
         ];
 
         foreach ($agents as $agent) {

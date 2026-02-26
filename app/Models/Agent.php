@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Agent extends Model
 {
-    protected $fillable = ['nama', 'jabatan', 'slug', 'aktif'];
+    protected $fillable = ['nama', 'jabatan', 'slug', 'aktif', 'email', 'phone', 'commission'];
 
     protected $casts = ['aktif' => 'boolean'];
 
