@@ -10,13 +10,16 @@
                 <h1 class="text-[28px] font-bold text-[#393939] mb-1">Masuk ke akun Anda</h1>
                 <p class="text-[#676767] text-sm mb-8">Selamat datang kembali di Perumahan Zahra</p>
 
-                <form method="POST" action="#" class="space-y-5">
+                <form method="POST" action="{{ route('login.post') }}" class="space-y-5">
                     @csrf
                     {{-- Email --}}
                     <div>
                         <label class="block text-sm font-semibold text-[#393939] mb-2">Email</label>
-                        <input type="email" name="email" placeholder="email@example.com" class="input-field" required
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="email@example.com" class="input-field" required
                             autocomplete="email">
+                        @error('email')
+                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
 
                     {{-- Password --}}

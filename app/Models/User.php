@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -45,4 +46,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isSuperAdmin(): bool { return $this->role === 'super_admin'; }
+    public function isAdmin(): bool      { return $this->role === 'admin'; }
+    public function isAffiliate(): bool  { return $this->role === 'affiliate'; }
 }
