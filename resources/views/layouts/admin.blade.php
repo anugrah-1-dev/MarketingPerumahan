@@ -35,6 +35,10 @@
                 <i class="fas fa-handshake"></i>
                 <span>Manajemen Closing</span>
             </a>
+            <a href="{{ route('admin.settings') }}" class="nav-item {{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
+                <i class="fas fa-cog"></i>
+                <span>Pengaturan</span>
+            </a>
         </nav>
         <div class="sidebar-footer">
             <div style="padding:12px 16px; font-size:13px; color:#aaa; border-top:1px solid rgba(255,255,255,0.1)">

@@ -5,14 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Agent;
+use App\Models\Setting;
 
 class PageController extends Controller
 {
-    /**
-     * ✅ 1 NOMOR WHATSAPP untuk semua agent.
-     * Format internasional: 62 + nomor (tanpa awalan 0)
-     */
-    private string $waNumber = '6283876766055';
 
     /**
      * Landing page utama (/).
@@ -25,7 +21,7 @@ class PageController extends Controller
         $agent = [
             'nama'    => $agentModel?->nama    ?? 'Tim Kami',
             'jabatan' => $agentModel?->jabatan ?? 'Marketing',
-            'wa'      => $this->waNumber,
+            'wa'      => Setting::get('wa_admin', '6283876766055'),
         ];
 
         return view('landing', compact('agent'));
@@ -46,7 +42,7 @@ class PageController extends Controller
         $agent = [
             'nama'    => $agentModel->nama,
             'jabatan' => $agentModel->jabatan,
-            'wa'      => $this->waNumber,
+            'wa'      => Setting::get('wa_admin', '6283876766055'),
         ];
 
         return view('landing', compact('agent'));

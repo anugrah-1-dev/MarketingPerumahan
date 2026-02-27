@@ -186,6 +186,8 @@
         target="_blank"
         rel="noopener noreferrer"
         title="Chat dengan {{ $waNama }}"
+        id="wa-float-btn"
+        onclick="recordWaClick(event, '{{ $waUrl }}', '{{ $agent['slug'] ?? '' }}')"
         class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#25D366] text-white
                px-5 py-3 rounded-full shadow-2xl
                hover:bg-[#1ebe5d] hover:scale-105 active:scale-95
@@ -202,6 +204,26 @@
             Chat {{ $waNama }}
         </span>
     </a>
+
+    <script>
+    function recordWaClick(e, waUrl, slug) {
+        e.preventDefault();
+        // Kirim data ke backend (fire-and-forget), lalu buka WA
+        fetch('{{ route("wa-click.record") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? ''
+            },
+            body: JSON.stringify({
+                slug: slug || null,
+                page_url: window.location.href
+            })
+        }).catch(() => {}).finally(() => {
+            window.open(waUrl, '_blank', 'noopener,noreferrer');
+        });
+    }
+    </script>
 
 @endsection
 

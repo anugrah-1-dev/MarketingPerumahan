@@ -25,7 +25,7 @@
 
     <!-- Filter & Action Bar -->
     <div class="card">
-        <div class="card-header"><h2>Filter & Pencarian</h2></div>
+        <div class="card-header"><h2>Filter &amp; Pencarian</h2></div>
         <div class="card-body">
             <div class="filter-grid">
                 <div class="filter-item">
@@ -58,7 +58,7 @@
             </div>
             <div class="search-box" style="margin-top:1rem">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchClicks" placeholder="Cari nomor telepon, nama agent..." onkeyup="searchClickData()">
+                <input type="text" id="searchClicks" placeholder="Cari nama agent, slug..." onkeyup="searchClickData()">
             </div>
         </div>
     </div>
@@ -68,7 +68,7 @@
         <div class="card-header">
             <h2>Data Klik WhatsApp</h2>
             <button class="btn btn-success" onclick="exportClicks()">
-                <i class="fas fa-download"></i> Export Data
+                <i class="fas fa-download"></i> Export CSV
             </button>
         </div>
         <div class="card-body">
@@ -76,8 +76,14 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Waktu Klik</th><th>Agent</th><th>Properti</th>
-                            <th>No. WhatsApp</th><th>Device</th><th>Status Lead</th><th>Catatan</th><th>Aksi</th>
+                            <th>Waktu Klik</th>
+                            <th>Agent</th>
+                            <th>Halaman Asal</th>
+                            <th>Device</th>
+                            <th>IP Address</th>
+                            <th>Status Lead</th>
+                            <th>Catatan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="clicksTableBody"></tbody>
