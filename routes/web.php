@@ -5,12 +5,13 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\UserController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
 Route::post('/login',                [PageController::class, 'authenticate'])->name('login.post');
 Route::post('/logout',               [PageController::class, 'logout'])->name('logout');
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',          fn() => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
     Route::get('/tracking',               [TrackingController::class, 'index'])->name('tracking');
@@ -28,6 +29,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // ── Pengaturan ─────────────────────────────────────────────────────────
     Route::get('/settings',              [SettingController::class, 'index'])->name('settings');
     Route::post('/settings',             [SettingController::class, 'update'])->name('settings.update');
+
+    // ── Manajemen Users ───────────────────────────────────────────────────
+    Route::get('/users',                 [UserController::class, 'index'])->name('users');
+    Route::post('/users',                [UserController::class, 'store'])->name('users.store');
+    Route::put('/users/{id}',            [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}',         [UserController::class, 'destroy'])->name('users.destroy');
+});
+
+// ── Affiliate Panel ──────────────────────────────────────────────────────
+Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affiliate.')->group(function () {
+    Route::get('/dashboard', fn() => view('affiliate.dashboard'))->name('dashboard');
 });
 
 Route::get('/unit-tersedia',         [PageController::class, 'unitTersedia'])->name('unit-tersedia');

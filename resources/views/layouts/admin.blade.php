@@ -27,6 +27,10 @@
                 <i class="fas fa-users"></i>
                 <span>Manajemen Agent</span>
             </a>
+            <a href="{{ route('admin.users') }}" class="nav-item {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
+                <i class="fas fa-user-lock"></i>
+                <span>Manajemen Users</span>
+            </a>
             <a href="{{ route('admin.tracking') }}" class="nav-item {{ request()->routeIs('admin.tracking') ? 'active' : '' }}">
                 <i class="fas fa-mouse-pointer"></i>
                 <span>Tracking Klik WA</span>

@@ -62,6 +62,11 @@ class PageController extends Controller
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
+
+            $user = Auth::user();
+            if ($user->isAffiliate()) {
+                return redirect()->route('affiliate.dashboard');
+            }
             return redirect()->intended('/admin');
         }
 

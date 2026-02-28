@@ -24,5 +24,15 @@ class DatabaseSeeder extends Seeder
                 'role'     => 'super_admin',
             ]
         );
+
+        User::updateOrCreate(
+            ['email' => 'affiliate@perumahan.com'],
+            [
+                'name'     => 'Affiliate User',
+                'email'    => 'affiliate@perumahan.com',
+                'password' => bcrypt('affiliate123'),
+                'role'     => 'affiliate',
+            ]
+        );
     }
 }

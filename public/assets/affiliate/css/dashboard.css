@@ -1,0 +1,247 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #f4f6f9;
+    font-family: 'Inter', sans-serif;
+}
+
+.DashboardAffiliateWrapper {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    background: white;
+    overflow-x: hidden;
+    display: flex;
+}
+
+/* Sidebar Styling */
+.Sidebar {
+    width: 329px;
+    height: 100vh;
+    background: linear-gradient(180deg, #3D81AF 0%, #1A3649 100%), #7BC7FA;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    padding-top: 53px;
+    z-index: 100;
+}
+
+.AffiliatePanel {
+    color: white;
+    font-size: 36px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    margin-left: 26px;
+    margin-bottom: 5px;
+}
+
+.PerumahanPremium {
+    color: white;
+    font-size: 20px;
+    font-weight: 400;
+    margin-left: 26px;
+    margin-bottom: 40px;
+}
+
+/* Menu Items */
+.MenuItem {
+    display: flex;
+    align-items: center;
+    padding: 15px 25px;
+    color: white;
+    text-decoration: none;
+    font-size: 24px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 500;
+    transition: 0.3s background;
+    position: relative;
+}
+
+.MenuItem:hover, .MenuItem.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.MenuItem.active {
+    background: white;
+    color: #306589;
+    border-radius: 30px;
+    margin: 0 18px;
+    padding: 15px 20px;
+}
+
+.MenuItem.active svg path {
+    fill: #306589;
+    stroke: none;
+}
+
+.MenuItem svg {
+    margin-right: 15px;
+    width: 29px;
+    height: 29px;
+}
+
+/* Main Content Area */
+.MainContent {
+    margin-left: 329px;
+    padding: 40px 60px;
+    width: calc(100% - 329px);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* Header */
+.Header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.Title h1 {
+    color: #3E3D3D;
+    font-size: 40px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    margin: 0 0 10px 0;
+}
+
+.Title p {
+    color: #3E3D3D;
+    font-size: 20px;
+    margin: 0;
+}
+
+.LogoutBtn {
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 10px;
+}
+
+/* Stats Cards */
+.StatsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+}
+
+.StatCard {
+    background: #FDFDEB;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 25px;
+    height: 192px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.StatIcon {
+    width: 80px;
+    height: 80px;
+    margin-bottom: 10px;
+    object-fit: contain;
+}
+
+.StatValue {
+    color: #3E3D3D;
+    font-size: 32px;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.StatTitle {
+    color: #3E3D3D;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.StatBadge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: #379445;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* Average Rate Special Card */
+.AverageRateCard {
+    background: linear-gradient(180deg, #3D81AF 0%, #1A3649 100%), #7BC7FA;
+    position: relative;
+    color: white;
+}
+
+.AverageRateCard .StatTitle {
+    color: white;
+    font-size: 32px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+}
+
+.AverageRateCard .StatValue {
+    color: white;
+    font-size: 36px;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Activities Section */
+.ActivitiesSection {
+    background: #FDFDEB;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    padding: 30px 40px;
+}
+
+.ActivitiesSection h2 {
+    color: #3E3D3D;
+    font-size: 26px;
+    font-weight: 500;
+    margin: 0 0 30px 0;
+}
+
+.ActivityList {
+    display: flex;
+    flex-direction: column;
+}
+
+.ActivityItem {
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #DFD6D6;
+}
+
+.ActivityItem:last-child {
+    border-bottom: none;
+}
+
+.ActivityDot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.DotPink { background: #F2C1C1; }
+.DotYellow { background: #F2EFC1; }
+.DotGreen { background: #D9F2C1; }
+.DotBlue { background: #C1E9F2; }
+
+.ActivityText {
+    color: #605E5E;
+    font-size: 20px;
+    flex-grow: 1;
+}
+
+.ActivityTime {
+    color: #605E5E;
+    font-size: 16px;
+    white-space: nowrap;
+    margin-left: 20px;
+}
