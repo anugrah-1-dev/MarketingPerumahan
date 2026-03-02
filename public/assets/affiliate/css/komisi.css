@@ -1,0 +1,137 @@
+/* =========================================================
+   KOMISI PAGE
+   ========================================================= */
+
+.page-header {
+    margin-bottom: 28px;
+}
+.page-header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+}
+.page-header p {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+/* Stats */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+}
+.stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    border-left: 5px solid transparent;
+}
+.stat-card.unpaid { border-color: #f87171; }
+.stat-card.paid   { border-color: #34d399; }
+.stat-card.total  { border-color: #60a5fa; }
+.stat-label { font-size: 13px; color: #64748b; font-weight: 500; margin-bottom: 6px; }
+.stat-value { font-size: 26px; font-weight: 700; color: #1e293b; }
+
+/* Info Row */
+.info-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 24px;
+}
+.info-box {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.info-box h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 14px;
+}
+.info-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.info-box ul li {
+    font-size: 13px;
+    color: #475569;
+    padding-left: 14px;
+    position: relative;
+}
+.info-box ul li::before {
+    content: '•';
+    position: absolute;
+    left: 0;
+    color: #3D81AF;
+    font-weight: 700;
+}
+
+/* Next Payment */
+.next-payment {
+    background: linear-gradient(135deg, #3D81AF, #1A3649);
+    border-radius: 14px;
+    padding: 28px 32px;
+    color: #fff;
+    margin-bottom: 24px;
+    text-align: center;
+}
+.next-payment h2 {
+    font-size: 16px;
+    font-weight: 600;
+    opacity: 0.85;
+    margin-bottom: 10px;
+}
+.next-payment .amount {
+    font-size: 36px;
+    font-weight: 700;
+}
+.next-payment .estimate {
+    font-size: 13px;
+    opacity: 0.7;
+    margin-top: 8px;
+}
+
+/* History Table */
+.history-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.history-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 18px;
+}
+.history-card table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.history-card th {
+    padding: 12px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: #475569;
+    font-size: 13px;
+    border-bottom: 1px solid #e2e8f0;
+    background: #f8fafc;
+}
+.history-card td {
+    padding: 12px 14px;
+    color: #334155;
+    border-bottom: 1px solid #f1f5f9;
+}
+.history-card tr:last-child td { border-bottom: none; }

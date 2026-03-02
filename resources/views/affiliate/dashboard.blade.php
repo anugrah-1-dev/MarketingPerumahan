@@ -1,166 +1,198 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Affiliate Dashboard - Marketing Perumahan</title>
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@500;600&display=swap" rel="stylesheet">
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/affiliate/css/dashboard.css') }}">
-</head>
-<body>
-    <div class="DashboardAffiliateWrapper">
-        <!-- Sidebar -->
-        <aside class="Sidebar">
-            <div class="AffiliatePanel">Affiliate Panel</div>
-            <div class="PerumahanPremium">Perumahan premium</div>
+@extends('layouts.affiliate')
+@section('title', 'Dashboard Affiliate')
 
-            <nav class="Menu">
-                <a href="#" class="MenuItem active">
-                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M16.1111 9.66667V0H29V9.66667H16.1111ZM0 16.1111V0H12.8889V16.1111H0ZM16.1111 29V12.8889H29V29H16.1111ZM0 29V19.3333H12.8889V29H0ZM3.22222 12.8889H9.66667V3.22222H3.22222V12.8889ZM19.3333 25.7778H25.7778V16.1111H19.3333V25.7778ZM19.3333 6.44444H25.7778V3.22222H19.3333V6.44444ZM3.22222 25.7778H9.66667V22.5556H3.22222V25.7778Z" fill="white"/>
-                    </svg>
-                    Dashboard
-                </a>
-                <a href="#" class="MenuItem">
-                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M10.8894 24.178C10.006 25.059 8.80848 25.5538 7.55993 25.5538C6.31137 25.5538 5.11386 25.059 4.23045 24.178C3.34814 23.2959 2.85255 22.1001 2.85255 20.8534C2.85255 19.6067 3.34814 18.411 4.23045 17.5288L8.67499 13.0909L6.46057 10.8797L2.01604 15.3177C0.545069 16.7887 -0.281128 18.7825 -0.281128 20.8612C-0.281128 22.94 0.545069 24.9338 2.01604 26.4048C3.55514 27.9259 5.54968 28.6943 7.57563 28.6943C9.60158 28.6943 11.5961 27.9259 13.1352 26.4048L17.5798 21.9668L15.3653 19.7557L10.9208 24.1936L10.8894 24.178ZM15.3339 2.00379L10.8894 6.44176L13.1038 8.6529L17.5483 4.21494C18.4318 3.33393 19.6293 2.83907 20.8778 2.83907C22.1264 2.83907 23.3239 3.33393 24.2073 4.21494C25.0896 5.09704 25.5852 6.29278 25.5852 7.53949C25.5852 8.78621 25.0896 9.98194 24.2073 10.864L19.7628 15.302L21.9772 17.5132L26.4217 13.0752C27.8927 11.6042 28.7189 9.6104 28.7189 7.53165C28.7189 5.4529 27.8927 3.45911 26.4217 1.98811C24.9485 0.519313 22.9518 -0.305664 20.87 -0.305664C18.7881 -0.305664 16.7914 0.519313 15.3182 1.98811L15.3339 2.00379Z" fill="white"/>
-                        <path d="M21.4689 9.00949L20.429 7.98423L19.4037 6.94434L13.179 13.1544L6.96887 19.3792L8.00877 20.4044L9.03402 21.4443L15.2588 15.2342L21.4689 9.00949Z" fill="white"/>
-                    </svg>
-                    Link saya
-                </a>
-                <a href="#" class="MenuItem">
-                    <svg width="29" height="26" viewBox="0 0 29 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M27.1875 25.375C27.1875 25.375 29 25.375 29 23.2604C29 21.1458 27.1875 14.8021 19.9375 14.8021C12.6875 14.8021 10.875 21.1458 10.875 23.2604C10.875 25.375 12.6875 25.375 12.6875 25.375H27.1875ZM12.7274 23.2604L12.6875 23.252C12.6893 22.6937 12.9902 21.0739 14.065 19.6149C15.0655 18.2467 16.8236 16.9167 19.9375 16.9167C23.0496 16.9167 24.8077 18.2489 25.81 19.6149C26.8848 21.0739 27.1839 22.6958 27.1875 23.252L27.173 23.2562L27.1476 23.2604H12.7274ZM19.9375 10.5729C20.8989 10.5729 21.8209 10.1273 22.5008 9.33422C23.1806 8.5411 23.5625 7.46539 23.5625 6.34375C23.5625 5.22211 23.1806 4.1464 22.5008 3.35328C21.8209 2.56015 20.8989 2.11458 19.9375 2.11458C18.9761 2.11458 18.0541 2.56015 17.3742 3.35328C16.6944 4.1464 16.3125 5.22211 16.3125 6.34375C16.3125 7.46539 16.6944 8.5411 17.3742 9.33422C18.0541 10.1273 18.9761 10.5729 19.9375 10.5729ZM25.375 6.34375C25.375 7.17682 25.2344 8.00174 24.9611 8.7714C24.6878 9.54106 24.2873 10.2404 23.7824 10.8295C23.2775 11.4185 22.678 11.8858 22.0183 12.2046C21.3586 12.5234 20.6516 12.6875 19.9375 12.6875C19.2234 12.6875 18.5164 12.5234 17.8567 12.2046C17.197 11.8858 16.5975 11.4185 16.0926 10.8295C15.5877 10.2404 15.1872 9.54106 14.9139 8.7714C14.6406 8.00174 14.5 7.17682 14.5 6.34375C14.5 4.66128 15.0729 3.04773 16.0926 1.85804C17.1123 0.668358 18.4954 0 19.9375 0C21.3796 0 22.7627 0.668358 23.7824 1.85804C24.8021 3.04773 25.375 4.66128 25.375 6.34375ZM12.5715 15.3942C11.8461 15.1297 11.0989 14.9546 10.3421 14.8719C9.91686 14.8235 9.48978 14.8002 9.0625 14.8021C1.8125 14.8021 0 21.1458 0 23.2604C0 24.6701 0.604167 25.375 1.8125 25.375H9.454C9.18543 24.7148 9.05144 23.9911 9.0625 23.2604C9.0625 21.1247 9.74581 18.9424 11.0381 17.1197C11.4786 16.498 11.9915 15.9165 12.5715 15.3942ZM8.9175 16.9167C7.84545 18.7975 7.26603 21.0018 7.25 23.2604H1.8125C1.8125 22.7106 2.10975 21.0824 3.19 19.6149C4.17781 18.27 5.89425 16.959 8.9175 16.9188V16.9167ZM2.71875 7.40104C2.71875 5.71857 3.29163 4.10502 4.31136 2.91533C5.33109 1.72565 6.71414 1.05729 8.15625 1.05729C9.59836 1.05729 10.9814 1.72565 12.0011 2.91533C13.0209 4.10502 13.5938 5.71857 13.5938 7.40104C13.5938 9.08351 13.0209 10.6971 12.0011 11.8867C10.9814 13.0764 9.59836 13.7448 8.15625 13.7448C6.71414 13.7448 5.33109 13.0764 4.31136 11.8867C3.29163 10.6971 2.71875 9.08351 2.71875 7.40104ZM8.15625 3.17188C7.19484 3.17188 6.27281 3.61745 5.59299 4.41057C4.91317 5.20369 4.53125 6.2794 4.53125 7.40104C4.53125 8.52269 4.91317 9.59839 5.59299 10.3915C6.27281 11.1846 7.19484 11.6302 8.15625 11.6302C9.11766 11.6302 10.0397 11.1846 10.7195 10.3915C11.3993 9.59839 11.7812 8.52269 11.7812 7.40104C11.7812 6.2794 11.3993 5.20369 10.7195 4.41057C10.0397 3.61745 9.11766 3.17188 8.15625 3.17188Z" fill="white"/>
-                    </svg>
-                    Leads
-                </a>
-                <a href="#" class="MenuItem">
-                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M25.8282 15.8595C24.9219 20.3908 21.5055 24.6567 16.71 25.6106C11.9146 26.5645 7.04821 24.3339 4.64054 20.0783C2.23287 15.8229 2.82726 10.5028 6.11476 6.88353C9.40225 3.26428 14.9532 2.26581 19.4844 4.07831" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10.4219 14.0469L14.9531 18.5781L25.8281 6.79688" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Closing
-                </a>
-                <a href="#" class="MenuItem">
-                    <svg width="29" height="28" viewBox="0 0 29 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M19.125 17.9167C19.125 16.5815 15.3381 15.5 10.6667 15.5M19.125 17.9167C19.125 19.2519 15.3381 20.3333 10.6667 20.3333C5.99525 20.3333 2.20833 19.2519 2.20833 17.9167M19.125 17.9167V23.8822C19.125 25.2585 15.3381 26.375 10.6667 26.375C5.99525 26.375 2.20833 25.2597 2.20833 23.8822V17.9167M19.125 17.9167C23.7457 17.9167 27.5833 16.724 27.5833 15.5V3.41667M10.6667 15.5C5.99525 15.5 2.20833 16.5815 2.20833 17.9167M10.6667 15.5C5.32825 15.5 1 14.3074 1 13.0833V7.04167M10.6667 4.625C5.32825 4.625 1 5.70646 1 7.04167M1 7.04167C1 8.37688 5.32825 9.45833 10.6667 9.45833C10.6667 10.6824 14.5974 11.875 19.218 11.875C23.8387 11.875 27.5833 10.6824 27.5833 9.45833M27.5833 3.41667C27.5833 2.08146 23.8375 1 19.218 1C14.5986 1 10.8528 2.08146 10.8528 3.41667M27.5833 3.41667C27.5833 4.75188 23.8375 5.83333 19.218 5.83333C14.5986 5.83333 10.8528 4.75188 10.8528 3.41667M10.8528 3.41667V15.7006" stroke="white" stroke-width="2"/>
-                    </svg>
-                    Komisi
-                </a>
-                <a href="#" class="MenuItem">
-                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M18.125 25.375V15.7083C18.125 15.3879 17.9977 15.0805 17.7711 14.8539C17.5445 14.6273 17.2371 14.5 16.9167 14.5H12.0833C11.7629 14.5 11.4555 14.6273 11.2289 14.8539C11.0023 15.0805 10.875 15.3879 10.875 15.7083V25.375" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M3.625 12.0833C3.62492 11.7317 3.70153 11.3844 3.84949 11.0655C3.99746 10.7466 4.21321 10.4639 4.48171 10.2369L12.94 2.98693C13.3762 2.61828 13.9289 2.41602 14.5 2.41602C15.0711 2.41602 15.6238 2.61828 16.06 2.98693L24.5183 10.2369C24.7868 10.4639 25.0025 10.7466 25.1505 11.0655C25.2985 11.3844 25.3751 11.7317 25.375 12.0833V22.9583C25.375 23.5992 25.1204 24.2139 24.6672 24.6671C24.214 25.1203 23.5993 25.3749 22.9583 25.3749H6.04167C5.40073 25.3749 4.78604 25.1203 4.33283 24.6671C3.87961 24.2139 3.625 23.5992 3.625 22.9583V12.0833Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Unit rumah
-                </a>
-                <a href="#" class="MenuItem">
-                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M22.9584 8.45801H6.04171C5.72124 8.45801 5.41389 8.58531 5.18729 8.81192C4.96068 9.03853 4.83337 9.34587 4.83337 9.66634V25.3747C4.83337 25.6951 4.96068 26.0025 5.18729 26.2291C5.41389 26.4557 5.72124 26.583 6.04171 26.583H22.9584C23.2788 26.583 23.5862 26.4557 23.8128 26.2291C24.0394 26.0025 24.1667 25.6951 24.1667 25.3747V9.66634C24.1667 9.34587 24.0394 9.03853 23.8128 8.81192C23.5862 8.58531 23.2788 8.45801 22.9584 8.45801Z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M10.2709 10.8748V6.64567C10.2709 6.09029 10.3803 5.54034 10.5928 5.02724C10.8053 4.51413 11.1169 4.04791 11.5096 3.6552C11.9023 3.26248 12.3685 2.95097 12.8816 2.73843C13.3947 2.52589 13.9447 2.4165 14.5 2.4165C15.0554 2.4165 15.6054 2.52589 16.1185 2.73843C16.6316 2.95097 17.0978 3.26248 17.4905 3.6552C17.8832 4.04791 18.1947 4.51413 18.4073 5.02724C18.6198 5.54034 18.7292 6.09029 18.7292 6.64567V10.8748" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                    Marketing tools
-                </a>
-                <a href="#" class="MenuItem">
-                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M19.3334 10.8753C19.3334 12.1572 18.8242 13.3866 17.9178 14.293C17.0113 15.1994 15.782 15.7087 14.5001 15.7087C13.2182 15.7087 11.9888 15.1994 11.0824 14.293C10.176 13.3866 9.66675 12.1572 9.66675 10.8753C9.66675 9.59345 10.176 8.36407 11.0824 7.45764C11.9888 6.55122 13.2182 6.04199 14.5001 6.04199C15.782 6.04199 17.0113 6.55122 17.9178 7.45764C18.8242 8.36407 19.3334 9.59345 19.3334 10.8753ZM16.9167 10.8753C16.9167 11.5163 16.6621 12.131 16.2089 12.5842C15.7557 13.0374 15.141 13.292 14.5001 13.292C13.8591 13.292 13.2445 13.0374 12.7912 12.5842C12.338 12.131 12.0834 11.5163 12.0834 10.8753C12.0834 10.2344 12.338 9.6197 12.7912 9.16648C13.2445 8.71327 13.8591 8.45866 14.5001 8.45866C15.141 8.45866 15.7557 8.71327 16.2089 9.16648C16.6621 9.6197 16.9167 10.2344 16.9167 10.8753Z" fill="white"/>
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.5 1.2085C7.15942 1.2085 1.20837 7.15954 1.20837 14.5002C1.20837 21.8408 7.15942 27.7918 14.5 27.7918C21.8407 27.7918 27.7917 21.8408 27.7917 14.5002C27.7917 7.15954 21.8407 1.2085 14.5 1.2085ZM3.62504 14.5002C3.62504 17.0256 4.48658 19.3504 5.93054 21.1967C6.94487 19.8653 8.25314 18.7863 9.75327 18.0439C11.2534 17.3015 12.9048 16.9157 14.5786 16.9168C16.2308 16.9149 17.8617 17.2903 19.3468 18.0145C20.8319 18.7386 22.1321 19.7923 23.1481 21.0952C24.195 19.7221 24.9 18.1194 25.2045 16.4197C25.5091 14.72 25.4046 12.9723 24.8996 11.321C24.3945 9.66977 23.5036 8.16251 22.3004 6.92396C21.0972 5.6854 19.6164 4.75116 17.9805 4.19853C16.3446 3.6459 14.6006 3.49076 12.8928 3.74596C11.185 4.00117 9.56254 4.65937 8.15964 5.6661C6.75673 6.67284 5.61373 7.99917 4.82519 9.53536C4.03666 11.0715 3.62526 12.7734 3.62504 14.5002ZM14.5 25.3752C12.0035 25.3792 9.5823 24.5203 7.64637 22.944C8.42552 21.8282 9.46273 20.9173 10.6697 20.2886C11.8767 19.66 13.2177 19.3323 14.5786 19.3335C15.9225 19.3323 17.2472 19.6518 18.4428 20.2655C19.6384 20.8792 20.6703 21.7693 21.4528 22.8618C19.5019 24.4895 17.0407 25.3791 14.5 25.3752Z" fill="white"/>
-                    </svg>
-                    Profile
-                </a>
-            </nav>
-        </aside>
+@push('styles')
+<style>
+/* ── Dashboard Content ── */
+.dash-wrap {
+    padding: 36px 36px 40px;
+    background: #f9f9f9;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+.dash-header h1 { font-size: 28px; font-weight: 700; color: #222; }
+.dash-header p  { color: #888; font-size: 14px; margin-top: 4px; }
 
-        <!-- Main Content -->
-        <main class="MainContent">
-            <header class="Header">
-                <div class="Title">
-                    <h1>Dashboard Affiliate</h1>
-                    <p>Selamat datang kembali {{ auth()->user()->name ?? 'Zahra' }}</p>
-                </div>
-                <!-- Form Logout Tersembunyi -->
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                    @csrf
-                </form>
-                <button class="LogoutBtn" title="Logout">
-                    <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M8.93747 18.2967L22.5871 5.028C22.784 4.83683 23.0179 4.68792 23.2745 4.59041C23.5311 4.4929 23.8048 4.44884 24.079 4.46094C24.3532 4.47305 24.622 4.54105 24.869 4.66079C25.116 4.78053 25.3358 4.94947 25.5152 5.15725C25.8938 5.59693 26.0915 6.16385 26.0686 6.74362C26.0456 7.3234 25.8036 7.87289 25.3914 8.28125L18.4999 15.1081" stroke="black" stroke-width="2" stroke-linecap="round"/>
-                        <path d="M18.5006 15.1083L26.0026 7.66885C26.4315 7.24365 27.005 6.99603 27.6086 6.97551C28.2121 6.95498 28.8012 7.16308 29.2579 7.55816C29.4735 7.74437 29.6485 7.9728 29.7723 8.22935C29.8961 8.48589 29.9659 8.76509 29.9775 9.0497C29.9891 9.3343 29.9422 9.61826 29.8397 9.88403C29.7373 10.1498 29.5814 10.3917 29.3817 10.5948L21.824 18.2969" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M21.8247 18.2969L26.125 14.0935C26.5422 13.6677 27.1103 13.4233 27.7063 13.413C28.3024 13.4027 28.8785 13.6274 29.3102 14.0385C29.5224 14.2409 29.6926 14.4832 29.8108 14.7516C29.929 15.02 29.9929 15.3092 29.9988 15.6024C30.0048 15.8956 29.9526 16.187 29.8454 16.46C29.7382 16.733 29.578 16.982 29.3741 17.1928C23.0285 23.7488 19.7354 26.8453 18.4999 27.88C16.5 29.5554 12.5572 30.2498 10.4981 28.8748C8.43905 27.4998 6.57799 25.5432 5.69455 23.601C5.16884 22.4437 4.14722 18.8776 2.62967 12.9028C2.55518 12.6095 2.54001 12.3043 2.58506 12.0051C2.6301 11.7059 2.73446 11.4187 2.89199 11.1604C3.04953 10.9021 3.25708 10.6778 3.50245 10.5008C3.74783 10.3237 4.0261 10.1975 4.32092 10.1294C4.92731 9.98924 5.56441 10.0895 6.09847 10.4091C6.63252 10.7286 7.02197 11.2427 7.18505 11.8434L8.93749 18.2969M11.1952 8.70766C12.671 6.50447 14.7641 4.78569 17.2122 3.7666M29.4291 23.2208C28.0706 25.4982 26.0703 27.3241 23.6789 28.4699" stroke="black" stroke-width="2" stroke-linecap="round"/>
-                    </svg>
-                </button>
-            </header>
+/* Stats */
+.stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 28px;
+}
+.stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+.stat-icon {
+    width: 50px; height: 50px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+.stat-icon.purple { background: rgba(139,92,246,0.12); color: #7c3aed; }
+.stat-icon.green  { background: rgba(16,185,129,0.12); color: #059669; }
+.stat-icon.blue   { background: rgba(59,130,246,0.12); color: #2563eb; }
+.stat-icon.amber  { background: rgba(245,158,11,0.12); color: #d97706; }
+.stat-info .label { font-size: 13px; color: #888; font-weight: 500; }
+.stat-info .value { font-size: 26px; font-weight: 700; color: #1e1e1e; line-height: 1.2; margin-top: 2px; }
+.stat-info .badge {
+    display: inline-block; margin-top: 6px;
+    padding: 2px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 500;
+    background: rgba(99,211,174,0.2); color: #065f46;
+}
 
-            <div class="StatsGrid">
-                <div class="StatCard">
-                    <img src="{{ asset('assets/admin/images/people.png') }}" alt="" class="StatIcon" onerror="this.style.display='none'">
-                    <span class="StatBadge">+8%</span>
-                    <div class="StatTitle">Total klik</div>
-                    <div class="StatValue">45</div>
-                </div>
-                
-                <div class="StatCard">
-                    <img src="{{ asset('assets/admin/images/stocks_growth.png') }}" alt="" class="StatIcon" onerror="this.style.display='none'">
-                    <span class="StatBadge">+5%</span>
-                    <div class="StatTitle">Total Lead</div>
-                    <div class="StatValue">25</div>
-                </div>
+/* Link saya */
+.link-box {
+    margin-top: 24px;
+    background: linear-gradient(135deg, rgba(61,129,175,0.9) 0%, rgba(26,54,73,0.9) 100%);
+    border-radius: 16px;
+    padding: 24px 28px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 14px;
+    box-shadow: 0 4px 16px rgba(26,54,73,0.2);
+}
+.link-box .link-label { font-size: 14px; opacity: 0.8; margin-bottom: 4px; }
+.link-box .link-url   { font-size: 15px; font-weight: 600; word-break: break-all; }
+.link-box .copy-btn {
+    padding: 10px 22px; border-radius: 8px;
+    background: rgba(255,255,255,0.2);
+    color: #fff; font-size: 14px; font-weight: 600;
+    cursor: pointer; border: 1px solid rgba(255,255,255,0.3);
+    white-space: nowrap; transition: background 0.2s;
+    display: flex; align-items: center; gap: 8px;
+}
+.link-box .copy-btn:hover { background: rgba(255,255,255,0.3); }
 
-                <div class="StatCard">
-                    <img src="{{ asset('assets/admin/images/verified_account.png') }}" alt="" class="StatIcon" onerror="this.style.display='none'">
-                    <span class="StatBadge">+0.5%</span>
-                    <div class="StatTitle">Total Closing</div>
-                    <div class="StatValue">3</div>
-                </div>
+/* Aktivitas */
+.activity-card {
+    margin-top: 24px;
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+.activity-card h3 { font-size: 16px; font-weight: 700; color: #222; margin-bottom: 18px; }
+.activity-item {
+    display: flex; align-items: flex-start; gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    margin-top: 5px; flex-shrink: 0;
+}
+.dot-green  { background: #10b981; }
+.dot-blue   { background: #3b82f6; }
+.dot-amber  { background: #f59e0b; }
+.dot-purple { background: #8b5cf6; }
+.activity-text { flex: 1; }
+.activity-text .act-title { font-size: 14px; color: #333; font-weight: 500; }
+.activity-text .act-time  { font-size: 12px; color: #aaa; margin-top: 2px; }
+</style>
+@endpush
 
-                <div class="StatCard">
-                    <img src="{{ asset('assets/admin/images/dollar_coin.png') }}" alt="" class="StatIcon" onerror="this.style.display='none'">
-                    <span class="StatBadge">+20%</span>
-                    <div class="StatTitle">Total Komisi</div>
-                    <div class="StatValue">Rp.1.000.000</div>
-                </div>
-            </div>
+@section('content')
+<div class="dash-wrap">
 
-            <div class="AverageRateCard" style="border-radius: 10px; padding: 25px; display: flex; align-items: center; justify-content: space-between;">
-                <div>
-                    <div class="StatTitle">Average rate</div>
-                    <div class="StatValue">4.5%</div>
-                </div>
-                <!-- Area for chart/graph icon -->
-                <div style="width: 100px; height: 100px;"></div>
-            </div>
-
-            <section class="ActivitiesSection">
-                <h2>Aktivitas Terbaru</h2>
-                <div class="ActivityList">
-                    <div class="ActivityItem">
-                        <div class="ActivityDot DotPink"></div>
-                        <div class="ActivityText">Lead baru klik dari whats app</div>
-                        <div class="ActivityTime">1 jam yang lalu</div>
-                    </div>
-                    <div class="ActivityItem">
-                        <div class="ActivityDot DotYellow"></div>
-                        <div class="ActivityText">5 klik link affiliate whats app</div>
-                        <div class="ActivityTime">48 menit yang lalu</div>
-                    </div>
-                    <div class="ActivityItem">
-                        <div class="ActivityDot DotGreen"></div>
-                        <div class="ActivityText">Komisi Rp 1.000.000 telah ready</div>
-                        <div class="ActivityTime">4 hari yang lalu</div>
-                    </div>
-                    <div class="ActivityItem">
-                        <div class="ActivityDot DotBlue"></div>
-                        <div class="ActivityText">30 klik link Website</div>
-                        <div class="ActivityTime">1 hari yang lalu</div>
-                    </div>
-                </div>
-            </section>
-        </main>
+    {{-- Header --}}
+    <div class="dash-header">
+        <h1>Dashboard Affiliate</h1>
+        <p>Selamat datang kembali, <strong>{{ auth()->user()->name ?? 'Affiliate' }}</strong> 👋</p>
     </div>
 
-    <!-- Script -->
-    <script src="{{ asset('assets/affiliate/js/dashboard.js') }}"></script>
-</body>
-</html>
+    {{-- Stats --}}
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-icon purple"><i class="fas fa-mouse-pointer"></i></div>
+            <div class="stat-info">
+                <div class="label">Total Klik</div>
+                <div class="value">45</div>
+                <span class="badge">+8% minggu ini</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-users"></i></div>
+            <div class="stat-info">
+                <div class="label">Total Lead</div>
+                <div class="value">25</div>
+                <span class="badge">+5% minggu ini</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon blue"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-info">
+                <div class="label">Total Closing</div>
+                <div class="value">3</div>
+                <span class="badge">+0.5% bulan ini</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon amber"><i class="fas fa-coins"></i></div>
+            <div class="stat-info">
+                <div class="label">Total Komisi</div>
+                <div class="value">Rp 1Jt</div>
+                <span class="badge">+20% bulan ini</span>
+            </div>
+        </div>
+    </div>
+
+    {{-- Link Saya --}}
+    <div class="link-box">
+        <div>
+            <div class="link-label">🔗 Link Affiliate Saya</div>
+            <div class="link-url">https://perumahanzahra.com/{{ auth()->user()->name ?? 'affiliate' }}</div>
+        </div>
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.querySelector('.link-url').textContent)">
+            <i class="fas fa-copy"></i> Copy Link
+        </button>
+    </div>
+
+    {{-- Aktivitas Terbaru --}}
+    <div class="activity-card">
+        <h3><i class="fas fa-history" style="color:#3d81af; margin-right:8px;"></i>Aktivitas Terbaru</h3>
+
+        <div class="activity-item">
+            <div class="activity-dot dot-green"></div>
+            <div class="activity-text">
+                <div class="act-title">Lead baru klik dari WhatsApp</div>
+                <div class="act-time">1 jam yang lalu</div>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-dot dot-blue"></div>
+            <div class="activity-text">
+                <div class="act-title">5 klik link affiliate WhatsApp</div>
+                <div class="act-time">48 menit yang lalu</div>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-dot dot-amber"></div>
+            <div class="activity-text">
+                <div class="act-title">Komisi Rp 1.000.000 telah ready</div>
+                <div class="act-time">1 hari yang lalu</div>
+            </div>
+        </div>
+        <div class="activity-item">
+            <div class="activity-dot dot-purple"></div>
+            <div class="activity-text">
+                <div class="act-title">30 klik link Website</div>
+                <div class="act-time">4 hari yang lalu</div>
+            </div>
+        </div>
+    </div>
+
+</div>
+@endsection

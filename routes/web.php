@@ -39,7 +39,13 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 
 // ── Affiliate Panel ──────────────────────────────────────────────────────
 Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affiliate.')->group(function () {
+    Route::get('/',          fn() => redirect()->route('affiliate.dashboard'));
     Route::get('/dashboard', fn() => view('affiliate.dashboard'))->name('dashboard');
+    Route::get('/link',      fn() => view('affiliate.link'))->name('link');
+    Route::get('/leads',     fn() => view('affiliate.leads'))->name('leads');
+    Route::get('/closing',   fn() => view('affiliate.closing'))->name('closing');
+    Route::get('/komisi',    fn() => view('affiliate.komisi'))->name('komisi');
+    Route::get('/profile',   fn() => view('affiliate.profile'))->name('profile');
 });
 
 Route::get('/unit-tersedia',         [PageController::class, 'unitTersedia'])->name('unit-tersedia');

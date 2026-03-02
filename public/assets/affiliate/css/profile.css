@@ -1,0 +1,168 @@
+/* =========================================================
+   PROFILE PAGE
+   ========================================================= */
+
+.profile-affiliate {
+    font-family: 'Inter', sans-serif;
+}
+
+.profile-akun {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.kelola-informasi-akun-dan-pengaturan-anda {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 28px;
+}
+
+/* Profile header card */
+.rectangle-1306 {
+    background: linear-gradient(135deg, #3D81AF, #1A3649);
+    border-radius: 16px;
+    padding: 28px 32px;
+    color: #fff;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.zahra {
+    font-size: 24px;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+/* Avatar */
+.ellipse-12 {
+    width: 72px;
+    height: 72px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.solar-user-bold {
+    width: 40px;
+    height: 40px;
+}
+
+/* Status badge */
+.rectangle-1307 {
+    display: inline-block;
+    margin-bottom: 12px;
+}
+
+.aktif {
+    display: inline-block;
+    padding: 4px 14px;
+    background: rgba(52,211,153,0.2);
+    color: #34d399;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.kode-affiliate {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+}
+
+.bergabung-sejak {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    margin-top: 6px;
+}
+
+._20-januari-2026 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.zahra2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+}
+
+/* Info card */
+.rectangle-1308 {
+    background: #fff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 18px;
+}
+
+.informasi-pribadi,
+.keamanan {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 16px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.nama-lengkap,
+.email,
+.no-telp,
+.password {
+    font-size: 13px;
+    color: #64748b;
+    font-weight: 500;
+    margin-bottom: 4px;
+    margin-top: 14px;
+}
+
+.zahra-nur,
+.zahra-gmail-com,
+._08123456789 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f8fafc;
+}
+
+/* Icon rows */
+.ellipse-13, .ellipse-132, .ellipse-14,
+.ellipse-15, .ellipse-16, .ellipse-17 {
+    display: none;
+}
+
+.tabler-user,
+.ic-outline-email,
+.mynaui-telephone,
+.mdi-password-outline {
+    width: 18px;
+    height: 18px;
+    vertical-align: middle;
+    margin-right: 6px;
+    opacity: 0.6;
+}
+
+/* Password dots */
+.ubah-password {
+    display: inline-block;
+    margin-top: 12px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, #3D81AF, #1A3649);
+    color: #fff;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+.ubah-password:hover { opacity: 0.85; }

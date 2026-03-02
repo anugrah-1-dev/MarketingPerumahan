@@ -1,0 +1,151 @@
+/* =========================================================
+   LINK AFFILIATE PAGE
+   ========================================================= */
+
+.link-affiliate {
+    font-family: 'Inter', sans-serif;
+    background: #f4f6f9;
+    min-height: 100vh;
+    padding: 0;
+}
+
+.link-affiliate-saya {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 6px;
+}
+
+.share-link-ini-untuk-mendapatkan-komisi {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 28px;
+}
+
+/* Link Box */
+.subtract {
+    display: none;
+}
+
+.link-affiliate-saya2 {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+/* Link input area */
+.rectangle-1278 {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    padding: 18px 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    position: relative;
+}
+
+.rectangle-12782 {
+    background: #3D81AF;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    margin-bottom: 24px;
+}
+
+.copy-link {
+    font-size: 14px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.tabler-copy { display: inline; }
+.group5 { width: 20px; }
+
+/* Info boxes */
+.rectangle-1279 {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    margin-bottom: 18px;
+}
+.rectangle-1280,
+.rectangle-1281 {
+    background: #f8fafc;
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+}
+
+.qr-code,
+.informasi-affiliate,
+.share-ke-sosial-media {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 14px;
+}
+
+/* QR Code */
+.qr-code2 {
+    width: 140px;
+    height: 140px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #e2e8f0;
+    padding: 8px;
+    background: #fff;
+}
+
+/* Social icons */
+.solar-share-linear { display: none; }
+.whats-app,
+.facebook,
+.x,
+.telegram-app {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    object-fit: contain;
+    margin-right: 10px;
+    cursor: pointer;
+    transition: transform 0.15s;
+}
+.whats-app:hover,
+.facebook:hover,
+.x:hover,
+.telegram-app:hover {
+    transform: scale(1.1);
+}
+
+/* Info text */
+.kode-affiliate,
+.status,
+.bergabung-sejak,
+.total-klik-link {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 10px;
+}
+.zahra,
+.aktif,
+._20-januari-2026,
+._52-link {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+}
+.zahra2,
+.group6 { display: none; }
