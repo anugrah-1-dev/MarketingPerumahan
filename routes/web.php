@@ -11,6 +11,7 @@ Route::get('/',                      [PageController::class, 'landing'])->name('
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
 Route::post('/login',                [PageController::class, 'authenticate'])->name('login.post');
 Route::post('/logout',               [PageController::class, 'logout'])->name('logout');
+
 Route::get('/register',              [PageController::class, 'register'])->name('register');
 Route::post('/register',             [PageController::class, 'storeRegister'])->name('register.post');
 Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -47,9 +48,12 @@ Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affili
     Route::get('/leads',     fn() => view('affiliate.leads'))->name('leads');
     Route::get('/closing',   fn() => view('affiliate.closing'))->name('closing');
     Route::get('/komisi',    fn() => view('affiliate.komisi'))->name('komisi');
+
     Route::get('/profile',         fn() => view('affiliate.profile'))->name('profile');
     Route::get('/pengisian-data',  fn() => view('affiliate.pengisian-data'))->name('pengisian-data');
     Route::post('/pengisian-data', [PageController::class, 'storeClientData'])->name('pengisian-data.store');
+    Route::get('/profile',   fn() => view('affiliate.profile'))->name('profile');
+    
 });
 
 Route::get('/unit-tersedia',         [PageController::class, 'unitTersedia'])->name('unit-tersedia');
