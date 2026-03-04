@@ -29,6 +29,10 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::delete('/agents/{id}',        [AgentController::class, 'destroy'])->name('agents.destroy');
     Route::patch('/agents/{id}/status',  [AgentController::class, 'toggleStatus'])->name('agents.toggle');
 
+    // ── Pengisian Data Client ──────────────────────────────────────────────
+    Route::get('/pengisian-data',        [PageController::class, 'pengisianDataAdmin'])->name('pengisian-data');
+    Route::post('/pengisian-data',       [PageController::class, 'storeClientDataAdmin'])->name('pengisian-data.store');
+
     // ── Pengaturan ─────────────────────────────────────────────────────────
     Route::get('/settings',              [SettingController::class, 'index'])->name('settings');
     Route::post('/settings',             [SettingController::class, 'update'])->name('settings.update');

@@ -27,6 +27,10 @@
                 <i class="fas fa-users"></i>
                 <span>Manajemen Agent</span>
             </a>
+            <a href="{{ route('admin.pengisian-data') }}" class="nav-item {{ request()->routeIs('admin.pengisian-data') ? 'active' : '' }}">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Pengisian Data Client</span>
+            </a>
             <a href="{{ route('admin.users') }}" class="nav-item {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
                 <i class="fas fa-user-lock"></i>
                 <span>Manajemen Users</span>

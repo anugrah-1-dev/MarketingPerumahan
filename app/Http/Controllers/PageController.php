@@ -283,4 +283,32 @@ class PageController extends Controller
             ],
         ];
     }
+
+    // ── Pengisian Data Client (Admin) ─────────────────────────────────────────
+
+    public function pengisianDataAdmin()
+    {
+        return view('admin.pengisian-data');
+    }
+
+    public function storeClientDataAdmin(Request $request)
+    {
+        $request->validate([
+            'nama_lengkap' => ['required', 'string', 'max:255'],
+            'email'        => ['required', 'email', 'max:255'],
+            'nik'          => ['required', 'string', 'digits:16'],
+            'no_whatsapp'  => ['required', 'string', 'max:20'],
+            'alamat'       => ['required', 'string'],
+        ], [
+            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
+            'email.required'        => 'Email wajib diisi.',
+            'email.email'           => 'Format email tidak valid.',
+            'nik.required'          => 'No KTP / NIK wajib diisi.',
+            'nik.digits'            => 'NIK harus 16 digit angka.',
+            'no_whatsapp.required'  => 'No WhatsApp wajib diisi.',
+            'alamat.required'       => 'Alamat wajib diisi.',
+        ]);
+
+        return redirect()->route('admin.pengisian-data')->with('step', 'selesai');
+    }
 }
