@@ -42,7 +42,10 @@ class PageController extends Controller
         $agent = [
             'nama'    => $agentModel->nama,
             'jabatan' => $agentModel->jabatan,
-            'wa'      => Setting::get('wa_admin', '6283876766055'),
+            'slug'    => $agentModel->slug,
+            // Gunakan nomor phone agent dari database.
+            // Jika kosong, fallback ke nomor admin kantor dari Setting.
+            'wa'      => $agentModel->phone ?? Setting::get('wa_admin', '6283876766055'),
         ];
 
         return view('landing', compact('agent'));

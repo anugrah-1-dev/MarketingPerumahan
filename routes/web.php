@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AgentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\UserController;
@@ -53,11 +54,12 @@ Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affili
     Route::get('/closing',   fn() => view('affiliate.closing'))->name('closing');
     Route::get('/komisi',    fn() => view('affiliate.komisi'))->name('komisi');
 
-    Route::get('/profile',         fn() => view('affiliate.profile'))->name('profile');
+    Route::get('/profile',          [ProfileController::class, 'show'])->name('profile');
+    Route::put('/profile',           [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password',  [ProfileController::class, 'updatePassword'])->name('profile.password');
+
     Route::get('/pengisian-data',  fn() => view('affiliate.pengisian-data'))->name('pengisian-data');
     Route::post('/pengisian-data', [PageController::class, 'storeClientData'])->name('pengisian-data.store');
-    Route::get('/profile',   fn() => view('affiliate.profile'))->name('profile');
-    
 });
 
 Route::get('/unit-tersedia',         [PageController::class, 'unitTersedia'])->name('unit-tersedia');

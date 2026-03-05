@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -49,4 +50,12 @@ class User extends Authenticatable
 
     public function isSuperAdmin(): bool { return $this->role === 'super_admin'; }
     public function isAffiliate(): bool  { return $this->role === 'affiliate'; }
+
+    /**
+     * Data agent yang terhubung ke akun login ini.
+     */
+    public function agent(): HasOne
+    {
+        return $this->hasOne(Agent::class);
+    }
 }

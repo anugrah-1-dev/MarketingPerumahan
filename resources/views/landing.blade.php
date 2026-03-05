@@ -6,8 +6,19 @@
     // Bangun URL & pesan WhatsApp berdasarkan agent yang aktif
     $waPeran  = $agent['jabatan'] ?? 'Marketing';
     $waNama   = $agent['nama'] ?? 'Tim Kami';
-    $waNomor  = $agent['wa'] ?? '6283876766055';
-    $waPesan  = urlencode("Halo, saya tertarik dengan Perumahan Zahra. Saya dari website – PIC {$waNama}.");
+    $waRaw    = $agent['wa'] ?? '6283876766055';
+
+    // Normalisasi nomor ke format internasional:
+    // 1. Hapus SEMUA karakter bukan angka (spasi, -, (, ), +, dll)
+    // 2. Ganti awalan 0 → 62
+    // 3. Jika belum diawali 62, tambahkan di depan
+    $waNomor = preg_replace('/\D/', '', $waRaw);          // hapus semua non-digit
+    $waNomor = preg_replace('/^0/', '62', $waNomor);      // 081xxx → 6281xxx
+    if (!str_starts_with($waNomor, '62')) {
+        $waNomor = '62' . $waNomor;                       // 81xxx → 6281xxx
+    }
+
+    $waPesan  = urlencode("Halo, saya tertarik dengan Perumahan Zahra. Saya dari website - PIC {$waNama}.");
     $waUrl    = "https://wa.me/{$waNomor}?text={$waPesan}";
 @endphp
 
@@ -115,69 +126,7 @@
         </div>
     </section>
 
-    {{-- ================================================================
-     SIMULASI KPR
-     ================================================================ --}}
-    <section id="simulasi" class="max-w-[1440px] mx-auto px-6 lg:px-[80px] py-20">
-        <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Simulasi KPR</h2>
-        <p class="text-[#676767] text-[15px] mb-10">Hitung estimasi cicilan rumah impian Anda</p>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-            {{-- Form simulasi --}}
-            <div class="card shadow-sm">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                        <label class="block text-sm font-semibold text-[#393939] mb-2">Harga Rumah</label>
-                        <input id="sim_harga" type="number" class="input-field" placeholder="350000000" value="350000000">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-[#393939] mb-2">Uang Muka (%)</label>
-                        <input id="sim_dp" type="number" class="input-field" placeholder="20" value="20">
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-[#393939] mb-2">Tenor (Tahun)</label>
-                        <select id="sim_tenor" class="input-field">
-                            <option value="10">10 Tahun</option>
-                            <option value="15" selected>15 Tahun</option>
-                            <option value="20">20 Tahun</option>
-                            <option value="25">25 Tahun</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold text-[#393939] mb-2">Bunga / Tahun (%)</label>
-                        <input id="sim_bunga" type="number" class="input-field" placeholder="8" value="8"
-                            step="0.1">
-                    </div>
-                </div>
-                <button onclick="hitungKPR()" class="btn-primary mt-6 w-full">Hitung Cicilan</button>
-            </div>
-
-            {{-- Result --}}
-            <div id="sim_result" class="card shadow-sm hidden">
-                <h3 class="text-lg font-bold text-[#393939] mb-5">Estimasi Cicilan</h3>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-center border-b border-gray-100 pb-3">
-                        <span class="text-[#676767] text-sm">Harga Rumah</span>
-                        <span id="res_harga" class="font-semibold text-[#393939]">-</span>
-                    </div>
-                    <div class="flex justify-between items-center border-b border-gray-100 pb-3">
-                        <span class="text-[#676767] text-sm">Uang Muka (20%)</span>
-                        <span id="res_dp" class="font-semibold text-[#393939]">-</span>
-                    </div>
-                    <div class="flex justify-between items-center border-b border-gray-100 pb-3">
-                        <span class="text-[#676767] text-sm">Pokok Pinjaman</span>
-                        <span id="res_pokok" class="font-semibold text-[#393939]">-</span>
-                    </div>
-                    <div class="flex justify-between items-center">
-                        <span class="text-[#676767] text-sm font-semibold">Cicilan / Bulan</span>
-                        <span id="res_cicilan" class="text-xl font-bold text-[#393939]">-</span>
-                    </div>
-                </div>
-                <a href="{{ route('unit-tersedia') }}" class="btn-primary mt-6 w-full block text-center">Booking
-                    Sekarang</a>
-            </div>
-        </div>
-    </section>
 
     {{-- ================================================================
      FLOATING WHATSAPP BUTTON – dinamis berdasarkan agent di URL
@@ -228,28 +177,5 @@
 @endsection
 
 @section('scripts')
-    <script>
-        function formatRupiah(num) {
-            return 'Rp ' + Math.round(num).toLocaleString('id-ID');
-        }
 
-        function hitungKPR() {
-            const harga = parseFloat(document.getElementById('sim_harga').value) || 0;
-            const dpPct = parseFloat(document.getElementById('sim_dp').value) || 20;
-            const tenor = parseFloat(document.getElementById('sim_tenor').value) || 15;
-            const bunga = parseFloat(document.getElementById('sim_bunga').value) || 8;
-
-            const dp = harga * dpPct / 100;
-            const pokok = harga - dp;
-            const r = (bunga / 100) / 12;
-            const n = tenor * 12;
-            const cicilan = r === 0 ? pokok / n : (pokok * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
-
-            document.getElementById('res_harga').textContent = formatRupiah(harga);
-            document.getElementById('res_dp').textContent = formatRupiah(dp);
-            document.getElementById('res_pokok').textContent = formatRupiah(pokok);
-            document.getElementById('res_cicilan').textContent = formatRupiah(cicilan);
-            document.getElementById('sim_result').classList.remove('hidden');
-        }
-    </script>
 @endsection
