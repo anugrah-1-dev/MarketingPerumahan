@@ -113,9 +113,7 @@
                 <a href="{{ route('unit-tersedia') }}"
                     class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('unit-tersedia') ? 'font-bold underline underline-offset-4' : '' }}">Unit
                     tersedia</a>
-                <a href="{{ route('site-plan') }}"
-                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('site-plan') ? 'font-bold underline underline-offset-4' : '' }}">Site
-                    plan</a>
+
                 <a href="#simulasi"
                     class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Simulasi</a>
                 <a href="#tentang"
@@ -140,7 +138,7 @@
         <div id="mobileMenu" class="hidden lg:hidden bg-white shadow-lg px-6 py-4 flex flex-col gap-4">
             <a href="{{ route('landing') }}" class="text-[#393939] font-medium">Home</a>
             <a href="{{ route('unit-tersedia') }}" class="text-[#393939] font-medium">Unit tersedia</a>
-            <a href="{{ route('site-plan') }}" class="text-[#393939] font-medium">Site plan</a>
+
             <a href="#simulasi" class="text-[#393939] font-medium">Simulasi</a>
             <a href="#tentang" class="text-[#393939] font-medium">Tentang kami</a>
             <a href="{{ route('login') }}" class="btn-primary text-center mt-2">Masuk</a>

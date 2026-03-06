@@ -63,11 +63,8 @@
                 {{-- Register link --}}
                 <p class="text-center text-sm text-[#676767] mt-6">
                     Belum punya akun?
-<<<<<<< HEAD
                     <a href="{{ route('register') }}" class="text-[#393939] font-semibold hover:underline">Daftar</a>
-=======
-                    <a href="#" class="text-[#393939] font-semibold hover:underline">Daftar</a>
->>>>>>> 59b9e15bc92949bbd95fbf0bdf4439355efb41a7
+                    <a href="#" class="text-[#393939] font-semibold hover:underline"></a>
                 </p>
             </div>
         </div>

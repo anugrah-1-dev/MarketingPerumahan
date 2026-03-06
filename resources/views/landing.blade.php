@@ -42,10 +42,7 @@
                     Berbagai tipe rumah dengan desain modern dan harga terjangkau.
                     Lihat ketersediaan unit, cek lokasi, dan pesan sekarang juga.
                 </p>
-                <div class="flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
-                    <a href="{{ route('unit-tersedia') }}" class="btn-primary">Lihat Unit Tersedia</a>
-                    <a href="{{ route('site-plan') }}" class="btn-outline">Lihat Site Plan</a>
-                </div>
+
             </div>
 
             {{-- Right: Image --}}
@@ -75,15 +72,15 @@
      DILIHAT BARU-BARU INI
      ================================================================ --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-20">
-        <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Dilihat Baru-Baru Ini</h2>
-        <p class="text-[#676767] text-[15px] mb-8">Unit pilihan yang banyak dilihat calon pembeli</p>
+        <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Unit Perumahan</h2>
+        <p class="text-[#676767] text-[15px] mb-8">Pilih unit yang sesuai kebutuhan keluarga Anda</p>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach ([['blok' => 'A1', 'tipe' => 'Tipe 36/72', 'harga' => 'Rp 310.000.000', 'status' => 'tersedia', 'img' => 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80'], ['blok' => 'B3', 'tipe' => 'Tipe 45/90', 'harga' => 'Rp 390.000.000', 'status' => 'tersedia', 'img' => 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80'], ['blok' => 'C3', 'tipe' => 'Tipe 54/108', 'harga' => 'Rp 350.000.000', 'status' => 'booking', 'img' => 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80']] as $u)
-                <div class="bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                <a href="{{ route('detail-rumah', $u['blok']) }}" class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                     <div class="relative h-[200px] overflow-hidden">
                         <img src="{{ $u['img'] }}" alt="Unit {{ $u['blok'] }}"
-                            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500">
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                         <span
                             class="absolute top-3 left-3 text-xs font-semibold px-3 py-1 rounded-full capitalize
                     {{ $u['status'] === 'tersedia' ? 'status-tersedia' : ($u['status'] === 'booking' ? 'status-booking' : 'status-terjual') }}">
@@ -93,38 +90,14 @@
                     <div class="p-5">
                         <p class="text-xs text-[#676767] mb-1">Blok {{ $u['blok'] }} · {{ $u['tipe'] }}</p>
                         <p class="text-lg font-bold text-[#393939] mb-3">{{ $u['harga'] }}</p>
-                        <a href="{{ route('detail-rumah', $u['blok']) }}"
-                            class="btn-primary text-sm w-full block text-center">Lihat Detail</a>
+                        <span class="btn-primary text-sm w-full block text-center">Lihat Detail</span>
                     </div>
-                </div>
+                </a>
             @endforeach
         </div>
     </section>
 
-    {{-- ================================================================
-     UNIT TERSEDIA HARI INI (CTA Section)
-     ================================================================ --}}
-    <section class="bg-[#393939] py-20">
-        <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] flex flex-col lg:flex-row items-center justify-between gap-8">
-            <div class="text-white text-center lg:text-left">
-                <h2 class="text-[30px] lg:text-[40px] font-bold leading-tight mb-3">
-                    Temukan Unit Rumah yang<br class="hidden lg:block"> Tersedia Hari Ini
-                </h2>
-                <p class="text-gray-300 text-[16px] leading-7 max-w-[520px] mx-auto lg:mx-0">
-                    Cek langsung ketersediaan unit per blok, lihat site plan kami,
-                    dan segera booking sebelum kehabisan!
-                </p>
-            </div>
-            <div class="flex flex-col sm:flex-row gap-4 shrink-0">
-                <a href="{{ route('unit-tersedia') }}"
-                    class="bg-white text-[#393939] font-semibold px-8 py-3 rounded-[25px] hover:bg-gray-100 transition-colors text-center">Cek
-                    Unit Tersedia</a>
-                <a href="{{ route('site-plan') }}"
-                    class="border-2 border-white text-white font-semibold px-8 py-3 rounded-[25px] hover:bg-white hover:text-[#393939] transition-colors text-center">Lihat
-                    Site Plan</a>
-            </div>
-        </div>
-    </section>
+
 
 
 
