@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('title')
-    Detail Rumah – Blok {{ $unit['blok'] ?? '' }} – Perumahan Zahra
+    Detail Rumah – Blok {{ $unit['blok'] ?? '' }} – Bukit Shangrilla Asri
 @endsection
 
 @section('content')

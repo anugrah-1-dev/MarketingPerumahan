@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Perumahan Zahra') – Pilihan Rumah Terbaik</title>
+    <title>@yield('title', 'Bukit Shangrilla Asri') – Pilihan Rumah Terbaik</title>
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -101,9 +101,8 @@
     <!-- ====== NAVBAR ====== -->
     <nav class="w-full bg-transparent z-50" id="mainNav">
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] flex items-center justify-between py-6">
-            <!-- Logo / Brand -->
             <a href="{{ route('landing') }}" class="text-[#393939] text-2xl font-bold tracking-wide">
-                Perumahan <span class="text-[#393939]">Zahra</span>
+                Bukit <span class="text-[#393939]">Shangrilla Asri</span>
             </a>
 
             <!-- Desktop Nav Links -->
@@ -161,14 +160,14 @@
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
             <!-- Brand -->
             <div>
-                <h3 class="text-2xl font-bold mb-3">Perumahan Zahra</h3>
+                <h3 class="text-2xl font-bold mb-3">Bukit Shangrilla Asri</h3>
                 <p class="text-gray-300 text-sm leading-7">Hunian modern minimalis dengan desain nyaman untuk keluarga
                     muda.</p>
             </div>
             <!-- About -->
             <div>
                 <h4 class="text-lg font-semibold mb-4">About us</h4>
-                <p class="text-gray-300 text-sm leading-7">Perumahan Zahra hadir dengan berbagai tipe rumah berkualitas
+                <p class="text-gray-300 text-sm leading-7">Bukit Shangrilla Asri hadir dengan berbagai tipe rumah berkualitas
                     dan harga terjangkau di lokasi strategis Semarang.</p>
             </div>
             <!-- Contact & Location -->
@@ -180,7 +179,7 @@
             </div>
         </div>
         <div class="border-t border-gray-600 text-center py-5 text-gray-400 text-xs">
-            © {{ date('Y') }} Perumahan Zahra. All rights reserved.
+            © {{ date('Y') }} Bukit Shangrilla Asri. All rights reserved.
         </div>
     </footer>
 

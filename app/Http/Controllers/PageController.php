@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Agent;
 use App\Models\Setting;
 
+use App\Models\TipeRumah;
+
 class PageController extends Controller
 {
 
@@ -24,8 +26,12 @@ class PageController extends Controller
             'wa'      => Setting::get('wa_admin', '6283876766055'),
         ];
 
-        return view('landing', compact('agent'));
+        $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
+        $semuaTipeRumah  = TipeRumah::latest()->get();
+
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah'));
     }
+
 
     /**
      * Landing page dinamis per anggota tim.
@@ -48,7 +54,10 @@ class PageController extends Controller
             'wa'      => $agentModel->phone ?? Setting::get('wa_admin', '6283876766055'),
         ];
 
-        return view('landing', compact('agent'));
+        $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
+        $semuaTipeRumah  = TipeRumah::latest()->get();
+
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah'));
     }
 
     public function login()

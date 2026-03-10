@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Daftar – Perumahan Zahra')
+@section('title', 'Daftar – Bukit Shangrilla Asri')
 @section('content')
 
     <div class="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-16">
@@ -8,7 +8,7 @@
             {{-- Card --}}
             <div class="bg-white rounded-[24px] shadow-lg px-8 py-10 lg:px-12 lg:py-12">
                 <h1 class="text-[28px] font-bold text-[#393939] mb-1">Daftar Akun Baru</h1>
-                <p class="text-[#676767] text-sm mb-8">Bergabunglah dengan Perumahan Zahra</p>
+                <p class="text-[#676767] text-sm mb-8">Bergabunglah dengan Bukit Shangrilla Asri</p>
 
                 <form method="POST" action="{{ route('register.post') }}" class="space-y-5">
                     @csrf

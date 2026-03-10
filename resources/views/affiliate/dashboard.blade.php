@@ -153,7 +153,7 @@
     <div class="link-box">
         <div>
             <div class="link-label">🔗 Link Affiliate Saya</div>
-            <div class="link-url">https://perumahanzahra.com/{{ auth()->user()->name ?? 'affiliate' }}</div>
+            <div class="link-url">https://bukitshangrillaasri2.com/{{ auth()->user()->name ?? 'affiliate' }}</div>
         </div>
         <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.querySelector('.link-url').textContent)">
             <i class="fas fa-copy"></i> Copy Link

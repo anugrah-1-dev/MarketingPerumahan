@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Perumahan Zahra – Pilihan Rumah Terbaik')
+@section('title', 'Bukit Shangrilla Asri – Pilihan Rumah Terbaik')
 
 @php
     // Bangun URL & pesan WhatsApp berdasarkan agent yang aktif
@@ -18,7 +18,7 @@
         $waNomor = '62' . $waNomor;                       // 81xxx → 6281xxx
     }
 
-    $waPesan  = urlencode("Halo, saya tertarik dengan Perumahan Zahra. Saya dari website - PIC {$waNama}.");
+    $waPesan  = urlencode("Halo, saya tertarik dengan Bukit Shangrilla Asri. Saya dari website - PIC {$waNama}.");
     $waUrl    = "https://wa.me/{$waNomor}?text={$waPesan}";
 @endphp
 
@@ -33,7 +33,7 @@
 
             {{-- Left: Text --}}
             <div class="w-full lg:w-1/2 text-center lg:text-left z-10">
-                <p class="text-[#676767] text-[15px] font-medium uppercase tracking-widest mb-4">Perumahan Zahra</p>
+                <p class="text-[#676767] text-[15px] font-medium uppercase tracking-widest mb-4">Bukit Shangrilla Asri</p>
                 <h1 class="text-[#393939] text-[40px] lg:text-[56px] font-bold leading-tight mb-5">
                     Pilihan Rumah Terbaik<br class="hidden lg:block"> untuk Keluarga Anda
                 </h1>
@@ -69,33 +69,127 @@
     </section>
 
     {{-- ================================================================
-     DILIHAT BARU-BARU INI
+     UNIT PERUMAHAN – Tipe dengan Diskon (dinamis dari DB)
      ================================================================ --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-20">
-        <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Unit Perumahan</h2>
-        <p class="text-[#676767] text-[15px] mb-8">Pilih unit yang sesuai kebutuhan keluarga Anda</p>
+        <div class="flex items-end justify-between mb-8">
+            <div>
+                <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Unit Perumahan</h2>
+                <p class="text-[#676767] text-[15px]">Tipe rumah pilihan dengan penawaran terbaik</p>
+            </div>
+            <a href="{{ route('tipe-rumah.publik') }}"
+                class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
+                Lihat Semua
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+        </div>
 
+        @if($tipeRumahDiskon->isNotEmpty())
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach ([['blok' => 'A1', 'tipe' => 'Tipe 36/72', 'harga' => 'Rp 310.000.000', 'status' => 'tersedia', 'img' => 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80'], ['blok' => 'B3', 'tipe' => 'Tipe 45/90', 'harga' => 'Rp 390.000.000', 'status' => 'tersedia', 'img' => 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80'], ['blok' => 'C3', 'tipe' => 'Tipe 54/108', 'harga' => 'Rp 350.000.000', 'status' => 'booking', 'img' => 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80']] as $u)
-                <a href="{{ route('detail-rumah', $u['blok']) }}" class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+            @foreach($tipeRumahDiskon as $t)
+                <a href="{{ route('tipe-rumah.publik') }}"
+                    class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                     <div class="relative h-[200px] overflow-hidden">
-                        <img src="{{ $u['img'] }}" alt="Unit {{ $u['blok'] }}"
+                        <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}"
                             class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <span
-                            class="absolute top-3 left-3 text-xs font-semibold px-3 py-1 rounded-full capitalize
-                    {{ $u['status'] === 'tersedia' ? 'status-tersedia' : ($u['status'] === 'booking' ? 'status-booking' : 'status-terjual') }}">
-                            {{ ucfirst($u['status']) }}
+                        <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                            🔥 DISKON
+                        </span>
+                        <span class="absolute top-3 right-3 status-tersedia text-xs font-semibold px-3 py-1 rounded-full capitalize">
+                            Stok {{ $t->stok_tersedia }}
                         </span>
                     </div>
                     <div class="p-5">
-                        <p class="text-xs text-[#676767] mb-1">Blok {{ $u['blok'] }} · {{ $u['tipe'] }}</p>
-                        <p class="text-lg font-bold text-[#393939] mb-3">{{ $u['harga'] }}</p>
+                        <p class="text-xs text-[#676767] mb-1">LB: {{ $t->luas_bangunan }}m² &nbsp;·&nbsp; LT: {{ $t->luas_tanah }}m²</p>
+                        <h3 class="text-lg font-bold text-[#393939] mb-2">{{ $t->nama_tipe }}</h3>
+                        @if($t->harga_diskon)
+                            <p class="text-sm text-[#999] line-through">{{ $t->harga_format }}</p>
+                            <p class="text-lg font-bold text-red-500 mb-3">{{ $t->harga_diskon_format }}</p>
+                        @else
+                            <p class="text-lg font-bold text-[#393939] mb-3">{{ $t->harga_format }}</p>
+                        @endif
                         <span class="btn-primary text-sm w-full block text-center">Lihat Detail</span>
                     </div>
                 </a>
             @endforeach
         </div>
+        @elseif($semuaTipeRumah->isNotEmpty())
+        {{-- Jika tidak ada diskon, tampilkan semua tipe rumah (max 3) --}}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach($semuaTipeRumah->take(3) as $t)
+                <a href="{{ route('tipe-rumah.publik') }}"
+                    class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
+                    <div class="relative h-[200px] overflow-hidden">
+                        <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}"
+                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                        <span class="absolute top-3 right-3 status-tersedia text-xs font-semibold px-3 py-1 rounded-full capitalize">
+                            Stok {{ $t->stok_tersedia }}
+                        </span>
+                    </div>
+                    <div class="p-5">
+                        <p class="text-xs text-[#676767] mb-1">LB: {{ $t->luas_bangunan }}m² &nbsp;·&nbsp; LT: {{ $t->luas_tanah }}m²</p>
+                        <h3 class="text-lg font-bold text-[#393939] mb-2">{{ $t->nama_tipe }}</h3>
+                        <p class="text-lg font-bold text-[#393939] mb-3">{{ $t->harga_format }}</p>
+                        <span class="btn-primary text-sm w-full block text-center">Lihat Detail</span>
+                    </div>
+                </a>
+            @endforeach
+        </div>
+        @else
+        {{-- Fallback jika database kosong --}}
+        <div class="text-center py-16 text-gray-400">
+            <p class="text-lg">Belum ada tipe rumah tersedia.</p>
+            <a href="{{ route('tipe-rumah.publik') }}" class="text-blue-600 hover:underline text-sm mt-2 inline-block">Lihat halaman tipe rumah →</a>
+        </div>
+        @endif
     </section>
+
+    {{-- ================================================================
+     LOKASI PERUMAHAN (Google Maps)
+     ================================================================ --}}
+    <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
+        <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Lokasi Kami</h2>
+        <p class="text-[#676767] text-[15px] mb-8">Kunjungi kantor pemasaran dan lokasi proyek kami</p>
+
+        <div class="bg-white p-4 lg:p-6 rounded-[20px] shadow-sm">
+            <div class="w-full h-[300px] lg:h-[450px] rounded-[15px] overflow-hidden bg-gray-100">
+                {{-- Gunakan iframe embed Google Maps di sini. 
+                     Cara mendapatkan iframe:
+                     1. Buka Google Maps
+                     2. Cari lokasi perumahan
+                     3. Klik "Bagikan" -> "Sematkan peta" -> Salin HTML
+                     Ganti URL src di bawah ini dengan URL lokasi Anda. --}}
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.339678564254!2d106.9427017!3d-6.7283287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e684d0032bda4eb%3A0xe542fff8e0861194!2sKantor%20Pemasaran%20Perumahan%20Bukit%20Shangrilla%20Asri%202!5e0!3m2!1sid!2sid!4v1709999999999!5m2!1sid!2sid" 
+                    width="100%" 
+                    height="100%" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+            
+            <div class="mt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="flex items-start gap-3">
+                    <div class="bg-blue-50 text-blue-600 p-3 rounded-full mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-lg">Kantor Pemasaran Bukit Shangrilla Asri 2</h4>
+                        <p class="text-gray-500 text-sm mt-1 max-w-lg">Sukaraya, Kec. Karangbahagia, Kabupaten Bekasi, Jawa Barat 17530</p>
+                    </div>
+                </div>
+                
+                <a href="https://maps.app.goo.gl/8ih1wSvpCPuMRRfa8" target="_blank" rel="noopener noreferrer" 
+                    class="bg-white border rounded-lg border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                    Buka di Google Maps
+                </a>
+            </div>
+        </div>
+    </section>
+
 
 
 

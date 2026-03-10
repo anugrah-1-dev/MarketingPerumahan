@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Form Booking – Perumahan Zahra')
+@section('title', 'Form Booking – Bukit Shangrilla Asri')
 
 @section('content')
 

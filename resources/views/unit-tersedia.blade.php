@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Unit Tersedia – Perumahan Zahra')
+@section('title', 'Unit Tersedia – Bukit Shangrilla Asri')
 
 @section('head')
 <style>
@@ -38,7 +38,7 @@
 
     {{-- Page Header --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pt-10 pb-6">
-        <p class="text-[#676767] text-[14px] font-medium uppercase tracking-widest mb-2">Perumahan Zahra</p>
+        <p class="text-[#676767] text-[14px] font-medium uppercase tracking-widest mb-2">Bukit Shangrilla Asri</p>
         <h1 class="text-[#393939] text-[32px] lg:text-[44px] font-bold mb-2">Unit Perumahan Tersedia</h1>
         <p class="text-[#676767] text-[16px]">Pilih unit favoritmu dan segera lakukan booking sebelum kehabisan.</p>
     </section>

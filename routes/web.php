@@ -7,6 +7,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\TipeRumahController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
@@ -43,6 +44,12 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::post('/users',                [UserController::class, 'store'])->name('users.store');
     Route::put('/users/{id}',            [UserController::class, 'update'])->name('users.update');
     Route::delete('/users/{id}',         [UserController::class, 'destroy'])->name('users.destroy');
+
+    // ── Tipe Rumah ────────────────────────────────────────────────────────
+    Route::get('/tipe-rumah',            [TipeRumahController::class, 'index'])->name('tipe-rumah');
+    Route::post('/tipe-rumah',           [TipeRumahController::class, 'store'])->name('tipe-rumah.store');
+    Route::put('/tipe-rumah/{id}',       [TipeRumahController::class, 'update'])->name('tipe-rumah.update');
+    Route::delete('/tipe-rumah/{id}',    [TipeRumahController::class, 'destroy'])->name('tipe-rumah.destroy');
 });
 
 // ── Affiliate Panel ──────────────────────────────────────────────────────
@@ -60,8 +67,15 @@ Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affili
 
     Route::get('/pengisian-data',  fn() => view('affiliate.pengisian-data'))->name('pengisian-data');
     Route::post('/pengisian-data', [PageController::class, 'storeClientData'])->name('pengisian-data.store');
+
+    // ── Tipe Rumah ────────────────────────────────────────────────────────
+    Route::get('/tipe-rumah',            [TipeRumahController::class, 'index'])->name('tipe-rumah');
+    Route::post('/tipe-rumah',           [TipeRumahController::class, 'store'])->name('tipe-rumah.store');
+    Route::put('/tipe-rumah/{id}',       [TipeRumahController::class, 'update'])->name('tipe-rumah.update');
+    Route::delete('/tipe-rumah/{id}',    [TipeRumahController::class, 'destroy'])->name('tipe-rumah.destroy');
 });
 
+Route::get('/tipe-rumah',            [TipeRumahController::class, 'publicIndex'])->name('tipe-rumah.publik');
 Route::get('/unit-tersedia',         [PageController::class, 'unitTersedia'])->name('unit-tersedia');
 Route::get('/site-plan',             [PageController::class, 'sitePlan'])->name('site-plan');
 Route::get('/detail-rumah/{blok?}',  [PageController::class, 'detailRumah'])->name('detail-rumah');
