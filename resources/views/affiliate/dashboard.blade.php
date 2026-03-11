@@ -101,6 +101,20 @@
 .activity-text { flex: 1; }
 .activity-text .act-title { font-size: 14px; color: #333; font-weight: 500; }
 .activity-text .act-time  { font-size: 12px; color: #aaa; margin-top: 2px; }
+.empty-activity { 
+    text-align: center; 
+    padding: 30px 0; 
+    color: #999; 
+    font-size: 14px; 
+}
+
+@media (max-width: 1024px) {
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 640px) {
+    .stats-row { grid-template-columns: 1fr; }
+    .dash-wrap { padding: 20px 16px 30px; }
+}
 </style>
 @endpush
 
@@ -110,7 +124,7 @@
     {{-- Header --}}
     <div class="dash-header">
         <h1>Dashboard Affiliate</h1>
-        <p>Selamat datang kembali, <strong>{{ auth()->user()->name ?? 'Affiliate' }}</strong> 👋</p>
+        <p>Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong> 👋</p>
     </div>
 
     {{-- Stats --}}
@@ -119,32 +133,38 @@
             <div class="stat-icon purple"><i class="fas fa-mouse-pointer"></i></div>
             <div class="stat-info">
                 <div class="label">Total Klik</div>
-                <div class="value">45</div>
-                <span class="badge">+8% minggu ini</span>
+                <div class="value">{{ $stats['total_klik'] }}</div>
+                @if($stats['total_klik'] > 0)
+                    <span class="badge">{{ $stats['klik_bulan'] }} bln ini</span>
+                @else
+                    <span class="badge" style="background:#f3f4f6;color:#6b7280;">Bulan ini</span>
+                @endif
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon green"><i class="fas fa-users"></i></div>
+            <div class="stat-icon blue"><i class="fas fa-users"></i></div>
             <div class="stat-info">
-                <div class="label">Total Lead</div>
-                <div class="value">25</div>
-                <span class="badge">+5% minggu ini</span>
+                <div class="label">Total Leads</div>
+                <div class="value">{{ $stats['total_leads'] }}</div>
+                @if($stats['conversion_rate'] > 0)
+                    <span class="badge" style="background:rgba(59,130,246,0.12);color:#2563eb;">{{ $stats['conversion_rate'] }}% Conv.</span>
+                @else
+                    <span class="badge" style="background:#f3f4f6;color:#6b7280;">Conv. Rate</span>
+                @endif
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon blue"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
             <div class="stat-info">
                 <div class="label">Total Closing</div>
-                <div class="value">3</div>
-                <span class="badge">+0.5% bulan ini</span>
+                <div class="value">{{ $stats['total_closing'] }}</div>
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon amber"><i class="fas fa-coins"></i></div>
             <div class="stat-info">
                 <div class="label">Total Komisi</div>
-                <div class="value">Rp 1Jt</div>
-                <span class="badge">+20% bulan ini</span>
+                <div class="value">Rp {{ number_format($stats['pendapatan'], 0, ',', '.') }}</div>
             </div>
         </div>
     </div>
@@ -152,10 +172,10 @@
     {{-- Link Saya --}}
     <div class="link-box">
         <div>
-            <div class="link-label">🔗 Link Affiliate Saya</div>
-            <div class="link-url">https://bukitshangrillaasri2.com/{{ auth()->user()->name ?? 'affiliate' }}</div>
+            <div class="link-label">🔗 Link Affiliate Utama Saya</div>
+            <div class="link-url">{{ auth()->user()->referral_link }}</div>
         </div>
-        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.previousElementSibling.querySelector('.link-url').textContent)">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText('{{ auth()->user()->referral_link }}'); alert('Link berhasil disalin!');">
             <i class="fas fa-copy"></i> Copy Link
         </button>
     </div>
@@ -164,34 +184,41 @@
     <div class="activity-card">
         <h3><i class="fas fa-history" style="color:#3d81af; margin-right:8px;"></i>Aktivitas Terbaru</h3>
 
-        <div class="activity-item">
-            <div class="activity-dot dot-green"></div>
-            <div class="activity-text">
-                <div class="act-title">Lead baru klik dari WhatsApp</div>
-                <div class="act-time">1 jam yang lalu</div>
+        @forelse($activities as $activity)
+            <div class="activity-item">
+                @php
+                    $dotClass = match($activity->status) {
+                        'new' => 'dot-blue',
+                        'follow-up' => 'dot-amber',
+                        'interested' => 'dot-purple',
+                        'closed' => 'dot-green',
+                        default => 'dot-blue'
+                    };
+                    $statusText = match($activity->status) {
+                        'new' => 'Klik link WhatsApp baru',
+                        'follow-up' => 'Proses Follow-Up Leads',
+                        'interested' => 'Leads tertarik produk',
+                        'closed' => 'Closing berhasil',
+                        default => 'Aktivitas WhatsApp'
+                    };
+                @endphp
+                
+                <div class="activity-dot {{ $dotClass }}"></div>
+                <div class="activity-text">
+                    <div class="act-title">
+                        {{ $statusText }} dari {{ $activity->ip_address }}
+                    </div>
+                    <div class="act-time">
+                        {{ $activity->created_at->diffForHumans() }} 
+                        &bull; Via {{ $activity->device }} ({{ $activity->browser }})
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="activity-item">
-            <div class="activity-dot dot-blue"></div>
-            <div class="activity-text">
-                <div class="act-title">5 klik link affiliate WhatsApp</div>
-                <div class="act-time">48 menit yang lalu</div>
+        @empty
+            <div class="empty-activity">
+                Belum ada aktivitas klik atau leads dari link referral Anda.
             </div>
-        </div>
-        <div class="activity-item">
-            <div class="activity-dot dot-amber"></div>
-            <div class="activity-text">
-                <div class="act-title">Komisi Rp 1.000.000 telah ready</div>
-                <div class="act-time">1 hari yang lalu</div>
-            </div>
-        </div>
-        <div class="activity-item">
-            <div class="activity-dot dot-purple"></div>
-            <div class="activity-text">
-                <div class="act-title">30 klik link Website</div>
-                <div class="act-time">4 hari yang lalu</div>
-            </div>
-        </div>
+        @endforelse
     </div>
 
 </div>

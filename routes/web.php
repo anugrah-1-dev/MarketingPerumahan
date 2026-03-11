@@ -57,7 +57,7 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 // ── Affiliate Panel ──────────────────────────────────────────────────────
 Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affiliate.')->group(function () {
     Route::get('/',          fn() => redirect()->route('affiliate.dashboard'));
-    Route::get('/dashboard', fn() => view('affiliate.dashboard'))->name('dashboard');
+    Route::get('/dashboard', [AffiliateController::class, 'dashboard'])->name('dashboard');
     Route::get('/link',      [AffiliateController::class, 'linkPage'])->name('link');
     Route::get('/leads',     [AffiliateController::class, 'leadsPage'])->name('leads');
     Route::get('/closing',   fn() => view('affiliate.closing'))->name('closing');
