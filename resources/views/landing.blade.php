@@ -8,19 +8,22 @@
     $waNama   = $agent['nama'] ?? 'Tim Kami';
     $waRaw    = $agent['wa'] ?? '6283876766055';
 
-    // Normalisasi nomor ke format internasional:
-    // 1. Hapus SEMUA karakter bukan angka (spasi, -, (, ), +, dll)
-    // 2. Ganti awalan 0 → 62
-    // 3. Jika belum diawali 62, tambahkan di depan
-    $waNomor = preg_replace('/\D/', '', $waRaw);          // hapus semua non-digit
-    $waNomor = preg_replace('/^0/', '62', $waNomor);      // 081xxx → 6281xxx
+    // Normalisasi nomor ke format internasional
+    $waNomor = preg_replace('/\D/', '', $waRaw);
+    $waNomor = preg_replace('/^0/', '62', $waNomor);
     if (!str_starts_with($waNomor, '62')) {
-        $waNomor = '62' . $waNomor;                       // 81xxx → 6281xxx
+        $waNomor = '62' . $waNomor;
     }
 
     $waPesan  = urlencode("Halo, saya tertarik dengan Bukit Shangrilla Asri. Saya dari website - PIC {$waNama}.");
     $waUrl    = "https://wa.me/{$waNomor}?text={$waPesan}";
+
+    // Baca referral code dari session (disimpan saat user kunjungi /ref/{code})
+    $refCode = session('affiliate_ref_code') ?? request()->cookie('affiliate_ref_code') ?? null;
 @endphp
+
+{{-- Meta referral (dibaca oleh JS untuk tracking WA klik) --}}
+<meta name="affiliate-ref" content="{{ $refCode ?? '' }}">
 
 @section('content')
 
@@ -224,6 +227,10 @@
     <script>
     function recordWaClick(e, waUrl, slug) {
         e.preventDefault();
+
+        // Ambil referral code dari meta tag (diisi oleh PHP dari session/cookie)
+        const refCode = document.querySelector('meta[name="affiliate-ref"]')?.content || null;
+
         // Kirim data ke backend (fire-and-forget), lalu buka WA
         fetch('{{ route("wa-click.record") }}', {
             method: 'POST',
@@ -232,8 +239,9 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? ''
             },
             body: JSON.stringify({
-                slug: slug || null,
-                page_url: window.location.href
+                slug:          slug || null,
+                referral_code: refCode || null,
+                page_url:      window.location.href
             })
         }).catch(() => {}).finally(() => {
             window.open(waUrl, '_blank', 'noopener,noreferrer');

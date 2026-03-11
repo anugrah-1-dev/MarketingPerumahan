@@ -183,7 +183,10 @@
     </div>
 </div>
 
+@endsection
+
 @push('scripts')
+
 <script>
 function trOpenModal(id) {
     const el = document.getElementById(id);
@@ -198,13 +201,11 @@ function trCloseModal(id) {
 }
 
 function trCloseOnBackdrop(event, id) {
-    // Close only when clicking the overlay itself (not the modal box)
     if (event.target === document.getElementById(id)) {
         trCloseModal(id);
     }
 }
 
-// Close on Escape key
 document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') {
         trCloseModal('modal-tambah');
@@ -226,7 +227,6 @@ function trOpenEditModal(data) {
     trOpenModal('modal-edit');
 }
 
-// ── Search Filter ──────────────────────────────
 function trFilterTable() {
     const q     = document.getElementById('trSearch').value.toLowerCase().trim();
     const rows  = document.querySelectorAll('#trTableBody tr:not(.tr-empty-row)');
@@ -243,16 +243,10 @@ function trFilterTable() {
         if (show) visible++;
     });
 
-    // Tampilkan empty-row jika tidak ada hasil
     const emptyRow = document.querySelector('#trTableBody .tr-empty-row');
     if (emptyRow) emptyRow.style.display = (visible === 0 && q !== '') ? '' : 'none';
 
-    // Counter
-    if (q === '') {
-        count.textContent = '';
-    } else {
-        count.textContent = visible + ' hasil ditemukan';
-    }
+    count.textContent = q === '' ? '' : visible + ' hasil ditemukan';
 }
 
 function trClearSearch() {
@@ -262,4 +256,3 @@ function trClearSearch() {
 }
 </script>
 @endpush
-@endsection

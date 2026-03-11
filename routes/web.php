@@ -8,6 +8,8 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TrackingController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TipeRumahController;
+use App\Http\Controllers\ReferralController;
+use App\Http\Controllers\AffiliateController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
@@ -56,8 +58,8 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affiliate.')->group(function () {
     Route::get('/',          fn() => redirect()->route('affiliate.dashboard'));
     Route::get('/dashboard', fn() => view('affiliate.dashboard'))->name('dashboard');
-    Route::get('/link',      fn() => view('affiliate.link'))->name('link');
-    Route::get('/leads',     fn() => view('affiliate.leads'))->name('leads');
+    Route::get('/link',      [AffiliateController::class, 'linkPage'])->name('link');
+    Route::get('/leads',     [AffiliateController::class, 'leadsPage'])->name('leads');
     Route::get('/closing',   fn() => view('affiliate.closing'))->name('closing');
     Route::get('/komisi',    fn() => view('affiliate.komisi'))->name('komisi');
 
@@ -84,6 +86,10 @@ Route::post('/booking',              [PageController::class, 'storeBooking'])->n
 
 // Catat klik WA (publik, tanpa auth)
 Route::post('/wa-click',             [TrackingController::class, 'record'])->name('wa-click.record');
+
+// ── Referral Link ────────────────────────────────────────────────────────
+// HARUS di atas dynamic /{nama} agar tidak tertimpa
+Route::get('/ref/{code}',            [ReferralController::class, 'handle'])->name('referral');
 
 // -------------------------------------------------------
 // Dynamic agent route – HARUS di paling bawah agar tidak

@@ -3,7 +3,6 @@
 
 @push('styles')
 <style>
-/* ── Leads Page ── */
 .leads-wrap {
     padding: 36px 36px 40px;
     background: #f9f9f9;
@@ -16,32 +15,32 @@
 /* Stats */
 .stats-row {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
     margin-top: 28px;
 }
 .stat-card {
     background: #fff;
     border-radius: 14px;
-    padding: 22px 20px;
+    padding: 20px 18px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
 }
 .stat-icon {
-    width: 50px; height: 50px;
+    width: 46px; height: 46px;
     border-radius: 12px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
+    font-size: 20px;
     flex-shrink: 0;
 }
 .stat-icon.purple { background: rgba(139,92,246,0.12); color: #7c3aed; }
 .stat-icon.green  { background: rgba(16,185,129,0.12);  color: #059669; }
+.stat-icon.amber  { background: rgba(245,158,11,0.12);  color: #d97706; }
 .stat-icon.blue   { background: rgba(59,130,246,0.12);  color: #2563eb; }
-.stat-info .label { font-size: 13px; color: #888; font-weight: 500; }
-.stat-info .value { font-size: 26px; font-weight: 700; color: #1e1e1e; line-height: 1.2; margin-top: 2px; }
-.stat-info .sub   { font-size: 12px; color: #10b981; margin-top: 4px; font-weight: 500; }
+.stat-info .label { font-size: 12px; color: #888; font-weight: 500; }
+.stat-info .value { font-size: 24px; font-weight: 800; color: #1e1e1e; line-height: 1.2; margin-top: 2px; }
 
 /* Filter Bar */
 .filter-bar {
@@ -85,18 +84,16 @@
     background: #fff;
     outline: none;
     cursor: pointer;
-    transition: border-color 0.2s;
 }
 .filter-select:focus { border-color: #3d81af; }
 
-/* Table Card */
+/* Table */
 .table-card {
     margin-top: 18px;
     background: #fff;
     border-radius: 14px;
-    padding: 0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
     overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
 }
 .table-card table {
     width: 100%;
@@ -105,34 +102,49 @@
 }
 .table-card thead {
     background: #f8fafc;
+    border-bottom: 1px solid #f0f0f0;
 }
 .table-card thead th {
-    padding: 14px 18px;
+    padding: 13px 18px;
     text-align: left;
-    font-size: 12px;
-    font-weight: 600;
+    font-size: 11px;
+    font-weight: 700;
     color: #888;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 1px solid #f0f0f0;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
 }
 .table-card tbody tr {
     border-bottom: 1px solid #f5f5f5;
     transition: background 0.15s;
 }
 .table-card tbody tr:last-child { border-bottom: none; }
-.table-card tbody tr:hover { background: #fafafa; }
+.table-card tbody tr:hover { background: #fafcff; }
 .table-card tbody td {
-    padding: 14px 18px;
+    padding: 13px 18px;
     color: #333;
     vertical-align: middle;
 }
-.lead-name  { font-weight: 600; color: #1e1e1e; }
-.lead-phone { font-size: 12px; color: #888; margin-top: 2px; }
-.lead-date  { font-size: 13px; color: #555; }
-.lead-time  { font-size: 12px; color: #aaa; }
 
-/* Badge Status */
+/* Cells */
+.click-no     { font-weight: 700; color: #888; font-size: 13px; }
+.click-ip     { font-weight: 600; color: #1e1e1e; font-family: 'Courier New', monospace; font-size: 13px; }
+.click-sub    { font-size: 12px; color: #aaa; margin-top: 2px; }
+.click-device {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    font-weight: 600;
+    background: #f3f4f6;
+    color: #555;
+    padding: 3px 10px;
+    border-radius: 7px;
+}
+.click-date   { font-size: 13px; color: #555; }
+.click-time   { font-size: 12px; color: #aaa; margin-top: 2px; }
+
+/* Badges */
 .badge {
     display: inline-block;
     padding: 4px 12px;
@@ -141,55 +153,37 @@
     font-weight: 600;
     white-space: nowrap;
 }
-.badge-baru      { background: rgba(59,130,246,0.12); color: #2563eb; }
-.badge-followup  { background: rgba(245,158,11,0.12); color: #d97706; }
-.badge-closing   { background: rgba(16,185,129,0.12); color: #059669; }
-.badge-hot       { background: rgba(239,68,68,0.12);  color: #dc2626; }
-
-/* Source Badge */
-.source-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: 500;
-    background: #f3f4f6;
-    color: #555;
-}
+.badge-new          { background: rgba(59,130,246,0.12);  color: #2563eb; }
+.badge-follow-up    { background: rgba(245,158,11,0.12);  color: #d97706; }
+.badge-interested   { background: rgba(16,185,129,0.12);  color: #059669; }
+.badge-not-interested { background: rgba(156,163,175,0.15); color: #6b7280; }
+.badge-closed       { background: rgba(139,92,246,0.12);  color: #7c3aed; }
 
 /* Empty state */
 .empty-state {
-    padding: 48px;
+    padding: 56px 24px;
     text-align: center;
     color: #aaa;
-    font-size: 14px;
 }
-.empty-state i { font-size: 36px; margin-bottom: 10px; display: block; }
+.empty-state .es-icon { font-size: 42px; margin-bottom: 12px; }
+.empty-state p        { font-size: 14px; }
+.empty-state small    { font-size: 12px; color: #bbb; }
+
+/* Total bar */
+.total-bar {
+    padding: 12px 18px;
+    background: #f8fafc;
+    border-top: 1px solid #f0f0f0;
+    font-size: 13px;
+    color: #888;
+    font-weight: 500;
+}
+.total-bar span { color: #1e1e1e; font-weight: 700; }
 
 @media (max-width: 768px) {
     .leads-wrap { padding: 20px 16px 30px; }
-    .stats-row  { grid-template-columns: 1fr; }
+    .stats-row  { grid-template-columns: repeat(2,1fr); }
     .table-card { overflow-x: auto; }
-@section('title', 'Daftar Leads')
-
-@push('styles')
-<link rel="stylesheet" href="{{ asset('assets/affiliate/css/leads.css') }}">
-<style>
-a, button, input, select, h1, h2, h3, h4, h5, * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    border: none;
-    text-decoration: none;
-    background: none;
-    -webkit-font-smoothing: antialiased;
-}
-menu, ol, ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
 }
 </style>
 @endpush
@@ -199,34 +193,38 @@ menu, ol, ul {
 
     {{-- Header --}}
     <div class="leads-header">
-        <h1>Daftar Leads</h1>
-        <p>Pantau semua prospek yang masuk melalui link affiliate Anda</p>
+        <h1>Daftar Leads Saya</h1>
+        <p>Semua pengunjung yang klik WhatsApp melalui link referral Anda</p>
     </div>
 
     {{-- Stats --}}
     <div class="stats-row">
         <div class="stat-card">
-            <div class="stat-icon purple"><i class="fas fa-users"></i></div>
+            <div class="stat-icon purple"><i class="fas fa-mouse-pointer"></i></div>
             <div class="stat-info">
-                <div class="label">Total Leads</div>
-                <div class="value">148</div>
-                <div class="sub">↑ Bulan ini</div>
+                <div class="label">Total Klik WA</div>
+                <div class="value">{{ $stats['total'] }}</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon green"><i class="fas fa-user-plus"></i></div>
+            <div class="stat-icon blue"><i class="fas fa-bell"></i></div>
             <div class="stat-info">
-                <div class="label">Leads Baru</div>
-                <div class="value">50</div>
-                <div class="sub">↑ 12 minggu ini</div>
+                <div class="label">Baru</div>
+                <div class="value">{{ $stats['baru'] }}</div>
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon blue"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-icon amber"><i class="fas fa-phone-alt"></i></div>
             <div class="stat-info">
-                <div class="label">Closing</div>
-                <div class="value">25</div>
-                <div class="sub">↑ Bulan ini</div>
+                <div class="label">Follow Up</div>
+                <div class="value">{{ $stats['follow_up'] }}</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
+            <div class="stat-info">
+                <div class="label">Tertarik</div>
+                <div class="value">{{ $stats['closing'] }}</div>
             </div>
         </div>
     </div>
@@ -235,85 +233,111 @@ menu, ol, ul {
     <div class="filter-bar">
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" placeholder="Cari nama, no HP, atau email…" id="searchInput" oninput="filterTable()">
+            <input type="text" id="searchInput" placeholder="Cari IP, browser, page URL…" oninput="filterTable()">
         </div>
         <select class="filter-select" id="filterStatus" onchange="filterTable()">
             <option value="">Semua Status</option>
-            <option value="Baru">Baru</option>
-            <option value="Hot Lead">Hot Lead</option>
-            <option value="Follow Up">Follow Up</option>
-            <option value="Closing">Closing</option>
+            <option value="new">Baru</option>
+            <option value="follow-up">Follow Up</option>
+            <option value="interested">Tertarik</option>
+            <option value="not-interested">Tidak Tertarik</option>
+            <option value="closed">Closed</option>
         </select>
-        <select class="filter-select" id="filterPeriod">
-            <option>30 hari terakhir</option>
-            <option>7 hari terakhir</option>
-            <option>Bulan ini</option>
+        <select class="filter-select" id="filterDevice" onchange="filterTable()">
+            <option value="">Semua Device</option>
+            <option value="Mobile">Mobile</option>
+            <option value="Desktop">Desktop</option>
         </select>
     </div>
 
-    {{-- Tabel Leads --}}
+    {{-- Tabel --}}
     <div class="table-card">
         <table id="leadsTable">
             <thead>
                 <tr>
-                    <th>Nama / Kontak</th>
-                    <th>Tanggal Masuk</th>
-                    <th>Minat Unit</th>
-                    <th>Sumber</th>
+                    <th>#</th>
+                    <th>IP Address</th>
+                    <th>Device / Browser</th>
+                    <th>Halaman Asal</th>
+                    <th>Waktu Klik</th>
                     <th>Status</th>
                 </tr>
             </thead>
             <tbody>
-                @php
-                $leads = [
-                    ['name'=>'Andi Saputra',  'phone'=>'+62 812-3456-7890', 'date'=>'27 Feb 2026', 'time'=>'09:14 WIB', 'unit'=>'Tipe 45 – Blok A', 'source'=>'WhatsApp',  'source_icon'=>'fab fa-whatsapp',         'status'=>'Follow Up'],
-                    ['name'=>'Budi Prasetyo', 'phone'=>'+62 813-2345-6789', 'date'=>'26 Feb 2026', 'time'=>'14:32 WIB', 'unit'=>'Tipe 36 – Blok B', 'source'=>'Instagram',  'source_icon'=>'fab fa-instagram',        'status'=>'Baru'],
-                    ['name'=>'Siti Rahayu',   'phone'=>'+62 858-8765-4321', 'date'=>'26 Feb 2026', 'time'=>'11:05 WIB', 'unit'=>'Tipe 54 – Blok C', 'source'=>'TikTok',     'source_icon'=>'fab fa-tiktok',           'status'=>'Hot Lead'],
-                    ['name'=>'Dian Pertiwi',  'phone'=>'+62 821-9988-7766', 'date'=>'25 Feb 2026', 'time'=>'16:45 WIB', 'unit'=>'Tipe 45 – Blok A', 'source'=>'WhatsApp',  'source_icon'=>'fab fa-whatsapp',         'status'=>'Closing'],
-                    ['name'=>'Rudi Hartono',  'phone'=>'+62 878-1234-5678', 'date'=>'24 Feb 2026', 'time'=>'08:20 WIB', 'unit'=>'Tipe 36 – Blok D', 'source'=>'Facebook',   'source_icon'=>'fab fa-facebook-f',       'status'=>'Follow Up'],
-                ];
-                @endphp
-
-                @forelse($leads as $lead)
-                @php
-                    $badgeClass = match($lead['status']) {
-                        'Baru'      => 'badge-baru',
-                        'Hot Lead'  => 'badge-hot',
-                        'Follow Up' => 'badge-followup',
-                        'Closing'   => 'badge-closing',
-                        default     => 'badge-baru',
-                    };
-                @endphp
-                <tr data-status="{{ $lead['status'] }}">
+                @forelse($clicks as $i => $click)
+                <tr data-status="{{ $click->status }}" data-device="{{ $click->device }}">
+                    <td class="click-no">{{ $i + 1 }}</td>
                     <td>
-                        <div class="lead-name">{{ $lead['name'] }}</div>
-                        <div class="lead-phone">{{ $lead['phone'] }}</div>
+                        <div class="click-ip">{{ $click->ip_address ?? '—' }}</div>
+                        <div class="click-sub">{{ $click->page_url ? \Illuminate\Support\Str::limit($click->page_url, 40) : '—' }}</div>
                     </td>
                     <td>
-                        <div class="lead-date">{{ $lead['date'] }}</div>
-                        <div class="lead-time">{{ $lead['time'] }}</div>
+                        <span class="click-device">
+                            @if($click->device === 'Mobile')
+                                <i class="fas fa-mobile-alt"></i>
+                            @else
+                                <i class="fas fa-desktop"></i>
+                            @endif
+                            {{ $click->device ?? '—' }}
+                        </span>
+                        <div class="click-sub" style="margin-top:5px;">{{ $click->browser ?? '—' }}</div>
                     </td>
-                    <td>{{ $lead['unit'] }}</td>
                     <td>
-                        <span class="source-badge">
-                            <i class="{{ $lead['source_icon'] }}"></i>
-                            {{ $lead['source'] }}
+                        @if($click->page_url)
+                            <a href="{{ $click->page_url }}" target="_blank"
+                               style="color:#3d81af;font-size:12px;word-break:break-all;text-decoration:none;"
+                               title="{{ $click->page_url }}">
+                                {{ \Illuminate\Support\Str::limit($click->page_url, 50) }}
+                            </a>
+                        @else
+                            <span style="color:#bbb;">—</span>
+                        @endif
+                    </td>
+                    <td>
+                        <div class="click-date">{{ $click->created_at->format('d M Y') }}</div>
+                        <div class="click-time">{{ $click->created_at->format('H:i') }} WIB</div>
+                    </td>
+                    <td>
+                        @php
+                            $badgeMap = [
+                                'new'           => 'badge-new',
+                                'follow-up'     => 'badge-follow-up',
+                                'interested'    => 'badge-interested',
+                                'not-interested'=> 'badge-not-interested',
+                                'closed'        => 'badge-closed',
+                            ];
+                            $labelMap = [
+                                'new'           => 'Baru',
+                                'follow-up'     => 'Follow Up',
+                                'interested'    => 'Tertarik',
+                                'not-interested'=> 'Tidak Tertarik',
+                                'closed'        => 'Closed',
+                            ];
+                        @endphp
+                        <span class="badge {{ $badgeMap[$click->status] ?? 'badge-new' }}">
+                            {{ $labelMap[$click->status] ?? $click->status }}
                         </span>
                     </td>
-                    <td><span class="badge {{ $badgeClass }}">{{ $lead['status'] }}</span></td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5">
+                    <td colspan="6">
                         <div class="empty-state">
-                            <i class="fas fa-users"></i>
-                            Belum ada leads yang masuk
+                            <div class="es-icon">📭</div>
+                            <p><strong>Belum ada klik WhatsApp</strong></p>
+                            <small>Bagikan link referral Anda agar pengunjung mulai tercatat di sini</small>
                         </div>
                     </td>
                 </tr>
                 @endforelse
             </tbody>
         </table>
+
+        @if($clicks->isNotEmpty())
+        <div class="total-bar">
+            Menampilkan <span>{{ $clicks->count() }}</span> klik WA dari link referral Anda
+        </div>
+        @endif
     </div>
 
 </div>
@@ -324,83 +348,25 @@ menu, ol, ul {
 function filterTable() {
     const search = document.getElementById('searchInput').value.toLowerCase();
     const status = document.getElementById('filterStatus').value;
+    const device = document.getElementById('filterDevice').value;
+
+    let visible = 0;
     document.querySelectorAll('#leadsTable tbody tr[data-status]').forEach(row => {
-        const text       = row.innerText.toLowerCase();
-        const rowStatus  = row.dataset.status;
-        const matchText  = !search || text.includes(search);
-        const matchStat  = !status || rowStatus === status;
-        row.style.display = (matchText && matchStat) ? '' : 'none';
+        const text      = row.innerText.toLowerCase();
+        const rowStatus = row.dataset.status;
+        const rowDevice = row.dataset.device;
+
+        const ok = (!search || text.includes(search))
+                && (!status || rowStatus === status)
+                && (!device || rowDevice === device);
+
+        row.style.display = ok ? '' : 'none';
+        if (ok) visible++;
     });
+
+    // Update total bar
+    const bar = document.querySelector('.total-bar span');
+    if (bar) bar.textContent = visible;
 }
 </script>
 @endpush
-<div class="leads-affiliate">
-    <div class="daftar-leads">Daftar Leads</div>
-    <div class="rectangle-1286"></div>
-    <div class="_50">50</div>
-    <div class="rectangle-1287"></div>
-    <div class="_12-minggu-ini">↑ 12 minggu ini</div>
-    <div class="leads-baru">Leads Baru<br /></div>
-    <div class="rectangle-12862"></div>
-    <div class="_148">148</div>
-    <div class="rectangle-12872"></div>
-    <div class="bulan-ini">Bulan ini</div>
-    <div class="total-leads">Total Leads<br /></div>
-    <div class="rectangle-12863"></div>
-    <div class="_25">25</div>
-    <div class="rectangle-12873"></div>
-    <div class="bulan-ini2">Bulan ini</div>
-    <div class="closing2">Closing<br /></div>
-    <div class="rectangle-1288"></div>
-    <div class="rectangle-1289"></div>
-    <div class="cari-nama-no-hp-atau-email">Cari nama, no HP, atau email</div>
-    <img class="image-12" src="{{ asset('assets/affiliate/img/leadsimg/image-120.svg') }}" />
-    <div class="rectangle-12912"></div>
-    <div class="semua-status">Semua Status</div>
-    <img class="image-122" src="{{ asset('assets/affiliate/img/leadsimg/image-121.svg') }}" />
-    <div class="rectangle-12913"></div>
-    <div class="_30-hari-terakhir">30 hari terakhir</div>
-    <img class="image-123" src="{{ asset('assets/affiliate/img/leadsimg/image-122.svg') }}" />
-    <div class="rectangle-1292"></div>
-    <div class="baru">Baru</div>
-    <div class="hot-lead">Hot Lead</div>
-    <div class="rectangle-1293"></div>
-    <div class="semua">Semua</div>
-    <div class="rectangle-1294"></div>
-    <div class="rectangle-1295"></div>
-    <div class="status">Status</div>
-    <div class="tanggal-masuk">Tanggal Masuk</div>
-    <div class="minat-unit">Minat Unit</div>
-    <div class="sumber-link">Sumber Link</div>
-    <div class="group-33">
-        <div class="rectangle-1296"></div>
-    </div>
-    <div class="group-332">
-        <div class="whats-app">🟢 WhatsApp</div>
-    </div>
-    <div class="rectangle-1297"></div>
-    <div class="group-33">
-        <div class="rectangle-12962"></div>
-    </div>
-    <div class="group-333">
-        <div class="instagram">📸 Instagram</div>
-    </div>
-    <div class="rectangle-1298"></div>
-    <div class="_27-feb-2026-09-14-wib">27 Feb 2026<br />09:14 WIB</div>
-    <div class="andi-saputra-62-812-3456-7890">Andi Saputra<br />+62 812-3456-7890</div>
-    <div class="follow-up">Follow Up</div>
-    <div class="tipe-45-blok-a">Tipe 45 – Blok A</div>
-    <div class="group-334">
-        <div class="rectangle-12963"></div>
-    </div>
-    <div class="group-335">
-        <div class="tik-tok">🎵 TikTok</div>
-    </div>
-    <div class="rectangle-1299"></div>
-    <div class="_27-feb-2026-09-14-wib2">27 Feb 2026<br />09:14 WIB</div>
-    <div class="andi-saputra-62-812-3456-78902">Andi Saputra<br />+62 812-3456-7890</div>
-    <div class="closing3">Closing</div>
-    <div class="tipe-45-blok-a2">Tipe 45 – Blok A</div>
-</div>
-@endsection
-
