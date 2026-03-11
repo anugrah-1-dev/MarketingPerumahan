@@ -18,12 +18,12 @@
     $waPesan  = urlencode("Halo, saya tertarik dengan Bukit Shangrilla Asri. Saya dari website - PIC {$waNama}.");
     $waUrl    = "https://wa.me/{$waNomor}?text={$waPesan}";
 
-    // Baca referral code dari session (disimpan saat user kunjungi /ref/{code})
-    $refCode = session('affiliate_ref_code') ?? request()->cookie('affiliate_ref_code') ?? null;
+    // Baca referral code dari session dan cookie server-side
+    $refCode = session('affiliate_ref_code')
+            ?? request()->cookie('affiliate_ref_code')
+            ?? null;
 @endphp
 
-{{-- Meta referral (dibaca oleh JS untuk tracking WA klik) --}}
-<meta name="affiliate-ref" content="{{ $refCode ?? '' }}">
 
 @section('content')
 
@@ -225,13 +225,23 @@
     </a>
 
     <script>
+    // Referral code dari server (PHP session/cookie) — embed langsung sebagai JS variable
+    const AFFILIATE_REF_CODE = @json($refCode ?? null);
+
+    // Fallback: baca dari cookie browser (untuk kasus session expired tapi cookie masih ada)
+    function getCookieVal(name) {
+        const val = document.cookie.split('; ').find(r => r.startsWith(name + '='));
+        return val ? decodeURIComponent(val.split('=')[1]) : null;
+    }
+
     function recordWaClick(e, waUrl, slug) {
         e.preventDefault();
 
-        // Ambil referral code dari meta tag (diisi oleh PHP dari session/cookie)
-        const refCode = document.querySelector('meta[name="affiliate-ref"]')?.content || null;
+        // Prioritas: PHP session → cookie browser
+        const refCode = AFFILIATE_REF_CODE || getCookieVal('affiliate_ref_code') || null;
 
-        // Kirim data ke backend (fire-and-forget), lalu buka WA
+        console.log('[WA Track] refCode:', refCode, 'slug:', slug);
+
         fetch('{{ route("wa-click.record") }}', {
             method: 'POST',
             headers: {
@@ -239,11 +249,15 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? ''
             },
             body: JSON.stringify({
-                slug:          slug || null,
+                slug:          slug  || null,
                 referral_code: refCode || null,
                 page_url:      window.location.href
             })
-        }).catch(() => {}).finally(() => {
+        })
+        .then(r => r.json())
+        .then(d => console.log('[WA Track] Response:', d))
+        .catch(err => console.warn('[WA Track] Error:', err))
+        .finally(() => {
             window.open(waUrl, '_blank', 'noopener,noreferrer');
         });
     }

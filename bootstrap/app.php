@@ -14,6 +14,17 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
+
+        // Exclude cookie affiliate dari enkripsi agar JS bisa membacanya
+        $middleware->encryptCookies(except: [
+            'affiliate_ref_code',
+            'affiliate_user_id',
+        ]);
+
+        // Exclude /wa-click dari CSRF — endpoint publik dipanggil via fetch() dari landing
+        $middleware->validateCsrfTokens(except: [
+            'wa-click',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
