@@ -109,4 +109,12 @@
         <div id="fotoTambahanList" style="display:flex;flex-direction:column;gap:8px;"></div>
         <p class="tr-file-hint">Klik "+ Tambah Foto" untuk foto-foto tambahan (opsional).</p>
     </div>
+
+    {{-- Checkbox Diskon --}}
+    <div class="form-group">
+        <label class="tr-checkbox-wrap">
+            <input type="checkbox" name="is_diskon" value="1">
+            <span>Tampilkan sebagai <span class="highlight">Tipe Diskon</span> di homepage</span>
+        </label>
+    </div>
 </div>
