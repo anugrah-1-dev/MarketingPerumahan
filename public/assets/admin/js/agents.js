@@ -23,8 +23,107 @@ function showLoading(cols = 6) {
         </td></tr>`;
 }
 
+// ── Inject notification styles (once) ────────────────────────
+function initStyles() {
+    if (document.getElementById('_agentsNotifStyle')) return;
+    const s = document.createElement('style');
+    s.id = '_agentsNotifStyle';
+    s.textContent = `
+        @keyframes _nfSlideIn  { from { opacity:0; transform:translateX(110%); } to { opacity:1; transform:translateX(0); } }
+        @keyframes _nfFadeOut  { from { opacity:1; } to { opacity:0; } }
+        @keyframes _nfPopIn    { from { opacity:0; transform:scale(.92); } to { opacity:1; transform:scale(1); } }
+        #_toastWrap { position:fixed; top:1.25rem; right:1.25rem; z-index:9999;
+            display:flex; flex-direction:column; gap:.5rem; pointer-events:none; }
+        ._toast { display:flex; align-items:flex-start; gap:.75rem;
+            min-width:260px; max-width:360px; padding:.75rem 1rem;
+            border-radius:.625rem; box-shadow:0 4px 24px rgba(0,0,0,.18);
+            color:#fff; font-size:.875rem; line-height:1.45; pointer-events:all;
+            animation:_nfSlideIn .3s ease forwards; }
+        ._toast.success { background:#10b981; }
+        ._toast.error   { background:#ef4444; }
+        ._toast.warning { background:#f59e0b; }
+        ._toast.info    { background:#3b82f6; }
+        ._toast-msg { flex:1; }
+        ._toast-x { background:none; border:none; color:#fff; cursor:pointer;
+            font-size:.8rem; opacity:.75; padding:0; line-height:1; flex-shrink:0; margin-top:2px; }
+        ._toast-x:hover { opacity:1; }
+        ._cov { position:fixed; inset:0; background:rgba(0,0,0,.42);
+            backdrop-filter:blur(3px); z-index:10000;
+            display:flex; align-items:center; justify-content:center; }
+        ._ccard { background:#fff; border-radius:1rem; padding:2rem 1.75rem;
+            max-width:400px; width:90%; box-shadow:0 24px 60px rgba(0,0,0,.22);
+            text-align:center; animation:_nfPopIn .25s ease forwards; }
+        ._cicon { width:56px; height:56px; border-radius:50%;
+            display:flex; align-items:center; justify-content:center;
+            margin:0 auto 1rem; font-size:1.5rem; }
+        ._cicon.danger { background:#fef2f2; color:#ef4444; }
+        ._cicon.info   { background:#eff6ff; color:#3b82f6; }
+        ._ctitle { margin:0 0 .4rem; color:#111827; font-size:1.1rem; font-weight:600; }
+        ._cmsg  { color:#6b7280; margin:0 0 1.5rem; font-size:.875rem; line-height:1.5; }
+        ._cactions { display:flex; gap:.75rem; }
+        ._cbtn { flex:1; padding:.65rem 1rem; border-radius:.5rem; cursor:pointer;
+            font-size:.875rem; font-weight:500; border:none;
+            transition:opacity .15s, transform .1s; }
+        ._cbtn:hover { opacity:.87; }
+        ._cbtn:active { transform:scale(.97); }
+        ._ccancel { background:#f1f5f9; color:#374151; border:1px solid #e2e8f0 !important; }
+    `;
+    document.head.appendChild(s);
+}
+
+// ── Toast Notification ────────────────────────────────────────
+const _TOAST_ICONS = {
+    success: 'fa-check-circle',
+    error:   'fa-times-circle',
+    warning: 'fa-exclamation-triangle',
+    info:    'fa-info-circle',
+};
+function showToast(message, type = 'info') {
+    let wrap = document.getElementById('_toastWrap');
+    if (!wrap) {
+        wrap = document.createElement('div');
+        wrap.id = '_toastWrap';
+        document.body.appendChild(wrap);
+    }
+    const t = document.createElement('div');
+    t.className = `_toast ${type}`;
+    t.innerHTML = `<i class="fas ${_TOAST_ICONS[type] || _TOAST_ICONS.info}"></i>
+        <span class="_toast-msg">${message}</span>
+        <button class="_toast-x" aria-label="Tutup"><i class="fas fa-times"></i></button>`;
+    t.querySelector('._toast-x').addEventListener('click', () => t.remove());
+    wrap.appendChild(t);
+    setTimeout(() => {
+        t.style.animation = '_nfFadeOut .3s ease forwards';
+        setTimeout(() => t.remove(), 300);
+    }, 3800);
+}
+
+// ── Custom Confirm Dialog ─────────────────────────────────────
+function showConfirm(title, message, onConfirm, { label = 'Ya, Lanjutkan', danger = false } = {}) {
+    const overlay = document.createElement('div');
+    overlay.className = '_cov';
+    const okStyle = `background:${danger ? '#ef4444' : '#3b82f6'};color:#fff;`;
+    overlay.innerHTML = `
+        <div class="_ccard">
+            <div class="_cicon ${danger ? 'danger' : 'info'}">
+                <i class="fas ${danger ? 'fa-trash-alt' : 'fa-question-circle'}"></i>
+            </div>
+            <p class="_ctitle">${title}</p>
+            <p class="_cmsg">${message}</p>
+            <div class="_cactions">
+                <button class="_cbtn _ccancel">Batal</button>
+                <button class="_cbtn _cok" style="${okStyle}">${label}</button>
+            </div>
+        </div>`;
+    document.body.appendChild(overlay);
+    overlay.querySelector('._ccancel').addEventListener('click', () => overlay.remove());
+    overlay.querySelector('._cok').addEventListener('click', () => { overlay.remove(); onConfirm(); });
+    overlay.addEventListener('click', e => { if (e.target === overlay) overlay.remove(); });
+}
+
 // ── Init ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+    initStyles();
     loadAgents();
 
     document.getElementById('agentsTableBody').addEventListener('click', function(e) {
@@ -154,7 +253,7 @@ function closeAgentModal() {
 // ── EDIT — pakai cache lokal, TIDAK fetch ke server ───────────
 function editAgent(id) {
     const agent = agentsCache.find(a => String(a.id) === String(id));
-    if (!agent) { alert('Agent tidak ditemukan.'); return; }
+    if (!agent) { showToast('Agent tidak ditemukan.', 'error'); return; }
 
     document.getElementById('modalTitle').textContent    = 'Edit Affiliate';
     document.getElementById('agentId').value             = agent.id;
@@ -181,7 +280,7 @@ async function saveAgent() {
     const isEdit     = !!id;
 
     if (!nama || !email || (!isEdit && !password)) {
-        alert('Nama, Email, dan Password wajib diisi!');
+        showToast('Nama, Email, dan Password wajib diisi!', 'warning');
         return;
     }
 
@@ -211,14 +310,15 @@ async function saveAgent() {
         if (!resp.ok) {
             const err = await resp.json();
             const msg = err.errors
-                ? Object.values(err.errors).flat().join('\n')
+                ? Object.values(err.errors).flat().join(' | ')
                 : (err.message || 'Terjadi kesalahan.');
-            alert(msg);
+            showToast(msg, 'error');
             return;
         }
 
         const saved = await resp.json();
         closeAgentModal();
+        showToast(isEdit ? 'Data agent berhasil diperbarui.' : 'Agent baru berhasil ditambahkan.', 'success');
 
         if (isEdit) {
             // Update cache dan baris yang ada di DOM — tanpa fetch ulang
@@ -242,7 +342,7 @@ async function saveAgent() {
             await loadAgents();
         }
     } catch {
-        alert('Gagal menyimpan. Cek koneksi atau coba lagi.');
+        showToast('Gagal menyimpan. Cek koneksi atau coba lagi.', 'error');
     } finally {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
@@ -251,57 +351,81 @@ async function saveAgent() {
 
 // ── TOGGLE STATUS — optimistic UI ────────────────────────────
 async function toggleStatus(id) {
-    if (!confirm('Ubah status agent ini?')) return;
-
     const agent = agentsCache.find(a => String(a.id) === String(id));
     if (!agent) return;
 
-    // Optimistic: balik status di cache dan DOM seketika
-    agent.aktif = !agent.aktif;
-    const oldRow = findRow(id);
-    if (oldRow) oldRow.replaceWith(buildRow(agent));
+    const aksi    = agent.aktif ? 'nonaktifkan' : 'aktifkan';
+    const aksiCap = agent.aktif ? 'Nonaktifkan' : 'Aktifkan';
 
-    try {
-        const resp = await fetch(`/admin/agents/${id}/status`, {
-            method : 'PATCH',
-            headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
-        });
-        if (!resp.ok) throw new Error();
-    } catch {
-        // Rollback: balik cache dan DOM ke state semula
-        agent.aktif = !agent.aktif;
-        const rolledRow = findRow(id);
-        if (rolledRow) rolledRow.replaceWith(buildRow(agent));
-        alert('Gagal mengubah status agent.');
-    }
+    showConfirm(
+        `${aksiCap} Agent`,
+        `Yakin ingin <strong>${aksi}</strong> agent <strong>${agent.nama}</strong>?`,
+        async () => {
+            // Optimistic: balik status di cache dan DOM seketika
+            agent.aktif = !agent.aktif;
+            const oldRow = findRow(id);
+            if (oldRow) oldRow.replaceWith(buildRow(agent));
+
+            try {
+                const resp = await fetch(`/admin/agents/${id}/status`, {
+                    method : 'PATCH',
+                    headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
+                });
+                if (!resp.ok) throw new Error();
+                showToast(`Agent berhasil di${aksi}.`, 'success');
+            } catch {
+                // Rollback: balik cache dan DOM ke state semula
+                agent.aktif = !agent.aktif;
+                const rolledRow = findRow(id);
+                if (rolledRow) rolledRow.replaceWith(buildRow(agent));
+                showToast('Gagal mengubah status agent.', 'error');
+            }
+        },
+        { label: `Ya, ${aksiCap}` }
+    );
 }
 
 // ── DELETE — optimistic UI ────────────────────────────────────
 async function deleteAgent(id) {
-    if (!confirm('Hapus agent ini? Data tidak dapat dikembalikan!')) return;
-
-    // Simpan snapshot untuk rollback
-    const snapshot  = [...agentsCache];
-    const deletedIdx = agentsCache.findIndex(a => String(a.id) === String(id));
-
-    // Optimistic: hapus dari cache dan DOM seketika
-    agentsCache = agentsCache.filter(a => String(a.id) !== String(id));
-    const row = findRow(id);
-    if (row) row.remove();
-    if (!agentsCache.length) renderTable([]);
-
-    try {
-        const resp = await fetch(`/admin/agents/${id}`, {
-            method : 'DELETE',
-            headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
-        });
-        if (!resp.ok) throw new Error();
-    } catch {
-        // Rollback: kembalikan cache dan render ulang
-        agentsCache = snapshot;
-        renderTable(agentsCache);
-        alert('Gagal menghapus agent.');
+    // Guard: tolak ID yang tidak valid sebelum request ke server
+    if (!id || id === 'NaN' || id === 'undefined' || id === 'null') {
+        console.error('[deleteAgent] ID tidak valid:', id);
+        showToast('ID agent tidak valid — coba muat ulang halaman.', 'error');
+        return;
     }
+
+    const agent     = agentsCache.find(a => String(a.id) === String(id));
+    const namaAgent = agent?.nama ?? 'agent ini';
+
+    showConfirm(
+        'Hapus Agent',
+        `Agent <strong>${namaAgent}</strong> akan dihapus permanen.<br>Tindakan ini tidak dapat dibatalkan!`,
+        async () => {
+            // Simpan snapshot untuk rollback
+            const snapshot = [...agentsCache];
+
+            // Optimistic: hapus dari cache dan DOM seketika
+            agentsCache = agentsCache.filter(a => String(a.id) !== String(id));
+            const row = findRow(id);
+            if (row) row.remove();
+            if (!agentsCache.length) renderTable([]);
+
+            try {
+                const resp = await fetch(`/admin/agents/${id}`, {
+                    method : 'DELETE',
+                    headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
+                });
+                if (!resp.ok) throw new Error();
+                showToast(`Agent "${namaAgent}" berhasil dihapus.`, 'success');
+            } catch {
+                // Rollback: kembalikan cache dan render ulang
+                agentsCache = snapshot;
+                renderTable(agentsCache);
+                showToast('Gagal menghapus agent. Coba lagi.', 'error');
+            }
+        },
+        { label: '<i class="fas fa-trash"></i>&nbsp;Ya, Hapus', danger: true }
+    );
 }
 
 // ── SEARCH — filter di sisi klien ────────────────────────────
@@ -320,7 +444,7 @@ function copyLink(link, event) {
         btn.innerHTML = '<i class="fas fa-check"></i>';
         btn.style.color = '#10b981';
         setTimeout(() => { btn.innerHTML = ori; btn.style.color = ''; }, 2000);
-    }).catch(() => alert('Gagal menyalin link.'));
+    }).catch(() => showToast('Gagal menyalin link.', 'error'));
 }
 
 // Close modal bila klik di luar
