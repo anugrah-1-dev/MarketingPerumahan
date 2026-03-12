@@ -31,6 +31,17 @@
         </div>
     @endif
 
+    {{-- Error Alert --}}
+    @if($errors->any())
+        <div style="margin-bottom:16px;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:12px 16px;border-radius:10px;font-size:0.85rem;">
+            <ul style="margin:0;padding-left:16px;">
+                @foreach ($errors->all() as $error)
+                    <li>❌ {{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     {{-- Search Bar --}}
     <div class="tr-search-bar">
         <div class="tr-search-input-wrap">

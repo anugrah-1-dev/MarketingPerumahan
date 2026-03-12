@@ -31,24 +31,6 @@
         </div>
     @endif
 
-    {{-- Search Bar --}}
-    <div class="tr-search-bar">
-        <div class="tr-search-input-wrap">
-            <svg xmlns="http://www.w3.org/2000/svg" class="tr-search-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11A6 6 0 115 11a6 6 0 0112 0z"/>
-            </svg>
-            <input type="text" id="trSearch" class="tr-search-input"
-                placeholder="Cari nama tipe, harga, stok..."
-                oninput="trFilterTable()" autocomplete="off">
-            <button id="trSearchClear" class="tr-search-clear hidden" onclick="trClearSearch()" title="Hapus">
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
-        </div>
-        <span id="trSearchCount" class="tr-search-count"></span>
-    </div>
-
     {{-- Tabel --}}
     <div class="tr-table-wrapper">
         <table class="tr-table">

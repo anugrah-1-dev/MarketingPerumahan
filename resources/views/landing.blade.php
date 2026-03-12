@@ -61,8 +61,8 @@
         </div>
 
         {{-- Stats bar --}}
-        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
-            @foreach ([['86', 'Total Unit'], ['40', 'Unit Tersedia'], ['20', 'Unit Terjual'], ['26', 'Unit Booking']] as $stat)
+        <div class="mt-16 grid grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach ([['86', 'Total Unit'], ['66', 'Unit Tersedia'], ['20', 'Unit Terjual']] as $stat)
                 <div class="card text-center shadow-sm">
                     <p class="text-3xl font-bold text-[#393939]">{{ $stat[0] }}</p>
                     <p class="text-[#676767] text-sm mt-1">{{ $stat[1] }}</p>
@@ -90,7 +90,7 @@
         @if($tipeRumahDiskon->isNotEmpty())
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($tipeRumahDiskon as $t)
-                <a href="{{ route('tipe-rumah.publik') }}"
+                <a href="{{ route('tipe-rumah.detail', $t->id) }}"
                     class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                     <div class="relative h-[200px] overflow-hidden">
                         <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}"
@@ -120,7 +120,7 @@
         {{-- Jika tidak ada diskon, tampilkan semua tipe rumah (max 3) --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($semuaTipeRumah->take(3) as $t)
-                <a href="{{ route('tipe-rumah.publik') }}"
+                <a href="{{ route('tipe-rumah.detail', $t->id) }}"
                     class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
                     <div class="relative h-[200px] overflow-hidden">
                         <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}"
@@ -235,7 +235,8 @@
     }
 
     function recordWaClick(e, waUrl, slug) {
-        e.preventDefault();
+        // Jangan block navigasi WA bawaan dari <a href="...">
+        // Biarkan request API berjalan di background menggunakan keepalive.
 
         // Prioritas: PHP session → cookie browser
         const refCode = AFFILIATE_REF_CODE || getCookieVal('affiliate_ref_code') || null;
@@ -252,14 +253,9 @@
                 slug:          slug  || null,
                 referral_code: refCode || null,
                 page_url:      window.location.href
-            })
-        })
-        .then(r => r.json())
-        .then(d => console.log('[WA Track] Response:', d))
-        .catch(err => console.warn('[WA Track] Error:', err))
-        .finally(() => {
-            window.open(waUrl, '_blank', 'noopener,noreferrer');
-        });
+            }),
+            keepalive: true // Penting agar request tetap terkirim meski halaman berpindah/ditutup
+        }).catch(err => console.error("Gagal mencatat klik WA:", err));
     }
     </script>
 

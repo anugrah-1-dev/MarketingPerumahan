@@ -48,11 +48,25 @@
             class="form-input"></textarea>
     </div>
 
-    {{-- Upload Foto --}}
+    {{-- ── Foto Utama ─────────────────────────────── --}}
     <div class="form-group">
-        <label>Foto Rumah</label>
+        <label>Foto Utama <span class="req">*</span></label>
         <input type="file" name="gambar" accept="image/*" class="tr-file-input">
-        <p class="tr-file-hint">Format: JPG, PNG, WebP. Maksimal 2MB.</p>
+        <p class="tr-file-hint">Format: JPG, PNG, WebP. Maks 2MB.</p>
+    </div>
+
+    {{-- ── Foto Tambahan (dinamis) ─────────────────── --}}
+    <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <label style="margin-bottom:0">Foto Tambahan</label>
+            <button type="button" onclick="trAddFotoSlot()" title="Tambah foto"
+                style="display:flex;align-items:center;gap:5px;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:5px 13px;font-size:13px;font-weight:600;cursor:pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Tambah Foto
+            </button>
+        </div>
+        <div id="fotoTambahanList" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <p class="tr-file-hint">Klik "+ Tambah Foto" untuk menambahkan foto-foto tambahan (opsional).</p>
     </div>
 
     {{-- Checkbox Diskon --}}
@@ -63,3 +77,24 @@
         </label>
     </div>
 </div>
+
+<script>
+let fotoCount = 0;
+
+function trAddFotoSlot() {
+    const list = document.getElementById('fotoTambahanList');
+    const idx  = fotoCount++;
+    const div  = document.createElement('div');
+    div.id     = 'foto-slot-' + idx;
+    div.style  = 'display:flex;gap:8px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;';
+    div.innerHTML = `
+        <input type="file" name="foto_tambahan[]" accept="image/*"
+               style="flex:1;font-size:13px;" required>
+        <input type="text" name="foto_keterangan[]" placeholder="Keterangan (opsional)"
+               style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:13px;">
+        <button type="button" onclick="document.getElementById('foto-slot-${idx}').remove()" title="Hapus"
+                style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;">×</button>
+    `;
+    list.appendChild(div);
+}
+</script>
