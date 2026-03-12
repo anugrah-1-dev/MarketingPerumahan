@@ -14,6 +14,11 @@ class TipeRumah extends Model
         'nama_tipe',
         'luas_bangunan',
         'luas_tanah',
+        'kamar_tidur',
+        'kamar_mandi',
+        'lantai',
+        'sertifikat',
+        'fasilitas',
         'harga',
         'harga_diskon',
         'is_diskon',
@@ -24,6 +29,7 @@ class TipeRumah extends Model
 
     protected $casts = [
         'is_diskon' => 'boolean',
+        'fasilitas' => 'array',
     ];
 
     /**

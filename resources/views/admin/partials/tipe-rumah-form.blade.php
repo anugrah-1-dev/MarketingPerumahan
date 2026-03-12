@@ -41,6 +41,47 @@
             class="form-input" required>
     </div>
 
+    {{-- Kamar Tidur, Kamar Mandi, Lantai --}}
+    <div class="tr-form-row">
+        <div class="form-group">
+            <label>Kamar Tidur <span class="req">*</span></label>
+            <input type="number" name="kamar_tidur" min="1" placeholder="2" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label>Kamar Mandi <span class="req">*</span></label>
+            <input type="number" name="kamar_mandi" min="1" placeholder="1" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label>Lantai <span class="req">*</span></label>
+            <input type="number" name="lantai" min="1" placeholder="1" class="form-input" required>
+        </div>
+    </div>
+
+    {{-- Sertifikat --}}
+    <div class="form-group">
+        <label>Sertifikat</label>
+        <select name="sertifikat" class="form-input">
+            <option value="SHM">SHM</option>
+            <option value="HGB">HGB</option>
+            <option value="SHMilik">SHMilik</option>
+            <option value="Girik">Girik</option>
+        </select>
+    </div>
+
+    {{-- Fasilitas (dinamis) --}}
+    <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <label style="margin-bottom:0">Fasilitas</label>
+            <button type="button" onclick="trAddFasilitas()" title="Tambah fasilitas"
+                style="display:flex;align-items:center;gap:5px;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:5px 13px;font-size:13px;font-weight:600;cursor:pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Tambah
+            </button>
+        </div>
+        <div id="fasilitasList" style="display:flex;flex-direction:column;gap:6px;"></div>
+        <p class="tr-file-hint">Contoh: Listrik 2200W, Air PDAM, Kitchen Set...</p>
+    </div>
+
     {{-- Deskripsi --}}
     <div class="form-group">
         <label>Deskripsi</label>
@@ -50,7 +91,7 @@
 
     {{-- ── Foto Utama ─────────────────────────────── --}}
     <div class="form-group">
-        <label>Foto Utama <span class="req">*</span></label>
+        <label>Foto Utama</label>
         <input type="file" name="gambar" accept="image/*" class="tr-file-input">
         <p class="tr-file-hint">Format: JPG, PNG, WebP. Maks 2MB.</p>
     </div>
@@ -66,20 +107,13 @@
             </button>
         </div>
         <div id="fotoTambahanList" style="display:flex;flex-direction:column;gap:8px;"></div>
-        <p class="tr-file-hint">Klik "+ Tambah Foto" untuk menambahkan foto-foto tambahan (opsional).</p>
-    </div>
-
-    {{-- Checkbox Diskon --}}
-    <div class="form-group">
-        <label class="tr-checkbox-wrap">
-            <input type="checkbox" name="is_diskon" id="is_diskon_form" value="1">
-            <span>Tampilkan sebagai <span class="highlight">Tipe Diskon</span> di homepage</span>
-        </label>
+        <p class="tr-file-hint">Klik "+ Tambah Foto" untuk foto-foto tambahan (opsional).</p>
     </div>
 </div>
 
 <script>
 let fotoCount = 0;
+let fasilitasCount = 0;
 
 function trAddFotoSlot() {
     const list = document.getElementById('fotoTambahanList');
@@ -93,6 +127,21 @@ function trAddFotoSlot() {
         <input type="text" name="foto_keterangan[]" placeholder="Keterangan (opsional)"
                style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:13px;">
         <button type="button" onclick="document.getElementById('foto-slot-${idx}').remove()" title="Hapus"
+                style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;">×</button>
+    `;
+    list.appendChild(div);
+}
+
+function trAddFasilitas(value = '') {
+    const list = document.getElementById('fasilitasList');
+    const idx  = fasilitasCount++;
+    const div  = document.createElement('div');
+    div.id     = 'fasilitas-slot-' + idx;
+    div.style  = 'display:flex;gap:8px;align-items:center;';
+    div.innerHTML = `
+        <input type="text" name="fasilitas[]" value="${value}" placeholder="Contoh: Listrik 2200W"
+               style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:13px;" required>
+        <button type="button" onclick="document.getElementById('fasilitas-slot-${idx}').remove()" title="Hapus"
                 style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;">×</button>
     `;
     list.appendChild(div);

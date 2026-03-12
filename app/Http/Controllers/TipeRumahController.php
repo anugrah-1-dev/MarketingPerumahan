@@ -22,6 +22,12 @@ class TipeRumahController extends Controller
             'nama_tipe'      => 'required|string|max:100',
             'luas_bangunan'  => 'required|integer|min:1',
             'luas_tanah'     => 'required|integer|min:1',
+            'kamar_tidur'    => 'required|integer|min:1',
+            'kamar_mandi'    => 'required|integer|min:1',
+            'lantai'         => 'required|integer|min:1',
+            'sertifikat'     => 'nullable|string|max:50',
+            'fasilitas'      => 'nullable|array',
+            'fasilitas.*'    => 'string|max:100',
             'harga'          => 'required|integer|min:0',
             'harga_diskon'   => 'nullable|integer|min:0',
             'is_diskon'      => 'nullable|boolean',
@@ -35,6 +41,10 @@ class TipeRumahController extends Controller
         }
 
         $data['is_diskon'] = $request->boolean('is_diskon');
+        // Simpan fasilitas sebagai JSON array (model cast akan handle)
+        if (!isset($data['fasilitas'])) {
+            $data['fasilitas'] = [];
+        }
 
         $tipe = TipeRumah::create($data);
 
@@ -62,6 +72,12 @@ class TipeRumahController extends Controller
             'nama_tipe'      => 'required|string|max:100',
             'luas_bangunan'  => 'required|integer|min:1',
             'luas_tanah'     => 'required|integer|min:1',
+            'kamar_tidur'    => 'required|integer|min:1',
+            'kamar_mandi'    => 'required|integer|min:1',
+            'lantai'         => 'required|integer|min:1',
+            'sertifikat'     => 'nullable|string|max:50',
+            'fasilitas'      => 'nullable|array',
+            'fasilitas.*'    => 'string|max:100',
             'harga'          => 'required|integer|min:0',
             'harga_diskon'   => 'nullable|integer|min:0',
             'is_diskon'      => 'nullable|boolean',
@@ -81,6 +97,9 @@ class TipeRumahController extends Controller
         }
 
         $data['is_diskon'] = $request->boolean('is_diskon');
+        if (!isset($data['fasilitas'])) {
+            $data['fasilitas'] = [];
+        }
 
         $tipe->update($data);
 
@@ -153,27 +172,27 @@ class TipeRumahController extends Controller
         $km = $tipe->luas_bangunan >= 54 ? 2 : 1;
 
         $unit = [
-            'blok'       => '-', // Tanpa blok, ini general view
+            'blok'       => '-',
             'tipe'       => $tipe->nama_tipe,
             'nama'       => "Detail " . $tipe->nama_tipe,
             'deskripsi'  => $tipe->deskripsi ?? 'Hunian modern minimalis dengan desain nyaman untuk keluarga muda.',
             'status'     => $tipe->stok_tersedia > 0 ? 'Tersedia' : 'Terjual',
-            'kt'         => $kt,
-            'km'         => $km,
-            'lantai'     => 1,
-            'sertifikat' => 'SHM',
+            'kt'         => $tipe->kamar_tidur ?? $kt,
+            'km'         => $tipe->kamar_mandi ?? $km,
+            'lantai'     => $tipe->lantai      ?? 1,
+            'sertifikat' => $tipe->sertifikat  ?? 'SHM',
             'lb'         => $tipe->luas_bangunan . ' m²',
             'lt'         => $tipe->luas_tanah . ' m²',
             'harga'      => 'Rp ' . number_format($harga_raw, 0, ',', '.'),
             'dp'         => 'Rp ' . number_format($dp_raw, 0, ',', '.'),
             'cicilan_15' => 'Rp ' . number_format($cicilan_15, 0, ',', '.'),
             'cicilan_20' => 'Rp ' . number_format($cicilan_20, 0, ',', '.'),
-            'fasilitas'  => [
+            'fasilitas'  => $tipe->fasilitas ?? [
                 'Listrik 2200W', 'Air PDAM', 'Kitchen Set',
                 'Carport 1 Mobil', 'Meja Dapur + Sink', 'Pagar Minimalis',
             ],
             'gambar'       => $tipe->gambar_url,
-            'gambar_list'  => $tipe->all_fotos, // Semua foto dari DB untuk gallery
+            'gambar_list'  => $tipe->all_fotos,
         ];
 
         return view('detail-rumah', compact('unit'));
