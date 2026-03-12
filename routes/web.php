@@ -16,8 +16,7 @@ Route::get('/login',                 [PageController::class, 'login'])->name('lo
 Route::post('/login',                [PageController::class, 'authenticate'])->name('login.post');
 Route::post('/logout',               [PageController::class, 'logout'])->name('logout');
 
-Route::get('/register',              [PageController::class, 'register'])->name('register');
-Route::post('/register',             [PageController::class, 'storeRegister'])->name('register.post');
+
 Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',          fn() => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');

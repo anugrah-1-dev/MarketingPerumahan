@@ -36,11 +36,6 @@ function showLoading(cols = 6) {
 // ──────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     loadAgents();
-
-    // Auto-generate slug dari input nama
-    document.getElementById('agentName').addEventListener('input', function () {
-        document.getElementById('agentSlug').value = slugify(this.value);
-    });
 });
 
 // ──────────────────────────────────────────────────────────────
@@ -84,18 +79,19 @@ function renderTable(agents) {
 
     tbody.innerHTML = '';
     agents.forEach(agent => {
-        const tr          = document.createElement('tr');
+        const tr = document.createElement('tr');
         const statusBadge = agent.aktif
             ? '<span class="badge success">Aktif</span>'
             : '<span class="badge danger">Nonaktif</span>';
 
-        const origin        = window.location.origin;
-        const affiliateLink = `${origin}/${agent.slug}`;
-        const emailRow      = agent.email ? `<div>${agent.email}</div>` : '';
-        const phoneRow      = agent.phone
+        const origin = window.location.origin;
+        const refCode = agent.user?.referral_code || agent.slug;
+        const affiliateLink = `${origin}/?ref=${refCode}`;
+        const emailRow = agent.email ? `<div>${agent.email}</div>` : '';
+        const phoneRow = agent.phone
             ? `<div style="color:#64748b;font-size:.875rem;">${agent.phone}</div>`
             : '';
-        const commission    = agent.commission != null ? `${agent.commission}%` : '—';
+        const commission = agent.commission != null ? `${agent.commission}%` : '—';
 
         tr.innerHTML = `
             <td>
@@ -115,7 +111,7 @@ function renderTable(agents) {
             <td>
                 <div style="display:flex;align-items:center;gap:.5rem;">
                     <code style="background:#f1f5f9;padding:.25rem .5rem;border-radius:.25rem;font-size:.875rem;">
-                        /${agent.slug}
+                        /?ref=${refCode}
                     </code>
                     <button class="btn-icon" onclick="copyLink('${affiliateLink}', event)" title="Salin link affiliate">
                         <i class="fas fa-copy"></i>
@@ -146,10 +142,14 @@ function renderTable(agents) {
 // Modal helpers
 // ──────────────────────────────────────────────────────────────
 function openAddAgentModal() {
-    document.getElementById('modalTitle').textContent = 'Tambah Agent';
+    document.getElementById('modalTitle').textContent = 'Tambah Affiliate';
     document.getElementById('agentForm').reset();
-    document.getElementById('agentId').value   = '';
-    document.getElementById('agentSlug').value = '';
+    document.getElementById('agentId').value = '';
+
+    // Reset password field UX for adding
+    document.getElementById('agentPassword').required = true;
+    document.getElementById('helpPasswordEdit').style.display = 'none';
+
     document.getElementById('agentModal').style.display = 'flex';
 }
 
@@ -160,20 +160,26 @@ function closeAgentModal() {
 
 async function editAgent(id) {
     try {
-        const resp   = await fetch('/admin/agents', { headers: { 'Accept': 'application/json' } });
+        const resp = await fetch('/admin/agents', { headers: { 'Accept': 'application/json' } });
         const agents = await resp.json();
-        const agent  = agents.find(a => a.id === id);
+        const agent = agents.find(a => a.id === id);
         if (!agent) { alert('Agent tidak ditemukan.'); return; }
 
-        document.getElementById('modalTitle').textContent     = 'Edit Agent';
-        document.getElementById('agentId').value              = agent.id;
-        document.getElementById('agentName').value            = agent.nama;
-        document.getElementById('agentJabatan').value         = agent.jabatan;
-        document.getElementById('agentEmail').value           = agent.email   ?? '';
-        document.getElementById('agentPhone').value           = agent.phone   ?? '';
-        document.getElementById('agentCommission').value      = agent.commission ?? '';
-        document.getElementById('agentSlug').value            = agent.slug;
-        document.getElementById('agentModal').style.display  = 'flex';
+        document.getElementById('modalTitle').textContent = 'Edit Affiliate';
+        document.getElementById('agentId').value = agent.id;
+        document.getElementById('agentName').value = agent.nama;
+        document.getElementById('agentJabatan').value = agent.jabatan;
+        document.getElementById('agentEmail').value = agent.email ?? '';
+        document.getElementById('agentPhone').value = agent.phone ?? '';
+        document.getElementById('agentCommission').value = agent.commission ?? '';
+
+
+        // Disable password requirement on edit
+        document.getElementById('agentPassword').value = '';
+        document.getElementById('agentPassword').required = false;
+        document.getElementById('helpPasswordEdit').style.display = 'block';
+
+        document.getElementById('agentModal').style.display = 'flex';
     } catch {
         alert('Gagal memuat data agent.');
     }
@@ -183,37 +189,38 @@ async function editAgent(id) {
 // CREATE / UPDATE
 // ──────────────────────────────────────────────────────────────
 async function saveAgent() {
-    const nama       = document.getElementById('agentName').value.trim();
-    const jabatan    = document.getElementById('agentJabatan').value.trim();
-    const email      = document.getElementById('agentEmail').value.trim();
-    const phone      = document.getElementById('agentPhone').value.trim();
+    const nama = document.getElementById('agentName').value.trim();
+    const jabatan = document.getElementById('agentJabatan').value.trim();
+    const email = document.getElementById('agentEmail').value.trim();
+    const phone = document.getElementById('agentPhone').value.trim();
+    const password = document.getElementById('agentPassword').value;
     const commission = document.getElementById('agentCommission').value;
-    const id         = document.getElementById('agentId').value;
+    const id = document.getElementById('agentId').value;
+    const isEdit = !!id;
 
-    if (!nama || !jabatan) {
-        alert('Nama dan Jabatan wajib diisi!');
+    if (!nama || !email || (!isEdit && !password)) {
+        alert('Nama, Email, dan Password wajib diisi!');
         return;
     }
 
     const btn = document.getElementById('saveBtn');
-    btn.disabled   = true;
-    btn.innerHTML  = '<i class="fas fa-spinner fa-spin"></i> Menyimpan…';
+    btn.disabled = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan…';
 
     try {
-        const isEdit = !!id;
-        const url    = isEdit ? `/admin/agents/${id}` : '/admin/agents';
+        const url = isEdit ? `/admin/agents/${id}` : '/admin/agents';
         const method = isEdit ? 'PUT' : 'POST';
 
-        const payload = { nama, jabatan };
-        if (email)      payload.email      = email;
-        if (phone)      payload.phone      = phone;
+        const payload = { nama, jabatan, email };
+        if (phone) payload.phone = phone;
+        if (password) payload.password = password;
         if (commission) payload.commission = parseFloat(commission);
 
         const resp = await fetch(url, {
             method,
             headers: {
                 'Content-Type': 'application/json',
-                'Accept':       'application/json',
+                'Accept': 'application/json',
                 'X-CSRF-TOKEN': getCsrf(),
             },
             body: JSON.stringify(payload),
@@ -233,7 +240,7 @@ async function saveAgent() {
     } catch {
         alert('Gagal menyimpan. Cek koneksi atau coba lagi.');
     } finally {
-        btn.disabled  = false;
+        btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
     }
 }
@@ -245,7 +252,7 @@ async function toggleStatus(id) {
     if (!confirm('Ubah status agent ini?')) return;
     try {
         const resp = await fetch(`/admin/agents/${id}/status`, {
-            method:  'PATCH',
+            method: 'PATCH',
             headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
         });
         if (!resp.ok) throw new Error();
@@ -262,7 +269,7 @@ async function deleteAgent(id) {
     if (!confirm('Hapus agent ini? Data tidak dapat dikembalikan!')) return;
     try {
         const resp = await fetch(`/admin/agents/${id}`, {
-            method:  'DELETE',
+            method: 'DELETE',
             headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
         });
         if (!resp.ok) throw new Error();
@@ -290,7 +297,7 @@ function copyLink(link, event) {
     navigator.clipboard.writeText(link).then(() => {
         const btn = event.target.closest('button');
         const ori = btn.innerHTML;
-        btn.innerHTML   = '<i class="fas fa-check"></i>';
+        btn.innerHTML = '<i class="fas fa-check"></i>';
         btn.style.color = '#10b981';
         setTimeout(() => { btn.innerHTML = ori; btn.style.color = ''; }, 2000);
     }).catch(() => alert('Gagal menyalin link.'));

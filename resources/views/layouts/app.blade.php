@@ -121,9 +121,8 @@
                     kami</a>
             </div>
 
-            <!-- Login Button -->
+            <!-- Login Button Removed -->
             <div class="hidden lg:flex items-center gap-4">
-                <a href="{{ route('login') }}" class="btn-primary text-sm">Masuk</a>
             </div>
 
             <!-- Mobile Hamburger -->
@@ -141,7 +140,7 @@
 
             <a href="#simulasi" class="text-[#393939] font-medium">Simulasi</a>
             <a href="#tentang" class="text-[#393939] font-medium">Tentang kami</a>
-            <a href="{{ route('login') }}" class="btn-primary text-center mt-2">Masuk</a>
+
         </div>
     </nav>
 

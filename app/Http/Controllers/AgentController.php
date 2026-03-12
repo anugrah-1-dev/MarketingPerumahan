@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Hash;
 
 class AgentController extends Controller
 {
@@ -16,7 +18,29 @@ class AgentController extends Controller
     public function index(Request $request)
     {
         if ($request->expectsJson()) {
-            $agents = Agent::orderBy('created_at', 'desc')->get();
+            // Ambil semua user dengan role affiliate
+            $users = User::where('role', 'affiliate')->with('agent')->orderBy('created_at', 'desc')->get();
+
+            // Map data agar sesuai struktur JS (seolah-olah model Agent)
+            $agents = $users->map(function ($user) {
+                $agent = $user->agent;
+                return [
+                    'id'         => $agent ? $agent->id : 'u-' . $user->id, // Use agent ID for edits, fallback to user ID
+                    'nama'       => $user->name,
+                    'jabatan'    => $agent ? $agent->jabatan : 'Affiliate',
+                    'email'      => $user->email,
+                    'phone'      => $agent ? $agent->phone : null,
+                    'commission' => $agent ? $agent->commission : 0,
+                    'slug'       => $agent ? $agent->slug : Str::slug($user->name),
+                    'aktif'      => $agent ? $agent->aktif : true,
+                    // Diperlukan JS untuk copy link
+                    'user'       => [
+                        'referral_code' => $user->referral_code
+                    ],
+                    'user_id'    => $user->id
+                ];
+            });
+
             return response()->json($agents);
         }
 
@@ -31,10 +55,23 @@ class AgentController extends Controller
     {
         $request->validate([
             'nama'       => 'required|string|max:100',
-            'jabatan'    => 'required|string|max:100',
-            'email'      => 'nullable|email|max:150',
+            'email'      => 'required|email|max:150|unique:users,email',
+            'password'   => 'required|string|min:6',
+            'jabatan'    => 'nullable|string|max:100', // hidden, default Affiliate
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:0|max:100',
+        ]);
+
+        // Auto-generate referral code using Model's method
+        $referralCode = User::generateReferralCode();
+
+        // Create the User account
+        $user = User::create([
+            'name'          => $request->nama,
+            'email'         => $request->email,
+            'password'      => Hash::make($request->password),
+            'role'          => 'affiliate',
+            'referral_code' => $referralCode,
         ]);
 
         // Auto-generate slug unik dari nama
@@ -47,8 +84,9 @@ class AgentController extends Controller
         }
 
         $agent = Agent::create([
+            'user_id'    => $user->id,
             'nama'       => $request->nama,
-            'jabatan'    => $request->jabatan,
+            'jabatan'    => $request->jabatan ?? 'Affiliate',
             'slug'       => $slug,
             'aktif'      => true,
             'email'      => $request->email,
@@ -69,8 +107,9 @@ class AgentController extends Controller
 
         $request->validate([
             'nama'       => 'required|string|max:100',
-            'jabatan'    => 'required|string|max:100',
-            'email'      => 'nullable|email|max:150',
+            'email'      => 'required|email|max:150|unique:users,email,' . ($agent->user_id ?? 'NULL'),
+            'password'   => 'nullable|string|min:6',
+            'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:0|max:100',
         ]);
@@ -88,11 +127,24 @@ class AgentController extends Controller
         }
 
         $agent->nama       = $request->nama;
-        $agent->jabatan    = $request->jabatan;
+        $agent->jabatan    = $request->jabatan ?? $agent->jabatan;
         $agent->email      = $request->email;
         $agent->phone      = $request->phone;
         $agent->commission = $request->commission ?? $agent->commission;
         $agent->save();
+
+        // Update related User account
+        if ($agent->user_id) {
+            $user = User::find($agent->user_id);
+            if ($user) {
+                $user->name  = $request->nama;
+                $user->email = $request->email;
+                if ($request->filled('password')) {
+                    $user->password = Hash::make($request->password);
+                }
+                $user->save();
+            }
+        }
 
         return response()->json($agent);
     }

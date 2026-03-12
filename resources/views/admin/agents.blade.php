@@ -48,7 +48,7 @@
     <div id="agentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Tambah Agent</h2>
+                <h2 id="modalTitle">Tambah Affiliate</h2>
                 <button class="close-btn" onclick="closeAgentModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
@@ -56,18 +56,22 @@
                     <input type="hidden" id="agentId">
 
                     <div class="form-group">
-                        <label for="agentName">Nama Agent *</label>
+                        <label for="agentName">Nama Lengkap *</label>
                         <input type="text" id="agentName" placeholder="Contoh: Budi Santoso" required>
                     </div>
 
-                    <div class="form-group">
-                        <label for="agentJabatan">Jabatan *</label>
-                        <input type="text" id="agentJabatan" placeholder="Contoh: Marketing Executive" required>
+                    <!-- Jabatan hidden (default to Affiliate in JS/Backend) -->
+                    <input type="hidden" id="agentJabatan" value="Affiliate">
+
+                    <div class="form-group" id="groupPassword">
+                        <label for="agentPassword">Password *</label>
+                        <input type="password" id="agentPassword" placeholder="Password untuk login Affiliate">
+                        <small style="color:#94a3b8; display:none;" id="helpPasswordEdit">Kosongkan jika tidak ingin mengubah password.</small>
                     </div>
 
                     <div class="form-group">
-                        <label for="agentEmail">Email</label>
-                        <input type="email" id="agentEmail" placeholder="agent@email.com">
+                        <label for="agentEmail">Email *</label>
+                        <input type="email" id="agentEmail" placeholder="affiliate@email.com" required>
                     </div>
 
                     <div class="form-group">
@@ -75,19 +79,10 @@
                         <input type="tel" id="agentPhone" placeholder="Contoh: 081234567890">
                     </div>
 
-                    <div class="form-group">
-                        <label for="agentCommission">Komisi (%)</label>
-                        <input type="number" id="agentCommission" min="0" max="100" step="0.5" placeholder="Contoh: 2.5">
-                    </div>
+                    <!-- Commission hidden (default to 0 in Backend) -->
+                    <input type="hidden" id="agentCommission" value="0">
 
-                    <div class="form-group">
-                        <label>Slug (URL) — otomatis dari nama</label>
-                        <div style="display:flex; align-items:center; gap:.5rem;">
-                            <span style="color:#64748b; font-size:.875rem;">{{ url('/') }}/</span>
-                            <input type="text" id="agentSlug" style="flex:1;" readonly>
-                        </div>
-                        <small style="color:#94a3b8;">Digunakan sebagai link landing page agent.</small>
-                    </div>
+
                 </form>
             </div>
             <div class="modal-footer">
