@@ -148,12 +148,21 @@
                 </div>
 
                 {{-- Contact --}}
+                @php
+                    $waRawDetail = $agent['wa'] ?? '6283876766055';
+                    $waNomorDetail = preg_replace('/\D/', '', $waRawDetail);
+                    $waNomorDetail = preg_replace('/^0/', '62', $waNomorDetail);
+                    if (!str_starts_with($waNomorDetail, '62')) { $waNomorDetail = '62' . $waNomorDetail; }
+                    $waNamaDetail = $agent['nama'] ?? 'Admin';
+                    $waPesanDetail = urlencode("Halo, saya tertarik dengan unit " . $unit['nama'] . " di Bukit Shangrilla Asri.");
+                    $waUrlDetail = "https://wa.me/{$waNomorDetail}?text={$waPesanDetail}";
+                @endphp
                 <div class="bg-[#393939] rounded-[20px] p-6 text-white">
                     <h3 class="font-bold mb-2">Butuh Bantuan?</h3>
                     <p class="text-gray-300 text-sm mb-4">Tim kami siap membantu Anda memilih unit terbaik.</p>
-                    <a href="https://wa.me/6212345678909" target="_blank"
+                    <a href="{{ $waUrlDetail }}" target="_blank"
                         class="block bg-white text-[#393939] text-center font-semibold rounded-[25px] py-3 hover:bg-gray-100 transition-colors">
-                        📞 Hubungi via WhatsApp
+                        📞 Chat {{ $waNamaDetail }} via WhatsApp
                     </a>
                 </div>
             </div>

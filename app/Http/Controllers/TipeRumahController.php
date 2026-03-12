@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\TipeRumah;
 use App\Models\TipeRumahFoto;
+use App\Models\Agent;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Storage;
 
 class TipeRumahController extends Controller
@@ -195,6 +197,12 @@ class TipeRumahController extends Controller
             'gambar_list'  => $tipe->all_fotos,
         ];
 
-        return view('detail-rumah', compact('unit'));
+        // Baca agent dari session (di-set saat kunjungi /{slug} atau /ref/{code})
+        $agent = [
+            'nama' => session('agent_nama', 'Admin'),
+            'wa'   => session('agent_phone', Setting::get('wa_admin', '6283876766055')),
+        ];
+
+        return view('detail-rumah', compact('unit', 'agent'));
     }
 }

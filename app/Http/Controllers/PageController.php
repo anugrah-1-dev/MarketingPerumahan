@@ -57,6 +57,13 @@ class PageController extends Controller
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
         $semuaTipeRumah  = TipeRumah::latest()->get();
 
+        // Catat agent ke session agar tersedia di halaman detail
+        session([
+            'agent_slug'  => $agentModel->slug,
+            'agent_phone' => $agentModel->phone ?? Setting::get('wa_admin', '6283876766055'),
+            'agent_nama'  => $agentModel->nama,
+        ]);
+
         return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah'));
     }
 
