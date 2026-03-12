@@ -100,7 +100,7 @@
     <nav class="w-full bg-transparent z-50" id="mainNav">
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] flex items-center justify-between py-6">
             <a href="{{ route('landing') }}" class="flex items-center gap-3">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-10 w-auto object-contain">
+                <img src="{{ asset('assets/images/logo.jpeg') }}" alt="Logo" class="h-10 w-auto object-contain">
                 <div class="flex items-baseline text-[#2d4a22]">
                     <span class="text-[18px] sm:text-[22px] font-medium tracking-wide uppercase">Bukit</span>
                     <span class="text-[26px] sm:text-[32px] font-bold tracking-wider uppercase ml-1.5 mr-1.5">Shangrilla</span>

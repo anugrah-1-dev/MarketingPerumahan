@@ -52,7 +52,7 @@
             <div class="w-full lg:w-1/2 relative flex justify-center">
                 <div class="absolute right-0 top-[-20px] w-[90%] h-[105%] bg-[#D9D9D9] rounded-[20px] z-0 hidden lg:block">
                 </div>
-                <img src="{{ asset('images/hero.png') }}"
+                <img src="{{ asset('assets/images/hero.png') }}"
                     onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80';this.onerror=null;"
                     alt="Rumah Impian"
                     class="relative z-10 w-[85%] lg:w-[95%] rounded-[15px] object-cover shadow-2xl hover:scale-[1.01] transition-transform duration-700">
