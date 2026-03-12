@@ -77,11 +77,10 @@ Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affili
 });
 
 Route::get('/tipe-rumah',            [TipeRumahController::class, 'publicIndex'])->name('tipe-rumah.publik');
+Route::get('/tipe-rumah/{id}/detail', [TipeRumahController::class, 'publicDetail'])->name('tipe-rumah.detail');
 Route::get('/unit-tersedia',         [TipeRumahController::class, 'publicIndex'])->name('unit-tersedia');
 Route::get('/site-plan',             [PageController::class, 'sitePlan'])->name('site-plan');
 Route::get('/detail-rumah/{blok?}',  [PageController::class, 'detailRumah'])->name('detail-rumah');
-Route::get('/booking/{blok?}',       [PageController::class, 'formBooking'])->name('form-booking');
-Route::post('/booking',              [PageController::class, 'storeBooking'])->name('store-booking');
 
 // Catat klik WA (publik, tanpa auth)
 Route::post('/wa-click',             [TrackingController::class, 'record'])->name('wa-click.record');

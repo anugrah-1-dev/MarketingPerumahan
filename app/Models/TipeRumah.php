@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\TipeRumahFoto;
+
 class TipeRumah extends Model
 {
     protected $table = 'tipe_rumah';
@@ -12,6 +14,11 @@ class TipeRumah extends Model
         'nama_tipe',
         'luas_bangunan',
         'luas_tanah',
+        'kamar_tidur',
+        'kamar_mandi',
+        'lantai',
+        'sertifikat',
+        'fasilitas',
         'harga',
         'harga_diskon',
         'is_diskon',
@@ -22,6 +29,7 @@ class TipeRumah extends Model
 
     protected $casts = [
         'is_diskon' => 'boolean',
+        'fasilitas' => 'array',
     ];
 
     /**
@@ -56,5 +64,35 @@ class TipeRumah extends Model
     public function scopeDiskon($query)
     {
         return $query->where('is_diskon', true);
+    }
+
+    /**
+     * Relasi ke foto-foto tambahan
+     */
+    public function fotos()
+    {
+        return $this->hasMany(TipeRumahFoto::class, 'tipe_rumah_id')->orderBy('urutan');
+    }
+
+    /**
+     * Semua foto: foto utama (gambar) + foto tambahan dari relasi
+     */
+    public function getAllFotosAttribute(): array
+    {
+        $urls = [];
+
+        // Foto utama dari kolom gambar
+        if ($this->gambar && file_exists(storage_path('app/public/' . $this->gambar))) {
+            $urls[] = ['url' => asset('storage/' . $this->gambar), 'keterangan' => 'Foto Utama'];
+        } else {
+            $urls[] = ['url' => 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', 'keterangan' => 'Foto Utama'];
+        }
+
+        // Foto tambahan dari tabel relasi
+        foreach ($this->fotos as $foto) {
+            $urls[] = ['url' => $foto->url, 'keterangan' => $foto->keterangan ?? 'Foto Tambahan'];
+        }
+
+        return $urls;
     }
 }

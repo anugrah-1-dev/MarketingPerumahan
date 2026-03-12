@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Bukit Shangrilla Asri') – Pilihan Rumah Terbaik</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,10 +85,6 @@
             color: #065F46;
         }
 
-        .status-booking {
-            background: #FEF3C7;
-            color: #92400E;
-        }
 
         .status-terjual {
             background: #FEE2E2;
@@ -102,20 +99,24 @@
     <!-- ====== NAVBAR ====== -->
     <nav class="w-full bg-transparent z-50" id="mainNav">
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] flex items-center justify-between py-6">
-            <a href="{{ route('landing') }}" class="text-[#393939] text-2xl font-bold tracking-wide">
-                Bukit <span class="text-[#393939]">Shangrilla Asri</span>
+            <a href="{{ route('landing') }}" class="flex items-center gap-3">
+                <img src="{{ asset('assets/images/logo.jpeg') }}" alt="Logo" class="h-10 w-auto object-contain">
+                <div class="flex items-baseline text-[#2d4a22]">
+                    <span class="text-[18px] sm:text-[22px] font-medium tracking-wide uppercase">Bukit</span>
+                    <span class="text-[26px] sm:text-[32px] font-bold tracking-wider uppercase ml-1.5 mr-1.5">Shangrilla</span>
+                    <span class="text-[14px] sm:text-[18px] font-medium tracking-wide uppercase">Asri</span>
+                </div>
             </a>
 
             <!-- Desktop Nav Links -->
             <div class="hidden lg:flex items-center gap-10">
                 <a href="{{ route('landing') }}"
                     class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('landing') ? 'font-bold underline underline-offset-4' : '' }}">Home</a>
-                <a href="{{ route('unit-tersedia') }}"
-                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('unit-tersedia') ? 'font-bold underline underline-offset-4' : '' }}">Unit
-                    tersedia</a>
+                <a href="{{ route('tipe-rumah.publik') }}"
+                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('tipe-rumah.publik') ? 'font-bold underline underline-offset-4' : '' }}">Tipe
+                    Rumah</a>
 
-                <a href="#simulasi"
-                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Simulasi</a>
+
                 <a href="#tentang"
                     class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Tentang
                     kami</a>
@@ -136,9 +137,9 @@
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden lg:hidden bg-white shadow-lg px-6 py-4 flex flex-col gap-4">
             <a href="{{ route('landing') }}" class="text-[#393939] font-medium">Home</a>
-            <a href="{{ route('unit-tersedia') }}" class="text-[#393939] font-medium">Unit tersedia</a>
+            <a href="{{ route('tipe-rumah.publik') }}" class="text-[#393939] font-medium">Tipe Rumah</a>
 
-            <a href="#simulasi" class="text-[#393939] font-medium">Simulasi</a>
+
             <a href="#tentang" class="text-[#393939] font-medium">Tentang kami</a>
 
         </div>

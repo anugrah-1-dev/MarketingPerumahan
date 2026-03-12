@@ -18,11 +18,11 @@ class PageController extends Controller
      */
     public function landing()
     {
-        $agentModel = Agent::aktif()->first();
-
+        // Homepage langsung (/) → tampilkan "Admin", bukan agent tertentu
         $agent = [
-            'nama'    => $agentModel?->nama    ?? 'Tim Kami',
-            'jabatan' => $agentModel?->jabatan ?? 'Marketing',
+            'nama'    => 'Admin',
+            'jabatan' => 'Marketing',
+            'slug'    => null,
             'wa'      => Setting::get('wa_admin', '6283876766055'),
         ];
 
@@ -56,6 +56,13 @@ class PageController extends Controller
 
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
         $semuaTipeRumah  = TipeRumah::latest()->get();
+
+        // Catat agent ke session agar tersedia di halaman detail
+        session([
+            'agent_slug'  => $agentModel->slug,
+            'agent_phone' => $agentModel->phone ?? Setting::get('wa_admin', '6283876766055'),
+            'agent_nama'  => $agentModel->nama,
+        ]);
 
         return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah'));
     }
@@ -166,27 +173,6 @@ class PageController extends Controller
         return view('detail-rumah', compact('unit'));
     }
 
-    public function formBooking($blok = 'C3')
-    {
-        return view('form-booking', ['blok' => $blok]);
-    }
-
-    public function storeBooking(Request $request)
-    {
-        $request->validate([
-            'nama_lengkap'  => 'required|string|max:255',
-            'email'         => 'required|email',
-            'no_ktp'        => 'required|string|max:20',
-            'no_whatsapp'   => 'required|string|max:20',
-            'alamat'        => 'required|string',
-            'status_pekerjaan' => 'required|string',
-            'penghasilan'   => 'required|string',
-        ]);
-
-        // TODO: simpan ke database
-        return redirect()->route('landing')->with('success', 'Booking berhasil! Tim kami akan segera menghubungi Anda.');
-    }
-
     // -------------------------------------------------------
     // Data dummy – nanti bisa diganti dengan query Eloquent
     // -------------------------------------------------------
@@ -203,26 +189,26 @@ class PageController extends Controller
             ['blok'=>'A1','tipe'=>'Tipe 36/72', 'status'=>'tersedia','harga_raw'=>310_000_000],
             ['blok'=>'A2','tipe'=>'Tipe 45/90', 'status'=>'terjual', 'harga_raw'=>390_000_000],
             ['blok'=>'A3','tipe'=>'Tipe 36/72', 'status'=>'tersedia','harga_raw'=>310_000_000],
-            ['blok'=>'A4','tipe'=>'Tipe 54/108','status'=>'booking', 'harga_raw'=>450_000_000],
+            ['blok'=>'A4','tipe'=>'Tipe 54/108','status'=>'tersedia', 'harga_raw'=>450_000_000],
             ['blok'=>'A5','tipe'=>'Tipe 45/90', 'status'=>'tersedia','harga_raw'=>390_000_000],
             ['blok'=>'A6','tipe'=>'Tipe 36/72', 'status'=>'terjual', 'harga_raw'=>310_000_000],
             // Blok B
             ['blok'=>'B1','tipe'=>'Tipe 54/108','status'=>'tersedia','harga_raw'=>450_000_000],
             ['blok'=>'B2','tipe'=>'Tipe 36/72', 'status'=>'tersedia','harga_raw'=>310_000_000],
             ['blok'=>'B3','tipe'=>'Tipe 45/90', 'status'=>'tersedia','harga_raw'=>390_000_000],
-            ['blok'=>'B4','tipe'=>'Tipe 36/72', 'status'=>'booking', 'harga_raw'=>310_000_000],
+            ['blok'=>'B4','tipe'=>'Tipe 36/72', 'status'=>'tersedia', 'harga_raw'=>310_000_000],
             ['blok'=>'B5','tipe'=>'Tipe 54/108','status'=>'terjual', 'harga_raw'=>450_000_000],
             ['blok'=>'B6','tipe'=>'Tipe 45/90', 'status'=>'tersedia','harga_raw'=>390_000_000],
             // Blok C
             ['blok'=>'C1','tipe'=>'Tipe 36/72', 'status'=>'tersedia','harga_raw'=>310_000_000],
             ['blok'=>'C2','tipe'=>'Tipe 45/90', 'status'=>'tersedia','harga_raw'=>390_000_000],
-            ['blok'=>'C3','tipe'=>'Tipe 54/108','status'=>'booking', 'harga_raw'=>450_000_000],
+            ['blok'=>'C3','tipe'=>'Tipe 54/108','status'=>'tersedia', 'harga_raw'=>450_000_000],
             ['blok'=>'C4','tipe'=>'Tipe 36/72', 'status'=>'terjual', 'harga_raw'=>310_000_000],
             ['blok'=>'C5','tipe'=>'Tipe 45/90', 'status'=>'tersedia','harga_raw'=>390_000_000],
             ['blok'=>'C6','tipe'=>'Tipe 54/108','status'=>'tersedia','harga_raw'=>450_000_000],
             // Blok D
             ['blok'=>'D1','tipe'=>'Tipe 45/90', 'status'=>'tersedia','harga_raw'=>390_000_000],
-            ['blok'=>'D2','tipe'=>'Tipe 36/72', 'status'=>'booking', 'harga_raw'=>310_000_000],
+            ['blok'=>'D2','tipe'=>'Tipe 36/72', 'status'=>'tersedia', 'harga_raw'=>310_000_000],
             ['blok'=>'D3','tipe'=>'Tipe 54/108','status'=>'tersedia','harga_raw'=>450_000_000],
             ['blok'=>'D4','tipe'=>'Tipe 45/90', 'status'=>'terjual', 'harga_raw'=>390_000_000],
             ['blok'=>'D5','tipe'=>'Tipe 36/72', 'status'=>'tersedia','harga_raw'=>310_000_000],

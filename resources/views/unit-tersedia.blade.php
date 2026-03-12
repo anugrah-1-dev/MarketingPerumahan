@@ -40,16 +40,15 @@
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pt-10 pb-6">
         <p class="text-[#676767] text-[14px] font-medium uppercase tracking-widest mb-2">Bukit Shangrilla Asri</p>
         <h1 class="text-[#393939] text-[32px] lg:text-[44px] font-bold mb-2">Unit Perumahan Tersedia</h1>
-        <p class="text-[#676767] text-[16px]">Pilih unit favoritmu dan segera lakukan booking sebelum kehabisan.</p>
+        <p class="text-[#676767] text-[16px]">Pilih unit favoritmu dan segera hubungi kami sebelum kehabisan.</p>
     </section>
 
     {{-- Summary Stats --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-6">
             @foreach ([
                 ['label' => 'Total Unit',  'value' => '86', 'color' => 'bg-[#393939] text-white'],
-                ['label' => 'Tersedia',    'value' => '40', 'color' => 'bg-[#D1FAE5] text-[#065F46]'],
-                ['label' => 'Booking',     'value' => '26', 'color' => 'bg-[#FEF3C7] text-[#92400E]'],
+                ['label' => 'Tersedia',    'value' => '66', 'color' => 'bg-[#D1FAE5] text-[#065F46]'],
                 ['label' => 'Terjual',     'value' => '20', 'color' => 'bg-[#FEE2E2] text-[#991B1B]'],
             ] as $s)
                 <div class="rounded-[20px] {{ $s['color'] }} p-5 text-center shadow-sm">
@@ -65,7 +64,6 @@
         <span class="text-[#393939] font-semibold text-sm mr-1">Filter:</span>
         <button class="filter-btn active" data-filter="semua">Semua</button>
         <button class="filter-btn" data-filter="tersedia">Tersedia</button>
-        <button class="filter-btn" data-filter="booking">Booking</button>
         <button class="filter-btn" data-filter="terjual">Terjual</button>
     </section>
 
@@ -77,30 +75,30 @@
             $allUnits = [
                 ['blok'=>'A1','tipe'=>'Tipe 36/72', 'harga'=>'Rp 310.000.000','status'=>'tersedia','kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80'],
                 ['blok'=>'A2','tipe'=>'Tipe 36/72', 'harga'=>'Rp 312.000.000','status'=>'tersedia','kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80'],
-                ['blok'=>'A3','tipe'=>'Tipe 36/72', 'harga'=>'Rp 315.000.000','status'=>'booking', 'kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80'],
+                ['blok'=>'A3','tipe'=>'Tipe 36/72', 'harga'=>'Rp 315.000.000','status'=>'tersedia', 'kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80'],
                 ['blok'=>'A4','tipe'=>'Tipe 36/72', 'harga'=>'Rp 310.000.000','status'=>'terjual','kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80'],
                 ['blok'=>'B1','tipe'=>'Tipe 45/90', 'harga'=>'Rp 390.000.000','status'=>'tersedia','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80'],
                 ['blok'=>'B2','tipe'=>'Tipe 45/90', 'harga'=>'Rp 392.000.000','status'=>'tersedia','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80'],
-                ['blok'=>'B3','tipe'=>'Tipe 45/90', 'harga'=>'Rp 395.000.000','status'=>'booking', 'kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'],
+                ['blok'=>'B3','tipe'=>'Tipe 45/90', 'harga'=>'Rp 395.000.000','status'=>'tersedia', 'kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'],
                 ['blok'=>'B4','tipe'=>'Tipe 45/90', 'harga'=>'Rp 390.000.000','status'=>'tersedia','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80'],
                 ['blok'=>'B5','tipe'=>'Tipe 45/90', 'harga'=>'Rp 390.000.000','status'=>'terjual','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80'],
                 ['blok'=>'C1','tipe'=>'Tipe 54/108','harga'=>'Rp 450.000.000','status'=>'tersedia','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80'],
                 ['blok'=>'C2','tipe'=>'Tipe 54/108','harga'=>'Rp 455.000.000','status'=>'tersedia','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80'],
-                ['blok'=>'C3','tipe'=>'Tipe 54/108','harga'=>'Rp 350.000.000','status'=>'booking', 'kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80'],
+                ['blok'=>'C3','tipe'=>'Tipe 54/108','harga'=>'Rp 350.000.000','status'=>'tersedia', 'kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80'],
                 ['blok'=>'C4','tipe'=>'Tipe 54/108','harga'=>'Rp 460.000.000','status'=>'tersedia','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80'],
                 ['blok'=>'C5','tipe'=>'Tipe 54/108','harga'=>'Rp 462.000.000','status'=>'terjual','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80'],
                 ['blok'=>'D1','tipe'=>'Tipe 60/120','harga'=>'Rp 520.000.000','status'=>'tersedia','kt'=>4,'km'=>2,'img'=>'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80'],
                 ['blok'=>'D2','tipe'=>'Tipe 60/120','harga'=>'Rp 525.000.000','status'=>'tersedia','kt'=>4,'km'=>2,'img'=>'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'],
-                ['blok'=>'D3','tipe'=>'Tipe 60/120','harga'=>'Rp 530.000.000','status'=>'booking', 'kt'=>4,'km'=>2,'img'=>'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80'],
+                ['blok'=>'D3','tipe'=>'Tipe 60/120','harga'=>'Rp 530.000.000','status'=>'tersedia', 'kt'=>4,'km'=>2,'img'=>'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80'],
                 ['blok'=>'D4','tipe'=>'Tipe 60/120','harga'=>'Rp 520.000.000','status'=>'terjual','kt'=>4,'km'=>2,'img'=>'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80'],
                 ['blok'=>'D5','tipe'=>'Tipe 60/120','harga'=>'Rp 535.000.000','status'=>'tersedia','kt'=>4,'km'=>2,'img'=>'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80'],
                 ['blok'=>'E1','tipe'=>'Tipe 70/140','harga'=>'Rp 620.000.000','status'=>'tersedia','kt'=>4,'km'=>3,'img'=>'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80'],
                 ['blok'=>'E2','tipe'=>'Tipe 70/140','harga'=>'Rp 625.000.000','status'=>'tersedia','kt'=>4,'km'=>3,'img'=>'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80'],
-                ['blok'=>'E3','tipe'=>'Tipe 70/140','harga'=>'Rp 630.000.000','status'=>'booking', 'kt'=>4,'km'=>3,'img'=>'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80'],
+                ['blok'=>'E3','tipe'=>'Tipe 70/140','harga'=>'Rp 630.000.000','status'=>'tersedia', 'kt'=>4,'km'=>3,'img'=>'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80'],
                 ['blok'=>'E4','tipe'=>'Tipe 70/140','harga'=>'Rp 620.000.000','status'=>'terjual','kt'=>4,'km'=>3,'img'=>'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80'],
                 ['blok'=>'F1','tipe'=>'Tipe 36/72', 'harga'=>'Rp 308.000.000','status'=>'tersedia','kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80'],
                 ['blok'=>'F2','tipe'=>'Tipe 36/72', 'harga'=>'Rp 308.000.000','status'=>'tersedia','kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80'],
-                ['blok'=>'F3','tipe'=>'Tipe 36/72', 'harga'=>'Rp 309.000.000','status'=>'booking', 'kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'],
+                ['blok'=>'F3','tipe'=>'Tipe 36/72', 'harga'=>'Rp 309.000.000','status'=>'tersedia', 'kt'=>2,'km'=>1,'img'=>'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80'],
                 ['blok'=>'G1','tipe'=>'Tipe 45/90', 'harga'=>'Rp 388.000.000','status'=>'tersedia','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&q=80'],
                 ['blok'=>'G2','tipe'=>'Tipe 45/90', 'harga'=>'Rp 390.000.000','status'=>'tersedia','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&q=80'],
                 ['blok'=>'G3','tipe'=>'Tipe 45/90', 'harga'=>'Rp 395.000.000','status'=>'terjual','kt'=>3,'km'=>2,'img'=>'https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80'],
@@ -123,7 +121,7 @@
                             <img src="{{ $u['img'] }}" alt="Unit {{ $u['blok'] }}"
                                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <span class="absolute top-3 left-3 text-xs font-semibold px-3 py-1 rounded-full capitalize
-                                {{ $u['status'] === 'tersedia' ? 'status-tersedia' : ($u['status'] === 'booking' ? 'status-booking' : 'status-terjual') }}">
+                                {{ $u['status'] === 'tersedia' ? 'status-tersedia' : 'status-terjual' }}">
                                 {{ ucfirst($u['status']) }}
                             </span>
                         </div>

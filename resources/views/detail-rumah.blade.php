@@ -10,7 +10,7 @@
         <nav class="text-sm text-[#676767] mb-8 flex items-center gap-2">
             <a href="{{ route('landing') }}" class="hover:text-[#393939]">Home</a>
             <span>/</span>
-            <a href="{{ route('unit-tersedia') }}" class="hover:text-[#393939]">Unit Tersedia</a>
+            <a href="{{ route('tipe-rumah.publik') }}" class="hover:text-[#393939]">Tipe Rumah</a>
             <span>/</span>
             <span class="text-[#393939] font-medium">Blok {{ $unit['blok'] }}</span>
         </nav>
@@ -24,7 +24,7 @@
             </div>
             <span
                 class="self-start lg:self-auto text-sm font-semibold px-4 py-2 rounded-full
-            {{ $unit['status'] === 'Tersedia' ? 'status-tersedia' : ($unit['status'] === 'Booking' ? 'status-booking' : 'status-terjual') }}">
+            {{ $unit['status'] === 'Tersedia' ? 'status-tersedia' : 'status-terjual' }}">
                 {{ $unit['status'] }}
             </span>
         </div>
@@ -38,27 +38,23 @@
                 <div class="bg-white rounded-[20px] p-6 shadow-sm">
                     <p class="text-xs text-[#676767] mb-3">Tampilan rumah dari berbagai sisi untuk membantu Anda melihat
                         detail desain dan kualitas bangunan.</p>
+                    @php
+                        $fotos = $unit['gambar_list'] ?? [
+                            ['url' => isset($unit['gambar']) ? $unit['gambar'] : 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', 'keterangan' => 'Foto Utama'],
+                            ['url' => 'https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80', 'keterangan' => 'Tampak Dalam'],
+                            ['url' => 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80', 'keterangan' => 'Tipe Jenis'],
+                            ['url' => 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80', 'keterangan' => 'Area Sekitar'],
+                        ];
+                    @endphp
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div>
-                            <p class="text-sm font-semibold text-[#393939] mb-2">Tampak Depan</p>
-                            <img src="https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80"
-                                alt="Tampak Depan" class="w-full h-[200px] object-cover rounded-[12px]">
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-[#393939] mb-2">Tampak Dalam</p>
-                            <img src="https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&q=80"
-                                alt="Tampak Dalam" class="w-full h-[200px] object-cover rounded-[12px]">
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-[#393939] mb-2">Tipe Jenis</p>
-                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&q=80"
-                                alt="Tipe Jenis" class="w-full h-[200px] object-cover rounded-[12px]">
-                        </div>
-                        <div>
-                            <p class="text-sm font-semibold text-[#393939] mb-2">Area Sekitar</p>
-                            <img src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=600&q=80"
-                                alt="Area Sekitar" class="w-full h-[200px] object-cover rounded-[12px]">
-                        </div>
+                        @foreach($fotos as $foto)
+                            <div>
+                                <p class="text-sm font-semibold text-[#393939] mb-2">{{ $foto['keterangan'] }}</p>
+                                <img src="{{ $foto['url'] }}"
+                                    alt="{{ $foto['keterangan'] }}"
+                                    class="w-full h-[200px] object-cover rounded-[12px]">
+                            </div>
+                        @endforeach
                     </div>
                 </div>
 
@@ -89,7 +85,7 @@
                 </div>
             </div>
 
-            {{-- ====== RIGHT: Harga & Booking ====== --}}
+            {{-- ====== RIGHT: Harga & Action ====== --}}
             <div class="space-y-6">
 
                 {{-- Harga --}}
@@ -108,13 +104,10 @@
 
                     <p class="text-xs text-[#676767] mb-5">Skema KPR: Cicilan jangka panjang dengan bank</p>
 
-                    @if ($unit['status'] === 'Tersedia')
-                        <a href="{{ route('form-booking', $unit['blok']) }}"
-                            class="btn-primary w-full block text-center py-3">Booking Sekarang</a>
-                    @else
+                    @if ($unit['status'] !== 'Tersedia')
                         <button
                             class="w-full bg-gray-200 text-gray-400 rounded-[25px] py-3 font-semibold cursor-not-allowed">
-                            {{ $unit['status'] === 'Terjual' ? 'Unit Sudah Terjual' : 'Sedang Dalam Proses Booking' }}
+                            Unit Sudah Terjual
                         </button>
                     @endif
                 </div>
@@ -155,12 +148,21 @@
                 </div>
 
                 {{-- Contact --}}
+                @php
+                    $waRawDetail = $agent['wa'] ?? '6283876766055';
+                    $waNomorDetail = preg_replace('/\D/', '', $waRawDetail);
+                    $waNomorDetail = preg_replace('/^0/', '62', $waNomorDetail);
+                    if (!str_starts_with($waNomorDetail, '62')) { $waNomorDetail = '62' . $waNomorDetail; }
+                    $waNamaDetail = $agent['nama'] ?? 'Admin';
+                    $waPesanDetail = urlencode("Halo, saya tertarik dengan unit " . $unit['nama'] . " di Bukit Shangrilla Asri.");
+                    $waUrlDetail = "https://wa.me/{$waNomorDetail}?text={$waPesanDetail}";
+                @endphp
                 <div class="bg-[#393939] rounded-[20px] p-6 text-white">
                     <h3 class="font-bold mb-2">Butuh Bantuan?</h3>
                     <p class="text-gray-300 text-sm mb-4">Tim kami siap membantu Anda memilih unit terbaik.</p>
-                    <a href="https://wa.me/6212345678909" target="_blank"
+                    <a href="{{ $waUrlDetail }}" target="_blank"
                         class="block bg-white text-[#393939] text-center font-semibold rounded-[25px] py-3 hover:bg-gray-100 transition-colors">
-                        📞 Hubungi via WhatsApp
+                        📞 Chat {{ $waNamaDetail }} via WhatsApp
                     </a>
                 </div>
             </div>

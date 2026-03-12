@@ -25,7 +25,7 @@
     @else
     <div class="tr-grid">
         @foreach($tipeRumah as $t)
-        <div class="tr-card">
+        <a href="{{ route('tipe-rumah.detail', $t->id) }}" class="tr-card block" style="text-decoration: none; color: inherit; display: block;">
             <div class="tr-card-img">
                 <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}">
 
@@ -61,7 +61,7 @@
                     <p class="tr-card-desc">{{ $t->deskripsi }}</p>
                 @endif
             </div>
-        </div>
+        </a>
         @endforeach
     </div>
     @endif

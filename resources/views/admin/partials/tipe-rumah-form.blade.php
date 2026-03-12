@@ -41,6 +41,47 @@
             class="form-input" required>
     </div>
 
+    {{-- Kamar Tidur, Kamar Mandi, Lantai --}}
+    <div class="tr-form-row-3">
+        <div class="form-group">
+            <label>Kamar Tidur <span class="req">*</span></label>
+            <input type="number" name="kamar_tidur" min="1" placeholder="2" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label>Kamar Mandi <span class="req">*</span></label>
+            <input type="number" name="kamar_mandi" min="1" placeholder="1" class="form-input" required>
+        </div>
+        <div class="form-group">
+            <label>Lantai <span class="req">*</span></label>
+            <input type="number" name="lantai" min="1" placeholder="1" class="form-input" required>
+        </div>
+    </div>
+
+    {{-- Sertifikat --}}
+    <div class="form-group">
+        <label>Sertifikat</label>
+        <select name="sertifikat" class="form-input">
+            <option value="SHM">SHM</option>
+            <option value="HGB">HGB</option>
+            <option value="SHMilik">SHMilik</option>
+            <option value="Girik">Girik</option>
+        </select>
+    </div>
+
+    {{-- Fasilitas (dinamis) --}}
+    <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <label style="margin-bottom:0">Fasilitas</label>
+            <button type="button" onclick="trAddFasilitas()" title="Tambah fasilitas"
+                style="display:flex;align-items:center;gap:5px;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:5px 13px;font-size:13px;font-weight:600;cursor:pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Tambah
+            </button>
+        </div>
+        <div id="fasilitasList" style="display:flex;flex-direction:column;gap:6px;"></div>
+        <p class="tr-file-hint">Contoh: Listrik 2200W, Air PDAM, Kitchen Set...</p>
+    </div>
+
     {{-- Deskripsi --}}
     <div class="form-group">
         <label>Deskripsi</label>
@@ -48,17 +89,31 @@
             class="form-input"></textarea>
     </div>
 
-    {{-- Upload Foto --}}
+    {{-- ── Foto Utama ─────────────────────────────── --}}
     <div class="form-group">
-        <label>Foto Rumah</label>
+        <label>Foto Utama</label>
         <input type="file" name="gambar" accept="image/*" class="tr-file-input">
-        <p class="tr-file-hint">Format: JPG, PNG, WebP. Maksimal 2MB.</p>
+        <p class="tr-file-hint">Format: JPG, PNG, WebP. Maks 2MB.</p>
+    </div>
+
+    {{-- ── Foto Tambahan (dinamis) ─────────────────── --}}
+    <div class="form-group">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+            <label style="margin-bottom:0">Foto Tambahan</label>
+            <button type="button" onclick="trAddFotoSlot()" title="Tambah foto"
+                style="display:flex;align-items:center;gap:5px;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:5px 13px;font-size:13px;font-weight:600;cursor:pointer;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Tambah Foto
+            </button>
+        </div>
+        <div id="fotoTambahanList" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <p class="tr-file-hint">Klik "+ Tambah Foto" untuk foto-foto tambahan (opsional).</p>
     </div>
 
     {{-- Checkbox Diskon --}}
     <div class="form-group">
         <label class="tr-checkbox-wrap">
-            <input type="checkbox" name="is_diskon" id="is_diskon_form" value="1">
+            <input type="checkbox" name="is_diskon" value="1">
             <span>Tampilkan sebagai <span class="highlight">Tipe Diskon</span> di homepage</span>
         </label>
     </div>
