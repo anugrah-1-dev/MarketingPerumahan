@@ -197,6 +197,8 @@ class AgentController extends Controller
         $agent->delete();
 
         return response()->json(['message' => 'Agent berhasil dihapus.']);
+    }
+
     /**
      * PATCH /admin/agents/{id}/status
      * Toggle kolom `aktif` (aktif ↔ nonaktif).
