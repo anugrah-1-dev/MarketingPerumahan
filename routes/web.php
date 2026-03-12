@@ -59,8 +59,8 @@ Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affili
     Route::get('/dashboard', [AffiliateController::class, 'dashboard'])->name('dashboard');
     Route::get('/link',      [AffiliateController::class, 'linkPage'])->name('link');
     Route::get('/leads',     [AffiliateController::class, 'leadsPage'])->name('leads');
-    Route::get('/closing',   fn() => view('affiliate.closing'))->name('closing');
-    Route::get('/komisi',    fn() => view('affiliate.komisi'))->name('komisi');
+    Route::get('/closing',   [AffiliateController::class, 'closingPage'])->name('closing');
+    Route::get('/komisi',    [AffiliateController::class, 'komisiPage'])->name('komisi');
 
     Route::get('/profile',          [ProfileController::class, 'show'])->name('profile');
     Route::put('/profile',           [ProfileController::class, 'update'])->name('profile.update');

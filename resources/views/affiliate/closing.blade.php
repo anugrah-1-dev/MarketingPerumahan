@@ -17,18 +17,18 @@
     <div class="stats-row">
         <div class="stat-card pink">
             <div class="stat-label">Total Closing</div>
-            <div class="stat-value">25</div>
+            <div class="stat-value">{{ $stats['total_closing'] }}</div>
             <span class="stat-badge badge-blue">Sepanjang waktu</span>
         </div>
         <div class="stat-card purple">
             <div class="stat-label">Closing Bulan Ini</div>
-            <div class="stat-value">5</div>
-            <span class="stat-badge badge-blue">↑ 2 dari bulan lalu</span>
+            <div class="stat-value">{{ $stats['closing_bulan_ini'] }}</div>
+            <span class="stat-badge badge-blue">{{ now()->translatedFormat('F Y') }}</span>
         </div>
         <div class="stat-card green">
-            <div class="stat-label">Komisi Diperoleh</div>
-            <div class="stat-value">Rp 50Jt</div>
-            <span class="stat-badge badge-blue">3 pending cair</span>
+            <div class="stat-label">Rate Komisi</div>
+            <div class="stat-value">{{ $commissionRate }}%</div>
+            <span class="stat-badge badge-blue">Per closing</span>
         </div>
     </div>
 
@@ -57,42 +57,45 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nama Pembeli</th>
-                    <th>Sumber Link</th>
-                    <th>Unit Dibeli</th>
+                    <th>Catatan Lead</th>
+                    <th>Sumber Referral</th>
+                    <th>Perangkat</th>
                     <th>Tanggal Closing</th>
-                    <th>Komisi (2%)</th>
+                    <th>Komisi ({{ $commissionRate }}%)</th>
                 </tr>
             </thead>
             <tbody>
+                @forelse($closings as $closing)
                 <tr>
                     <td>
-                        Andi Saputra
-                        <div class="secondary">+62 812-3456-7890</div>
+                        {{ $closing->notes ?: '(tidak ada catatan)' }}
+                        <div class="secondary">{{ $closing->ip_address ?? '-' }}</div>
                     </td>
-                    <td><span class="badge badge-wa">🟢 WhatsApp</span></td>
-                    <td>Tipe 45 – Blok A</td>
                     <td>
-                        25 Feb 2026
-                        <div class="secondary">AJB Notaris</div>
+                        @if($closing->referral_code)
+                            <span class="badge badge-wa">🔗 {{ $closing->referral_code }}</span>
+                        @else
+                            <span class="badge">–</span>
+                        @endif
                     </td>
-                    <td><span class="badge badge-sudah">✔ Sudah Cair</span></td>
+                    <td>{{ $closing->device ?? '-' }} / {{ $closing->browser ?? '-' }}</td>
+                    <td>
+                        {{ $closing->updated_at->format('d M Y') }}
+                        <div class="secondary">{{ $closing->updated_at->format('H:i') }}</div>
+                    </td>
+                    <td><span class="badge badge-sudah">{{ $commissionRate }}%</span></td>
                 </tr>
+                @empty
                 <tr>
-                    <td>
-                        Andi Saputra
-                        <div class="secondary">+62 812-3456-7890</div>
+                    <td colspan="5" style="text-align:center;padding:2rem;color:#6b7280;">
+                        Belum ada closing dari link Anda.
                     </td>
-                    <td><span class="badge badge-ig">📸 Instagram</span></td>
-                    <td>Tipe 45 – Blok A</td>
-                    <td>
-                        25 Feb 2026
-                        <div class="secondary">AJB Notaris</div>
-                    </td>
-                    <td><span class="badge badge-pending">⏳ Pending</span></td>
                 </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
+
+@endsection
 
 @endsection
