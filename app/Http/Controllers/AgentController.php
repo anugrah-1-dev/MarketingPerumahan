@@ -21,23 +21,43 @@ class AgentController extends Controller
             // Ambil semua user dengan role affiliate
             $users = User::where('role', 'affiliate')->with('agent')->orderBy('created_at', 'desc')->get();
 
-            // Map data agar sesuai struktur JS (seolah-olah model Agent)
+            // Map data agar sesuai struktur JS
             $agents = $users->map(function ($user) {
                 $agent = $user->agent;
+
+                // Jika user affiliate belum punya Agent record, buat otomatis
+                if (!$agent) {
+                    $slug = \Illuminate\Support\Str::slug($user->name);
+                    $base = $slug;
+                    $i    = 1;
+                    while (Agent::where('slug', $slug)->exists()) {
+                        $slug = $base . '-' . $i++;
+                    }
+                    $agent = Agent::create([
+                        'user_id'    => $user->id,
+                        'nama'       => $user->name,
+                        'jabatan'    => 'Affiliate',
+                        'slug'       => $slug,
+                        'aktif'      => true,
+                        'email'      => $user->email,
+                        'phone'      => null,
+                        'commission' => 0,
+                    ]);
+                }
+
                 return [
-                    'id'         => $agent ? $agent->id : 'u-' . $user->id, // Use agent ID for edits, fallback to user ID
+                    'id'         => $agent->id,   // Selalu integer valid
                     'nama'       => $user->name,
-                    'jabatan'    => $agent ? $agent->jabatan : 'Affiliate',
+                    'jabatan'    => $agent->jabatan,
                     'email'      => $user->email,
-                    'phone'      => $agent ? $agent->phone : null,
-                    'commission' => $agent ? $agent->commission : 0,
-                    'slug'       => $agent ? $agent->slug : Str::slug($user->name),
-                    'aktif'      => $agent ? $agent->aktif : true,
-                    // Diperlukan JS untuk copy link
+                    'phone'      => $agent->phone,
+                    'commission' => $agent->commission,
+                    'slug'       => $agent->slug,
+                    'aktif'      => $agent->aktif,
                     'user'       => [
                         'referral_code' => $user->referral_code
                     ],
-                    'user_id'    => $user->id
+                    'user_id'    => $user->id,
                 ];
             });
 
