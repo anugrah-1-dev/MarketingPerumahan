@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (act === 'edit')   editAgent(id);
         if (act === 'toggle') toggleStatus(id);
         if (act === 'delete') deleteAgent(id);
+        if (act === 'copy')   copyLink(btn.dataset.link, e);
     });
 });
 
@@ -124,7 +125,7 @@ function renderTable(agents) {
                     <code style="background:#f1f5f9;padding:.25rem .5rem;border-radius:.25rem;font-size:.875rem;">
                         /?ref=${refCode}
                     </code>
-                    <button class="btn-icon" onclick="copyLink('${affiliateLink}', event)" title="Salin link affiliate">
+                    <button class="btn-icon" data-action="copy" data-link="${affiliateLink}" title="Salin link affilite">
                         <i class="fas fa-copy"></i>
                     </button>
                 </div>
