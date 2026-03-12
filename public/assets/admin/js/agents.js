@@ -36,6 +36,17 @@ function showLoading(cols = 6) {
 // ──────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     loadAgents();
+
+    // Event delegation untuk tombol aksi tabel
+    document.getElementById('agentsTableBody').addEventListener('click', function(e) {
+        const btn = e.target.closest('button[data-action]');
+        if (!btn) return;
+        const id  = parseInt(btn.dataset.id);
+        const act = btn.dataset.action;
+        if (act === 'edit')   editAgent(id);
+        if (act === 'toggle') toggleStatus(id);
+        if (act === 'delete') deleteAgent(id);
+    });
 });
 
 // ──────────────────────────────────────────────────────────────
@@ -122,13 +133,13 @@ function renderTable(agents) {
             <td>${statusBadge}</td>
             <td>
                 <div style="display:flex;gap:.5rem;">
-                    <button class="btn-icon" onclick="editAgent(${agent.id})" title="Edit">
+                    <button class="btn-icon" data-action="edit" data-id="${agent.id}" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-icon" onclick="toggleStatus(${agent.id})" title="${agent.aktif ? 'Nonaktifkan' : 'Aktifkan'}">
+                    <button class="btn-icon" data-action="toggle" data-id="${agent.id}" title="${agent.aktif ? 'Nonaktifkan' : 'Aktifkan'}">
                         <i class="fas fa-${agent.aktif ? 'ban' : 'check'}"></i>
                     </button>
-                    <button class="btn-icon danger" onclick="deleteAgent(${agent.id})" title="Hapus">
+                    <button class="btn-icon danger" data-action="delete" data-id="${agent.id}" title="Hapus">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
