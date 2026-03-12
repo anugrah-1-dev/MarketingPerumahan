@@ -42,10 +42,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
         const act = btn.dataset.action;
-        const id  = parseInt(btn.dataset.id);
+        const id  = btn.dataset.id;  // tetap string, tidak pakai parseInt
 
         if (act === 'copy')   { copyLink(btn.dataset.link, e); return; }
-        if (isNaN(id))        return; // guard: jangan lanjut jika id tidak valid
+        if (!id)              return; // guard: jangan lanjut jika id kosong/null
 
         if (act === 'edit')   editAgent(id);
         if (act === 'toggle') toggleStatus(id);
@@ -177,7 +177,7 @@ async function editAgent(id) {
     try {
         const resp = await fetch('/admin/agents', { headers: { 'Accept': 'application/json' } });
         const agents = await resp.json();
-        const agent = agents.find(a => a.id === id);
+        const agent = agents.find(a => String(a.id) === String(id));
         if (!agent) { alert('Agent tidak ditemukan.'); return; }
 
         document.getElementById('modalTitle').textContent = 'Edit Affiliate';
