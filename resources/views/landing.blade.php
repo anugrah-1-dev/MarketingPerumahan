@@ -148,175 +148,180 @@
     </section>
 
     {{-- ================================================================
-     SOCIAL MEDIA — YouTube, TikTok, Instagram
+     SOCIAL MEDIA SHOWCASE — infinite auto-scroll carousel
      ================================================================ --}}
-    <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-20">
+    @if($socialMedias->isNotEmpty())
+    <section class="pb-20 overflow-hidden" id="showcase-section">
 
-        <div class="flex items-end justify-between mb-8">
-            <div>
-                <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Temukan Kami di Media Sosial</h2>
-                <p class="text-[#676767] text-[15px]">Ikuti update terbaru, tur rumah virtual, dan promo eksklusif</p>
+        {{-- Section header --}}
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-10">
+            <p class="text-[#676767] text-[13px] font-semibold uppercase tracking-widest mb-2">Social Media</p>
+            <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold leading-tight">
+                Social Media Updates
+            </h2>
+            <p class="text-[#676767] text-[15px] mt-2">Follow our latest property promotions and house tours.</p>
+        </div>
+
+        {{-- Carousel wrapper — full width, no padding so cards bleed to edges --}}
+        <div class="relative" id="showcase-outer">
+
+            {{-- Left edge fade --}}
+            <div class="pointer-events-none absolute left-0 top-0 h-full w-20 lg:w-32 z-10"
+                 style="background:linear-gradient(to right,#EEEEEE 30%,transparent);"></div>
+            {{-- Right edge fade --}}
+            <div class="pointer-events-none absolute right-0 top-0 h-full w-20 lg:w-32 z-10"
+                 style="background:linear-gradient(to left,#EEEEEE 30%,transparent);"></div>
+
+            {{-- The scrolling track --}}
+            <div id="showcase-track" class="flex gap-5 select-none"
+                 style="width:max-content;will-change:transform;cursor:grab;">
+
+                {{-- Cards × 2 for seamless infinite loop --}}
+                @for ($pass = 0; $pass < 2; $pass++)
+                @foreach($socialMedias as $sm)
+                @php $cfg = $sm->config; @endphp
+                <a href="{{ $sm->content_url }}" target="_blank" rel="noopener noreferrer"
+                   class="showcase-card block flex-shrink-0 rounded-[16px] overflow-hidden bg-white group"
+                   style="width:280px;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease;"
+                   aria-label="{{ e($sm->title) }} — {{ $cfg['name'] }}">
+
+                    {{-- Thumbnail --}}
+                    <div class="relative overflow-hidden" style="height:175px;background:#f1f5f9;">
+                        @if($sm->thumbnail_src)
+                            <img src="{{ $sm->thumbnail_src }}" alt="{{ e($sm->title) }}"
+                                 loading="lazy"
+                                 style="width:100%;height:100%;object-fit:cover;transition:transform .35s ease;display:block;">
+                        @else
+                            {{-- Placeholder with platform icon --}}
+                            <div class="w-full h-full flex flex-col items-center justify-center gap-3"
+                                 style="background:#f8fafc;">
+                                <div class="w-12 h-12 rounded-full flex items-center justify-center"
+                                     style="background:{{ $cfg['color'] }};">
+                                    <svg style="width:22px;height:22px;fill:white;" viewBox="0 0 24 24">
+                                        <path d="{{ $cfg['svg'] }}"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        @endif
+                        {{-- Platform badge overlay --}}
+                        <div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full text-white text-[11px] font-bold"
+                             style="background:{{ $cfg['color'] }};backdrop-filter:blur(4px);">
+                            <svg style="width:10px;height:10px;fill:white;flex-shrink:0;" viewBox="0 0 24 24">
+                                <path d="{{ $cfg['svg'] }}"/>
+                            </svg>
+                            {{ $cfg['name'] }}
+                        </div>
+                    </div>
+
+                    {{-- Card body --}}
+                    <div style="padding:14px 16px 16px;">
+                        <p style="font-weight:700;font-size:.875rem;color:#1e293b;margin:0 0 4px;line-height:1.4;
+                                  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+                            {{ $sm->title }}
+                        </p>
+                        @if($sm->description)
+                        <p style="font-size:.78rem;color:#64748b;margin:0;line-height:1.5;
+                                  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">
+                            {{ $sm->description }}
+                        </p>
+                        @endif
+                    </div>
+                </a>
+                @endforeach
+                @endfor
+
             </div>
         </div>
 
-        {{-- Horizontal scroll container --}}
-        <div class="relative">
-            <div id="social-scroll" class="flex gap-5 overflow-x-auto pb-3"
-                style="scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;-ms-overflow-style:none;">
-
-                {{-- YouTube --}}
-                {{-- GANTI href="#" dengan URL channel YouTube Anda --}}
-                {{-- Untuk video nyata: ganti blok "video-placeholder" dengan iframe embed YouTube --}}
-                <div class="card shadow-sm flex-shrink-0 flex flex-col gap-4" style="width:340px;scroll-snap-align:start;">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-[#FF0000]">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-bold text-[#393939] text-sm leading-none">YouTube</p>
-                                <p class="text-[#676767] text-xs mt-0.5">Tur Rumah &amp; Info Properti</p>
-                            </div>
-                        </div>
-                        <a href="#" target="_blank" rel="noopener noreferrer"
-                            class="btn-outline text-xs !py-2 !px-4 !rounded-[25px]">
-                            Subscribe
-                        </a>
-                    </div>
-
-                    {{-- Video embed area. Ganti div ini dengan iframe jika sudah punya video:
-                         <div style="position:relative;padding-bottom:56.25%;">
-                           <iframe src="https://www.youtube.com/embed/VIDEO_ID"
-                             style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:12px;"
-                             allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
-                             allowfullscreen loading="lazy"></iframe>
-                         </div>
-                    --}}
-                    <div class="rounded-[12px] bg-[#EEEEEE] flex items-center justify-center" style="height:175px;">
-                        <div class="text-center">
-                            <div class="w-12 h-12 rounded-full bg-[#FF0000] flex items-center justify-center mx-auto mb-2">
-                                <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                            <p class="text-[#393939] text-xs font-semibold">Tonton Video Kami</p>
-                        </div>
-                    </div>
-
-                    <p class="text-[#676767] text-xs leading-relaxed">
-                        Video tur perumahan 360°, tips membeli rumah, dan konten informatif seputar properti.
-                    </p>
-                </div>
-
-                {{-- TikTok --}}
-                {{-- GANTI href="#" dengan URL akun TikTok Anda --}}
-                <div class="card shadow-sm flex-shrink-0 flex flex-col gap-4" style="width:340px;scroll-snap-align:start;">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-[#393939]">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.35 6.35 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.96 1.62V6.88a4.85 4.85 0 01-1.19-.19z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-bold text-[#393939] text-sm leading-none">TikTok</p>
-                                <p class="text-[#676767] text-xs mt-0.5">Short Video Properti</p>
-                            </div>
-                        </div>
-                        <a href="#" target="_blank" rel="noopener noreferrer"
-                            class="btn-outline text-xs !py-2 !px-4 !rounded-[25px]">
-                            Follow
-                        </a>
-                    </div>
-
-                    <div class="rounded-[12px] bg-[#EEEEEE] flex items-center justify-center" style="height:175px;">
-                        <div class="text-center">
-                            <div class="w-12 h-12 rounded-full bg-[#393939] flex items-center justify-center mx-auto mb-2">
-                                <svg class="w-5 h-5 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            </div>
-                            <p class="text-[#393939] text-xs font-semibold">Tonton Video Kami</p>
-                        </div>
-                    </div>
-
-                    <p class="text-[#676767] text-xs leading-relaxed">
-                        Konten singkat seputar hunian, promo terbaru, dan behind-the-scenes pembangunan.
-                    </p>
-                </div>
-
-                {{-- Instagram --}}
-                {{-- GANTI href="#" dengan URL akun Instagram Anda --}}
-                <div class="card shadow-sm flex-shrink-0 flex flex-col gap-4" style="width:340px;scroll-snap-align:start;">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:#E1306C;">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                                </svg>
-                            </div>
-                            <div>
-                                <p class="font-bold text-[#393939] text-sm leading-none">Instagram</p>
-                                <p class="text-[#676767] text-xs mt-0.5">Foto &amp; Reels Properti</p>
-                            </div>
-                        </div>
-                        <a href="#" target="_blank" rel="noopener noreferrer"
-                            class="btn-outline text-xs !py-2 !px-4 !rounded-[25px]">
-                            Follow
-                        </a>
-                    </div>
-
-                    <div class="rounded-[12px] bg-[#EEEEEE] flex items-center justify-center" style="height:175px;">
-                        <div class="text-center">
-                            <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-2" style="background:#E1306C;">
-                                <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                            </div>
-                            <p class="text-[#393939] text-xs font-semibold">Lihat Feed Kami</p>
-                        </div>
-                    </div>
-
-                    <p class="text-[#676767] text-xs leading-relaxed">
-                        Foto rumah terbaru, desain interior inspiratif, dan update proyek setiap hari.
-                    </p>
-                </div>
-
-            </div>
-
-            {{-- Scroll indicator dots --}}
-            <div class="flex justify-center gap-2 mt-4">
-                <button onclick="scrollSocial(0)" id="sdot-0" class="w-2 h-2 rounded-full bg-[#393939] transition-all duration-300" style="width:20px;"></button>
-                <button onclick="scrollSocial(1)" id="sdot-1" class="w-2 h-2 rounded-full bg-[#C8C8C8] transition-all duration-300"></button>
-                <button onclick="scrollSocial(2)" id="sdot-2" class="w-2 h-2 rounded-full bg-[#C8C8C8] transition-all duration-300"></button>
-            </div>
-        </div>
-
-        <style>
-            #social-scroll::-webkit-scrollbar { display: none; }
-        </style>
-        <script>
-            (function () {
-                var sc = document.getElementById('social-scroll');
-                var dots = [
-                    document.getElementById('sdot-0'),
-                    document.getElementById('sdot-1'),
-                    document.getElementById('sdot-2'),
-                ];
-                function setDot(i) {
-                    dots.forEach(function(d, idx) {
-                        d.style.background = idx === i ? '#393939' : '#C8C8C8';
-                        d.style.width      = idx === i ? '20px' : '8px';
-                    });
-                }
-                window.scrollSocial = function(i) {
-                    var cardW = 340 + 20; // width + gap
-                    sc.scrollTo({ left: i * cardW, behavior: 'smooth' });
-                    setDot(i);
-                };
-                sc.addEventListener('scroll', function () {
-                    var i = Math.round(sc.scrollLeft / (340 + 20));
-                    setDot(Math.min(i, 2));
-                });
-            })();
-        </script>
     </section>
+
+    <style>
+        #showcase-track {
+            animation: showcaseScroll {{ max(20, $socialMedias->count() * 5) }}s linear infinite;
+        }
+        #showcase-section:hover #showcase-track,
+        #showcase-track.dragging {
+            animation-play-state: paused;
+        }
+        @@keyframes showcaseScroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .showcase-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,.10);
+        }
+        .showcase-card:hover img {
+            transform: scale(1.04);
+        }
+    </style>
+    <script>
+    (function () {
+        var track  = document.getElementById('showcase-track');
+        var outer  = document.getElementById('showcase-outer');
+        if (!track || !outer) return;
+
+        // ── Drag / Swipe ────────────────────────────────────────────────
+        var isDragging = false, startX = 0, scrollStart = 0, dragDist = 0;
+        var currentOffset = 0, animPaused = false;
+
+        // We manually shift translateX during drag on top of the CSS animation
+        // Simple approach: pause animation, handle pointer events for drag
+        function getTranslateX(el) {
+            var style = window.getComputedStyle(el);
+            var mat   = new DOMMatrixReadOnly(style.transform);
+            return mat.m41;
+        }
+
+        outer.addEventListener('mousedown', startDrag);
+        outer.addEventListener('touchstart', startDrag, { passive: true });
+
+        function startDrag(e) {
+            isDragging  = true;
+            dragDist    = 0;
+            startX      = e.touches ? e.touches[0].clientX : e.clientX;
+            // Capture current visual offset so we can continue from there
+            currentOffset = getTranslateX(track);
+            track.classList.add('dragging');
+            track.style.animationPlayState = 'paused';
+            track.style.transform = 'translateX(' + currentOffset + 'px)';
+        }
+
+        window.addEventListener('mousemove', onDrag);
+        window.addEventListener('touchmove', onDrag, { passive: false });
+
+        function onDrag(e) {
+            if (!isDragging) return;
+            if (e.cancelable) e.preventDefault();
+            var x    = e.touches ? e.touches[0].clientX : e.clientX;
+            var diff = x - startX;
+            dragDist = Math.abs(diff);
+            track.style.transform = 'translateX(' + (currentOffset + diff) + 'px)';
+        }
+
+        window.addEventListener('mouseup', endDrag);
+        window.addEventListener('touchend', endDrag);
+
+        function endDrag() {
+            if (!isDragging) return;
+            isDragging = false;
+            track.classList.remove('dragging');
+            // If barely moved it's a click — let the <a> open
+            // Re-enable animation from the current position isn't easy with pure CSS,
+            // so we just resume (it snaps back to the animation's own timing)
+            track.style.transform = '';
+            track.style.animationPlayState = '';
+        }
+
+        // Prevent accidental link navigation when user drags
+        track.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function(e) {
+                if (dragDist > 8) e.preventDefault();
+            });
+        });
+    })();
+    </script>
+    @endif
 
     {{-- ================================================================
      LOKASI PERUMAHAN (Google Maps)

@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TipeRumahController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\AffiliateController;
+use App\Http\Controllers\SocialMediaController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
@@ -51,6 +52,13 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::post('/tipe-rumah',           [TipeRumahController::class, 'store'])->name('tipe-rumah.store');
     Route::put('/tipe-rumah/{id}',       [TipeRumahController::class, 'update'])->name('tipe-rumah.update');
     Route::delete('/tipe-rumah/{id}',    [TipeRumahController::class, 'destroy'])->name('tipe-rumah.destroy');
+
+    // ── Social Media ──────────────────────────────────────────────────────
+    Route::get('/social-media',               [SocialMediaController::class, 'index'])->name('social-media');
+    Route::post('/social-media',              [SocialMediaController::class, 'store'])->name('social-media.store');
+    Route::put('/social-media/{id}',          [SocialMediaController::class, 'update'])->name('social-media.update');
+    Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
+    Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
 });
 
 // ── Affiliate Panel ──────────────────────────────────────────────────────

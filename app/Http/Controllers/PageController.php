@@ -8,6 +8,7 @@ use App\Models\Agent;
 use App\Models\Setting;
 
 use App\Models\TipeRumah;
+use App\Models\SocialMedia;
 
 class PageController extends Controller
 {
@@ -28,8 +29,9 @@ class PageController extends Controller
 
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
         $semuaTipeRumah  = TipeRumah::latest()->get();
+        $socialMedias    = SocialMedia::aktif()->get();
 
-        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah'));
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias'));
     }
 
 
@@ -56,6 +58,7 @@ class PageController extends Controller
 
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
         $semuaTipeRumah  = TipeRumah::latest()->get();
+        $socialMedias    = SocialMedia::aktif()->get();
 
         // Catat agent ke session agar tersedia di halaman detail
         session([
@@ -64,7 +67,7 @@ class PageController extends Controller
             'agent_nama'  => $agentModel->nama,
         ]);
 
-        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah'));
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias'));
     }
 
     public function login()
