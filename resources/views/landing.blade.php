@@ -148,6 +148,287 @@
     </section>
 
     {{-- ================================================================
+     SOCIAL MEDIA — YouTube, TikTok, Instagram
+     ================================================================ --}}
+    <section id="social-section" class="relative overflow-hidden py-24"
+        style="background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#0f172a 100%);">
+
+        {{-- Animated blobs --}}
+        <div class="absolute inset-0 pointer-events-none overflow-hidden">
+            <div style="position:absolute;width:500px;height:500px;border-radius:50%;background:#3b82f6;filter:blur(120px);opacity:.12;top:-150px;left:-100px;animation:blobFloat1 10s ease-in-out infinite;"></div>
+            <div style="position:absolute;width:400px;height:400px;border-radius:50%;background:#8b5cf6;filter:blur(100px);opacity:.10;bottom:-100px;right:-50px;animation:blobFloat2 12s ease-in-out infinite;"></div>
+            <div style="position:absolute;width:300px;height:300px;border-radius:50%;background:#f472b6;filter:blur(90px);opacity:.08;top:40%;left:45%;animation:blobFloat3 15s ease-in-out infinite;"></div>
+        </div>
+
+        <div class="relative max-w-[1440px] mx-auto px-6 lg:px-[80px]">
+
+            {{-- Header --}}
+            <div class="text-center mb-14 sr-fade">
+                <span class="inline-flex items-center gap-2 text-white/70 text-xs font-semibold px-4 py-1.5 rounded-full mb-5 border border-white/15"
+                    style="background:rgba(255,255,255,0.06);backdrop-filter:blur(8px);">
+                    <span class="w-2 h-2 rounded-full bg-green-400" style="animation:pulse 2s ease-in-out infinite;"></span>
+                    Aktif di Media Sosial
+                </span>
+                <h2 class="text-white text-[28px] lg:text-[42px] font-bold leading-tight mb-3">
+                    Ikuti Kami &amp; Dapatkan<br>
+                    <span style="background:linear-gradient(90deg,#60a5fa 0%,#a78bfa 50%,#f472b6 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">
+                        Info Properti Terbaik
+                    </span>
+                </h2>
+                <p class="text-white/50 text-[15px] max-w-xl mx-auto leading-relaxed">
+                    Tur rumah virtual, promo eksklusif, tips properti, dan konten inspiratif setiap hari. Jangan sampai terlewat!
+                </p>
+            </div>
+
+            {{-- Main Grid: YouTube (big) + 2 side cards --}}
+            <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 items-start">
+
+                {{-- YouTube Card (Left / Main) --}}
+                <div class="sr-fade" style="transition-delay:.1s">
+                    <div class="rounded-[24px] border border-white/10 overflow-hidden group transition-all duration-500 hover:border-red-500/40 hover:shadow-[0_0_40px_-10px_rgba(239,68,68,0.3)]"
+                        style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);">
+
+                        <div class="flex items-center justify-between px-6 pt-6 pb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-11 h-11 rounded-xl flex items-center justify-center shadow-lg"
+                                    style="background:#FF0000;box-shadow:0 4px 20px rgba(255,0,0,0.35);">
+                                    <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                        <path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-white font-bold text-sm">YouTube</p>
+                                    <p class="text-white/40 text-xs">Tur Rumah &amp; Info Properti</p>
+                                </div>
+                            </div>
+                            {{-- GANTI href="#" dengan URL channel YouTube Anda --}}
+                            <a href="#" target="_blank" rel="noopener noreferrer"
+                                class="flex items-center gap-1.5 text-xs font-semibold text-red-400 rounded-full px-4 py-1.5 transition-all duration-300 hover:text-white"
+                                style="background:rgba(239,68,68,0.12);"
+                                onmouseover="this.style.background='#ef4444'" onmouseout="this.style.background='rgba(239,68,68,0.12)'">
+                                <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+                                Subscribe
+                            </a>
+                        </div>
+
+                        {{-- Video Preview Area --}}
+                        {{-- CARA AKTIFKAN VIDEO: Ganti div di bawah dengan iframe YouTube
+                             <div class="relative" style="padding-bottom:56.25%;margin:0 1rem 1rem;">
+                               <iframe src="https://www.youtube.com/embed/VIDEO_ID?rel=0&modestbranding=1"
+                                 class="absolute inset-0 w-full h-full rounded-[16px]" style="border:0;"
+                                 allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+                                 allowfullscreen loading="lazy"></iframe>
+                             </div>
+                        --}}
+                        <div class="relative mx-4 mb-4 rounded-[16px] overflow-hidden"
+                            style="padding-bottom:56.25%;background:linear-gradient(135deg,#1e293b 0%,#0f172a 100%);">
+                            <div class="absolute inset-0 flex flex-col items-center justify-center gap-4">
+                                <div class="relative">
+                                    <div class="w-20 h-20 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-110 cursor-pointer"
+                                        style="background:rgba(239,68,68,0.9);box-shadow:0 0 50px rgba(239,68,68,0.45);">
+                                        <svg class="w-9 h-9 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                    </div>
+                                    <div class="absolute -inset-2 rounded-full border-2 border-red-500/30" style="animation:pingRing 2s ease-in-out infinite;"></div>
+                                    <div class="absolute -inset-5 rounded-full border border-red-500/15" style="animation:pingRing 2s ease-in-out infinite .5s;"></div>
+                                </div>
+                                <div class="text-center">
+                                    <p class="text-white/70 text-sm font-semibold">Tonton Video Tur Perumahan</p>
+                                    <p class="text-white/35 text-xs mt-1">Klik Subscribe &amp; aktifkan notifikasi</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-6 px-6 pb-6 border-t border-white/5 pt-5">
+                            <div class="text-center">
+                                <p class="text-white font-bold text-[17px] leading-none">Virtual</p>
+                                <p class="text-white/40 text-xs mt-1">Tur 360°</p>
+                            </div>
+                            <div class="h-8 w-px bg-white/10"></div>
+                            <div class="text-center">
+                                <p class="text-white font-bold text-[17px] leading-none">Tips</p>
+                                <p class="text-white/40 text-xs mt-1">Beli Properti</p>
+                            </div>
+                            <div class="h-8 w-px bg-white/10"></div>
+                            <div class="text-center">
+                                <p class="text-white font-bold text-[17px] leading-none">Promo</p>
+                                <p class="text-white/40 text-xs mt-1">Eksklusif</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Right column: TikTok + Instagram --}}
+                <div class="flex flex-col gap-6">
+
+                    {{-- TikTok --}}
+                    <div class="sr-fade" style="transition-delay:.2s">
+                        <div class="rounded-[24px] border border-white/10 p-5 transition-all duration-500 hover:border-[#69C9D0]/40 hover:shadow-[0_0_30px_-8px_rgba(105,201,208,0.3)]"
+                            style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);">
+
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-11 h-11 rounded-xl flex items-center justify-center"
+                                        style="background:linear-gradient(135deg,#010101 0%,#69C9D0 100%);box-shadow:0 4px 20px rgba(105,201,208,0.3);">
+                                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.35 6.35 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.96 1.62V6.88a4.85 4.85 0 01-1.19-.19z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-white font-bold text-sm">TikTok</p>
+                                        <p class="text-white/40 text-xs">Konten Viral Properti</p>
+                                    </div>
+                                </div>
+                                {{-- GANTI href="#" dengan URL TikTok Anda --}}
+                                <a href="#" target="_blank" rel="noopener noreferrer"
+                                    class="flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1.5 transition-all duration-300"
+                                    style="color:#69C9D0;background:rgba(105,201,208,0.12);">
+                                    Follow
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                                </a>
+                            </div>
+
+                            @php
+                            $tiktokPreviews = [
+                                ['icon' => 'fa-home',   'label' => 'Tur Rumah', 'views' => '12K'],
+                                ['icon' => 'fa-star',   'label' => 'Promo Hot', 'views' => '21K'],
+                                ['icon' => 'fa-key',    'label' => 'Tips Beli', 'views' => '8.5K'],
+                            ];
+                            @endphp
+                            <div class="grid grid-cols-3 gap-2">
+                                @foreach($tiktokPreviews as $reel)
+                                <div class="relative rounded-xl overflow-hidden cursor-pointer group/reel"
+                                    style="aspect-ratio:9/16;background:linear-gradient(160deg,#1e293b 0%,#0f172a 100%);">
+                                    <div class="absolute inset-0 flex flex-col items-center justify-center gap-1">
+                                        <i class="fas {{ $reel['icon'] }} text-white/25 text-xl"></i>
+                                        <span class="text-white/40 text-[10px] text-center leading-tight px-1">{{ $reel['label'] }}</span>
+                                    </div>
+                                    <div class="absolute bottom-2 left-2 flex items-center gap-1">
+                                        <svg class="w-2.5 h-2.5 text-white/50" fill="currentColor" viewBox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+                                        <span class="text-white/50 text-[10px]">{{ $reel['views'] }}</span>
+                                    </div>
+                                    <div class="absolute inset-0 flex items-center justify-center transition-all duration-300 opacity-0 group-hover/reel:opacity-100"
+                                        style="background:rgba(105,201,208,0.15);">
+                                        <div class="w-8 h-8 rounded-full flex items-center justify-center scale-75 group-hover/reel:scale-100 transition-transform duration-300"
+                                            style="background:rgba(255,255,255,0.2);">
+                                            <svg class="w-4 h-4 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <p class="text-white/30 text-[11px] text-center mt-3">Ikuti kami untuk konten viral properti setiap hari</p>
+                        </div>
+                    </div>
+
+                    {{-- Instagram --}}
+                    <div class="sr-fade" style="transition-delay:.3s">
+                        <div class="rounded-[24px] border border-white/10 p-5 transition-all duration-500 hover:border-[#f09433]/40 hover:shadow-[0_0_30px_-8px_rgba(240,148,51,0.3)]"
+                            style="background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);">
+
+                            <div class="flex items-center justify-between mb-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-11 h-11 rounded-xl flex items-center justify-center"
+                                        style="background:linear-gradient(135deg,#f09433 0%,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888 100%);box-shadow:0 4px 20px rgba(220,39,67,0.3);">
+                                        <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                                        </svg>
+                                    </div>
+                                    <div>
+                                        <p class="text-white font-bold text-sm">Instagram</p>
+                                        <p class="text-white/40 text-xs">Foto &amp; Reel Properti</p>
+                                    </div>
+                                </div>
+                                {{-- GANTI href="#" dengan URL Instagram Anda --}}
+                                <a href="#" target="_blank" rel="noopener noreferrer"
+                                    class="flex items-center gap-1.5 text-xs font-semibold rounded-full px-3 py-1.5 transition-all duration-300"
+                                    style="color:#f09433;background:rgba(240,148,51,0.12);">
+                                    Follow
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+                                </a>
+                            </div>
+
+                            @php
+                            $instaGrid = [
+                                ['c1'=>'#1e3a5f','c2'=>'#3b82f6','icon'=>'fa-home'],
+                                ['c1'=>'#3d1d5e','c2'=>'#8b5cf6','icon'=>'fa-tree'],
+                                ['c1'=>'#3d1a1a','c2'=>'#ef4444','icon'=>'fa-bath'],
+                                ['c1'=>'#1a3d2b','c2'=>'#10b981','icon'=>'fa-road'],
+                                ['c1'=>'#3d2e1a','c2'=>'#f59e0b','icon'=>'fa-couch'],
+                                ['c1'=>'#1e2d3d','c2'=>'#06b6d4','icon'=>'fa-bed'],
+                            ];
+                            @endphp
+                            <div class="grid grid-cols-3 gap-1.5">
+                                @foreach($instaGrid as $post)
+                                <div class="rounded-lg overflow-hidden flex items-center justify-center cursor-pointer group/post relative"
+                                    style="aspect-ratio:1/1;background:linear-gradient(135deg,{{ $post['c1'] }} 0%,{{ $post['c2'] }} 100%);">
+                                    <i class="fas {{ $post['icon'] }} text-white/25 text-xl"></i>
+                                    <div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover/post:opacity-100 transition-all duration-300"
+                                        style="background:rgba(0,0,0,0.35);">
+                                        <svg class="w-5 h-5 text-white scale-75 group-hover/post:scale-100 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <p class="text-white/30 text-[11px] text-center mt-3">Lihat feed Instagram untuk inspirasi hunian</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- Bottom CTA Strip --}}
+            <div class="mt-10 sr-fade" style="transition-delay:.4s">
+                <div class="rounded-[20px] border border-white/10 px-6 py-5 flex flex-col sm:flex-row items-center justify-between gap-4"
+                    style="background:rgba(255,255,255,0.04);backdrop-filter:blur(8px);">
+                    <div>
+                        <p class="text-white font-semibold text-sm">Jangan lewatkan update properti terbaru</p>
+                        <p class="text-white/40 text-xs mt-0.5">Follow semua channel kami untuk konten eksklusif setiap hari</p>
+                    </div>
+                    <div class="flex items-center gap-3 flex-wrap justify-center">
+                        <a href="#" target="_blank" rel="noopener noreferrer"
+                            class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                            style="background:#FF0000;box-shadow:0 4px 15px rgba(255,0,0,0.3);">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"/></svg>
+                            YouTube
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer"
+                            class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                            style="background:linear-gradient(135deg,#010101,#69C9D0);box-shadow:0 4px 15px rgba(105,201,208,0.25);">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.35 6.35 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.22 8.22 0 004.96 1.62V6.88a4.85 4.85 0 01-1.19-.19z"/></svg>
+                            TikTok
+                        </a>
+                        <a href="#" target="_blank" rel="noopener noreferrer"
+                            class="flex items-center gap-2 px-4 py-2.5 rounded-xl text-white text-xs font-semibold transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                            style="background:linear-gradient(135deg,#f09433,#dc2743,#bc1888);box-shadow:0 4px 15px rgba(220,39,67,0.3);">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                            Instagram
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <style>
+            @keyframes blobFloat1 { 0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-40px) scale(1.06)} }
+            @keyframes blobFloat2 { 0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-25px) scale(1.04)} }
+            @keyframes blobFloat3 { 0%,100%{transform:translate(0,0)}33%{transform:translate(-20px,-30px)}66%{transform:translate(20px,-15px)} }
+            @keyframes pingRing   { 0%,100%{opacity:.6;transform:scale(1)}50%{opacity:0;transform:scale(1.5)} }
+            @keyframes pulse      { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(.9)} }
+            #social-section .sr-fade { opacity:0; transform:translateY(28px); transition:opacity .7s ease,transform .7s ease; }
+            #social-section .sr-fade.visible { opacity:1; transform:translateY(0); }
+        </style>
+        <script>
+            (function(){
+                var io = new IntersectionObserver(function(entries){
+                    entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('visible'); io.unobserve(e.target); } });
+                }, {threshold:0.08});
+                document.querySelectorAll('#social-section .sr-fade').forEach(function(el){ io.observe(el); });
+            })();
+        </script>
+    </section>
+
+    {{-- ================================================================
      LOKASI PERUMAHAN (Google Maps)
      ================================================================ --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
