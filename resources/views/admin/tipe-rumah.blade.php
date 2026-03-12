@@ -230,11 +230,28 @@ function trOpenEditModal(data) {
     form.querySelector('[name="nama_tipe"]').value      = data.nama_tipe;
     form.querySelector('[name="luas_bangunan"]').value  = data.luas_bangunan;
     form.querySelector('[name="luas_tanah"]').value     = data.luas_tanah;
+    form.querySelector('[name="kamar_tidur"]').value    = data.kamar_tidur ?? 2;
+    form.querySelector('[name="kamar_mandi"]').value    = data.kamar_mandi ?? 1;
+    form.querySelector('[name="lantai"]').value         = data.lantai ?? 1;
     form.querySelector('[name="harga"]').value          = data.harga;
     form.querySelector('[name="harga_diskon"]').value   = data.harga_diskon ?? '';
     form.querySelector('[name="stok_tersedia"]').value  = data.stok_tersedia;
     form.querySelector('[name="deskripsi"]').value      = data.deskripsi ?? '';
     form.querySelector('[name="is_diskon"]').checked    = data.is_diskon == 1;
+
+    // Sertifikat
+    const sertSelect = form.querySelector('[name="sertifikat"]');
+    if (sertSelect) sertSelect.value = data.sertifikat ?? 'SHM';
+
+    // Fasilitas – isi ulang daftar dari array
+    const fasilitasList = form.querySelector('#fasilitasList');
+    if (fasilitasList) {
+        fasilitasList.innerHTML = '';
+        fasilitasCount = 0;
+        const fasilitas = data.fasilitas ? (typeof data.fasilitas === 'string' ? JSON.parse(data.fasilitas) : data.fasilitas) : [];
+        fasilitas.forEach(f => trAddFasilitas(f));
+    }
+
     trOpenModal('modal-edit');
 }
 
