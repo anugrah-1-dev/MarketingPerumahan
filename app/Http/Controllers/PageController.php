@@ -18,11 +18,11 @@ class PageController extends Controller
      */
     public function landing()
     {
-        $agentModel = Agent::aktif()->first();
-
+        // Homepage langsung (/) → tampilkan "Admin", bukan agent tertentu
         $agent = [
-            'nama'    => $agentModel?->nama    ?? 'Tim Kami',
-            'jabatan' => $agentModel?->jabatan ?? 'Marketing',
+            'nama'    => 'Admin',
+            'jabatan' => 'Marketing',
+            'slug'    => null,
             'wa'      => Setting::get('wa_admin', '6283876766055'),
         ];
 
