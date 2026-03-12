@@ -103,47 +103,77 @@ class AgentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $agent = Agent::findOrFail($id);
+        $agent = null;
+        $user  = null;
+
+        if (Str::startsWith($id, 'u-')) {
+            $userId = str_replace('u-', '', $id);
+            $user   = User::findOrFail($userId);
+            $agent  = $user->agent; // might be null
+        } else {
+            $agent = Agent::findOrFail($id);
+            if ($agent->user_id) {
+                $user = User::find($agent->user_id);
+            }
+        }
 
         $request->validate([
             'nama'       => 'required|string|max:100',
-            'email'      => 'required|email|max:150|unique:users,email,' . ($agent->user_id ?? 'NULL'),
+            'email'      => 'required|email|max:150|unique:users,email,' . ($user ? $user->id : 'NULL'),
             'password'   => 'nullable|string|min:6',
             'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:0|max:100',
         ]);
 
-        // Re-generate slug jika nama berubah
-        if ($agent->nama !== $request->nama) {
-            $baseSlug = Str::slug($request->nama);
-            $slug     = $baseSlug;
-            $counter  = 1;
-            while (Agent::where('slug', $slug)->where('id', '!=', $id)->exists()) {
+        // 1. Update User first (if exists)
+        if ($user) {
+            $user->name  = $request->nama;
+            $user->email = $request->email;
+            if ($request->filled('password')) {
+                $user->password = Hash::make($request->password);
+            }
+            $user->save();
+        }
+
+        // 2. Update or Create Agent
+        $baseSlug = Str::slug($request->nama);
+        $slug     = $baseSlug;
+        $counter  = 1;
+
+        if ($agent) {
+            // Re-generate slug jika nama berubah
+            if ($agent->nama !== $request->nama) {
+                while (Agent::where('slug', $slug)->where('id', '!=', $agent->id)->exists()) {
+                    $slug = $baseSlug . '-' . $counter;
+                    $counter++;
+                }
+                $agent->slug = $slug;
+            }
+
+            $agent->nama       = $request->nama;
+            $agent->jabatan    = $request->jabatan ?? $agent->jabatan;
+            $agent->email      = $request->email;
+            $agent->phone      = $request->phone;
+            $agent->commission = $request->commission ?? $agent->commission;
+            $agent->save();
+        } else {
+            // Create target agent for this user since it doesn't exist yet
+            while (Agent::where('slug', $slug)->exists()) {
                 $slug = $baseSlug . '-' . $counter;
                 $counter++;
             }
-            $agent->slug = $slug;
-        }
 
-        $agent->nama       = $request->nama;
-        $agent->jabatan    = $request->jabatan ?? $agent->jabatan;
-        $agent->email      = $request->email;
-        $agent->phone      = $request->phone;
-        $agent->commission = $request->commission ?? $agent->commission;
-        $agent->save();
-
-        // Update related User account
-        if ($agent->user_id) {
-            $user = User::find($agent->user_id);
-            if ($user) {
-                $user->name  = $request->nama;
-                $user->email = $request->email;
-                if ($request->filled('password')) {
-                    $user->password = Hash::make($request->password);
-                }
-                $user->save();
-            }
+            $agent = Agent::create([
+                'user_id'    => $user->id,
+                'nama'       => $request->nama,
+                'jabatan'    => $request->jabatan ?? 'Affiliate',
+                'slug'       => $slug,
+                'aktif'      => true,
+                'email'      => $request->email,
+                'phone'      => $request->phone,
+                'commission' => $request->commission ?? 0,
+            ]);
         }
 
         return response()->json($agent);
@@ -155,10 +185,22 @@ class AgentController extends Controller
      */
     public function destroy($id)
     {
-        $agent = Agent::findOrFail($id);
-        $agent->delete();
+        if (Str::startsWith($id, 'u-')) {
+            $userId = str_replace('u-', '', $id);
+            $user   = User::findOrFail($userId);
+            if ($user->agent) {
+                $user->agent->delete();
+            }
+            $user->delete();
+        } else {
+            $agent = Agent::findOrFail($id);
+            if ($agent->user_id) {
+                User::where('id', $agent->user_id)->delete();
+            }
+            $agent->delete();
+        }
 
-        return response()->json(['message' => 'Agent berhasil dihapus.']);
+        return response()->json(['message' => 'Agent dan akun berhasil dihapus.']);
     }
 
     /**
@@ -167,10 +209,41 @@ class AgentController extends Controller
      */
     public function toggleStatus($id)
     {
-        $agent        = Agent::findOrFail($id);
-        $agent->aktif = !$agent->aktif;
-        $agent->save();
+        if (Str::startsWith($id, 'u-')) {
+            $userId = str_replace('u-', '', $id);
+            $user   = User::findOrFail($userId);
+            
+            // If agent doesn't exist, create it but set as nonaktif
+            if (!$user->agent) {
+                $baseSlug = Str::slug($user->name);
+                $slug     = $baseSlug;
+                $counter  = 1;
+                while (Agent::where('slug', $slug)->exists()) {
+                    $slug = $baseSlug . '-' . $counter;
+                    $counter++;
+                }
 
-        return response()->json($agent);
+                $agent = Agent::create([
+                    'user_id'    => $user->id,
+                    'nama'       => $user->name,
+                    'jabatan'    => 'Affiliate',
+                    'slug'       => $slug,
+                    'aktif'      => false,
+                    'email'      => $user->email,
+                    'phone'      => null,
+                    'commission' => 0,
+                ]);
+            } else {
+                $user->agent->aktif = !$user->agent->aktif;
+                $user->agent->save();
+                $agent = $user->agent;
+            }
+        } else {
+            $agent        = Agent::findOrFail($id);
+            $agent->aktif = !$agent->aktif;
+            $agent->save();
+        }
+
+        return response()->json($agent ?? []);
     }
 }
