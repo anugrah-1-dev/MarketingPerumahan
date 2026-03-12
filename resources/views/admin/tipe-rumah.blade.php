@@ -135,7 +135,7 @@
 </div>
 
 {{-- ====================== MODAL TAMBAH ====================== --}}
-<div id="modal-tambah" class="tr-modal-overlay" onclick="trCloseOnBackdrop(event, 'modal-tambah')">
+<div id="modal-tambah" class="tr-modal-overlay" style="z-index:9999" onclick="trCloseOnBackdrop(event, 'modal-tambah')">
     <div class="tr-modal-box">
         <div class="tr-modal-header">
             <h3>
@@ -165,7 +165,7 @@
 </div>
 
 {{-- ====================== MODAL EDIT ====================== --}}
-<div id="modal-edit" class="tr-modal-overlay" onclick="trCloseOnBackdrop(event, 'modal-edit')">
+<div id="modal-edit" class="tr-modal-overlay" style="z-index:9999" onclick="trCloseOnBackdrop(event, 'modal-edit')">
     <div class="tr-modal-box">
         <div class="tr-modal-header">
             <h3>
