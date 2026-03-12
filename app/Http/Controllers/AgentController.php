@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AgentController extends Controller
 {
@@ -127,7 +128,7 @@ class AgentController extends Controller
 
         $request->validate([
             'nama'       => 'required|string|max:100',
-            'email'      => 'required|email|max:150|unique:users,email,' . ($agent->user_id ?? 'NULL'),
+            'email'      => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($agent->user_id)],
             'password'   => 'nullable|string|min:6',
             'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
@@ -171,16 +172,20 @@ class AgentController extends Controller
 
     /**
      * DELETE /admin/agents/{id}
-     * Menghapus agent dari database.
+     * Menghapus agent dan akun user yang terhubung.
      */
     public function destroy($id)
     {
         $agent = Agent::findOrFail($id);
+
+        // Hapus akun User terhubung (affiliate) agar tidak muncul lagi di daftar
+        if ($agent->user_id) {
+            User::find($agent->user_id)?->delete();
+        }
+
         $agent->delete();
 
         return response()->json(['message' => 'Agent berhasil dihapus.']);
-    }
-
     /**
      * PATCH /admin/agents/{id}/status
      * Toggle kolom `aktif` (aktif ↔ nonaktif).

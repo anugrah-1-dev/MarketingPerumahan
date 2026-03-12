@@ -41,12 +41,15 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('agentsTableBody').addEventListener('click', function(e) {
         const btn = e.target.closest('button[data-action]');
         if (!btn) return;
-        const id  = parseInt(btn.dataset.id);
         const act = btn.dataset.action;
+        const id  = parseInt(btn.dataset.id);
+
+        if (act === 'copy')   { copyLink(btn.dataset.link, e); return; }
+        if (isNaN(id))        return; // guard: jangan lanjut jika id tidak valid
+
         if (act === 'edit')   editAgent(id);
         if (act === 'toggle') toggleStatus(id);
         if (act === 'delete') deleteAgent(id);
-        if (act === 'copy')   copyLink(btn.dataset.link, e);
     });
 });
 
