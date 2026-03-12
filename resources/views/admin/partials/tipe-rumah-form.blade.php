@@ -42,7 +42,7 @@
     </div>
 
     {{-- Kamar Tidur, Kamar Mandi, Lantai --}}
-    <div class="tr-form-row">
+    <div class="tr-form-row-3">
         <div class="form-group">
             <label>Kamar Tidur <span class="req">*</span></label>
             <input type="number" name="kamar_tidur" min="1" placeholder="2" class="form-input" required>
