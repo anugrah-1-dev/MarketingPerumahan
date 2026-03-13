@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class AgentController extends Controller
 {
@@ -27,26 +28,36 @@ class AgentController extends Controller
 
                 // Jika user affiliate belum punya Agent record, buat otomatis
                 if (!$agent) {
-                    $slug = \Illuminate\Support\Str::slug($user->name);
-                    $base = $slug;
-                    $i    = 1;
-                    while (Agent::where('slug', $slug)->exists()) {
-                        $slug = $base . '-' . $i++;
+                    try {
+                        $slug = \Illuminate\Support\Str::slug($user->name);
+                        $base = $slug;
+                        $i    = 1;
+                        while (Agent::where('slug', $slug)->exists()) {
+                            $slug = $base . '-' . $i++;
+                        }
+                        $agent = Agent::create([
+                            'user_id'    => $user->id,
+                            'nama'       => $user->name,
+                            'jabatan'    => 'Affiliate',
+                            'slug'       => $slug,
+                            'aktif'      => true,
+                            'email'      => $user->email,
+                            'phone'      => null,
+                            'commission' => 0,
+                        ]);
+                    } catch (\Throwable $e) {
+                        // Lewati user ini jika gagal membuat agent record
+                        return null;
                     }
-                    $agent = Agent::create([
-                        'user_id'    => $user->id,
-                        'nama'       => $user->name,
-                        'jabatan'    => 'Affiliate',
-                        'slug'       => $slug,
-                        'aktif'      => true,
-                        'email'      => $user->email,
-                        'phone'      => null,
-                        'commission' => 0,
-                    ]);
+                }
+
+                // Pastikan agent punya ID yang valid sebelum dikembalikan
+                if (!$agent || !$agent->id) {
+                    return null;
                 }
 
                 return [
-                    'id'         => $agent->id,   // Selalu integer valid
+                    'id'         => $agent->id,
                     'nama'       => $user->name,
                     'jabatan'    => $agent->jabatan,
                     'email'      => $user->email,
@@ -61,7 +72,8 @@ class AgentController extends Controller
                 ];
             });
 
-            return response()->json($agents);
+            // Hapus entry null (agent gagal dibuat)
+            return response()->json($agents->filter()->values());
         }
 
         return view('admin.agents');
@@ -139,7 +151,7 @@ class AgentController extends Controller
 
         $request->validate([
             'nama'       => 'required|string|max:100',
-            'email'      => 'required|email|max:150|unique:users,email,' . ($user ? $user->id : 'NULL'),
+            'email'      => 'required|email|max:150|unique:users,email,' . ($agent->user_id ?? 'NULL'),
             'password'   => 'nullable|string|min:6',
             'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
@@ -201,24 +213,12 @@ class AgentController extends Controller
 
     /**
      * DELETE /admin/agents/{id}
-     * Menghapus agent dari database.
+     * Menghapus agent dan akun user yang terhubung.
      */
     public function destroy($id)
     {
-        if (Str::startsWith($id, 'u-')) {
-            $userId = str_replace('u-', '', $id);
-            $user   = User::findOrFail($userId);
-            if ($user->agent) {
-                $user->agent->delete();
-            }
-            $user->delete();
-        } else {
-            $agent = Agent::findOrFail($id);
-            if ($agent->user_id) {
-                User::where('id', $agent->user_id)->delete();
-            }
-            $agent->delete();
-        }
+        $agent = Agent::findOrFail($id);
+        $agent->delete();
 
         return response()->json(['message' => 'Agent dan akun berhasil dihapus.']);
     }

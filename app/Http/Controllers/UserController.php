@@ -34,7 +34,7 @@ class UserController extends Controller
             'name'     => 'required|string|max:100',
             'email'    => 'required|email|max:150|unique:users,email',
             'password' => 'required|string|min:8',
-            'role'     => ['required', Rule::in(['super_admin', 'affiliate'])],
+            'role'     => ['required', Rule::in(['super_admin', 'admin', 'affiliate'])],
         ]);
 
         $user = User::create([
@@ -59,7 +59,7 @@ class UserController extends Controller
             'name'     => 'required|string|max:100',
             'email'    => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($id)],
             'password' => 'nullable|string|min:8',
-            'role'     => ['required', Rule::in(['super_admin', 'affiliate'])],
+            'role'     => ['required', Rule::in(['super_admin', 'admin', 'affiliate'])],
         ]);
 
         $user->name  = $request->name;

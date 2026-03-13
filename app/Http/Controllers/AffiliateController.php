@@ -80,9 +80,61 @@ class AffiliateController extends Controller
             'total'     => $clicks->count(),
             'baru'      => $clicks->where('status', 'new')->count(),
             'follow_up' => $clicks->where('status', 'follow-up')->count(),
-            'closing'   => $clicks->where('status', 'interested')->count(),
+            'closing'   => $clicks->where('status', 'closed')->count(),
         ];
 
         return view('affiliate.leads', compact('clicks', 'stats'));
+    }
+
+    /**
+     * Halaman "Closing Saya" — daftar leads yang sudah berstatus closed.
+     */
+    public function closingPage()
+    {
+        $user    = Auth::user();
+        $refCode = $user->referral_code;
+
+        $closings = WaClick::where('referral_code', $refCode)
+                           ->where('status', 'closed')
+                           ->latest()
+                           ->get();
+
+        $stats = [
+            'total_closing'     => $closings->count(),
+            'closing_bulan_ini' => WaClick::where('referral_code', $refCode)
+                                          ->where('status', 'closed')
+                                          ->where('created_at', '>=', now()->startOfMonth())
+                                          ->count(),
+        ];
+
+        $commissionRate = $user->agent?->commission ?? 0;
+
+        return view('affiliate.closing', compact('closings', 'stats', 'commissionRate'));
+    }
+
+    /**
+     * Halaman "Komisi" — ringkasan komisi affiliate berdasarkan closing.
+     */
+    public function komisiPage()
+    {
+        $user    = Auth::user();
+        $refCode = $user->referral_code;
+
+        $commissionRate = $user->agent?->commission ?? 0;
+
+        $closings = WaClick::where('referral_code', $refCode)
+                           ->where('status', 'closed')
+                           ->latest()
+                           ->get();
+
+        $totalClosing    = $closings->count();
+        $closingBulanIni = WaClick::where('referral_code', $refCode)
+                                  ->where('status', 'closed')
+                                  ->where('created_at', '>=', now()->startOfMonth())
+                                  ->count();
+
+        return view('affiliate.komisi', compact(
+            'closings', 'totalClosing', 'closingBulanIni', 'commissionRate'
+        ));
     }
 }
