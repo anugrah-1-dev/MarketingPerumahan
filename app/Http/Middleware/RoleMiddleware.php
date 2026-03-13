@@ -31,7 +31,11 @@ class RoleMiddleware
             return redirect()->route('affiliate.dashboard');
         }
 
-        // Default redirect to admin dashboard if not super_admin or admin
-        return redirect()->route('admin.dashboard');
+        if (in_array($user->role, ['super_admin', 'admin'])) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        // Default redirect to home
+        return redirect('/');
     }
 }

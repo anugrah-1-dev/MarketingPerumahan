@@ -18,7 +18,7 @@ Route::post('/login',                [PageController::class, 'authenticate'])->n
 Route::post('/logout',               [PageController::class, 'logout'])->name('logout');
 
 
-Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:super_admin,admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',          fn() => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
     Route::get('/tracking',               [TrackingController::class, 'index'])->name('tracking');
