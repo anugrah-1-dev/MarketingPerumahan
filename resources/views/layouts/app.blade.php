@@ -302,7 +302,7 @@
                 <a href="{{ $isLanding ? '#fasilitas' : route('landing').'#fasilitas' }}"
                    class="nav-pill">Fasilitas</a>
                 <a href="{{ $isLanding ? '#sosial-media' : route('landing').'#sosial-media' }}"
-                   class="nav-pill">Sosial Media</a>
+                   class="nav-pill">Media Sosial</a>
                 <a href="{{ $isLanding ? '#lokasi' : route('landing').'#lokasi' }}"
                    class="nav-pill">Lokasi</a>
                 <a href="{{ $isLanding ? '#tentang' : route('landing').'#tentang' }}"
