@@ -2,6 +2,50 @@
 
 @section('title', 'Bukit Shangrilla Asri – Pilihan Rumah Terbaik')
 
+@section('head')
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <style>
+        .swiper-hero {
+            width: 85%;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        @media (min-width: 1024px) {
+            .swiper-hero {
+                width: 95%;
+            }
+        }
+        .swiper-pagination-bullet {
+            background: #fff;
+            opacity: 0.7;
+        }
+        .swiper-pagination-bullet-active {
+            background: #fff;
+            opacity: 1;
+        }
+        .swiper-button-next, .swiper-button-prev {
+            color: #fff;
+            background: rgba(0,0,0,0.3);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s;
+        }
+        .swiper-button-next:hover, .swiper-button-prev:hover {
+            background: rgba(0,0,0,0.6);
+        }
+        .swiper-button-next::after, .swiper-button-prev::after {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+@endsection
+
 @php
     // Bangun URL & pesan WhatsApp berdasarkan agent yang aktif
     $waPeran  = $agent['jabatan'] ?? 'Marketing';
@@ -48,14 +92,41 @@
 
             </div>
 
-            {{-- Right: Image --}}
+            {{-- Right: Image Slider --}}
             <div class="w-full lg:w-1/2 relative flex justify-center">
                 <div class="absolute right-0 top-[-20px] w-[90%] h-[105%] bg-[#D9D9D9] rounded-[20px] z-0 hidden lg:block">
                 </div>
-                <img src="{{ asset('assets/images/hero.png') }}"
-                    onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80';this.onerror=null;"
-                    alt="Rumah Impian"
-                    class="relative z-10 w-[85%] lg:w-[95%] rounded-[15px] object-cover shadow-2xl hover:scale-[1.01] transition-transform duration-700">
+                
+                <!-- Swiper -->
+                <div class="swiper swiper-hero relative z-10 transition-transform duration-700 hover:scale-[1.01]">
+                    <div class="swiper-wrapper">
+                        <!-- Slide 1: Bukit -->
+                        <div class="swiper-slide">
+                            <img src="{{ asset('assets/images/bukit.jpg') }}"
+                                onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80';this.onerror=null;"
+                                alt="Pemandangan Bukit"
+                                class="w-full h-auto aspect-[4/3] object-cover">
+                        </div>
+                        <!-- Slide 2: Hero Static -->
+                        <div class="swiper-slide">
+                            <img src="{{ asset('assets/images/hero.png') }}"
+                                onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80';this.onerror=null;"
+                                alt="Rumah Impian"
+                                class="w-full h-auto aspect-[4/3] object-cover">
+                        </div>
+                        <!-- Slide 3: Placeholder -->
+                        <div class="swiper-slide">
+                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"
+                                alt="Modern Home"
+                                class="w-full h-auto aspect-[4/3] object-cover">
+                        </div>
+                    </div>
+                    <!-- Custom Pagination -->
+                    <div class="swiper-pagination"></div>
+                    <!-- Custom Navigation -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
             </div>
 
         </div>
@@ -262,5 +333,25 @@
 @endsection
 
 @section('scripts')
-
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var swiper = new Swiper('.swiper-hero', {
+                loop: true,
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+            });
+        });
+    </script>
 @endsection
