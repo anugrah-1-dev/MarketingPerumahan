@@ -89,6 +89,9 @@ class PageController extends Controller
             if ($user->isAffiliate()) {
                 return redirect()->route('affiliate.dashboard');
             }
+            if ($user->isAdmin()) {
+                return redirect()->route('manager.dashboard');
+            }
             return redirect()->intended('/admin');
         }
 
@@ -289,7 +292,10 @@ class PageController extends Controller
 
     public function pengisianDataAdmin()
     {
-        return view('admin.pengisian-data');
+        $user = Auth::user();
+        $panel = $user && $user->isAdmin() ? 'manager' : 'admin';
+
+        return view("{$panel}.pengisian-data");
     }
 
     public function storeClientDataAdmin(Request $request)
@@ -310,6 +316,8 @@ class PageController extends Controller
             'alamat.required'       => 'Alamat wajib diisi.',
         ]);
 
-        return redirect()->route('admin.pengisian-data')->with('step', 'selesai');
+        $user = Auth::user();
+        $route = $user->isAdmin() ? 'manager.pengisian-data' : 'admin.pengisian-data';
+        return redirect()->route($route)->with('step', 'selesai');
     }
 }

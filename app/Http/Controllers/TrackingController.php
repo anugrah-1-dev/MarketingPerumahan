@@ -173,6 +173,9 @@ class TrackingController extends Controller
     // ──────────────────────────────────────────────────────────────────────────
     public function index()
     {
-        return view('admin.tracking');
+        $user = auth()->user();
+        $panel = $user && $user->isAdmin() ? 'manager' : 'admin';
+
+        return view("{$panel}.tracking");
     }
 }

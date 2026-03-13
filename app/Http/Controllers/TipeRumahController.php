@@ -14,7 +14,14 @@ class TipeRumahController extends Controller
     public function index()
     {
         $tipeRumah = TipeRumah::latest()->get();
-        $panel = auth()->user()->isSuperAdmin() ? 'admin' : 'affiliate';
+        $user = auth()->user();
+        if ($user->isSuperAdmin()) {
+            $panel = 'admin';
+        } elseif ($user->isAdmin()) {
+            $panel = 'manager';
+        } else {
+            $panel = 'affiliate';
+        }
         return view("{$panel}.tipe-rumah", compact('tipeRumah'));
     }
 

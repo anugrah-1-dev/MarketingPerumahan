@@ -37,6 +37,7 @@ class User extends Authenticatable
 
     // ── Role helpers ────────────────────────────────
     public function isSuperAdmin(): bool { return $this->role === 'super_admin'; }
+    public function isAdmin(): bool      { return $this->role === 'admin'; }
     public function isAffiliate(): bool  { return $this->role === 'affiliate'; }
 
     // ── Referral Link Accessor ───────────────────────

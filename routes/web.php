@@ -18,7 +18,8 @@ Route::post('/login',                [PageController::class, 'authenticate'])->n
 Route::post('/logout',               [PageController::class, 'logout'])->name('logout');
 
 
-Route::middleware(['auth', 'role:super_admin,admin'])->prefix('admin')->name('admin.')->group(function () {
+// ── Super Admin Panel (/admin) ─────────────────────────────────────────────
+Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',          fn() => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
     Route::get('/tracking',               [TrackingController::class, 'index'])->name('tracking');
@@ -59,6 +60,27 @@ Route::middleware(['auth', 'role:super_admin,admin'])->prefix('admin')->name('ad
     Route::put('/social-media/{id}',          [SocialMediaController::class, 'update'])->name('social-media.update');
     Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
     Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
+});
+
+// ── Admin Panel (/manager) ─────────────────────────────────────────────────
+Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->group(function () {
+    Route::get('/',          fn() => redirect()->route('manager.dashboard'));
+    Route::get('/dashboard', fn() => view('manager.dashboard'))->name('dashboard');
+
+    // ── Tracking ──────────────────────────────────────────────────────────
+    Route::get('/tracking',               [TrackingController::class, 'index'])->name('tracking');
+    Route::get('/tracking/data',           [TrackingController::class, 'data'])->name('tracking.data');
+    Route::patch('/tracking/{id}/status',  [TrackingController::class, 'updateStatus'])->name('tracking.status');
+
+    // ── Pengisian Data Client ──────────────────────────────────────────────
+    Route::get('/pengisian-data',        [PageController::class, 'pengisianDataAdmin'])->name('pengisian-data');
+    Route::post('/pengisian-data',       [PageController::class, 'storeClientDataAdmin'])->name('pengisian-data.store');
+
+    // ── Tipe Rumah ────────────────────────────────────────────────────────
+    Route::get('/tipe-rumah',            [TipeRumahController::class, 'index'])->name('tipe-rumah');
+    Route::post('/tipe-rumah',           [TipeRumahController::class, 'store'])->name('tipe-rumah.store');
+    Route::put('/tipe-rumah/{id}',       [TipeRumahController::class, 'update'])->name('tipe-rumah.update');
+    Route::delete('/tipe-rumah/{id}',    [TipeRumahController::class, 'destroy'])->name('tipe-rumah.destroy');
 });
 
 // ── Affiliate Panel ──────────────────────────────────────────────────────
