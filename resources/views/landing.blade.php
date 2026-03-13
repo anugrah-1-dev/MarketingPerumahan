@@ -144,28 +144,6 @@
      UNIT PERUMAHAN
      ================================================================ --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-20">
-        @php
-            $tipeUnggulan = [
-                [
-                    'nama' => 'Harmony',
-                    'gambar' => asset('assets/landing/harmony.jpg'),
-                    'tagline' => 'Tipe compact dengan desain nyaman untuk keluarga kecil.',
-                    'fitur' => ['1 Lantai', '2 Kamar Tidur', '1 Kamar Mandi', '1 Garasi', 'Ukuran 40/72'],
-                ],
-                [
-                    'nama' => 'Blissfull',
-                    'gambar' => asset('assets/landing/blissfull.jpg'),
-                    'tagline' => 'Ruang lebih lega untuk kebutuhan keluarga aktif.',
-                    'fitur' => ['2 Lantai', '3 Kamar Tidur', '2 Kamar Mandi', 'Carport 1 Mobil', 'Ukuran 50/84'],
-                ],
-                [
-                    'nama' => 'Serenity',
-                    'gambar' => asset('assets/landing/serenity.jpg'),
-                    'tagline' => 'Nuansa tenang dengan tata ruang modern dan asri.',
-                    'fitur' => ['1 Lantai', '3 Kamar Tidur', '2 Kamar Mandi', 'Carport 1 Mobil', 'Ukuran 60/98'],
-                ],
-            ];
-        @endphp
         <div class="bg-white rounded-[24px] border border-[#E9E9E9] p-6 lg:p-8 shadow-[0_18px_36px_rgba(0,0,0,0.06)]">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-7">
                 <div>
@@ -179,31 +157,59 @@
                 </a>
             </div>
 
+            @if($semuaTipeRumah->isEmpty())
+                <p class="text-center text-[#676767] py-10">Tipe rumah belum tersedia. Silakan tambah melalui panel admin.</p>
+            @else
             <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                @foreach($tipeUnggulan as $tipe)
+                @foreach($semuaTipeRumah->take(3) as $tipe)
+                    @php
+                        $fitur = [];
+                        if ($tipe->lantai)       $fitur[] = $tipe->lantai . ' Lantai';
+                        if ($tipe->kamar_tidur)  $fitur[] = $tipe->kamar_tidur . ' Kamar Tidur';
+                        if ($tipe->kamar_mandi)  $fitur[] = $tipe->kamar_mandi . ' Kamar Mandi';
+                        if ($tipe->luas_bangunan && $tipe->luas_tanah) $fitur[] = 'Ukuran ' . $tipe->luas_bangunan . '/' . $tipe->luas_tanah;
+                        // fitur tambahan dari JSON fasilitas (max 1 item)
+                        if (!empty($tipe->fasilitas) && is_array($tipe->fasilitas)) {
+                            $fitur[] = $tipe->fasilitas[0];
+                        }
+                    @endphp
                     <div class="group rounded-[20px] overflow-hidden border border-[#E7E7E7] bg-[#FCFCFC] hover:shadow-[0_18px_32px_rgba(0,0,0,0.10)] transition-all duration-300">
                         <div class="relative h-[210px] overflow-hidden">
-                            <img src="{{ $tipe['gambar'] }}"
+                            <img src="{{ $tipe->gambar_url }}"
                                 onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1000&q=80';this.onerror=null;"
-                                alt="Tipe {{ $tipe['nama'] }}"
+                                alt="Tipe {{ $tipe->nama_tipe }}"
                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
                             <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
                                 <p class="text-white text-xs tracking-wide uppercase">Tipe Rumah</p>
-                                <h4 class="text-white text-2xl font-bold leading-tight">{{ $tipe['nama'] }}</h4>
+                                <h4 class="text-white text-2xl font-bold leading-tight">{{ $tipe->nama_tipe }}</h4>
                             </div>
+                            @if($tipe->is_diskon && $tipe->harga_diskon)
+                                <div class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">DISKON</div>
+                            @endif
                         </div>
 
                         <div class="p-5">
-                            <p class="text-[#676767] text-sm mb-4">{{ $tipe['tagline'] }}</p>
+                            <p class="text-[#676767] text-sm mb-4">{{ $tipe->deskripsi ?: 'Hunian nyaman untuk keluarga Anda.' }}</p>
+                            @if($tipe->harga)
+                                <p class="text-[#0B5E41] font-bold text-sm mb-3">
+                                    @if($tipe->is_diskon && $tipe->harga_diskon)
+                                        <span class="line-through text-gray-400 font-normal mr-1">{{ $tipe->harga_format }}</span>
+                                        {{ $tipe->harga_diskon_format }}
+                                    @else
+                                        {{ $tipe->harga_format }}
+                                    @endif
+                                </p>
+                            @endif
                             <div class="grid grid-cols-2 gap-2">
-                                @foreach($tipe['fitur'] as $fitur)
-                                    <span class="inline-flex items-center justify-center text-center rounded-xl border border-[#D9E7DB] bg-[#F4FAF5] text-[#355B3E] text-xs font-semibold px-2 py-2">{{ $fitur }}</span>
+                                @foreach($fitur as $f)
+                                    <span class="inline-flex items-center justify-center text-center rounded-xl border border-[#D9E7DB] bg-[#F4FAF5] text-[#355B3E] text-xs font-semibold px-2 py-2">{{ $f }}</span>
                                 @endforeach
                             </div>
                         </div>
                     </div>
                 @endforeach
             </div>
+            @endif
         </div>
     </section>
 
@@ -264,7 +270,7 @@
             ],
         ];
     @endphp
-    <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
+    <section id="fasilitas" class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
         <div class="relative overflow-hidden rounded-[24px] bg-[#0B5E41] text-white shadow-xl">
             <div class="absolute -top-24 -right-20 w-72 h-72 rounded-full bg-white/5"></div>
             <div class="absolute -bottom-16 -left-16 w-60 h-60 rounded-full bg-white/5"></div>
@@ -315,7 +321,7 @@
      SOCIAL MEDIA SHOWCASE — infinite auto-scroll carousel
      ================================================================ --}}
     @if($socialMedias->isNotEmpty())
-    <section class="pb-20 overflow-hidden" id="showcase-section">
+    <section class="pb-20 overflow-hidden" id="sosial-media">
 
         {{-- Section header --}}
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-10">
@@ -405,7 +411,7 @@
         #showcase-track {
             animation: showcaseScroll {{ max(20, $socialMedias->count() * 5) }}s linear infinite;
         }
-        #showcase-section:hover #showcase-track,
+        #sosial-media:hover #showcase-track,
         #showcase-track.dragging {
             animation-play-state: paused;
         }
@@ -492,7 +498,7 @@
     {{-- ================================================================
      LOKASI PERUMAHAN (Google Maps)
      ================================================================ --}}
-    <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
+    <section id="lokasi" class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
         <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Lokasi Kami</h2>
         <p class="text-[#676767] text-[15px] mb-8">Kunjungi kantor pemasaran dan lokasi proyek kami</p>
 

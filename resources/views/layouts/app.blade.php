@@ -177,12 +177,15 @@
                 <a href="{{ route('landing') }}"
                     class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('landing') ? 'font-bold underline underline-offset-4' : '' }}">Home</a>
                 <a href="{{ route('unit-tersedia') }}"
-                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('unit-tersedia') ? 'font-bold underline underline-offset-4' : '' }}">Unit
-                    tersedia</a>
-
-                <a href="#tentang"
-                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Tentang
-                    kami</a>
+                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('unit-tersedia') ? 'font-bold underline underline-offset-4' : '' }}">Unit Tersedia</a>
+                <a href="{{ route('landing') }}#fasilitas"
+                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Fasilitas</a>
+                <a href="{{ route('landing') }}#sosial-media"
+                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Sosial Media</a>
+                <a href="{{ route('landing') }}#lokasi"
+                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Lokasi</a>
+                <a href="{{ route('landing') }}#tentang"
+                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Tentang Kami</a>
             </div>
 
             <!-- Login Button Removed -->
@@ -200,11 +203,11 @@
         <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden lg:hidden bg-white shadow-lg px-6 py-4 flex flex-col gap-4">
             <a href="{{ route('landing') }}" class="text-[#393939] font-medium">Home</a>
-            <a href="{{ route('tipe-rumah.publik') }}" class="text-[#393939] font-medium">Tipe Rumah</a>
-
-
-            <a href="#tentang" class="text-[#393939] font-medium">Tentang kami</a>
-
+            <a href="{{ route('unit-tersedia') }}" class="text-[#393939] font-medium">Unit Tersedia</a>
+            <a href="{{ route('landing') }}#fasilitas" class="text-[#393939] font-medium">Fasilitas</a>
+            <a href="{{ route('landing') }}#sosial-media" class="text-[#393939] font-medium">Sosial Media</a>
+            <a href="{{ route('landing') }}#lokasi" class="text-[#393939] font-medium">Lokasi</a>
+            <a href="{{ route('landing') }}#tentang" class="text-[#393939] font-medium">Tentang Kami</a>
         </div>
     </nav>
 
