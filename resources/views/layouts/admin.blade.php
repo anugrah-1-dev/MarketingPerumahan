@@ -31,6 +31,10 @@
                 <i class="fas fa-home"></i>
                 <span>Tipe Rumah</span>
             </a>
+            <a href="{{ route('admin.units') }}" class="nav-item {{ request()->routeIs('admin.units*') ? 'active' : '' }}">
+                <i class="fas fa-building"></i>
+                <span>Manajemen Unit</span>
+            </a>
             <a href="{{ route('admin.pengisian-data') }}" class="nav-item {{ request()->routeIs('admin.pengisian-data') ? 'active' : '' }}">
                 <i class="fas fa-clipboard-list"></i>
                 <span>Pengisian Data Client</span>

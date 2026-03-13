@@ -11,6 +11,7 @@ use App\Http\Controllers\TipeRumahController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\UnitController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
@@ -60,6 +61,13 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::put('/social-media/{id}',          [SocialMediaController::class, 'update'])->name('social-media.update');
     Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
     Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
+
+    // ── Manajemen Unit ────────────────────────────────────────────────────
+    Route::get('/units',               [UnitController::class, 'index'])->name('units');
+    Route::post('/units',              [UnitController::class, 'store'])->name('units.store');
+    Route::put('/units/{id}',          [UnitController::class, 'update'])->name('units.update');
+    Route::delete('/units/{id}',       [UnitController::class, 'destroy'])->name('units.destroy');
+    Route::patch('/units/{id}/status', [UnitController::class, 'updateStatus'])->name('units.status');
 });
 
 // ── Admin Panel (/manager) ─────────────────────────────────────────────────
@@ -99,6 +107,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     Route::put('/social-media/{id}',          [SocialMediaController::class, 'update'])->name('social-media.update');
     Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
     Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
+
+    // ── Manajemen Unit ────────────────────────────────────────────────────
+    Route::get('/units',               [UnitController::class, 'index'])->name('units');
+    Route::post('/units',              [UnitController::class, 'store'])->name('units.store');
+    Route::put('/units/{id}',          [UnitController::class, 'update'])->name('units.update');
+    Route::delete('/units/{id}',       [UnitController::class, 'destroy'])->name('units.destroy');
+    Route::patch('/units/{id}/status', [UnitController::class, 'updateStatus'])->name('units.status');
 });
 
 // ── Affiliate Panel ──────────────────────────────────────────────────────
@@ -122,6 +137,13 @@ Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affili
     Route::post('/tipe-rumah',           [TipeRumahController::class, 'store'])->name('tipe-rumah.store');
     Route::put('/tipe-rumah/{id}',       [TipeRumahController::class, 'update'])->name('tipe-rumah.update');
     Route::delete('/tipe-rumah/{id}',    [TipeRumahController::class, 'destroy'])->name('tipe-rumah.destroy');
+
+    // ── Manajemen Unit ────────────────────────────────────────────────────
+    Route::get('/units',               [UnitController::class, 'index'])->name('units');
+    Route::post('/units',              [UnitController::class, 'store'])->name('units.store');
+    Route::put('/units/{id}',          [UnitController::class, 'update'])->name('units.update');
+    Route::delete('/units/{id}',       [UnitController::class, 'destroy'])->name('units.destroy');
+    Route::patch('/units/{id}/status', [UnitController::class, 'updateStatus'])->name('units.status');
 });
 
 Route::get('/tipe-rumah',            [TipeRumahController::class, 'publicIndex'])->name('tipe-rumah.publik');

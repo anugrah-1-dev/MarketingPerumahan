@@ -48,6 +48,10 @@
                 <span class="nav-icon"><i class="fas fa-house-user"></i></span>
                 Tipe Rumah
             </a>
+            <a href="{{ route('affiliate.units') }}" class="nav-item {{ request()->routeIs('affiliate.units*') ? 'active' : '' }}">
+                <span class="nav-icon"><i class="fas fa-building"></i></span>
+                Manajemen Unit
+            </a>
             <a href="{{ route('affiliate.profile') }}" class="nav-item {{ request()->routeIs('affiliate.profile') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-user-circle"></i></span>
                 Profile
