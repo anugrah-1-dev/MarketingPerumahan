@@ -35,6 +35,18 @@
                 <i class="fas fa-mouse-pointer"></i>
                 <span>Tracking Klik WA</span>
             </a>
+            <a href="{{ route('manager.agents') }}" class="nav-item {{ request()->routeIs('manager.agents*') ? 'active' : '' }}">
+                <i class="fas fa-users"></i>
+                <span>Manajemen Agent</span>
+            </a>
+            <a href="{{ route('manager.social-media') }}" class="nav-item {{ request()->routeIs('manager.social-media*') ? 'active' : '' }}">
+                <i class="fas fa-photo-video"></i>
+                <span>Social Media</span>
+            </a>
+            <a href="{{ route('manager.settings') }}" class="nav-item {{ request()->routeIs('manager.settings*') ? 'active' : '' }}">
+                <i class="fas fa-cog"></i>
+                <span>Pengaturan</span>
+            </a>
         </nav>
         <div class="sidebar-footer">
             <div style="padding:12px 16px; font-size:13px; color:#aaa; border-top:1px solid rgba(255,255,255,0.1)">

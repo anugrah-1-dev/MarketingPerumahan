@@ -14,7 +14,9 @@ class SettingController extends Controller
     public function index()
     {
         $waAdmin = Setting::get('wa_admin', '6283876766055');
-        return view('admin.settings', compact('waAdmin'));
+        $isManager = request()->routeIs('manager.*');
+        $view = $isManager ? 'manager.settings' : 'admin.settings';
+        return view($view, compact('waAdmin'));
     }
 
     /**
@@ -39,7 +41,8 @@ class SettingController extends Controller
 
         Setting::set('wa_admin', $request->wa_admin);
 
-        return redirect()->route('admin.settings')
+        $route = request()->routeIs('manager.*') ? 'manager.settings' : 'admin.settings';
+        return redirect()->route($route)
                          ->with('success', 'Nomor WhatsApp admin berhasil diperbarui!');
     }
 }

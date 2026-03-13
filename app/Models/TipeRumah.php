@@ -52,8 +52,15 @@ class TipeRumah extends Model
      */
     public function getGambarUrlAttribute(): string
     {
-        if ($this->gambar && file_exists(storage_path('app/public/' . $this->gambar))) {
-            return asset('storage/' . $this->gambar);
+        if ($this->gambar) {
+            // New location: public/uploads/ (no symlink needed)
+            if (file_exists(public_path('uploads/' . $this->gambar))) {
+                return asset('uploads/' . $this->gambar);
+            }
+            // Legacy: public/storage/ (via symlink)
+            if (file_exists(storage_path('app/public/' . $this->gambar))) {
+                return asset('storage/' . $this->gambar);
+            }
         }
         return 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80';
     }
@@ -104,8 +111,12 @@ class TipeRumah extends Model
         $urls = [];
 
         // Foto utama dari kolom gambar
-        if ($this->gambar && file_exists(storage_path('app/public/' . $this->gambar))) {
-            $urls[] = ['url' => asset('storage/' . $this->gambar), 'keterangan' => 'Foto Utama'];
+        $gambarOk = $this->gambar && (
+            file_exists(public_path('uploads/' . $this->gambar)) ||
+            file_exists(storage_path('app/public/' . $this->gambar))
+        );
+        if ($gambarOk) {
+            $urls[] = ['url' => $this->gambar_url, 'keterangan' => 'Foto Utama'];
         } else {
             $urls[] = ['url' => 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', 'keterangan' => 'Foto Utama'];
         }

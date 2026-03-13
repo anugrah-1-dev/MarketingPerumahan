@@ -76,11 +76,29 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     Route::get('/pengisian-data',        [PageController::class, 'pengisianDataAdmin'])->name('pengisian-data');
     Route::post('/pengisian-data',       [PageController::class, 'storeClientDataAdmin'])->name('pengisian-data.store');
 
+    // ── Agent ─────────────────────────────────────────────────────────────
+    Route::get('/agents',                [AgentController::class, 'index'])->name('agents');
+    Route::post('/agents',               [AgentController::class, 'store'])->name('agents.store');
+    Route::put('/agents/{id}',           [AgentController::class, 'update'])->name('agents.update');
+    Route::delete('/agents/{id}',        [AgentController::class, 'destroy'])->name('agents.destroy');
+    Route::patch('/agents/{id}/status',  [AgentController::class, 'toggleStatus'])->name('agents.toggle');
+
+    // ── Pengaturan ─────────────────────────────────────────────────────────
+    Route::get('/settings',              [SettingController::class, 'index'])->name('settings');
+    Route::post('/settings',             [SettingController::class, 'update'])->name('settings.update');
+
     // ── Tipe Rumah ────────────────────────────────────────────────────────
     Route::get('/tipe-rumah',            [TipeRumahController::class, 'index'])->name('tipe-rumah');
     Route::post('/tipe-rumah',           [TipeRumahController::class, 'store'])->name('tipe-rumah.store');
     Route::put('/tipe-rumah/{id}',       [TipeRumahController::class, 'update'])->name('tipe-rumah.update');
     Route::delete('/tipe-rumah/{id}',    [TipeRumahController::class, 'destroy'])->name('tipe-rumah.destroy');
+
+    // ── Social Media ──────────────────────────────────────────────────────
+    Route::get('/social-media',               [SocialMediaController::class, 'index'])->name('social-media');
+    Route::post('/social-media',              [SocialMediaController::class, 'store'])->name('social-media.store');
+    Route::put('/social-media/{id}',          [SocialMediaController::class, 'update'])->name('social-media.update');
+    Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
+    Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
 });
 
 // ── Affiliate Panel ──────────────────────────────────────────────────────

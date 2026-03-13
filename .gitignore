@@ -16,6 +16,11 @@
 /public/build
 /public/hot
 /public/storage
+/public/uploads/*
+!/public/uploads/tipe-rumah/
+!/public/uploads/tipe-rumah/.gitkeep
+!/public/uploads/social-media/
+!/public/uploads/social-media/.gitkeep
 /storage/*.key
 /storage/pail
 /vendor

@@ -47,6 +47,17 @@ return [
             'report' => false,
         ],
 
+        // Disk for user-uploaded files — stored directly in public/uploads/
+        // No symlink required, works on all shared hosting (NiaгaHosting, cPanel, etc.)
+        'uploads' => [
+            'driver'     => 'local',
+            'root'       => public_path('uploads'),
+            'url'        => rtrim(env('APP_URL', 'http://localhost'), '/').'/uploads',
+            'visibility' => 'public',
+            'throw'      => false,
+            'report'     => false,
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

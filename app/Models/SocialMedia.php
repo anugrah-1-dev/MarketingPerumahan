@@ -60,6 +60,11 @@ class SocialMedia extends Model
         if (!$this->thumbnail_url) return null;
         // If already a full URL (e.g. from external), return as-is
         if (str_starts_with($this->thumbnail_url, 'http')) return $this->thumbnail_url;
+        // New location: public/uploads/
+        if (file_exists(public_path('uploads/' . $this->thumbnail_url))) {
+            return asset('uploads/' . $this->thumbnail_url);
+        }
+        // Legacy: public/storage/ (via symlink)
         return asset('storage/' . $this->thumbnail_url);
     }
 }

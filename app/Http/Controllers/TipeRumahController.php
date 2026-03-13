@@ -46,7 +46,7 @@ class TipeRumahController extends Controller
         ]);
 
         if ($request->hasFile('gambar')) {
-            $data['gambar'] = $request->file('gambar')->store('tipe-rumah', 'public');
+            $data['gambar'] = $request->file('gambar')->store('tipe-rumah', 'uploads');
         }
 
         $data['is_diskon'] = $request->boolean('is_diskon');
@@ -60,7 +60,7 @@ class TipeRumahController extends Controller
         // Simpan foto-foto tambahan ke tabel tipe_rumah_foto
         if ($request->hasFile('foto_tambahan')) {
             foreach ($request->file('foto_tambahan') as $i => $file) {
-                $path = $file->store('tipe-rumah', 'public');
+                $path = $file->store('tipe-rumah', 'uploads');
                 TipeRumahFoto::create([
                     'tipe_rumah_id' => $tipe->id,
                     'path'          => $path,
@@ -98,9 +98,11 @@ class TipeRumahController extends Controller
         if ($request->hasFile('gambar')) {
             // Hapus gambar lama
             if ($tipe->gambar) {
+                Storage::disk('uploads')->delete($tipe->gambar);
+                // Also try deleting from legacy public disk
                 Storage::disk('public')->delete($tipe->gambar);
             }
-            $data['gambar'] = $request->file('gambar')->store('tipe-rumah', 'public');
+            $data['gambar'] = $request->file('gambar')->store('tipe-rumah', 'uploads');
         } else {
             unset($data['gambar']); // jangan timpa kalau tidak ada upload baru
         }
@@ -116,7 +118,7 @@ class TipeRumahController extends Controller
         if ($request->hasFile('foto_tambahan')) {
             $lastUrutan = $tipe->fotos()->max('urutan') ?? 0;
             foreach ($request->file('foto_tambahan') as $i => $file) {
-                $path = $file->store('tipe-rumah', 'public');
+                $path = $file->store('tipe-rumah', 'uploads');
                 TipeRumahFoto::create([
                     'tipe_rumah_id' => $tipe->id,
                     'path'          => $path,
@@ -134,11 +136,13 @@ class TipeRumahController extends Controller
         $tipe = TipeRumah::findOrFail($id);
 
         if ($tipe->gambar) {
+            Storage::disk('uploads')->delete($tipe->gambar);
             Storage::disk('public')->delete($tipe->gambar);
         }
 
         // Hapus juga foto-foto tambahan dari disk
         foreach ($tipe->fotos as $foto) {
+            Storage::disk('uploads')->delete($foto->path);
             Storage::disk('public')->delete($foto->path);
         }
 
