@@ -32,7 +32,7 @@
             <i class="fas fa-plus"></i> Tambah Konten
         </button>
         <p style="font-size:.85rem;color:#64748b;margin:0;">
-            Kelola konten YouTube, Instagram &amp; TikTok yang tampil di homepage sebagai showcase carousel.
+            Kelola konten YouTube, Instagram, TikTok, atau file foto/video lokal untuk showcase homepage.
         </p>
     </div>
 
@@ -43,17 +43,17 @@
                 <div style="text-align:center;padding:3rem;color:#94a3b8;">
                     <i class="fas fa-photo-video" style="font-size:2.5rem;margin-bottom:1rem;display:block;opacity:.4;"></i>
                     <p style="font-weight:600;margin-bottom:.5rem;">Belum ada konten.</p>
-                    <p style="font-size:.85rem;">Tambahkan video/post dari YouTube, Instagram, atau TikTok.</p>
+                    <p style="font-size:.85rem;">Tambahkan link social media atau upload foto/video lokal.</p>
                 </div>
             @else
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th style="width:90px;">Thumbnail</th>
+                            <th style="width:90px;">Preview</th>
                             <th style="width:110px;">Platform</th>
                             <th>Judul</th>
-                            <th style="width:180px;">URL Konten</th>
+                            <th style="width:180px;">Sumber</th>
                             <th style="width:80px;">Status</th>
                             <th style="width:80px;">Tanggal</th>
                             <th style="width:110px;">Aksi</th>
@@ -71,6 +71,14 @@
                                 @if($item->thumbnail_src)
                                     <img src="{{ $item->thumbnail_src }}" alt="{{ e($item->title) }}"
                                          style="width:72px;height:48px;object-fit:cover;border-radius:8px;display:block;">
+                                @elseif($item->media_type === 'image' && $item->media_src)
+                                    <img src="{{ $item->media_src }}" alt="{{ e($item->title) }}"
+                                         style="width:72px;height:48px;object-fit:cover;border-radius:8px;display:block;">
+                                @elseif($item->media_type === 'video' && $item->media_src)
+                                    <video muted playsinline preload="metadata"
+                                           style="width:72px;height:48px;object-fit:cover;border-radius:8px;display:block;background:#0f172a;">
+                                        <source src="{{ $item->media_src }}">
+                                    </video>
                                 @else
                                     <div style="width:72px;height:48px;border-radius:8px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;">
                                         <svg style="width:20px;height:20px;fill:{{ $cfg['color'] }};" viewBox="0 0 24 24">
@@ -100,13 +108,22 @@
                                 @endif
                             </td>
 
-                            {{-- URL --}}
+                            {{-- Source --}}
                             <td>
-                                <a href="{{ $item->content_url }}" target="_blank" rel="noopener noreferrer"
-                                   style="color:#6366f1;font-size:.78rem;text-decoration:none;display:flex;align-items:center;gap:4px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                                    <i class="fas fa-external-link-alt" style="font-size:.65rem;flex-shrink:0;"></i>
-                                    {{ parse_url($item->content_url, PHP_URL_HOST) }}
-                                </a>
+                                @if($item->content_url)
+                                    <a href="{{ $item->content_url }}" target="_blank" rel="noopener noreferrer"
+                                       style="color:#6366f1;font-size:.78rem;text-decoration:none;display:flex;align-items:center;gap:4px;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                                        <i class="fas fa-external-link-alt" style="font-size:.65rem;flex-shrink:0;"></i>
+                                        {{ parse_url($item->content_url, PHP_URL_HOST) }}
+                                    </a>
+                                @elseif($item->media_src)
+                                    <span style="font-size:.78rem;color:#0f172a;font-weight:600;display:inline-flex;align-items:center;gap:6px;">
+                                        <i class="fas {{ $item->media_type === 'video' ? 'fa-video' : 'fa-image' }}"></i>
+                                        Upload {{ $item->media_type === 'video' ? 'video' : 'foto' }}
+                                    </span>
+                                @else
+                                    <span style="font-size:.78rem;color:#94a3b8;">Tidak ada sumber</span>
+                                @endif
                             </td>
 
                             {{-- Status toggle --}}
@@ -200,12 +217,33 @@
                 {{-- Content URL --}}
                 <div style="margin-bottom:1.1rem;">
                     <label style="display:block;font-weight:600;font-size:.875rem;color:#374151;margin-bottom:.45rem;">
-                        URL Konten <span style="color:#ef4444;">*</span>
+                        URL Konten
                     </label>
-                    <input type="url" name="content_url" id="f_content_url" required maxlength="500"
-                        placeholder="https://youtube.com/watch?v=..."
+                    <input type="url" name="content_url" id="f_content_url" maxlength="500"
+                        placeholder="https://youtube.com/... atau https://instagram.com/..."
                         style="width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:10px 14px;font-size:.9rem;color:#1e293b;box-sizing:border-box;">
-                    <p style="font-size:.75rem;color:#94a3b8;margin:.3rem 0 0;">Link ke video/post asli. Kartu di homepage akan mengarah ke URL ini.</p>
+                    <p style="font-size:.75rem;color:#94a3b8;margin:.3rem 0 0;">Bisa YouTube, TikTok, atau Instagram. Jika diisi, kartu homepage akan menuju link ini.</p>
+                </div>
+
+                {{-- Media file --}}
+                <div style="margin-bottom:1.1rem;">
+                    <label style="display:block;font-weight:600;font-size:.875rem;color:#374151;margin-bottom:.45rem;">Upload Foto / Video</label>
+
+                    <div id="mediaCurrentWrap" style="margin-bottom:.75rem;display:none;">
+                        <p style="font-size:.78rem;color:#64748b;margin-bottom:.4rem;">Media saat ini:</p>
+                        <img id="mediaCurrentImage" src="" alt="" style="max-height:120px;border-radius:10px;object-fit:cover;display:none;">
+                        <video id="mediaCurrentVideo" controls playsinline style="max-height:140px;border-radius:10px;display:none;background:#0f172a;"></video>
+                    </div>
+                    <div id="mediaPreviewWrap" style="margin-bottom:.75rem;display:none;">
+                        <p style="font-size:.78rem;color:#64748b;margin-bottom:.4rem;">Preview baru:</p>
+                        <img id="mediaPreviewImage" src="" alt="Preview" style="max-height:120px;border-radius:10px;object-fit:cover;display:none;">
+                        <video id="mediaPreviewVideo" controls playsinline style="max-height:140px;border-radius:10px;display:none;background:#0f172a;"></video>
+                    </div>
+
+                    <input type="file" name="media_file" id="f_media_file" accept="image/*,video/*"
+                        style="width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:.85rem;color:#374151;"
+                        onchange="previewMedia(this)">
+                    <p style="font-size:.75rem;color:#94a3b8;margin:.3rem 0 0;">Opsional. Upload foto atau video lokal. Minimal salah satu dari URL atau file upload harus diisi.</p>
                 </div>
 
                 {{-- Thumbnail --}}
@@ -226,7 +264,7 @@
                     <input type="file" name="thumbnail" id="f_thumbnail" accept="image/*"
                         style="width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:.85rem;color:#374151;"
                         onchange="previewThumb(this)">
-                    <p style="font-size:.75rem;color:#94a3b8;margin:.3rem 0 0;">JPG/PNG/WEBP, maks 2 MB. Rasio 16:9 disarankan.</p>
+                    <p style="font-size:.75rem;color:#94a3b8;margin:.3rem 0 0;">Opsional. Jika upload video, thumbnail ini dipakai sebagai cover card. JPG/PNG/WEBP, maks 2 MB.</p>
                 </div>
 
                 <div style="display:flex;gap:.75rem;justify-content:flex-end;padding-top:1rem;border-top:1px solid #f1f5f9;">
@@ -257,9 +295,12 @@
             document.getElementById('f_title').value       = '';
             document.getElementById('f_description').value = '';
             document.getElementById('f_content_url').value = '';
+            document.getElementById('f_media_file').value  = '';
             document.getElementById('f_thumbnail').value   = '';
             document.getElementById('thumbPreviewWrap').style.display = 'none';
             document.getElementById('thumbCurrentWrap').style.display = 'none';
+            resetMediaPreview();
+            resetCurrentMedia();
             smModal.style.display = 'flex';
         }
 
@@ -272,8 +313,10 @@
             document.getElementById('f_title').value       = item.title         || '';
             document.getElementById('f_description').value = item.description   || '';
             document.getElementById('f_content_url').value = item.content_url   || '';
+            document.getElementById('f_media_file').value  = '';
             document.getElementById('f_thumbnail').value   = '';
             document.getElementById('thumbPreviewWrap').style.display = 'none';
+            resetMediaPreview();
 
             var currentWrap = document.getElementById('thumbCurrentWrap');
             var currentImg  = document.getElementById('thumbCurrent');
@@ -283,6 +326,8 @@
             } else {
                 currentWrap.style.display = 'none';
             }
+
+            setCurrentMedia(item.media_type || '', item.media_src || '');
 
             smModal.style.display = 'flex';
         }
@@ -298,6 +343,58 @@
             } else {
                 wrap.style.display = 'none';
             }
+        }
+
+        function resetCurrentMedia() {
+            document.getElementById('mediaCurrentWrap').style.display = 'none';
+            document.getElementById('mediaCurrentImage').style.display = 'none';
+            document.getElementById('mediaCurrentVideo').style.display = 'none';
+            document.getElementById('mediaCurrentImage').src = '';
+            document.getElementById('mediaCurrentVideo').src = '';
+        }
+
+        function setCurrentMedia(type, src) {
+            resetCurrentMedia();
+            if (!src) return;
+
+            var wrap = document.getElementById('mediaCurrentWrap');
+            if (type === 'video') {
+                var video = document.getElementById('mediaCurrentVideo');
+                video.src = src;
+                video.style.display = 'block';
+            } else {
+                var image = document.getElementById('mediaCurrentImage');
+                image.src = src;
+                image.style.display = 'block';
+            }
+            wrap.style.display = 'block';
+        }
+
+        function resetMediaPreview() {
+            document.getElementById('mediaPreviewWrap').style.display = 'none';
+            document.getElementById('mediaPreviewImage').style.display = 'none';
+            document.getElementById('mediaPreviewVideo').style.display = 'none';
+            document.getElementById('mediaPreviewImage').src = '';
+            document.getElementById('mediaPreviewVideo').src = '';
+        }
+
+        function previewMedia(input) {
+            resetMediaPreview();
+            if (!(input.files && input.files[0])) return;
+
+            var file = input.files[0];
+            var url = URL.createObjectURL(file);
+            var wrap = document.getElementById('mediaPreviewWrap');
+            if (file.type.indexOf('video/') === 0) {
+                var video = document.getElementById('mediaPreviewVideo');
+                video.src = url;
+                video.style.display = 'block';
+            } else {
+                var image = document.getElementById('mediaPreviewImage');
+                image.src = url;
+                image.style.display = 'block';
+            }
+            wrap.style.display = 'block';
         }
 
         smModal.addEventListener('click', function(e) { if (e.target === smModal) closeModal(); });

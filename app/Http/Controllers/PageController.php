@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Agent;
 use App\Models\Setting;
+use App\Models\Unit;
 
 use App\Models\TipeRumah;
 use App\Models\SocialMedia;
@@ -30,8 +31,9 @@ class PageController extends Controller
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
         $semuaTipeRumah  = TipeRumah::latest()->get();
         $socialMedias    = SocialMedia::aktif()->get();
+        $unitStats       = Unit::stats();
 
-        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias'));
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats'));
     }
 
 
@@ -59,6 +61,7 @@ class PageController extends Controller
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
         $semuaTipeRumah  = TipeRumah::latest()->get();
         $socialMedias    = SocialMedia::aktif()->get();
+        $unitStats       = Unit::stats();
 
         // Catat agent ke session agar tersedia di halaman detail
         session([
@@ -67,7 +70,7 @@ class PageController extends Controller
             'agent_nama'  => $agentModel->nama,
         ]);
 
-        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias'));
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats'));
     }
 
     public function login()

@@ -101,10 +101,10 @@
         {{-- Stats bar --}}
         @php
             $stats = [
-                ['value' => '86', 'label' => 'Total Unit', 'icon' => 'home', 'iconClass' => 'bg-[#EEF5FF] text-[#1D4ED8]'],
-                ['value' => '40', 'label' => 'Unit Tersedia', 'icon' => 'check', 'iconClass' => 'bg-[#ECFDF3] text-[#047857]'],
-                ['value' => '20', 'label' => 'Unit Terjual', 'icon' => 'chart', 'iconClass' => 'bg-[#FFF1F2] text-[#BE123C]'],
-                ['value' => '26', 'label' => 'Unit Booking', 'icon' => 'calendar', 'iconClass' => 'bg-[#FFFBEB] text-[#B45309]'],
+                ['value' => $unitStats['total'] ?? 0, 'label' => 'Total Unit', 'icon' => 'home', 'iconClass' => 'bg-[#EEF5FF] text-[#1D4ED8]'],
+                ['value' => $unitStats['tersedia'] ?? 0, 'label' => 'Unit Tersedia', 'icon' => 'check', 'iconClass' => 'bg-[#ECFDF3] text-[#047857]'],
+                ['value' => $unitStats['terjual'] ?? 0, 'label' => 'Unit Terjual', 'icon' => 'chart', 'iconClass' => 'bg-[#FFF1F2] text-[#BE123C]'],
+                ['value' => $unitStats['booking'] ?? 0, 'label' => 'Unit Booking', 'icon' => 'calendar', 'iconClass' => 'bg-[#FFFBEB] text-[#B45309]'],
             ];
         @endphp
         <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -351,9 +351,11 @@
                 @for ($pass = 0; $pass < 2; $pass++)
                 @foreach($socialMedias as $sm)
                 @php $cfg = $sm->config; @endphp
-                <a href="{{ $sm->content_url }}" target="_blank" rel="noopener noreferrer"
+                     <a href="{{ $sm->display_href }}" target="_blank" rel="noopener noreferrer"
                    class="showcase-card block flex-shrink-0 rounded-[16px] overflow-hidden bg-white group"
                    style="width:280px;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease;"
+                         data-media-type="{{ $sm->media_type ?? '' }}"
+                         data-media-src="{{ $sm->media_src ?? '' }}"
                    aria-label="{{ e($sm->title) }} — {{ $cfg['name'] }}">
 
                     {{-- Thumbnail --}}
@@ -362,6 +364,22 @@
                             <img src="{{ $sm->thumbnail_src }}" alt="{{ e($sm->title) }}"
                                  loading="lazy"
                                  style="width:100%;height:100%;object-fit:cover;transition:transform .35s ease;display:block;">
+                        @elseif($sm->media_type === 'image' && $sm->media_src)
+                            <img src="{{ $sm->media_src }}" alt="{{ e($sm->title) }}"
+                                 loading="lazy"
+                                 style="width:100%;height:100%;object-fit:cover;transition:transform .35s ease;display:block;">
+                        @elseif($sm->media_type === 'video' && $sm->media_src)
+                            <video muted playsinline preload="metadata"
+                                   style="width:100%;height:100%;object-fit:cover;display:block;">
+                                <source src="{{ $sm->media_src }}">
+                            </video>
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/15">
+                                <div class="w-11 h-11 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#111827" class="w-5 h-5 ml-0.5">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                </div>
+                            </div>
                         @else
                             {{-- Placeholder with platform icon --}}
                             <div class="w-full h-full flex flex-col items-center justify-center gap-3"
@@ -413,7 +431,9 @@
             <iframe id="sm-video-frame" src="" frameborder="0"
                     allow="autoplay; encrypted-media; picture-in-picture"
                     allowfullscreen
-                    style="width:100%;height:100%;display:block;"></iframe>
+                style="width:100%;height:100%;display:none;"></iframe>
+            <video id="sm-video-player" controls playsinline
+               style="width:100%;height:100%;display:none;background:#000;"></video>
             <button id="sm-video-close"
                     style="position:absolute;top:12px;right:12px;width:38px;height:38px;background:rgba(0,0,0,.55);border:none;border-radius:50%;color:#fff;font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);"
                     aria-label="Tutup video">&#x2715;</button>
@@ -501,19 +521,38 @@
         // ── Video modal – YouTube auto-play ───────────────────────────
         var smModal = document.getElementById('sm-video-modal');
         var smFrame = document.getElementById('sm-video-frame');
+        var smVideo = document.getElementById('sm-video-player');
         var smClose = document.getElementById('sm-video-close');
         function ytEmbed(url) {
             var m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
             return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&rel=0' : null;
         }
-        function openSmModal(src) {
-            smFrame.src = src;
+        function openSmModal(type, src) {
+            if (type === 'video') {
+                smFrame.style.display = 'none';
+                smFrame.src = '';
+                smVideo.style.display = 'block';
+                smVideo.src = src;
+                smVideo.play();
+            } else {
+                smVideo.pause();
+                smVideo.removeAttribute('src');
+                smVideo.load();
+                smVideo.style.display = 'none';
+                smFrame.style.display = 'block';
+                smFrame.src = src;
+            }
             smModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
         function closeSmModal() {
             smModal.style.display = 'none';
             smFrame.src = '';
+            smFrame.style.display = 'none';
+            smVideo.pause();
+            smVideo.removeAttribute('src');
+            smVideo.load();
+            smVideo.style.display = 'none';
             document.body.style.overflow = '';
         }
         if (smClose) smClose.addEventListener('click', closeSmModal);
@@ -525,7 +564,17 @@
             link.addEventListener('click', function(e) {
                 if (dragDist > 8) { e.preventDefault(); return; }
                 var embed = ytEmbed(this.href);
-                if (embed) { e.preventDefault(); openSmModal(embed); }
+                var mediaType = this.dataset.mediaType;
+                var mediaSrc = this.dataset.mediaSrc;
+                if (embed) {
+                    e.preventDefault();
+                    openSmModal('youtube', embed);
+                    return;
+                }
+                if (mediaType === 'video' && mediaSrc) {
+                    e.preventDefault();
+                    openSmModal('video', mediaSrc);
+                }
             });
         });
     })();

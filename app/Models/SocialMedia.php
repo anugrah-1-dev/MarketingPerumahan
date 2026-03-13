@@ -8,12 +8,20 @@ class SocialMedia extends Model
 {
     protected $table = 'social_media';
 
+    protected $appends = [
+        'thumbnail_src',
+        'media_src',
+        'display_href',
+    ];
+
     protected $fillable = [
         'platform',
         'title',
         'description',
         'thumbnail_url',
         'content_url',
+        'media_type',
+        'media_path',
         'is_active',
     ];
 
@@ -66,5 +74,20 @@ class SocialMedia extends Model
         }
         // Legacy: public/storage/ (via symlink)
         return asset('storage/' . $this->thumbnail_url);
+    }
+
+    public function getMediaSrcAttribute(): ?string
+    {
+        if (!$this->media_path) return null;
+        if (str_starts_with($this->media_path, 'http')) return $this->media_path;
+        if (file_exists(public_path('uploads/' . $this->media_path))) {
+            return asset('uploads/' . $this->media_path);
+        }
+        return asset('storage/' . $this->media_path);
+    }
+
+    public function getDisplayHrefAttribute(): string
+    {
+        return $this->content_url ?: ($this->media_src ?: '#');
     }
 }
