@@ -13,6 +13,9 @@ function getRoleBadge(role) {
     if (role === 'super_admin') {
         return '<span class="badge" style="background:#fef3c7;color:#92400e;">Super Admin</span>';
     }
+    if (role === 'admin') {
+        return '<span class="badge" style="background:#dbeafe;color:#1e40af;">Admin</span>';
+    }
     return '<span class="badge success">Affiliate</span>';
 }
 
