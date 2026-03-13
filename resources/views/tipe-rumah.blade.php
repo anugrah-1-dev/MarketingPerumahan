@@ -27,7 +27,17 @@
         @foreach($tipeRumah as $t)
         <a href="{{ route('tipe-rumah.detail', $t->id) }}" class="tr-card block" style="text-decoration: none; color: inherit; display: block;">
             <div class="tr-card-img">
-                <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}">
+                <div style="display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; height:100%;">
+                    @foreach($t->gallery_urls as $img)
+                        <img src="{{ $img }}" alt="{{ $t->nama_tipe }}" style="width:100%; flex:0 0 100%; object-fit:cover; scroll-snap-align:center;">
+                    @endforeach
+                </div>
+
+                @if(count($t->gallery_urls) > 1)
+                    <span class="tr-badge tr-badge-status" style="right:14px; bottom:14px; top:auto; background:rgba(0,0,0,.55); color:#fff;">
+                        {{ count($t->gallery_urls) }} foto • geser
+                    </span>
+                @endif
 
                 @if($t->is_diskon)
                     <span class="tr-badge tr-badge-diskon">🔥 DISKON</span>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Bukit Shangrilla Asri – Pilihan Rumah Terbaik')
+@section('title', 'Bukit Shangrilla Asri – Hunian Modern Strategis')
 
 @php
     // Bangun URL & pesan WhatsApp berdasarkan agent yang aktif
@@ -22,6 +22,18 @@
     $refCode = session('affiliate_ref_code')
             ?? request()->cookie('affiliate_ref_code')
             ?? null;
+
+    $heroSlideFiles = glob(public_path('assets/landing/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}'), GLOB_BRACE) ?: [];
+    $heroSlideFiles = array_values(array_filter($heroSlideFiles, function ($file) {
+        $filename = strtolower(pathinfo($file, PATHINFO_FILENAME));
+        return !str_contains($filename, 'logo');
+    }));
+    $heroSlides = array_map(fn ($file) => asset('assets/landing/' . basename($file)), $heroSlideFiles);
+
+    $heroFallbackSlide = 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80';
+    if (empty($heroSlides)) {
+        $heroSlides = [$heroFallbackSlide];
+    }
 @endphp
 
 
@@ -36,115 +48,267 @@
 
             {{-- Left: Text --}}
             <div class="w-full lg:w-1/2 text-center lg:text-left z-10">
-                <p class="text-[#676767] text-[15px] font-medium uppercase tracking-widest mb-4">Bukit Shangrilla Asri</p>
-                <h1 class="text-[#393939] text-[40px] lg:text-[56px] font-bold leading-tight mb-5">
-                    Pilihan Rumah Terbaik<br class="hidden lg:block"> untuk Keluarga Anda
+                <h1 class="text-[#393939] text-[36px] lg:text-[52px] font-bold leading-tight mb-5">
+                    Hunian Modern Strategis: Investasi Cerdas untuk Keluarga
                 </h1>
                 <p
-                    class="text-[#676767] text-[17px] lg:text-[19px] font-medium leading-8 max-w-[500px] mx-auto lg:mx-0 mb-8">
-                    Berbagai tipe rumah dengan desain modern dan harga terjangkau.
-                    Lihat ketersediaan unit, cek lokasi, dan pesan sekarang juga.
+                    class="text-[#676767] text-[17px] lg:text-[19px] font-medium leading-8 max-w-[620px] mx-auto lg:mx-0 mb-8">
+                    Dapatkan rumah mewah harga terjangkau dengan nilai investasi yang terus bertumbuh.
+                    Terletak di lokasi emas dengan fasilitas lengkap dan desain kekinian.
+                    Unit terbatas! Cek lokasi sekarang sebelum kehabisan dan dapatkan promo menarik bulan ini.
                 </p>
 
             </div>
 
-            {{-- Right: Image --}}
+            {{-- Right: Hero Slider --}}
             <div class="w-full lg:w-1/2 relative flex justify-center">
                 <div class="absolute right-0 top-[-20px] w-[90%] h-[105%] bg-[#D9D9D9] rounded-[20px] z-0 hidden lg:block">
                 </div>
-                <img src="{{ asset('assets/images/hero.png') }}"
-                    onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80';this.onerror=null;"
-                    alt="Rumah Impian"
-                    class="relative z-10 w-[85%] lg:w-[95%] rounded-[15px] object-cover shadow-2xl hover:scale-[1.01] transition-transform duration-700">
+
+                <div id="hero-slider" class="relative z-10 w-[85%] lg:w-[95%] rounded-[15px] overflow-hidden shadow-2xl" data-total="{{ count($heroSlides) }}">
+                    <div id="hero-track" class="flex transition-transform duration-700 ease-out">
+                        @foreach ($heroSlides as $index => $slide)
+                            <div class="w-full shrink-0">
+                                  <img src="{{ $slide }}"
+                                      onerror="this.src='{{ $heroFallbackSlide }}';this.onerror=null;"
+                                     alt="Foto perumahan {{ $index + 1 }}"
+                                     class="w-full h-[260px] sm:h-[340px] lg:h-[430px] object-cover">
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <button id="hero-prev" type="button" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 text-[#393939] shadow flex items-center justify-center hover:bg-white transition" aria-label="Slide sebelumnya">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+
+                    <button id="hero-next" type="button" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 text-[#393939] shadow flex items-center justify-center hover:bg-white transition" aria-label="Slide berikutnya">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </button>
+
+                    <div id="hero-dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                        @foreach ($heroSlides as $index => $slide)
+                            <button type="button"
+                                    class="hero-dot w-2.5 h-2.5 rounded-full bg-white/60 transition"
+                                    data-slide="{{ $index }}"
+                                    aria-label="Pilih slide {{ $index + 1 }}"></button>
+                        @endforeach
+                    </div>
+                </div>
             </div>
 
         </div>
 
         {{-- Stats bar --}}
-        <div class="mt-16 grid grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach ([['86', 'Total Unit'], ['66', 'Unit Tersedia'], ['20', 'Unit Terjual']] as $stat)
-                <div class="card text-center shadow-sm">
-                    <p class="text-3xl font-bold text-[#393939]">{{ $stat[0] }}</p>
-                    <p class="text-[#676767] text-sm mt-1">{{ $stat[1] }}</p>
+        @php
+            $stats = [
+                ['value' => '86', 'label' => 'Total Unit', 'icon' => 'home', 'iconClass' => 'bg-[#EEF5FF] text-[#1D4ED8]'],
+                ['value' => '40', 'label' => 'Unit Tersedia', 'icon' => 'check', 'iconClass' => 'bg-[#ECFDF3] text-[#047857]'],
+                ['value' => '20', 'label' => 'Unit Terjual', 'icon' => 'chart', 'iconClass' => 'bg-[#FFF1F2] text-[#BE123C]'],
+                ['value' => '26', 'label' => 'Unit Booking', 'icon' => 'calendar', 'iconClass' => 'bg-[#FFFBEB] text-[#B45309]'],
+            ];
+        @endphp
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+            @foreach ($stats as $stat)
+                <div class="card text-center shadow-sm flex flex-col items-center">
+                    <div class="w-11 h-11 rounded-full flex items-center justify-center {{ $stat['iconClass'] }} mb-3">
+                        @if($stat['icon'] === 'home')
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10.5L12 3l9 7.5" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9.5V20h14V9.5" />
+                            </svg>
+                        @elseif($stat['icon'] === 'check')
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+                            </svg>
+                        @elseif($stat['icon'] === 'chart')
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19h16" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l4-5 3 3 3-5" />
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 9h16M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z" />
+                            </svg>
+                        @endif
+                    </div>
+                    <p class="text-3xl font-bold text-[#393939]">{{ $stat['value'] }}</p>
+                    <p class="text-[#676767] text-sm mt-1">{{ $stat['label'] }}</p>
                 </div>
             @endforeach
         </div>
     </section>
 
     {{-- ================================================================
-     UNIT PERUMAHAN – Tipe dengan Diskon (dinamis dari DB)
+     UNIT PERUMAHAN
      ================================================================ --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-20">
-        <div class="flex items-end justify-between mb-8">
-            <div>
-                <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Unit Perumahan</h2>
-                <p class="text-[#676767] text-[15px]">Tipe rumah pilihan dengan penawaran terbaik</p>
+        @php
+            $tipeUnggulan = [
+                [
+                    'nama' => 'Harmony',
+                    'gambar' => asset('assets/landing/harmony.jpg'),
+                    'tagline' => 'Tipe compact dengan desain nyaman untuk keluarga kecil.',
+                    'fitur' => ['1 Lantai', '2 Kamar Tidur', '1 Kamar Mandi', '1 Garasi', 'Ukuran 40/72'],
+                ],
+                [
+                    'nama' => 'Blissfull',
+                    'gambar' => asset('assets/landing/blissfull.jpg'),
+                    'tagline' => 'Ruang lebih lega untuk kebutuhan keluarga aktif.',
+                    'fitur' => ['2 Lantai', '3 Kamar Tidur', '2 Kamar Mandi', 'Carport 1 Mobil', 'Ukuran 50/84'],
+                ],
+                [
+                    'nama' => 'Serenity',
+                    'gambar' => asset('assets/landing/serenity.jpg'),
+                    'tagline' => 'Nuansa tenang dengan tata ruang modern dan asri.',
+                    'fitur' => ['1 Lantai', '3 Kamar Tidur', '2 Kamar Mandi', 'Carport 1 Mobil', 'Ukuran 60/98'],
+                ],
+            ];
+        @endphp
+        <div class="bg-white rounded-[24px] border border-[#E9E9E9] p-6 lg:p-8 shadow-[0_18px_36px_rgba(0,0,0,0.06)]">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-7">
+                <div>
+                    <h3 class="text-[#393939] text-[22px] lg:text-[28px] font-bold">Tipe Pilihan Bukit Shangrilla Asri</h3>
+                    <p class="text-[#676767] text-sm">Detail fasilitas di bawah ini bisa kamu edit langsung dari satu blok data.</p>
+                </div>
+                <a href="{{ route('unit-tersedia') }}"
+                    class="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:underline w-fit">
+                    Lihat Semua
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
             </div>
-            <a href="{{ route('tipe-rumah.publik') }}"
-                class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
-                Lihat Semua
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </a>
-        </div>
 
-        @if($tipeRumahDiskon->isNotEmpty())
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($tipeRumahDiskon as $t)
-                <a href="{{ route('tipe-rumah.detail', $t->id) }}"
-                    class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="relative h-[200px] overflow-hidden">
-                        <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            🔥 DISKON
-                        </span>
-                        <span class="absolute top-3 right-3 status-tersedia text-xs font-semibold px-3 py-1 rounded-full capitalize">
-                            Stok {{ $t->stok_tersedia }}
-                        </span>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                @foreach($tipeUnggulan as $tipe)
+                    <div class="group rounded-[20px] overflow-hidden border border-[#E7E7E7] bg-[#FCFCFC] hover:shadow-[0_18px_32px_rgba(0,0,0,0.10)] transition-all duration-300">
+                        <div class="relative h-[210px] overflow-hidden">
+                            <img src="{{ $tipe['gambar'] }}"
+                                onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1000&q=80';this.onerror=null;"
+                                alt="Tipe {{ $tipe['nama'] }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
+                                <p class="text-white text-xs tracking-wide uppercase">Tipe Rumah</p>
+                                <h4 class="text-white text-2xl font-bold leading-tight">{{ $tipe['nama'] }}</h4>
+                            </div>
+                        </div>
+
+                        <div class="p-5">
+                            <p class="text-[#676767] text-sm mb-4">{{ $tipe['tagline'] }}</p>
+                            <div class="grid grid-cols-2 gap-2">
+                                @foreach($tipe['fitur'] as $fitur)
+                                    <span class="inline-flex items-center justify-center text-center rounded-xl border border-[#D9E7DB] bg-[#F4FAF5] text-[#355B3E] text-xs font-semibold px-2 py-2">{{ $fitur }}</span>
+                                @endforeach
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-5">
-                        <p class="text-xs text-[#676767] mb-1">LB: {{ $t->luas_bangunan }}m² &nbsp;·&nbsp; LT: {{ $t->luas_tanah }}m²</p>
-                        <h3 class="text-lg font-bold text-[#393939] mb-2">{{ $t->nama_tipe }}</h3>
-                        @if($t->harga_diskon)
-                            <p class="text-sm text-[#999] line-through">{{ $t->harga_format }}</p>
-                            <p class="text-lg font-bold text-red-500 mb-3">{{ $t->harga_diskon_format }}</p>
-                        @else
-                            <p class="text-lg font-bold text-[#393939] mb-3">{{ $t->harga_format }}</p>
-                        @endif
-                        <span class="btn-primary text-sm w-full block text-center">Lihat Detail</span>
-                    </div>
-                </a>
-            @endforeach
+                @endforeach
+            </div>
         </div>
-        @elseif($semuaTipeRumah->isNotEmpty())
-        {{-- Jika tidak ada diskon, tampilkan semua tipe rumah (max 3) --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($semuaTipeRumah->take(3) as $t)
-                <a href="{{ route('tipe-rumah.detail', $t->id) }}"
-                    class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="relative h-[200px] overflow-hidden">
-                        <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <span class="absolute top-3 right-3 status-tersedia text-xs font-semibold px-3 py-1 rounded-full capitalize">
-                            Stok {{ $t->stok_tersedia }}
-                        </span>
-                    </div>
-                    <div class="p-5">
-                        <p class="text-xs text-[#676767] mb-1">LB: {{ $t->luas_bangunan }}m² &nbsp;·&nbsp; LT: {{ $t->luas_tanah }}m²</p>
-                        <h3 class="text-lg font-bold text-[#393939] mb-2">{{ $t->nama_tipe }}</h3>
-                        <p class="text-lg font-bold text-[#393939] mb-3">{{ $t->harga_format }}</p>
-                        <span class="btn-primary text-sm w-full block text-center">Lihat Detail</span>
-                    </div>
-                </a>
-            @endforeach
+    </section>
+
+    {{-- ================================================================
+     FASILITAS PERUMAHAN
+     ================================================================ --}}
+    @php
+        $fasilitas = [
+            [
+                'nama' => 'Mosque',
+                'deskripsi' => 'Masjid nyaman di dalam kawasan perumahan, memudahkan penghuni beribadah dengan tenang dan khusyuk.',
+                'icon' => 'mosque',
+            ],
+            [
+                'nama' => 'Waterpark',
+                'deskripsi' => 'Fasilitas waterpark kawasan hunian yang menghadirkan hiburan air menyenangkan untuk quality time keluarga.',
+                'icon' => 'waterpark',
+            ],
+            [
+                'nama' => 'Foodcourt',
+                'deskripsi' => 'Area foodcourt dengan beragam pilihan kuliner, nyaman untuk bersantai dan berkumpul bersama keluarga.',
+                'icon' => 'foodcourt',
+            ],
+            [
+                'nama' => 'Playground',
+                'deskripsi' => 'Playground aman dan seru untuk anak setiap hari, menghadirkan keceriaan di lingkungan perumahan.',
+                'icon' => 'playground',
+            ],
+            [
+                'nama' => 'Sport Center',
+                'deskripsi' => 'Fasilitas sport center modern untuk olahraga dan kebugaran penghuni setiap hari.',
+                'icon' => 'sport',
+            ],
+            [
+                'nama' => 'One Gate System',
+                'deskripsi' => 'Sistem satu pintu keluar masuk area cluster untuk menjaga keamanan lingkungan lebih optimal.',
+                'icon' => 'gate',
+            ],
+            [
+                'nama' => '24 Hour CCTV',
+                'deskripsi' => 'Pemantauan CCTV 24 jam membantu lingkungan perumahan menjadi lebih aman dan terpantau.',
+                'icon' => 'cctv',
+            ],
+            [
+                'nama' => '24 Hour Security',
+                'deskripsi' => 'Keamanan 24 jam untuk memastikan kenyamanan dan ketenangan penghuni sepanjang waktu.',
+                'icon' => 'security',
+            ],
+            [
+                'nama' => 'Mountain View',
+                'deskripsi' => 'Pemandangan pegunungan dari ketinggian yang menenangkan, memberi suasana asri setiap hari.',
+                'icon' => 'mountain',
+            ],
+            [
+                'nama' => 'Lokasi Strategis',
+                'deskripsi' => 'Hunian dengan akses terbaik, hanya berjarak 3 menit dari Stasiun Lawang, memudahkan mobilitas harian Anda dengan lebih efisien.',
+                'icon' => 'location',
+            ],
+        ];
+    @endphp
+    <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
+        <div class="relative overflow-hidden rounded-[24px] bg-[#0B5E41] text-white shadow-xl">
+            <div class="absolute -top-24 -right-20 w-72 h-72 rounded-full bg-white/5"></div>
+            <div class="absolute -bottom-16 -left-16 w-60 h-60 rounded-full bg-white/5"></div>
+
+            <div class="relative p-6 lg:p-10">
+                <h2 class="text-[28px] lg:text-[36px] font-bold mb-2">Fasilitas</h2>
+                <p class="text-white/85 text-sm lg:text-base mb-8">Beragam fasilitas penunjang kenyamanan hidup di Bukit Shangrilla Asri.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    @foreach ($fasilitas as $item)
+                        <div class="flex items-start gap-4 border-b border-white/20 pb-4 last:border-b-0">
+                            <div class="w-12 h-12 rounded-xl border border-white/30 bg-white/10 flex items-center justify-center shrink-0">
+                                @if($item['icon'] === 'mosque')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 20h18M6 20V9l6-4 6 4v11M12 5V3m-2 9h4m-4 3h4"/></svg>
+                                @elseif($item['icon'] === 'waterpark')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 14c1 .9 2 .9 3 0s2-.9 3 0 2 .9 3 0 2-.9 3 0 2 .9 3 0M7 10l3-5h4l3 5"/></svg>
+                                @elseif($item['icon'] === 'foodcourt')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 4v8m3-8v8M5 8h4M13 4h2a2 2 0 012 2v14m0-9h2"/></svg>
+                                @elseif($item['icon'] === 'playground')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 20h16M7 20v-8l5-6 5 6v8M12 6V4"/></svg>
+                                @elseif($item['icon'] === 'sport')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 7h16M4 17h16M8 7v10m8-10v10"/></svg>
+                                @elseif($item['icon'] === 'gate')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 20h16M6 20V8h12v12M9 8V5h6v3"/></svg>
+                                @elseif($item['icon'] === 'cctv')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 9h11l2 2h3M7 14l-2 4m10-4l2 4M6 9l2-3h5"/></svg>
+                                @elseif($item['icon'] === 'security')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3l7 4v5c0 5-3.2 7.7-7 9-3.8-1.3-7-4-7-9V7l7-4zM9 12l2 2 4-4"/></svg>
+                                @elseif($item['icon'] === 'mountain')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 20h18L14 9l-3 4-2-3-6 10z"/></svg>
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 21s7-5.4 7-11a7 7 0 10-14 0c0 5.6 7 11 7 11z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 11a2 2 0 100-4 2 2 0 000 4z"/></svg>
+                                @endif
+                            </div>
+
+                            <div>
+                                <h3 class="text-[28px] lg:text-[30px] font-semibold leading-none mb-2">{{ $item['nama'] }}</h3>
+                                <p class="text-white/90 text-sm leading-6">{{ $item['deskripsi'] }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
-        @else
-        {{-- Fallback jika database kosong --}}
-        <div class="text-center py-16 text-gray-400">
-            <p class="text-lg">Belum ada tipe rumah tersedia.</p>
-            <a href="{{ route('tipe-rumah.publik') }}" class="text-blue-600 hover:underline text-sm mt-2 inline-block">Lihat halaman tipe rumah →</a>
-        </div>
-        @endif
     </section>
 
     {{-- ================================================================
@@ -401,6 +565,126 @@
     </a>
 
     <script>
+    function initHeroSlider() {
+        const slider = document.getElementById('hero-slider');
+        const track = document.getElementById('hero-track');
+        const prevBtn = document.getElementById('hero-prev');
+        const nextBtn = document.getElementById('hero-next');
+        const dots = Array.from(document.querySelectorAll('.hero-dot'));
+
+        if (!slider || !track) {
+            return;
+        }
+
+        const total = Number(slider.dataset.total || 0);
+        if (total === 0) {
+            return;
+        }
+
+        let currentIndex = 0;
+        let autoSlideTimer = null;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const render = () => {
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            dots.forEach((dot, idx) => {
+                if (idx === currentIndex) {
+                    dot.classList.add('bg-white');
+                    dot.classList.remove('bg-white/60');
+                } else {
+                    dot.classList.add('bg-white/60');
+                    dot.classList.remove('bg-white');
+                }
+            });
+        };
+
+        const next = () => {
+            currentIndex = (currentIndex + 1) % total;
+            render();
+        };
+
+        const prev = () => {
+            currentIndex = (currentIndex - 1 + total) % total;
+            render();
+        };
+
+        const startAutoSlide = () => {
+            if (total < 2) {
+                return;
+            }
+
+            autoSlideTimer = setInterval(next, 4000);
+        };
+
+        const stopAutoSlide = () => {
+            if (autoSlideTimer) {
+                clearInterval(autoSlideTimer);
+                autoSlideTimer = null;
+            }
+        };
+
+        prevBtn?.addEventListener('click', () => {
+            prev();
+            stopAutoSlide();
+            startAutoSlide();
+        });
+
+        nextBtn?.addEventListener('click', () => {
+            next();
+            stopAutoSlide();
+            startAutoSlide();
+        });
+
+        dots.forEach((dot) => {
+            dot.addEventListener('click', () => {
+                currentIndex = Number(dot.dataset.slide || 0);
+                render();
+                stopAutoSlide();
+                startAutoSlide();
+            });
+        });
+
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].clientX;
+        }, { passive: true });
+
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) < 40) {
+                return;
+            }
+
+            if (diff > 0) {
+                next();
+            } else {
+                prev();
+            }
+
+            stopAutoSlide();
+            startAutoSlide();
+        }, { passive: true });
+
+        slider.addEventListener('mouseenter', stopAutoSlide);
+        slider.addEventListener('mouseleave', startAutoSlide);
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopAutoSlide();
+            } else {
+                startAutoSlide();
+            }
+        });
+
+        render();
+        startAutoSlide();
+    }
+
+    initHeroSlider();
+
     // Referral code dari server (PHP session/cookie) — embed langsung sebagai JS variable
     const AFFILIATE_REF_CODE = @json($refCode ?? null);
 

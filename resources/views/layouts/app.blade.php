@@ -21,6 +21,10 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --brand-green: #5f6f3e;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             background-color: #EEEEEE;
@@ -90,32 +94,91 @@
             background: #FEE2E2;
             color: #991B1B;
         }
+
+        .brand-mark {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 8px;
+            text-transform: uppercase;
+            line-height: 1;
+            letter-spacing: 0.02em;
+        }
+
+        .brand-mark .brand-prefix,
+        .brand-mark .brand-suffix {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--brand-green);
+        }
+
+        .brand-mark .brand-main {
+            font-size: 36px;
+            font-weight: 800;
+            color: var(--brand-green);
+        }
+
+        @media (max-width: 640px) {
+            .brand-mark {
+                gap: 6px;
+            }
+
+            .brand-mark .brand-prefix,
+            .brand-mark .brand-suffix {
+                font-size: 11px;
+            }
+
+            .brand-mark .brand-main {
+                font-size: 20px;
+            }
+        }
     </style>
     @yield('head')
 </head>
 
 <body class="min-h-screen">
 
+    @php
+        $logoCandidates = [
+            'assets/landing/logo-bsa.png',
+            'assets/landing/logo-bsa.webp',
+            'assets/landing/logo-bsa.jpg',
+            'assets/landing/logo.png',
+            'assets/landing/logo.webp',
+            'assets/landing/logo.jpg',
+            'assets/landing/landing1.png',
+            'assets/landing/logo-bsa.svg',
+        ];
+
+        $brandLogo = null;
+        foreach ($logoCandidates as $candidate) {
+            if (file_exists(public_path($candidate))) {
+                $brandLogo = asset($candidate);
+                break;
+            }
+        }
+    @endphp
+
     <!-- ====== NAVBAR ====== -->
     <nav class="w-full bg-transparent z-50" id="mainNav">
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] flex items-center justify-between py-6">
-            <a href="{{ route('landing') }}" class="flex items-center gap-3">
-                <img src="{{ asset('assets/images/logo.jpeg') }}" alt="Logo" class="h-10 w-auto object-contain">
-                <div class="flex items-baseline text-[#2d4a22]">
-                    <span class="text-[18px] sm:text-[22px] font-medium tracking-wide uppercase">Bukit</span>
-                    <span class="text-[26px] sm:text-[32px] font-bold tracking-wider uppercase ml-1.5 mr-1.5">Shangrilla</span>
-                    <span class="text-[14px] sm:text-[18px] font-medium tracking-wide uppercase">Asri</span>
-                </div>
+            <a href="{{ route('landing') }}" class="inline-flex items-center gap-3 text-[#393939] tracking-wide">
+                <img src="{{ $brandLogo ?? asset('assets/landing/logo-bsa.svg') }}"
+                    alt="Logo Bukit Shangrilla Asri"
+                    class="w-10 h-10 rounded-full object-cover border border-[#D8D8D8] bg-white p-1">
+                <span class="brand-mark" aria-label="Bukit Shangrilla Asri">
+                    <span class="brand-prefix">Bukit</span>
+                    <span class="brand-main">Shangrilla</span>
+                    <span class="brand-suffix">Asri</span>
+                </span>
             </a>
 
             <!-- Desktop Nav Links -->
             <div class="hidden lg:flex items-center gap-10">
                 <a href="{{ route('landing') }}"
                     class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('landing') ? 'font-bold underline underline-offset-4' : '' }}">Home</a>
-                <a href="{{ route('tipe-rumah.publik') }}"
-                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('tipe-rumah.publik') ? 'font-bold underline underline-offset-4' : '' }}">Tipe
-                    Rumah</a>
-
+                <a href="{{ route('unit-tersedia') }}"
+                    class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors {{ request()->routeIs('unit-tersedia') ? 'font-bold underline underline-offset-4' : '' }}">Unit
+                    tersedia</a>
 
                 <a href="#tentang"
                     class="nav-link text-[#393939] text-[16px] font-medium hover:text-black transition-colors">Tentang
@@ -158,7 +221,7 @@
 
     <!-- ====== FOOTER ====== -->
     <footer id="tentang" class="bg-[#393939] text-white mt-20">
-        <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] py-14 grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] py-14 grid grid-cols-1 md:grid-cols-4 gap-10">
             <!-- Brand -->
             <div>
                 <h3 class="text-2xl font-bold mb-3">Bukit Shangrilla Asri</h3>
@@ -169,7 +232,7 @@
             <div>
                 <h4 class="text-lg font-semibold mb-4">About us</h4>
                 <p class="text-gray-300 text-sm leading-7">Bukit Shangrilla Asri hadir dengan berbagai tipe rumah berkualitas
-                    dan harga terjangkau di lokasi strategis Semarang.</p>
+                    dan harga terjangkau di lokasi strategis Lawang,Malang.</p>
             </div>
             <!-- Contact & Location -->
             <div>
@@ -177,6 +240,14 @@
                 <p class="text-gray-300 text-sm mb-2">📞 +62 12345678909</p>
                 <h4 class="text-lg font-semibold mt-4 mb-2">Location</h4>
                 <p class="text-gray-300 text-sm">📍 Jl. Semangi, Semarang, Jawa Tengah</p>
+            </div>
+            <!-- Footer House Photo -->
+            <div>
+                <h4 class="text-lg font-semibold mb-4">Foto Kawasan</h4>
+                <img src="{{ asset('assets/landing/footer-rumah-2.jpg') }}"
+                    onerror="this.src='https://images.unsplash.com/photo-1625602812206-5ec545ca1231?w=800&q=80';this.onerror=null;"
+                    alt="Foto kawasan Bukit Shangrilla Asri"
+                    class="w-full h-[170px] object-cover rounded-2xl border border-white/10 shadow-lg">
             </div>
         </div>
         <div class="border-t border-gray-600 text-center py-5 text-gray-400 text-xs">

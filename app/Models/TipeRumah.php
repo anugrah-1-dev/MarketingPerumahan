@@ -59,6 +59,28 @@ class TipeRumah extends Model
     }
 
     /**
+     * Kumpulan URL foto tipe rumah.
+     * Jika ada file di public/assets/tipe-rumah/{id}, gunakan itu.
+     * Jika tidak ada, fallback ke gambar utama dari database.
+     */
+    public function getGalleryUrlsAttribute(): array
+    {
+        $pattern = public_path('assets/tipe-rumah/' . $this->id . '/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}');
+        $files = glob($pattern, GLOB_BRACE) ?: [];
+
+        sort($files, SORT_NATURAL | SORT_FLAG_CASE);
+
+        if (!empty($files)) {
+            return array_map(
+                fn ($file) => asset('assets/tipe-rumah/' . $this->id . '/' . basename($file)),
+                $files
+            );
+        }
+
+        return [$this->gambar_url];
+    }
+
+    /**
      * Scope untuk tipe rumah yang sedang diskon
      */
     public function scopeDiskon($query)
