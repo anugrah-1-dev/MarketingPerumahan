@@ -239,7 +239,7 @@
                 <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
                 <p class="text-gray-300 text-sm mb-2">📞 +62 12345678909</p>
                 <h4 class="text-lg font-semibold mt-4 mb-2">Location</h4>
-                <p class="text-gray-300 text-sm">📍 Jl. Semangi, Semarang, Jawa Tengah</p>
+                <p class="text-gray-300 text-sm">📍 Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
             </div>
             <!-- Footer House Photo -->
             <div>

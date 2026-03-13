@@ -170,7 +170,7 @@
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-7">
                 <div>
                     <h3 class="text-[#393939] text-[22px] lg:text-[28px] font-bold">Tipe Pilihan Bukit Shangrilla Asri</h3>
-                    <p class="text-[#676767] text-sm">Detail fasilitas di bawah ini bisa kamu edit langsung dari satu blok data.</p>
+                    <p class="text-[#676767] text-sm">Temukan berbagai pilihan tipe rumah modern yang dirancang untuk kenyamanan, keindahan, dan kebutuhan keluarga masa kini.</p>
                 </div>
                 <a href="{{ route('unit-tersedia') }}"
                     class="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:underline w-fit">
@@ -327,10 +327,11 @@
         </div>
 
         {{-- Carousel wrapper — full width, no padding so cards bleed to edges --}}
-        <div class="relative" id="showcase-outer">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px]">
+            <div class="relative overflow-hidden" id="showcase-outer">
 
             {{-- Left edge fade --}}
-            <div class="pointer-events-none absolute left-0 top-0 h-full w-20 lg:w-32 z-10"
+              <div class="pointer-events-none absolute left-0 top-0 h-full w-20 lg:w-32 z-10"
                  style="background:linear-gradient(to right,#EEEEEE 30%,transparent);"></div>
             {{-- Right edge fade --}}
             <div class="pointer-events-none absolute right-0 top-0 h-full w-20 lg:w-32 z-10"
@@ -394,6 +395,7 @@
                 @endforeach
                 @endfor
 
+            </div>
             </div>
         </div>
 
