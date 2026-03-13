@@ -488,7 +488,7 @@
             <!-- Footer House Photo -->
             <div>
                 <h4 class="text-lg font-semibold mb-4">Foto Kawasan</h4>
-                <img src="{{ asset('assets/landing/footer-rumah-2.jpg') }}"
+                <img src="{{ asset('assets/landing/landing2.jpg') }}"
                     onerror="this.src='https://images.unsplash.com/photo-1625602812206-5ec545ca1231?w=800&q=80';this.onerror=null;"
                     alt="Foto kawasan Bukit Shangrilla Asri"
                     class="w-full h-[170px] object-cover rounded-2xl border border-white/10 shadow-lg">
