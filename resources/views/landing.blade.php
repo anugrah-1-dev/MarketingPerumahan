@@ -325,11 +325,11 @@
 
         {{-- Section header --}}
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-10">
-            <p class="text-[#676767] text-[13px] font-semibold uppercase tracking-widest mb-2">Social Media</p>
+            <p class="text-[#676767] text-[13px] font-semibold uppercase tracking-widest mb-2">Media Sosial</p>
             <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold leading-tight">
-                Social Media Updates
+                Update Media Sosial
             </h2>
-            <p class="text-[#676767] text-[15px] mt-2">Follow our latest property promotions and house tours.</p>
+            <p class="text-[#676767] text-[15px] mt-2">Ikuti promosi properti dan tur rumah terbaru kami.</p>
         </div>
 
         {{-- Carousel wrapper — full width, no padding so cards bleed to edges --}}
@@ -406,6 +406,19 @@
         </div>
 
     </section>
+
+    {{-- ── Video modal (YouTube auto-play saat card diklik) ── --}}
+    <div id="sm-video-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;">
+        <div style="position:relative;width:min(900px,95vw);aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 24px 64px rgba(0,0,0,.6);">
+            <iframe id="sm-video-frame" src="" frameborder="0"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowfullscreen
+                    style="width:100%;height:100%;display:block;"></iframe>
+            <button id="sm-video-close"
+                    style="position:absolute;top:12px;right:12px;width:38px;height:38px;background:rgba(0,0,0,.55);border:none;border-radius:50%;color:#fff;font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);"
+                    aria-label="Tutup video">&#x2715;</button>
+        </div>
+    </div>
 
     <style>
         #showcase-track {
@@ -485,10 +498,34 @@
             track.style.animationPlayState = '';
         }
 
-        // Prevent accidental link navigation when user drags
+        // ── Video modal – YouTube auto-play ───────────────────────────
+        var smModal = document.getElementById('sm-video-modal');
+        var smFrame = document.getElementById('sm-video-frame');
+        var smClose = document.getElementById('sm-video-close');
+        function ytEmbed(url) {
+            var m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&rel=0' : null;
+        }
+        function openSmModal(src) {
+            smFrame.src = src;
+            smModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSmModal() {
+            smModal.style.display = 'none';
+            smFrame.src = '';
+            document.body.style.overflow = '';
+        }
+        if (smClose) smClose.addEventListener('click', closeSmModal);
+        if (smModal) smModal.addEventListener('click', function(e) { if (e.target === smModal) closeSmModal(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && smModal && smModal.style.display !== 'none') closeSmModal(); });
+
+        // Prevent accidental nav on drag; intercept YouTube links for in-page modal
         track.querySelectorAll('a').forEach(function(link) {
             link.addEventListener('click', function(e) {
-                if (dragDist > 8) e.preventDefault();
+                if (dragDist > 8) { e.preventDefault(); return; }
+                var embed = ytEmbed(this.href);
+                if (embed) { e.preventDefault(); openSmModal(embed); }
             });
         });
     })();
@@ -511,7 +548,7 @@
                      3. Klik "Bagikan" -> "Sematkan peta" -> Salin HTML
                      Ganti URL src di bawah ini dengan URL lokasi Anda. --}}
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.339678564254!2d106.9427017!3d-6.7283287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e684d0032bda4eb%3A0xe542fff8e0861194!2sKantor%20Pemasaran%20Perumahan%20Bukit%20Shangrilla%20Asri%202!5e0!3m2!1sid!2sid!4v1709999999999!5m2!1sid!2sid" 
+                    src="https://maps.google.com/maps?q=Jl+Indrokilo+No+135+Kalirejo+Lawang+Malang&output=embed" 
                     width="100%" 
                     height="100%" 
                     style="border:0;" 
@@ -528,11 +565,11 @@
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-800 text-lg">Kantor Pemasaran Bukit Shangrilla Asri 2</h4>
-                        <p class="text-gray-500 text-sm mt-1 max-w-lg">Sukaraya, Kec. Karangbahagia, Kabupaten Bekasi, Jawa Barat 17530</p>
+                        <p class="text-gray-500 text-sm mt-1 max-w-lg">Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
                     </div>
                 </div>
                 
-                <a href="https://maps.app.goo.gl/8ih1wSvpCPuMRRfa8" target="_blank" rel="noopener noreferrer" 
+                <a href="https://www.google.com/maps/search/?api=1&query=Jl.+Indrokilo+No.135+Kalirejo+Lawang+Kabupaten+Malang+Jawa+Timur+65216" target="_blank" rel="noopener noreferrer" 
                     class="bg-white border rounded-lg border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition whitespace-nowrap">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                     Buka di Google Maps

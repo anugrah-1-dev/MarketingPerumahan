@@ -274,13 +274,13 @@
 
     <!-- ====== NAVBAR ====== -->
     <nav id="mainNav">
-        <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] flex items-center justify-between py-4">
+        <div class="max-w-[1440px] mx-auto px-4 lg:pl-8 lg:pr-[80px] flex items-center justify-between py-4">
 
             {{-- Logo --}}
-            <a href="{{ route('landing') }}" class="inline-flex items-center gap-3 text-[#393939] tracking-wide flex-shrink-0">
+            <a href="{{ route('landing') }}" class="inline-flex items-center gap-2 text-[#393939] tracking-wide flex-shrink-0">
                 <img src="{{ $brandLogo ?? asset('assets/landing/logo-bsa.svg') }}"
                     alt="Logo Bukit Shangrilla Asri"
-                    class="w-10 h-10 rounded-full object-cover border border-[#D8D8D8] bg-white p-1">
+                    class="w-14 h-14 rounded-full object-cover border border-[#D8D8D8] bg-white p-[3px]">
                 <span class="brand-mark" aria-label="Bukit Shangrilla Asri">
                     <span class="brand-prefix">Bukit</span>
                     <span class="brand-main">Shangrilla</span>
@@ -474,17 +474,15 @@
                 <p class="text-gray-300 text-sm leading-7">Hunian modern minimalis dengan desain nyaman untuk keluarga
                     muda.</p>
             </div>
-            <!-- About -->
+            <!-- Tentang Kami -->
             <div>
-                <h4 class="text-lg font-semibold mb-4">About us</h4>
+                <h4 class="text-lg font-semibold mb-4">Tentang Kami</h4>
                 <p class="text-gray-300 text-sm leading-7">Bukit Shangrilla Asri hadir dengan berbagai tipe rumah berkualitas
-                    dan harga terjangkau di lokasi strategis Lawang,Malang.</p>
+                    dan harga terjangkau di lokasi strategis Lawang, Malang.</p>
             </div>
-            <!-- Contact & Location -->
+            <!-- Lokasi -->
             <div>
-                <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
-                <p class="text-gray-300 text-sm mb-2">📞 +62 12345678909</p>
-                <h4 class="text-lg font-semibold mt-4 mb-2">Location</h4>
+                <h4 class="text-lg font-semibold mb-4">Lokasi</h4>
                 <p class="text-gray-300 text-sm">📍 Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
             </div>
             <!-- Footer House Photo -->
