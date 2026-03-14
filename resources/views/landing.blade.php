@@ -160,8 +160,8 @@
             @if($semuaTipeRumah->isEmpty())
                 <p class="text-center text-[#676767] py-10">Tipe rumah belum tersedia. Silakan tambah melalui panel admin.</p>
             @else
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                @foreach($semuaTipeRumah->take(3) as $tipe)
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                @foreach($semuaTipeRumah->take(4) as $tipe)
                     @php
                         $fitur = [];
                         if ($tipe->lantai)       $fitur[] = $tipe->lantai . ' Lantai';
@@ -173,7 +173,7 @@
                             $fitur[] = $tipe->fasilitas[0];
                         }
                     @endphp
-                    <div class="group rounded-[20px] overflow-hidden border border-[#E7E7E7] bg-[#FCFCFC] hover:shadow-[0_18px_32px_rgba(0,0,0,0.10)] transition-all duration-300">
+                    <a href="{{ route('tipe-rumah.detail', $tipe->id) }}" class="group rounded-[20px] overflow-hidden border border-[#E7E7E7] bg-[#FCFCFC] hover:shadow-[0_18px_32px_rgba(0,0,0,0.10)] transition-all duration-300 block">
                         <div class="relative h-[210px] overflow-hidden">
                             <img src="{{ $tipe->gambar_url }}"
                                 onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1000&q=80';this.onerror=null;"
@@ -206,7 +206,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
             @endif

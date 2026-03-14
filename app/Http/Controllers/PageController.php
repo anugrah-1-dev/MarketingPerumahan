@@ -29,7 +29,7 @@ class PageController extends Controller
         ];
 
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
-        $semuaTipeRumah  = TipeRumah::latest()->get();
+        $semuaTipeRumah  = TipeRumah::orderBy('harga', 'asc')->get();
         $socialMedias    = SocialMedia::aktif()->get();
         $unitStats       = Unit::stats();
 
@@ -59,7 +59,7 @@ class PageController extends Controller
         ];
 
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
-        $semuaTipeRumah  = TipeRumah::latest()->get();
+        $semuaTipeRumah  = TipeRumah::orderBy('harga', 'asc')->get();
         $socialMedias    = SocialMedia::aktif()->get();
         $unitStats       = Unit::stats();
 

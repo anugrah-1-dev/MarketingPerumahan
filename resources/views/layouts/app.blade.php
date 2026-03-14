@@ -485,29 +485,32 @@
                     $smFb = \App\Models\Setting::get('facebook_url', '');
                 @endphp
                 @if($smIg || $smTt || $smFb)
-                <div class="flex gap-3 mt-4">
+                <div class="flex gap-5 mt-4">
                     @if($smIg)
                     <a href="{{ $smIg }}" target="_blank" rel="noopener noreferrer"
-                       title="Instagram"
-                       class="w-9 h-9 rounded-full flex items-center justify-center transition-opacity hover:opacity-80"
-                       style="background:#E1306C;">
-                        <i class="fab fa-instagram text-white text-sm"></i>
+                       class="flex flex-col items-center gap-1 transition-opacity hover:opacity-80">
+                        <span class="w-9 h-9 rounded-full flex items-center justify-center" style="background:#E1306C;">
+                            <i class="fab fa-instagram text-white text-sm"></i>
+                        </span>
+                        <span class="text-xs text-gray-300">Instagram</span>
                     </a>
                     @endif
                     @if($smTt)
                     <a href="{{ $smTt }}" target="_blank" rel="noopener noreferrer"
-                       title="TikTok"
-                       class="w-9 h-9 rounded-full flex items-center justify-center transition-opacity hover:opacity-80"
-                       style="background:#010101;">
-                        <i class="fab fa-tiktok text-white text-sm"></i>
+                       class="flex flex-col items-center gap-1 transition-opacity hover:opacity-80">
+                        <span class="w-9 h-9 rounded-full flex items-center justify-center" style="background:#010101;">
+                            <i class="fab fa-tiktok text-white text-sm"></i>
+                        </span>
+                        <span class="text-xs text-gray-300">TikTok</span>
                     </a>
                     @endif
                     @if($smFb)
                     <a href="{{ $smFb }}" target="_blank" rel="noopener noreferrer"
-                       title="Facebook"
-                       class="w-9 h-9 rounded-full flex items-center justify-center transition-opacity hover:opacity-80"
-                       style="background:#1877F2;">
-                        <i class="fab fa-facebook-f text-white text-sm"></i>
+                       class="flex flex-col items-center gap-1 transition-opacity hover:opacity-80">
+                        <span class="w-9 h-9 rounded-full flex items-center justify-center" style="background:#1877F2;">
+                            <i class="fab fa-facebook-f text-white text-sm"></i>
+                        </span>
+                        <span class="text-xs text-gray-300">Facebook</span>
                     </a>
                     @endif
                 </div>
