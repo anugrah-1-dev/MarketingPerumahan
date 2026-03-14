@@ -108,6 +108,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
     Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
 
+    // ── Manajemen Users ───────────────────────────────────────────────────
+    Route::get('/users',                 [UserController::class, 'index'])->name('users');
+    Route::post('/users',                [UserController::class, 'store'])->name('users.store');
+    Route::put('/users/{id}',            [UserController::class, 'update'])->name('users.update');
+    Route::delete('/users/{id}',         [UserController::class, 'destroy'])->name('users.destroy');
+
+    // ── Manajemen Closing ─────────────────────────────────────────────────
+    Route::get('/closing', fn() => view('manager.closing'))->name('closing');
+
     // ── Manajemen Unit ────────────────────────────────────────────────────
     Route::get('/units',               [UnitController::class, 'index'])->name('units');
     Route::post('/units',              [UnitController::class, 'store'])->name('units.store');

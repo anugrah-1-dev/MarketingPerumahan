@@ -23,6 +23,10 @@
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
+            <a href="{{ route('manager.agents') }}" class="nav-item {{ request()->routeIs('manager.agents*') ? 'active' : '' }}">
+                <i class="fas fa-users"></i>
+                <span>Manajemen Agent</span>
+            </a>
             <a href="{{ route('manager.tipe-rumah') }}" class="nav-item {{ request()->routeIs('manager.tipe-rumah*') ? 'active' : '' }}">
                 <i class="fas fa-home"></i>
                 <span>Tipe Rumah</span>
@@ -35,16 +39,20 @@
                 <i class="fas fa-clipboard-list"></i>
                 <span>Pengisian Data Client</span>
             </a>
+            <a href="{{ route('manager.users') }}" class="nav-item {{ request()->routeIs('manager.users*') ? 'active' : '' }}">
+                <i class="fas fa-user-lock"></i>
+                <span>Manajemen Users</span>
+            </a>
             <a href="{{ route('manager.tracking') }}" class="nav-item {{ request()->routeIs('manager.tracking') ? 'active' : '' }}">
                 <i class="fas fa-mouse-pointer"></i>
                 <span>Tracking Klik WA</span>
             </a>
-            <a href="{{ route('manager.agents') }}" class="nav-item {{ request()->routeIs('manager.agents*') ? 'active' : '' }}">
-                <i class="fas fa-users"></i>
-                <span>Manajemen Agent</span>
+            <a href="{{ route('manager.closing') }}" class="nav-item {{ request()->routeIs('manager.closing') ? 'active' : '' }}">
+                <i class="fas fa-handshake"></i>
+                <span>Manajemen Closing</span>
             </a>
             <a href="{{ route('manager.social-media') }}" class="nav-item {{ request()->routeIs('manager.social-media*') ? 'active' : '' }}">
-                <i class="fas fa-photo-video"></i>
+                <i class="fas fa-share-alt"></i>
                 <span>Social Media</span>
             </a>
             <a href="{{ route('manager.settings') }}" class="nav-item {{ request()->routeIs('manager.settings*') ? 'active' : '' }}">

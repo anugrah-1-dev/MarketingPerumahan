@@ -82,6 +82,75 @@
         </div>
     </div>
 
+    <div class="card" style="max-width: 560px; margin-top: 1.5rem;">
+        <div class="card-body">
+
+            <h3 style="font-size:1.1rem; font-weight:700; color:#1e293b; margin-bottom:.4rem;">
+                <i class="fas fa-share-alt" style="color:#6366f1; margin-right:6px;"></i>
+                Akun Social Media
+            </h3>
+            <p style="font-size:.85rem; color:#64748b; margin-bottom:1.5rem; line-height:1.6;">
+                URL akun social media perusahaan yang akan ditampilkan di footer halaman website.
+                Kosongkan jika tidak ingin ditampilkan.
+            </p>
+
+            <form method="POST" action="{{ route('manager.settings.update') }}">
+                @csrf
+                <input type="hidden" name="wa_admin" value="{{ old('wa_admin', $waAdmin) }}">
+
+                {{-- Instagram --}}
+                <div class="form-group" style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-weight:600; font-size:.875rem; color:#374151; margin-bottom:.5rem;">
+                        <i class="fab fa-instagram" style="color:#E1306C;"></i> Instagram URL
+                    </label>
+                    <input type="url" name="instagram_url"
+                        value="{{ old('instagram_url', $instagramUrl) }}"
+                        placeholder="https://instagram.com/namaakun"
+                        style="width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:.9rem; color:#1e293b; outline:none; box-sizing:border-box;"
+                        onFocus="this.style.borderColor='#6366f1'" onBlur="this.style.borderColor='#cbd5e1'">
+                    @error('instagram_url')
+                        <p style="color:#ef4444;font-size:.8rem;margin-top:.4rem;"><i class="fas fa-exclamation-circle"></i> {{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- TikTok --}}
+                <div class="form-group" style="margin-bottom:1.2rem;">
+                    <label style="display:block; font-weight:600; font-size:.875rem; color:#374151; margin-bottom:.5rem;">
+                        <i class="fab fa-tiktok" style="color:#010101;"></i> TikTok URL
+                    </label>
+                    <input type="url" name="tiktok_url"
+                        value="{{ old('tiktok_url', $tiktokUrl) }}"
+                        placeholder="https://tiktok.com/@namaakun"
+                        style="width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:.9rem; color:#1e293b; outline:none; box-sizing:border-box;"
+                        onFocus="this.style.borderColor='#6366f1'" onBlur="this.style.borderColor='#cbd5e1'">
+                    @error('tiktok_url')
+                        <p style="color:#ef4444;font-size:.8rem;margin-top:.4rem;"><i class="fas fa-exclamation-circle"></i> {{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Facebook --}}
+                <div class="form-group" style="margin-bottom:1.5rem;">
+                    <label style="display:block; font-weight:600; font-size:.875rem; color:#374151; margin-bottom:.5rem;">
+                        <i class="fab fa-facebook" style="color:#1877F2;"></i> Facebook URL
+                    </label>
+                    <input type="url" name="facebook_url"
+                        value="{{ old('facebook_url', $facebookUrl) }}"
+                        placeholder="https://facebook.com/namahalaman"
+                        style="width:100%; border:1px solid #cbd5e1; border-radius:8px; padding:10px 14px; font-size:.9rem; color:#1e293b; outline:none; box-sizing:border-box;"
+                        onFocus="this.style.borderColor='#6366f1'" onBlur="this.style.borderColor='#cbd5e1'">
+                    @error('facebook_url')
+                        <p style="color:#ef4444;font-size:.8rem;margin-top:.4rem;"><i class="fas fa-exclamation-circle"></i> {{ $message }}</p>
+                    @enderror
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="fas fa-save"></i> Simpan Social Media
+                </button>
+            </form>
+
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')

@@ -479,6 +479,39 @@
                 <h4 class="text-lg font-semibold mb-4">Tentang Kami</h4>
                 <p class="text-gray-300 text-sm leading-7">Bukit Shangrilla Asri hadir dengan berbagai tipe rumah berkualitas
                     dan harga terjangkau di lokasi strategis Lawang, Malang.</p>
+                @php
+                    $smIg = \App\Models\Setting::get('instagram_url', '');
+                    $smTt = \App\Models\Setting::get('tiktok_url', '');
+                    $smFb = \App\Models\Setting::get('facebook_url', '');
+                @endphp
+                @if($smIg || $smTt || $smFb)
+                <div class="flex gap-3 mt-4">
+                    @if($smIg)
+                    <a href="{{ $smIg }}" target="_blank" rel="noopener noreferrer"
+                       title="Instagram"
+                       class="w-9 h-9 rounded-full flex items-center justify-center transition-opacity hover:opacity-80"
+                       style="background:#E1306C;">
+                        <i class="fab fa-instagram text-white text-sm"></i>
+                    </a>
+                    @endif
+                    @if($smTt)
+                    <a href="{{ $smTt }}" target="_blank" rel="noopener noreferrer"
+                       title="TikTok"
+                       class="w-9 h-9 rounded-full flex items-center justify-center transition-opacity hover:opacity-80"
+                       style="background:#010101;">
+                        <i class="fab fa-tiktok text-white text-sm"></i>
+                    </a>
+                    @endif
+                    @if($smFb)
+                    <a href="{{ $smFb }}" target="_blank" rel="noopener noreferrer"
+                       title="Facebook"
+                       class="w-9 h-9 rounded-full flex items-center justify-center transition-opacity hover:opacity-80"
+                       style="background:#1877F2;">
+                        <i class="fab fa-facebook-f text-white text-sm"></i>
+                    </a>
+                    @endif
+                </div>
+                @endif
             </div>
             <!-- Lokasi -->
             <div>
