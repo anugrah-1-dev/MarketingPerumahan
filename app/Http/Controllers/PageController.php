@@ -111,24 +111,41 @@ class PageController extends Controller
 
     public function storeClientData(Request $request)
     {
-        $data = $request->validate([
-            'nama_lengkap' => ['required', 'string', 'max:255'],
-            'email'        => ['required', 'email', 'max:255'],
-            'nik'          => ['required', 'string', 'digits:16'],
-            'no_whatsapp'  => ['required', 'string', 'max:20'],
-            'alamat'       => ['required', 'string'],
+        $request->validate([
+            'nama_lengkap'    => ['required', 'string', 'max:255'],
+            'email'           => ['required', 'email', 'max:255'],
+            'nik'             => ['required', 'string', 'digits:16'],
+            'no_whatsapp'     => ['required', 'string', 'max:20'],
+            'alamat'          => ['required', 'string'],
+            'bukti_pembayaran' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ], [
-            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
-            'email.required'        => 'Email wajib diisi.',
-            'email.email'           => 'Format email tidak valid.',
-            'nik.required'          => 'No KTP / NIK wajib diisi.',
-            'nik.digits'            => 'NIK harus 16 digit angka.',
-            'no_whatsapp.required'  => 'No WhatsApp wajib diisi.',
-            'alamat.required'       => 'Alamat wajib diisi.',
+            'nama_lengkap.required'  => 'Nama lengkap wajib diisi.',
+            'email.required'         => 'Email wajib diisi.',
+            'email.email'            => 'Format email tidak valid.',
+            'nik.required'           => 'No KTP / NIK wajib diisi.',
+            'nik.digits'             => 'NIK harus 16 digit angka.',
+            'no_whatsapp.required'   => 'No WhatsApp wajib diisi.',
+            'alamat.required'        => 'Alamat wajib diisi.',
+            'bukti_pembayaran.image' => 'File harus berupa gambar.',
+            'bukti_pembayaran.mimes' => 'Format gambar: jpg, jpeg, png, atau webp.',
+            'bukti_pembayaran.max'   => 'Ukuran file maksimal 5 MB.',
         ]);
 
-        // Simpan ke session untuk ditampilkan di step selesai
-        session()->flash('client_data', $data);
+        $buktiPath = null;
+        if ($request->hasFile('bukti_pembayaran')) {
+            $buktiPath = $request->file('bukti_pembayaran')
+                ->store('bukti-pembayaran', 'public');
+        }
+
+        ClientData::create([
+            'nama_lengkap'    => $request->nama_lengkap,
+            'email'           => $request->email,
+            'nik'             => $request->nik,
+            'no_whatsapp'     => $request->no_whatsapp,
+            'alamat'          => $request->alamat,
+            'bukti_pembayaran' => $buktiPath,
+            'created_by'      => Auth::id(),
+        ]);
 
         return redirect()->route('affiliate.pengisian-data')->with('step', 'selesai');
     }

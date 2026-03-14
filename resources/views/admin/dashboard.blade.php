@@ -27,7 +27,7 @@
     <div class="charts-grid">
         <div class="card">
             <div class="card-header"><h2>Tren Klik 7 Hari Terakhir</h2></div>
-            <div class="card-body"><canvas id="clickTrendsChart"></canvas></div>
+            <div class="card-body"><div style="position:relative;height:300px;"><canvas id="clickTrendsChart"></canvas></div></div>
         </div>
         <div class="card">
             <div class="card-header"><h2>Top 5 Agent</h2></div>

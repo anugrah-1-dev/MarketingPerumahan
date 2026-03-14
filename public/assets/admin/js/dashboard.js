@@ -81,7 +81,6 @@ function renderClickTrendsChart(trends) {
     const ctx = document.getElementById("clickTrendsChart")?.getContext("2d");
     if (!ctx) return;
     if (clickTrendsChart) clickTrendsChart.destroy();
-    ctx.canvas.style.height = "300px";
     clickTrendsChart = new Chart(ctx, {
         type: "line",
         data: {

@@ -45,7 +45,7 @@ class DashboardController extends Controller
             ->aktif()
             ->orderByDesc('clicks_count')
             ->take(5)
-            ->get(['id', 'nama'])
+            ->get()
             ->map(fn($a) => [
                 'id'       => $a->id,
                 'name'     => $a->nama,
