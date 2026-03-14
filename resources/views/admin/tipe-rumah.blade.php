@@ -292,6 +292,7 @@ function trOpenEditModal(data) {
     form.querySelector('[name="kamar_tidur"]').value    = data.kamar_tidur || 2;
     form.querySelector('[name="kamar_mandi"]').value    = data.kamar_mandi || 1;
     form.querySelector('[name="lantai"]').value         = data.lantai || 1;
+    form.querySelector('[name="garasi"]').value         = data.garasi || 0;
     form.querySelector('[name="harga"]').value          = data.harga;
     form.querySelector('[name="harga_diskon"]').value   = data.harga_diskon || '';
     form.querySelector('[name="stok_tersedia"]').value  = data.stok_tersedia;

@@ -57,6 +57,12 @@
         </div>
     </div>
 
+    {{-- Garasi --}}
+    <div class="form-group">
+        <label>Garasi</label>
+        <input type="number" name="garasi" min="0" placeholder="0" class="form-input">
+    </div>
+
     {{-- Sertifikat --}}
     <div class="form-group">
         <label>Sertifikat</label>

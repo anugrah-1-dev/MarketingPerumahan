@@ -17,6 +17,7 @@ class TipeRumah extends Model
         'kamar_tidur',
         'kamar_mandi',
         'lantai',
+        'garasi',
         'sertifikat',
         'fasilitas',
         'harga',
