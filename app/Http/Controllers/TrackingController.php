@@ -83,8 +83,9 @@ class TrackingController extends Controller
         };
 
         // Filter agent
-        if ($agent = $request->query('agent')) {
-            $query->where('agent_id', $agent);
+        $agentParam = $request->query('agent');
+        if ($agentParam && $agentParam !== 'all') {
+            $query->where('agent_id', $agentParam);
         }
 
         // Filter affiliate (by referral_code)
@@ -93,8 +94,9 @@ class TrackingController extends Controller
         }
 
         // Filter status
-        if ($status = $request->query('status')) {
-            $query->where('status', $status);
+        $statusParam = $request->query('status');
+        if ($statusParam && $statusParam !== 'all') {
+            $query->where('status', $statusParam);
         }
 
         // Search

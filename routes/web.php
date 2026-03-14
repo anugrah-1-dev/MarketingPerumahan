@@ -6,6 +6,7 @@ use App\Http\Controllers\AgentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TrackingController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TipeRumahController;
 use App\Http\Controllers\ReferralController;
@@ -23,6 +24,7 @@ Route::post('/logout',               [PageController::class, 'logout'])->name('l
 Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/',          fn() => redirect()->route('admin.dashboard'));
     Route::get('/dashboard', fn() => view('admin.dashboard'))->name('dashboard');
+    Route::get('/dashboard/data', [DashboardController::class, 'data'])->name('dashboard.data');
     Route::get('/tracking',               [TrackingController::class, 'index'])->name('tracking');
     Route::get('/tracking/data',           [TrackingController::class, 'data'])->name('tracking.data');
     Route::patch('/tracking/{id}/status',  [TrackingController::class, 'updateStatus'])->name('tracking.status');
@@ -74,6 +76,7 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->group(function () {
     Route::get('/',          fn() => redirect()->route('manager.dashboard'));
     Route::get('/dashboard', fn() => view('manager.dashboard'))->name('dashboard');
+    Route::get('/dashboard/data', [DashboardController::class, 'data'])->name('dashboard.data');
 
     // ── Tracking ──────────────────────────────────────────────────────────
     Route::get('/tracking',               [TrackingController::class, 'index'])->name('tracking');

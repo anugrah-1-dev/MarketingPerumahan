@@ -208,6 +208,13 @@
                 <textarea id="f_alamat" name="alamat" placeholder="Masukan alamat">{{ old('alamat') }}</textarea>
                 <div class="err-msg" id="err_alamat"></div>
             </div>
+            <div class="form-group">
+                <label>Bukti Pembayaran <span style="font-weight:400;color:#888;font-size:12px">(opsional, maks 5 MB)</span></label>
+                <input type="file" id="f_bukti" name="bukti_pembayaran" accept="image/jpeg,image/png,image/webp"
+                    style="border:1.5px dashed #d1d5db;border-radius:8px;padding:10px 14px;background:#fafafa;cursor:pointer;">
+                <div style="font-size:12px;color:#888;margin-top:4px">Format: JPG, PNG, WEBP</div>
+                <div class="err-msg" id="err_bukti"></div>
+            </div>
             <div class="form-actions">
                 <button type="button" class="btn-batal" onclick="confirmBatal()">Batal</button>
                 <button type="button" class="btn-tambah" onclick="goToReview()">tambah</button>
@@ -224,16 +231,20 @@
             <tr><td>No KTP / NIK</td><td id="rv_nik"></td></tr>
             <tr><td>No WhatsApp</td><td id="rv_wa"></td></tr>
             <tr><td>Alamat</td><td id="rv_alamat"></td></tr>
+            <tr><td>Bukti Pembayaran</td><td id="rv_bukti">-</td></tr>
         </table>
 
         {{-- Form POST nyata ke server --}}
-        <form method="POST" action="{{ route('admin.pengisian-data.store') }}" id="submitForm">
+        <form method="POST" action="{{ route('admin.pengisian-data.store') }}" id="submitForm"
+              enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="nama_lengkap" id="hd_nama">
             <input type="hidden" name="email"        id="hd_email">
             <input type="hidden" name="nik"          id="hd_nik">
             <input type="hidden" name="no_whatsapp"  id="hd_wa">
             <input type="hidden" name="alamat"       id="hd_alamat">
+            {{-- file input dipindahkan ke sini oleh goToReview() --}}
+            <div id="buktiPlaceholder"></div>
             <div class="form-actions">
                 <button type="button" class="btn-back" onclick="backToForm()">&#8592; Kembali</button>
                 <button type="submit" class="btn-confirm">Konfirmasi</button>
@@ -297,6 +308,21 @@ function goToReview() {
     document.getElementById('hd_wa').value     = wa;
     document.getElementById('hd_alamat').value = alamat;
 
+    // Pindahkan file input ke dalam submitForm agar ikut ter-submit
+    const fileInput = document.getElementById('f_bukti');
+    const placeholder = document.getElementById('buktiPlaceholder');
+    if (fileInput && placeholder) {
+        placeholder.innerHTML = '';
+        placeholder.appendChild(fileInput);
+        // Tampilkan nama file di review table
+        const rvBukti = document.getElementById('rv_bukti');
+        if (fileInput.files && fileInput.files.length > 0) {
+            rvBukti.textContent = fileInput.files[0].name;
+        } else {
+            rvBukti.textContent = '(tidak ada)';
+        }
+    }
+
     // Update stepper
     document.getElementById('stepper-1').classList.remove('active');
     document.getElementById('stepper-1').classList.add('done');
@@ -307,6 +333,14 @@ function goToReview() {
 }
 
 function backToForm() {
+    // Kembalikan file input ke step-form
+    const fileInput = document.getElementById('f_bukti');
+    const errBukti  = document.getElementById('err_bukti');
+    if (fileInput) {
+        const formGroup = errBukti?.closest('.form-group') ?? document.querySelector('#clientForm .form-group:last-of-type');
+        if (formGroup) formGroup.insertBefore(fileInput, errBukti ?? formGroup.lastChild);
+    }
+
     document.getElementById('stepper-2').classList.remove('active');
     document.getElementById('stepper-1').classList.remove('done');
     document.getElementById('stepper-1').classList.add('active');

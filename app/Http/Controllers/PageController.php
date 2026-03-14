@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Agent;
+use App\Models\ClientData;
 use App\Models\Setting;
 use App\Models\Unit;
 
@@ -304,22 +305,42 @@ class PageController extends Controller
     public function storeClientDataAdmin(Request $request)
     {
         $request->validate([
-            'nama_lengkap' => ['required', 'string', 'max:255'],
-            'email'        => ['required', 'email', 'max:255'],
-            'nik'          => ['required', 'string', 'digits:16'],
-            'no_whatsapp'  => ['required', 'string', 'max:20'],
-            'alamat'       => ['required', 'string'],
+            'nama_lengkap'    => ['required', 'string', 'max:255'],
+            'email'           => ['required', 'email', 'max:255'],
+            'nik'             => ['required', 'string', 'digits:16'],
+            'no_whatsapp'     => ['required', 'string', 'max:20'],
+            'alamat'          => ['required', 'string'],
+            'bukti_pembayaran' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ], [
-            'nama_lengkap.required' => 'Nama lengkap wajib diisi.',
-            'email.required'        => 'Email wajib diisi.',
-            'email.email'           => 'Format email tidak valid.',
-            'nik.required'          => 'No KTP / NIK wajib diisi.',
-            'nik.digits'            => 'NIK harus 16 digit angka.',
-            'no_whatsapp.required'  => 'No WhatsApp wajib diisi.',
-            'alamat.required'       => 'Alamat wajib diisi.',
+            'nama_lengkap.required'  => 'Nama lengkap wajib diisi.',
+            'email.required'         => 'Email wajib diisi.',
+            'email.email'            => 'Format email tidak valid.',
+            'nik.required'           => 'No KTP / NIK wajib diisi.',
+            'nik.digits'             => 'NIK harus 16 digit angka.',
+            'no_whatsapp.required'   => 'No WhatsApp wajib diisi.',
+            'alamat.required'        => 'Alamat wajib diisi.',
+            'bukti_pembayaran.image' => 'File harus berupa gambar.',
+            'bukti_pembayaran.mimes' => 'Format gambar: jpg, jpeg, png, atau webp.',
+            'bukti_pembayaran.max'   => 'Ukuran file maksimal 5 MB.',
         ]);
 
-        $user = Auth::user();
+        $buktiPath = null;
+        if ($request->hasFile('bukti_pembayaran')) {
+            $buktiPath = $request->file('bukti_pembayaran')
+                ->store('bukti-pembayaran', 'public');
+        }
+
+        ClientData::create([
+            'nama_lengkap'    => $request->nama_lengkap,
+            'email'           => $request->email,
+            'nik'             => $request->nik,
+            'no_whatsapp'     => $request->no_whatsapp,
+            'alamat'          => $request->alamat,
+            'bukti_pembayaran' => $buktiPath,
+            'created_by'      => Auth::id(),
+        ]);
+
+        $user  = Auth::user();
         $route = $user->isAdmin() ? 'manager.pengisian-data' : 'admin.pengisian-data';
         return redirect()->route($route)->with('step', 'selesai');
     }
