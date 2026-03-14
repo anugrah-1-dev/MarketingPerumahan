@@ -62,7 +62,10 @@
                 <div class="bg-white rounded-[20px] p-6 shadow-sm">
                     <h2 class="text-[#393939] text-lg font-bold mb-5">📋 Spesifikasi</h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-5">
-                        @foreach ([['🛏', 'Kamar Tidur', $unit['kt'] . ' Kamar'], ['🚿', 'Kamar Mandi', $unit['km'] . ' Kamar'], ['🏢', 'Lantai', $unit['lantai'] . ' Lantai'], ['�', 'Garasi', $unit['garasi'] . ' Mobil'], ['�📜', 'Sertifikat', $unit['sertifikat']], ['📐', 'Luas Bangunan', $unit['lb']], ['🌿', 'Luas Tanah', $unit['lt']]] as $spec)
+                        @foreach ([['🛏', 'Kamar Tidur', $unit['kt'] . ' Kamar'], ['🚿', 'Kamar Mandi', $unit['km'] . ' Kamar'], ['🏢', 'Lantai', $unit['lantai'] . ' Lantai'], ['🚗', 'Garasi', $unit['garasi'] . ' Mobil'], ['📜', 'Sertifikat', $unit['sertifikat']], ['📐', 'Luas Bangunan', $unit['lb']], ['🌿', 'Luas Tanah', $unit['lt']]] as $spec)
+                            <div class="bg-[#F7F7F7] rounded-[14px] p-4 text-center">
+                                <p class="text-xl mb-1">{{ $spec[0] }}</p>
+                                <p class="text-xs text-[#676767]">{{ $spec[1] }}</p>�', 'Garasi', $unit['garasi'] . ' Mobil'], ['�📜', 'Sertifikat', $unit['sertifikat']], ['📐', 'Luas Bangunan', $unit['lb']], ['🌿', 'Luas Tanah', $unit['lt']]] as $spec)
                             <div class="bg-[#F7F7F7] rounded-[14px] p-4 text-center">
                                 <p class="text-xl mb-1">{{ $spec[0] }}</p>
                                 <p class="text-xs text-[#676767]">{{ $spec[1] }}</p>
