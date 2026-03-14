@@ -72,13 +72,13 @@
     <div class="form-group">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <label style="margin-bottom:0">Fasilitas</label>
-            <button type="button" onclick="trAddFasilitas('{{ $formId ?? 'tambah' }}')" title="Tambah fasilitas"
+            <button type="button" onclick="trAddFasilitas(this)" title="Tambah fasilitas"
                 style="display:flex;align-items:center;gap:5px;background:#16a34a;color:#fff;border:none;border-radius:8px;padding:5px 13px;font-size:13px;font-weight:600;cursor:pointer;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah
             </button>
         </div>
-        <div id="fasilitasList-{{ $formId ?? 'tambah' }}" style="display:flex;flex-direction:column;gap:6px;"></div>
+        <div class="fasilitas-list" style="display:flex;flex-direction:column;gap:6px;"></div>
         <p class="tr-file-hint">Contoh: Listrik 2200W, Air PDAM, Kitchen Set...</p>
     </div>
 
@@ -100,13 +100,13 @@
     <div class="form-group">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <label style="margin-bottom:0">Foto Tambahan</label>
-            <button type="button" onclick="trAddFotoSlot('{{ $formId ?? 'tambah' }}')" title="Tambah foto"
+            <button type="button" onclick="trAddFotoSlot(this)" title="Tambah foto"
                 style="display:flex;align-items:center;gap:5px;background:#2563eb;color:#fff;border:none;border-radius:8px;padding:5px 13px;font-size:13px;font-weight:600;cursor:pointer;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Tambah Foto
             </button>
         </div>
-        <div id="fotoTambahanList-{{ $formId ?? 'tambah' }}" style="display:flex;flex-direction:column;gap:8px;"></div>
+        <div class="foto-tambahan-list" style="display:flex;flex-direction:column;gap:8px;"></div>
         <p class="tr-file-hint">Klik "+ Tambah Foto" untuk foto-foto tambahan (opsional).</p>
     </div>
 
