@@ -94,15 +94,15 @@
                     <p class="text-[#393939] text-3xl font-bold mb-5">{{ $unit['harga'] }}</p>
 
                     <div class="grid grid-cols-2 gap-3 mb-5">
-                        @foreach ([['DP 20%', $unit['dp']], ['Cicilan/Bln (15th)', $unit['cicilan_15']], ['Cicilan/Bln (20th)', $unit['cicilan_20']], ['Bunga/Tahun', '8%']] as $h)
-                            <div class="bg-[#F7F7F7] rounded-[12px] p-3">
-                                <p class="text-[10px] text-[#676767]">{{ $h[0] }}</p>
-                                <p class="text-sm font-bold text-[#393939]">{{ $h[1] }}</p>
+                        @foreach ([['DP 0%', null], ['KPR', null], ['Inhouse 5 Tahun', null], ['Free PPN', null]] as $h)
+                            <div class="bg-[#F0F7F2] rounded-[12px] p-3 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#0B5E41] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                <p class="text-sm font-semibold text-[#0B5E41]">{{ $h[0] }}</p>
                             </div>
                         @endforeach
                     </div>
 
-                    <p class="text-xs text-[#676767] mb-5">Skema KPR: Cicilan jangka panjang dengan bank</p>
+                    <p class="text-xs text-[#676767] mb-5">* Syarat dan ketentuan berlaku</p>
 
                     @if ($unit['status'] !== 'Tersedia')
                         <button
