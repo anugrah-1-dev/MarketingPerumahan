@@ -195,6 +195,7 @@ class TipeRumahController extends Controller
             'kt'         => $tipe->kamar_tidur ?? $kt,
             'km'         => $tipe->kamar_mandi ?? $km,
             'lantai'     => $tipe->lantai      ?? 1,
+            'garasi'     => $tipe->garasi      ?? 0,
             'sertifikat' => $tipe->sertifikat  ?? 'SHM',
             'lb'         => $tipe->luas_bangunan . ' m²',
             'lt'         => $tipe->luas_tanah . ' m²',
