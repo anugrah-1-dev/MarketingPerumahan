@@ -153,7 +153,7 @@
         <form method="POST" action="{{ route('manager.tipe-rumah.store') }}" enctype="multipart/form-data">
             @csrf
             <div class="tr-modal-body">
-                @include('manager.partials.tipe-rumah-form')
+                @include('manager.partials.tipe-rumah-form', ['formId' => 'tambah'])
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
@@ -183,7 +183,7 @@
         <form id="form-edit" method="POST" action="" enctype="multipart/form-data">
             @csrf @method('PUT')
             <div class="tr-modal-body">
-                @include('manager.partials.tipe-rumah-form')
+                @include('manager.partials.tipe-rumah-form', ['formId' => 'edit'])
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
@@ -199,36 +199,36 @@
 @push('scripts')
 
 <script>
-let fotoCount = 0;
-let fasilitasCount = 0;
+let fotoCount = { tambah: 0, edit: 0 };
+let fasilitasCount = { tambah: 0, edit: 0 };
 
-function trAddFotoSlot() {
-    const list = document.getElementById('fotoTambahanList');
-    const idx  = fotoCount++;
+function trAddFotoSlot(formId = 'tambah') {
+    const list = document.getElementById('fotoTambahanList-' + formId);
+    const idx  = fotoCount[formId]++;
     const div  = document.createElement('div');
-    div.id     = 'foto-slot-' + idx;
+    div.id     = 'foto-slot-' + formId + '-' + idx;
     div.style  = 'display:flex;gap:8px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;';
     div.innerHTML = `
         <input type="file" name="foto_tambahan[]" accept="image/*"
                style="flex:1;font-size:13px;" required>
         <input type="text" name="foto_keterangan[]" placeholder="Keterangan (opsional)"
                style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:13px;">
-        <button type="button" onclick="document.getElementById('foto-slot-${idx}').remove()" title="Hapus"
+        <button type="button" onclick="document.getElementById('foto-slot-${formId}-${idx}').remove()" title="Hapus"
                 style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;">×</button>
     `;
     list.appendChild(div);
 }
 
-function trAddFasilitas(value = '') {
-    const list = document.getElementById('fasilitasList');
-    const idx  = fasilitasCount++;
+function trAddFasilitas(formId = 'tambah', value = '') {
+    const list = document.getElementById('fasilitasList-' + formId);
+    const idx  = fasilitasCount[formId]++;
     const div  = document.createElement('div');
-    div.id     = 'fasilitas-slot-' + idx;
+    div.id     = 'fasilitas-slot-' + formId + '-' + idx;
     div.style  = 'display:flex;gap:8px;align-items:center;';
     div.innerHTML = `
         <input type="text" name="fasilitas[]" value="${value}" placeholder="Contoh: Listrik 2200W"
                style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:13px;">
-        <button type="button" onclick="document.getElementById('fasilitas-slot-${idx}').remove()" title="Hapus"
+        <button type="button" onclick="document.getElementById('fasilitas-slot-${formId}-${idx}').remove()" title="Hapus"
                 style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;">×</button>
     `;
     list.appendChild(div);
@@ -277,12 +277,12 @@ function trOpenEditModal(data) {
     const sertSelect = form.querySelector('[name="sertifikat"]');
     if (sertSelect) sertSelect.value = data.sertifikat ?? 'SHM';
 
-    const fasilitasList = form.querySelector('#fasilitasList');
+    const fasilitasList = document.getElementById('fasilitasList-edit');
     if (fasilitasList) {
         fasilitasList.innerHTML = '';
-        fasilitasCount = 0;
+        fasilitasCount.edit = 0;
         const fasilitas = data.fasilitas ? (typeof data.fasilitas === 'string' ? JSON.parse(data.fasilitas) : data.fasilitas) : [];
-        fasilitas.forEach(f => trAddFasilitas(f));
+        fasilitas.forEach(f => trAddFasilitas('edit', f));
     }
 
     trOpenModal('modal-edit');
