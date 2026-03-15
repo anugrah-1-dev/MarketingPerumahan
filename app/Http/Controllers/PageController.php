@@ -6,8 +6,10 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Agent;
 use App\Models\ClientData;
+use App\Models\Closing;
 use App\Models\Setting;
 use App\Models\Unit;
+use App\Models\User;
 
 use App\Models\TipeRumah;
 use App\Models\SocialMedia;
@@ -117,6 +119,7 @@ class PageController extends Controller
             'nik'             => ['required', 'string', 'digits:16'],
             'no_whatsapp'     => ['required', 'string', 'max:20'],
             'alamat'          => ['required', 'string'],
+            'tipe_rumah_id'   => ['required', 'exists:tipe_rumah,id'],
             'bukti_pembayaran' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ], [
             'nama_lengkap.required'  => 'Nama lengkap wajib diisi.',
@@ -126,6 +129,8 @@ class PageController extends Controller
             'nik.digits'             => 'NIK harus 16 digit angka.',
             'no_whatsapp.required'   => 'No WhatsApp wajib diisi.',
             'alamat.required'        => 'Alamat wajib diisi.',
+            'tipe_rumah_id.required' => 'Tipe rumah wajib dipilih.',
+            'tipe_rumah_id.exists'   => 'Tipe rumah tidak valid.',
             'bukti_pembayaran.image' => 'File harus berupa gambar.',
             'bukti_pembayaran.mimes' => 'Format gambar: jpg, jpeg, png, atau webp.',
             'bukti_pembayaran.max'   => 'Ukuran file maksimal 5 MB.',
@@ -137,15 +142,18 @@ class PageController extends Controller
                 ->store('bukti-pembayaran', 'public');
         }
 
-        ClientData::create([
+        $clientData = ClientData::create([
             'nama_lengkap'    => $request->nama_lengkap,
             'email'           => $request->email,
             'nik'             => $request->nik,
             'no_whatsapp'     => $request->no_whatsapp,
             'alamat'          => $request->alamat,
             'bukti_pembayaran' => $buktiPath,
+            'tipe_rumah_id'   => $request->tipe_rumah_id,
             'created_by'      => Auth::id(),
         ]);
+
+        $this->autoCreateClosing($clientData);
 
         return redirect()->route('affiliate.pengisian-data')->with('step', 'selesai');
     }
@@ -313,20 +321,30 @@ class PageController extends Controller
 
     public function pengisianDataAdmin()
     {
-        $user = Auth::user();
-        $panel = $user && $user->isAdmin() ? 'manager' : 'admin';
+        $user      = Auth::user();
+        $panel     = $user && $user->isAdmin() ? 'manager' : 'admin';
+        $tipeRumah = TipeRumah::select('id', 'nama_tipe', 'harga')->orderBy('harga')->get();
+        $agents    = Agent::aktif()->select('id', 'nama', 'commission')->orderBy('nama')->get();
 
-        return view("{$panel}.pengisian-data");
+        return view("{$panel}.pengisian-data", compact('tipeRumah', 'agents'));
+    }
+
+    public function pengisianDataAffiliate()
+    {
+        $tipeRumah = TipeRumah::select('id', 'nama_tipe', 'harga')->orderBy('harga')->get();
+        return view('affiliate.pengisian-data', compact('tipeRumah'));
     }
 
     public function storeClientDataAdmin(Request $request)
     {
         $request->validate([
-            'nama_lengkap'    => ['required', 'string', 'max:255'],
-            'email'           => ['required', 'email', 'max:255'],
-            'nik'             => ['required', 'string', 'digits:16'],
-            'no_whatsapp'     => ['required', 'string', 'max:20'],
-            'alamat'          => ['required', 'string'],
+            'nama_lengkap'     => ['required', 'string', 'max:255'],
+            'email'            => ['required', 'email', 'max:255'],
+            'nik'              => ['required', 'string', 'digits:16'],
+            'no_whatsapp'      => ['required', 'string', 'max:20'],
+            'alamat'           => ['required', 'string'],
+            'tipe_rumah_id'    => ['required', 'exists:tipe_rumah,id'],
+            'agent_id'         => ['nullable', 'exists:agents,id'],
             'bukti_pembayaran' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ], [
             'nama_lengkap.required'  => 'Nama lengkap wajib diisi.',
@@ -336,6 +354,8 @@ class PageController extends Controller
             'nik.digits'             => 'NIK harus 16 digit angka.',
             'no_whatsapp.required'   => 'No WhatsApp wajib diisi.',
             'alamat.required'        => 'Alamat wajib diisi.',
+            'tipe_rumah_id.required' => 'Tipe rumah wajib dipilih.',
+            'tipe_rumah_id.exists'   => 'Tipe rumah tidak valid.',
             'bukti_pembayaran.image' => 'File harus berupa gambar.',
             'bukti_pembayaran.mimes' => 'Format gambar: jpg, jpeg, png, atau webp.',
             'bukti_pembayaran.max'   => 'Ukuran file maksimal 5 MB.',
@@ -347,18 +367,55 @@ class PageController extends Controller
                 ->store('bukti-pembayaran', 'public');
         }
 
-        ClientData::create([
-            'nama_lengkap'    => $request->nama_lengkap,
-            'email'           => $request->email,
-            'nik'             => $request->nik,
-            'no_whatsapp'     => $request->no_whatsapp,
-            'alamat'          => $request->alamat,
+        $clientData = ClientData::create([
+            'nama_lengkap'     => $request->nama_lengkap,
+            'email'            => $request->email,
+            'nik'              => $request->nik,
+            'no_whatsapp'      => $request->no_whatsapp,
+            'alamat'           => $request->alamat,
             'bukti_pembayaran' => $buktiPath,
-            'created_by'      => Auth::id(),
+            'tipe_rumah_id'    => $request->tipe_rumah_id,
+            'created_by'       => Auth::id(),
         ]);
+
+        $this->autoCreateClosing($clientData, $request->filled('agent_id') ? (int) $request->agent_id : null);
 
         $user  = Auth::user();
         $route = $user->isAdmin() ? 'manager.pengisian-data' : 'admin.pengisian-data';
         return redirect()->route($route)->with('step', 'selesai');
+    }
+
+    // ── Auto-create closing record ─────────────────────────────────────────────
+
+    private function autoCreateClosing(ClientData $clientData, ?int $agentIdOverride = null): void
+    {
+        $creator = User::find($clientData->created_by);
+
+        if ($agentIdOverride) {
+            $agent = Agent::find($agentIdOverride);
+        } elseif ($creator && $creator->isAffiliate() && $creator->agent) {
+            $agent = $creator->agent;
+        } else {
+            $agent = null;
+        }
+
+        $tipeRumah     = TipeRumah::find($clientData->tipe_rumah_id);
+        $hargaJual     = (int) ($tipeRumah?->harga ?? 0);
+        $komisiPersen  = (float) ($agent?->commission ?? 0);
+        $komisiNominal = (int) round($hargaJual * $komisiPersen / 100);
+
+        Closing::create([
+            'client_data_id'  => $clientData->id,
+            'agent_id'        => $agent?->id,
+            'tipe_rumah_id'   => $clientData->tipe_rumah_id,
+            'customer_name'   => $clientData->nama_lengkap,
+            'customer_phone'  => $clientData->no_whatsapp,
+            'harga_jual'      => $hargaJual,
+            'komisi_persen'   => $komisiPersen,
+            'komisi_nominal'  => $komisiNominal,
+            'payment_status'  => 'dp',
+            'tanggal_closing' => now()->toDateString(),
+            'created_by'      => $clientData->created_by,
+        ]);
     }
 }

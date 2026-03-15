@@ -209,6 +209,25 @@
                 <div class="err-msg" id="err_alamat"></div>
             </div>
             <div class="form-group">
+                <label>Tipe Rumah <span class="req">*</span></label>
+                <select id="f_tipe_rumah" name="tipe_rumah_id" style="width:100%;padding:11px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;color:#333;background:#fff;outline:none;box-sizing:border-box;cursor:pointer;">
+                    <option value="">-- Pilih Tipe Rumah --</option>
+                    @foreach($tipeRumah ?? [] as $tipe)
+                    <option value="{{ $tipe->id }}" data-harga="{{ $tipe->harga }}">{{ $tipe->nama_tipe }} — Rp {{ number_format($tipe->harga, 0, ',', '.') }}</option>
+                    @endforeach
+                </select>
+                <div class="err-msg" id="err_tipe_rumah"></div>
+            </div>
+            <div class="form-group">
+                <label>Agent <span style="font-weight:400;color:#888;font-size:12px">(opsional)</span></label>
+                <select id="f_agent" name="agent_id" style="width:100%;padding:11px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;color:#333;background:#fff;outline:none;box-sizing:border-box;cursor:pointer;">
+                    <option value="">-- Pilih Agent --</option>
+                    @foreach($agents ?? [] as $agent)
+                    <option value="{{ $agent->id }}">{{ $agent->nama }} (Komisi: {{ $agent->commission }}%)</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label>Bukti Pembayaran <span style="font-weight:400;color:#888;font-size:12px">(opsional, maks 5 MB)</span></label>
                 <input type="file" id="f_bukti" name="bukti_pembayaran" accept="image/jpeg,image/png,image/webp"
                     style="border:1.5px dashed #d1d5db;border-radius:8px;padding:10px 14px;background:#fafafa;cursor:pointer;">
@@ -231,6 +250,8 @@
             <tr><td>No KTP / NIK</td><td id="rv_nik"></td></tr>
             <tr><td>No WhatsApp</td><td id="rv_wa"></td></tr>
             <tr><td>Alamat</td><td id="rv_alamat"></td></tr>
+            <tr><td>Tipe Rumah</td><td id="rv_tipe_rumah"></td></tr>
+            <tr><td>Agent</td><td id="rv_agent"></td></tr>
             <tr><td>Bukti Pembayaran</td><td id="rv_bukti">-</td></tr>
         </table>
 
@@ -238,11 +259,13 @@
         <form method="POST" action="{{ route('manager.pengisian-data.store') }}" id="submitForm"
               enctype="multipart/form-data">
             @csrf
-            <input type="hidden" name="nama_lengkap" id="hd_nama">
-            <input type="hidden" name="email"        id="hd_email">
-            <input type="hidden" name="nik"          id="hd_nik">
-            <input type="hidden" name="no_whatsapp"  id="hd_wa">
-            <input type="hidden" name="alamat"       id="hd_alamat">
+            <input type="hidden" name="nama_lengkap"   id="hd_nama">
+            <input type="hidden" name="email"          id="hd_email">
+            <input type="hidden" name="nik"            id="hd_nik">
+            <input type="hidden" name="no_whatsapp"    id="hd_wa">
+            <input type="hidden" name="alamat"         id="hd_alamat">
+            <input type="hidden" name="tipe_rumah_id"  id="hd_tipe_rumah_id">
+            <input type="hidden" name="agent_id"       id="hd_agent_id">
             {{-- file input dipindahkan ke sini oleh goToReview() --}}
             <div id="buktiPlaceholder"></div>
             <div class="form-actions">
@@ -292,6 +315,18 @@ function goToReview() {
     const wa     = check('f_wa',     'err_wa',     'No WhatsApp');
     const alamat = check('f_alamat', 'err_alamat', 'Alamat');
 
+    // Validasi tipe rumah
+    const tipeEl  = document.getElementById('f_tipe_rumah');
+    const tipeErr = document.getElementById('err_tipe_rumah');
+    if (!tipeEl.value) {
+        tipeErr.textContent = 'Tipe rumah wajib dipilih.';
+        tipeEl.style.borderColor = '#e55353';
+        valid = false;
+    } else {
+        tipeErr.textContent = '';
+        tipeEl.style.borderColor = '#d1d5db';
+    }
+
     if (!valid) return;
 
     document.getElementById('rv_nama').textContent   = nama;
@@ -299,12 +334,19 @@ function goToReview() {
     document.getElementById('rv_nik').textContent    = nik;
     document.getElementById('rv_wa').textContent     = wa;
     document.getElementById('rv_alamat').textContent = alamat;
+    document.getElementById('rv_tipe_rumah').textContent = tipeEl.options[tipeEl.selectedIndex].text;
 
-    document.getElementById('hd_nama').value   = nama;
-    document.getElementById('hd_email').value  = email;
-    document.getElementById('hd_nik').value    = nik;
-    document.getElementById('hd_wa').value     = wa;
-    document.getElementById('hd_alamat').value = alamat;
+    const agentEl = document.getElementById('f_agent');
+    document.getElementById('rv_agent').textContent  = agentEl.value
+        ? agentEl.options[agentEl.selectedIndex].text : '(tidak ada)';
+
+    document.getElementById('hd_nama').value          = nama;
+    document.getElementById('hd_email').value         = email;
+    document.getElementById('hd_nik').value           = nik;
+    document.getElementById('hd_wa').value            = wa;
+    document.getElementById('hd_alamat').value        = alamat;
+    document.getElementById('hd_tipe_rumah_id').value = tipeEl.value;
+    document.getElementById('hd_agent_id').value      = agentEl.value;
 
     // Pindahkan file input ke dalam submitForm agar ikut ter-submit
     const fileInput = document.getElementById('f_bukti');

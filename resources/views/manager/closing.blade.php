@@ -143,5 +143,9 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/admin/js/closing.js') }}"></script>
+<script>
+window.TIPE_RUMAH    = @json($tipeRumah ?? []);
+window.CLOSING_PANEL = 'manager';
+</script>
+<script src="{{ asset('assets/admin/js/closing.js') }}?v={{ filemtime(public_path('assets/admin/js/closing.js')) }}"></script>
 @endpush

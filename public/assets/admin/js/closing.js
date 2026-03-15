@@ -1,560 +1,512 @@
-// Mock Data
-let closings = [
-    {
-        id: 1,
-        date: '2024-02-25',
-        agentId: 2,
-        agentName: 'Siti Nurhaliza',
-        agentCommission: 2.5,
-        propertyId: 2,
-        propertyName: 'Rumah Type 60 - Blok B',
-        propertyPrice: 850000000,
-        customerName: 'Bambang Wijaya',
-        customerPhone: '081234567001',
-        customerEmail: 'bambang@email.com',
-        salePrice: 850000000,
-        commission: 21250000,
-        paymentStatus: 'dp',
-        notes: 'DP 30%, sisa KPR Bank Mandiri',
-        createdAt: '2024-02-25 14:30:00'
-    },
-    {
-        id: 2,
-        date: '2024-02-24',
-        agentId: 3,
-        agentName: 'Ahmad Rizki',
-        agentCommission: 2.0,
-        propertyId: 3,
-        propertyName: 'Rumah Type 36 - Blok C',
-        propertyPrice: 450000000,
-        customerName: 'Susi Rahayu',
-        customerPhone: '081234567002',
-        customerEmail: 'susi@email.com',
-        salePrice: 450000000,
-        commission: 9000000,
-        paymentStatus: 'installment',
-        notes: 'Cicilan developer 24 bulan',
-        createdAt: '2024-02-24 10:15:00'
-    },
-    {
-        id: 3,
-        date: '2024-02-20',
-        agentId: 1,
-        agentName: 'Budi Santoso',
-        agentCommission: 2.5,
-        propertyId: 1,
-        propertyName: 'Rumah Type 45 - Blok A',
-        propertyPrice: 650000000,
-        customerName: 'Andi Setiawan',
-        customerPhone: '081234567003',
-        customerEmail: 'andi@email.com',
-        salePrice: 650000000,
-        commission: 16250000,
-        paymentStatus: 'paid-off',
-        notes: 'Pembayaran cash bertahap, sudah lunas',
-        createdAt: '2024-02-20 16:45:00'
-    },
-    {
-        id: 4,
-        date: '2024-02-18',
-        agentId: 4,
-        agentName: 'Dewi Lestari',
-        agentCommission: 2.0,
-        propertyId: 4,
-        propertyName: 'Rumah Type 70 - Blok D',
-        propertyPrice: 1200000000,
-        customerName: 'Hendro Kusuma',
-        customerPhone: '081234567004',
-        customerEmail: 'hendro@email.com',
-        salePrice: 1200000000,
-        commission: 24000000,
-        paymentStatus: 'dp',
-        notes: 'DP 40%, KPR BRI',
-        createdAt: '2024-02-18 09:20:00'
-    },
-    {
-        id: 5,
-        date: '2024-02-15',
-        agentId: 1,
-        agentName: 'Budi Santoso',
-        agentCommission: 2.5,
-        propertyId: 1,
-        propertyName: 'Rumah Type 45 - Blok A',
-        propertyPrice: 650000000,
-        customerName: 'Lisa Permata',
-        customerPhone: '081234567005',
-        customerEmail: 'lisa@email.com',
-        salePrice: 650000000,
-        commission: 16250000,
-        paymentStatus: 'installment',
-        notes: 'Cicilan in-house 36 bulan',
-        createdAt: '2024-02-15 13:10:00'
-    }
-];
+// -- Closing Management � Real API version ---------------------------------
+const closingPanel = window.CLOSING_PANEL ?? "admin";
+const closingBasePath = "/" + closingPanel + "/closing";
+const agentsBasePath = "/" + closingPanel + "/agents";
 
+let closings = [];
 let agents = [];
 let properties = [];
 let editingClosingId = null;
 let filteredClosings = [];
 
-// Initialize
-document.addEventListener('DOMContentLoaded', function() {
-    loadAgentsForSelect();
+// -- Helpers ----------------------------------------------------------------
+
+function csrfToken() {
+    return document.querySelector('meta[name="csrf-token"]')?.content ?? "";
+}
+
+function normalizeClosing(c) {
+    return {
+        id: c.id,
+        date: c.tanggal_closing,
+        agentId: c.agent_id,
+        agentName: c.agent_name ?? c.agent?.nama ?? "(tidak ada)",
+        agentCommission: c.komisi_persen,
+        propertyId: c.tipe_rumah_id,
+        propertyName: c.tipe_rumah_nama ?? c.tipe_rumah?.nama_tipe ?? "-",
+        propertyPrice: c.tipe_rumah?.harga ?? 0,
+        customerName: c.customer_name,
+        customerPhone: c.customer_phone,
+        customerEmail: "",
+        salePrice: c.harga_jual,
+        commission: c.komisi_nominal,
+        paymentStatus: c.payment_status,
+        notes: c.catatan ?? "",
+        createdAt: c.created_at,
+    };
+}
+
+// -- Initialize -------------------------------------------------------------
+
+document.addEventListener("DOMContentLoaded", function () {
     loadPropertiesForSelect();
-    loadAgentsForFilter();
-    updateStats();
-    filterClosings();
-    
-    // Set default date to today
-    document.getElementById('closingDate').valueAsDate = new Date();
+    loadAgentsForSelect();
+    document.getElementById("closingDate").valueAsDate = new Date();
+
+    document
+        .getElementById("closingProperty")
+        .addEventListener("change", function () {
+            const price = this.options[this.selectedIndex]?.dataset?.price;
+            if (price && !document.getElementById("salePrice").value) {
+                document.getElementById("salePrice").value = price;
+                updateCommissionPreview();
+            }
+        });
 });
 
-// Load Agents for Select
-function loadAgentsForSelect() {
-    const select = document.getElementById('closingAgent');
-    agents = [
-        { id: 1, name: 'Budi Santoso', commission: 2.5 },
-        { id: 2, name: 'Siti Nurhaliza', commission: 2.5 },
-        { id: 3, name: 'Ahmad Rizki', commission: 2.0 },
-        { id: 4, name: 'Dewi Lestari', commission: 2.0 },
-        { id: 5, name: 'Rudi Hartono', commission: 1.5 }
-    ];
-    
-    agents.forEach(agent => {
-        const option = document.createElement('option');
-        option.value = agent.id;
-        option.textContent = `${agent.name} (${agent.commission}%)`;
-        option.dataset.commission = agent.commission;
-        select.appendChild(option);
-    });
-}
+// -- Load Properties --------------------------------------------------------
 
-// Load Properties for Select
 function loadPropertiesForSelect() {
-    const select = document.getElementById('closingProperty');
-    properties = [
-        { id: 1, name: 'Rumah Type 45 - Blok A', price: 650000000 },
-        { id: 2, name: 'Rumah Type 60 - Blok B', price: 850000000 },
-        { id: 3, name: 'Rumah Type 36 - Blok C', price: 450000000 },
-        { id: 4, name: 'Rumah Type 70 - Blok D', price: 1200000000 }
-    ];
-    
-    properties.forEach(property => {
-        const option = document.createElement('option');
-        option.value = property.id;
-        option.textContent = `${property.name} - ${formatCurrency(property.price)}`;
-        option.dataset.price = property.price;
-        select.appendChild(option);
+    const data = window.TIPE_RUMAH ?? [];
+    properties = data.map((t) => ({
+        id: t.id,
+        name: t.nama_tipe,
+        price: t.harga,
+    }));
+
+    const select = document.getElementById("closingProperty");
+    while (select.options.length > 1) select.remove(1);
+    properties.forEach((p) => {
+        const opt = document.createElement("option");
+        opt.value = p.id;
+        opt.textContent = p.name + " � " + formatCurrency(p.price);
+        opt.dataset.price = p.price;
+        select.appendChild(opt);
     });
 }
 
-// Load Agents for Filter
-function loadAgentsForFilter() {
-    const select = document.getElementById('filterAgent');
-    agents.forEach(agent => {
-        const option = document.createElement('option');
-        option.value = agent.id;
-        option.textContent = agent.name;
-        select.appendChild(option);
+// -- Load Agents from API ---------------------------------------------------
+
+async function loadAgentsForSelect() {
+    try {
+        const res = await fetch(agentsBasePath, {
+            headers: {
+                Accept: "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : (data.data ?? []);
+        agents = list.map((a) => ({
+            id: a.id,
+            name: a.nama,
+            commission: parseFloat(a.commission),
+        }));
+    } catch (e) {
+        console.error("Gagal load agents:", e);
+        agents = [];
+    }
+
+    const agentSel = document.getElementById("closingAgent");
+    while (agentSel.options.length > 1) agentSel.remove(1);
+    agents.forEach((a) => {
+        const opt = document.createElement("option");
+        opt.value = a.id;
+        opt.textContent = a.name + " (" + a.commission + "%)";
+        opt.dataset.commission = a.commission;
+        agentSel.appendChild(opt);
     });
+
+    const filterSel = document.getElementById("filterAgent");
+    while (filterSel.options.length > 1) filterSel.remove(1);
+    agents.forEach((a) => {
+        const opt = document.createElement("option");
+        opt.value = a.id;
+        opt.textContent = a.name;
+        filterSel.appendChild(opt);
+    });
+
+    await fetchAndRenderClosings();
 }
 
-// Update Stats
+// -- Fetch Closings from API ------------------------------------------------
+
+async function fetchAndRenderClosings() {
+    try {
+        const res = await fetch(closingBasePath, {
+            headers: {
+                Accept: "application/json",
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        });
+        if (!res.ok) throw new Error("HTTP " + res.status);
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : (data.data ?? []);
+        closings = list.map(normalizeClosing);
+    } catch (e) {
+        console.error("Gagal load closings:", e);
+        closings = [];
+    }
+    updateStats();
+    filterClosings();
+}
+
+// -- Stats ------------------------------------------------------------------
+
 function updateStats() {
-    const totalClosing = closings.length;
-    const totalSales = closings.reduce((sum, c) => sum + c.salePrice, 0);
-    const totalCommission = closings.reduce((sum, c) => sum + c.commission, 0);
-    
-    const currentMonth = new Date().getMonth();
-    const currentYear = new Date().getFullYear();
-    const closingThisMonth = closings.filter(c => {
-        const date = new Date(c.date);
-        return date.getMonth() === currentMonth && date.getFullYear() === currentYear;
-    }).length;
-    
-    document.getElementById('totalClosing').textContent = totalClosing;
-    document.getElementById('totalSales').textContent = formatCurrency(totalSales);
-    document.getElementById('totalCommission').textContent = formatCurrency(totalCommission);
-    document.getElementById('closingThisMonth').textContent = closingThisMonth;
+    const now = new Date();
+    document.getElementById("totalClosing").textContent = closings.length;
+    document.getElementById("totalSales").textContent = formatCurrency(
+        closings.reduce((s, c) => s + c.salePrice, 0),
+    );
+    document.getElementById("totalCommission").textContent = formatCurrency(
+        closings.reduce((s, c) => s + c.commission, 0),
+    );
+    document.getElementById("closingThisMonth").textContent = closings.filter(
+        (c) => {
+            const d = new Date(c.date);
+            return (
+                d.getMonth() === now.getMonth() &&
+                d.getFullYear() === now.getFullYear()
+            );
+        },
+    ).length;
 }
 
-// Format Currency
+// -- Format Helpers ---------------------------------------------------------
+
 function formatCurrency(amount) {
-    return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
+    return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
         minimumFractionDigits: 0,
-        maximumFractionDigits: 0
+        maximumFractionDigits: 0,
     }).format(amount);
 }
 
-// Filter Closings
-function filterClosings() {
-    const monthFilter = document.getElementById('filterMonth').value;
-    const agentFilter = document.getElementById('filterAgent').value;
-    const paymentFilter = document.getElementById('filterPaymentStatus').value;
-    
-    filteredClosings = closings.filter(closing => {
-        // Month filter
-        let monthMatch = true;
-        if (monthFilter !== 'all') {
-            const closingDate = new Date(closing.date);
-            const now = new Date();
-            
-            if (monthFilter === 'current') {
-                monthMatch = closingDate.getMonth() === now.getMonth() && 
-                            closingDate.getFullYear() === now.getFullYear();
-            } else if (monthFilter === 'last') {
-                const lastMonth = new Date(now.getFullYear(), now.getMonth() - 1);
-                monthMatch = closingDate.getMonth() === lastMonth.getMonth() && 
-                            closingDate.getFullYear() === lastMonth.getFullYear();
-            }
-        }
-        
-        // Agent filter
-        const agentMatch = agentFilter === 'all' || closing.agentId == agentFilter;
-        
-        // Payment status filter
-        const paymentMatch = paymentFilter === 'all' || closing.paymentStatus === paymentFilter;
-        
-        return monthMatch && agentMatch && paymentMatch;
+function formatDate(dateStr) {
+    return new Date(dateStr).toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
     });
-    
-    loadClosings();
 }
 
-// Load Closings
-function loadClosings() {
-    const tbody = document.getElementById('closingsTableBody');
-    tbody.innerHTML = '';
-    
+function formatPhoneNumber(phone) {
+    return (phone ?? "").replace(/(\d{4})(\d{4})(\d+)/, "$1-$2-$3");
+}
+
+function formatTimeAgo(datetime) {
+    const diff = Math.floor((Date.now() - new Date(datetime)) / 1000);
+    if (diff < 60) return "Baru saja";
+    if (diff < 3600) return Math.floor(diff / 60) + " menit lalu";
+    if (diff < 86400) return Math.floor(diff / 3600) + " jam lalu";
+    return Math.floor(diff / 86400) + " hari lalu";
+}
+
+function getPaymentBadge(status) {
+    const map = {
+        dp: '<span class="badge warning">DP</span>',
+        installment: '<span class="badge info">Cicilan</span>',
+        "paid-off": '<span class="badge success">Lunas</span>',
+    };
+    return map[status] ?? '<span class="badge">-</span>';
+}
+
+// -- Filter & Render Table --------------------------------------------------
+
+function filterClosings() {
+    const monthFilter = document.getElementById("filterMonth").value;
+    const agentFilter = document.getElementById("filterAgent").value;
+    const paymentFilter = document.getElementById("filterPaymentStatus").value;
+
+    filteredClosings = closings.filter((c) => {
+        let monthMatch = true;
+        if (monthFilter !== "all") {
+            const d = new Date(c.date),
+                now = new Date();
+            if (monthFilter === "current") {
+                monthMatch =
+                    d.getMonth() === now.getMonth() &&
+                    d.getFullYear() === now.getFullYear();
+            } else if (monthFilter === "last") {
+                const lm = new Date(now.getFullYear(), now.getMonth() - 1);
+                monthMatch =
+                    d.getMonth() === lm.getMonth() &&
+                    d.getFullYear() === lm.getFullYear();
+            }
+        }
+        return (
+            monthMatch &&
+            (agentFilter === "all" || c.agentId == agentFilter) &&
+            (paymentFilter === "all" || c.paymentStatus === paymentFilter)
+        );
+    });
+
+    renderClosingsTable();
+}
+
+function renderClosingsTable() {
+    const tbody = document.getElementById("closingsTableBody");
+    tbody.innerHTML = "";
+
     if (filteredClosings.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="8" style="text-align: center; padding: 2rem; color: #64748b;">Tidak ada data closing</td></tr>';
+        tbody.innerHTML =
+            '<tr><td colspan="8" style="text-align:center;padding:2rem;color:#64748b;">Tidak ada data closing</td></tr>';
         return;
     }
-    
-    // Sort by date descending
-    const sortedClosings = [...filteredClosings].sort((a, b) => new Date(b.date) - new Date(a.date));
-    
-    sortedClosings.forEach(closing => {
-        const tr = document.createElement('tr');
-        
-        const paymentBadge = getPaymentBadge(closing.paymentStatus);
-        
-        tr.innerHTML = `
+
+    [...filteredClosings]
+        .sort((a, b) => new Date(b.date) - new Date(a.date))
+        .forEach((c) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
             <td>
-                <div>${formatDate(closing.date)}</div>
-                <div style="color: #64748b; font-size: 0.875rem;">${formatTimeAgo(closing.createdAt)}</div>
+                <div>${formatDate(c.date)}</div>
+                <div style="color:#64748b;font-size:.875rem;">${formatTimeAgo(c.createdAt)}</div>
             </td>
             <td>
-                <strong>${closing.agentName}</strong>
-                <div style="color: #64748b; font-size: 0.875rem;">Komisi: ${closing.agentCommission}%</div>
+                <strong>${c.agentName}</strong>
+                <div style="color:#64748b;font-size:.875rem;">Komisi: ${c.agentCommission}%</div>
             </td>
             <td>
-                <div><strong>${closing.customerName}</strong></div>
-                <div style="color: #64748b; font-size: 0.875rem;">
-                    <i class="fab fa-whatsapp"></i> ${formatPhoneNumber(closing.customerPhone)}
+                <div><strong>${c.customerName}</strong></div>
+                <div style="color:#64748b;font-size:.875rem;">
+                    <i class="fab fa-whatsapp"></i> ${formatPhoneNumber(c.customerPhone)}
                 </div>
             </td>
-            <td>${closing.propertyName}</td>
-            <td><strong>${formatCurrency(closing.salePrice)}</strong></td>
-            <td style="color: #10b981; font-weight: 600;">${formatCurrency(closing.commission)}</td>
-            <td>${paymentBadge}</td>
+            <td>${c.propertyName}</td>
+            <td><strong>${formatCurrency(c.salePrice)}</strong></td>
+            <td style="color:#10b981;font-weight:600;">${formatCurrency(c.commission)}</td>
+            <td>${getPaymentBadge(c.paymentStatus)}</td>
             <td>
-                <div style="display: flex; gap: 0.5rem;">
-                    <button class="btn-icon" onclick="viewDetails(${closing.id})" title="Lihat Detail">
+                <div style="display:flex;gap:.5rem;">
+                    <button class="btn-icon" onclick="viewDetails(${c.id})" title="Lihat Detail">
                         <i class="fas fa-eye"></i>
                     </button>
-                    <button class="btn-icon" onclick="editClosing(${closing.id})" title="Edit">
+                    <button class="btn-icon" onclick="editClosing(${c.id})" title="Edit">
                         <i class="fas fa-edit"></i>
                     </button>
-                    <button class="btn-icon danger" onclick="deleteClosing(${closing.id})" title="Hapus">
+                    <button class="btn-icon danger" onclick="deleteClosing(${c.id})" title="Hapus">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
-            </td>
-        `;
-        tbody.appendChild(tr);
-    });
+            </td>`;
+            tbody.appendChild(tr);
+        });
 }
 
-// Get Payment Badge
-function getPaymentBadge(status) {
-    const badges = {
-        'dp': '<span class="badge warning">DP</span>',
-        'installment': '<span class="badge info">Cicilan</span>',
-        'paid-off': '<span class="badge success">Lunas</span>'
-    };
-    return badges[status] || '<span class="badge">-</span>';
-}
+// -- Modal: Open / Close ----------------------------------------------------
 
-// Format Date
-function formatDate(dateStr) {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('id-ID', {
-        day: '2-digit',
-        month: 'short',
-        year: 'numeric'
-    });
-}
-
-// Format Phone Number
-function formatPhoneNumber(phone) {
-    return phone.replace(/(\d{4})(\d{4})(\d+)/, '$1-$2-$3');
-}
-
-// Format Time Ago
-function formatTimeAgo(datetime) {
-    const now = new Date();
-    const date = new Date(datetime);
-    const diff = Math.floor((now - date) / 1000);
-    
-    if (diff < 60) return 'Baru saja';
-    if (diff < 3600) return `${Math.floor(diff / 60)} menit lalu`;
-    if (diff < 86400) return `${Math.floor(diff / 3600)} jam lalu`;
-    return `${Math.floor(diff / 86400)} hari lalu`;
-}
-
-// Open Add Closing Modal
 function openAddClosingModal() {
     editingClosingId = null;
-    document.getElementById('modalTitle').textContent = 'Input Closing Baru';
-    document.getElementById('closingForm').reset();
-    document.getElementById('closingId').value = '';
-    document.getElementById('closingDate').valueAsDate = new Date();
-    document.getElementById('commissionPreview').style.display = 'none';
-    document.getElementById('closingModal').style.display = 'flex';
+    document.getElementById("modalTitle").textContent = "Input Closing Baru";
+    document.getElementById("closingForm").reset();
+    document.getElementById("closingId").value = "";
+    document.getElementById("closingDate").valueAsDate = new Date();
+    document.getElementById("commissionPreview").style.display = "none";
+    document.getElementById("closingModal").style.display = "flex";
 }
 
-// Edit Closing
 function editClosing(id) {
-    const closing = closings.find(c => c.id === id);
-    if (!closing) return;
-    
+    const c = closings.find((x) => x.id === id);
+    if (!c) return;
     editingClosingId = id;
-    document.getElementById('modalTitle').textContent = 'Edit Closing';
-    document.getElementById('closingId').value = closing.id;
-    document.getElementById('closingDate').value = closing.date;
-    document.getElementById('closingAgent').value = closing.agentId;
-    document.getElementById('closingProperty').value = closing.propertyId;
-    document.getElementById('customerName').value = closing.customerName;
-    document.getElementById('customerPhone').value = closing.customerPhone;
-    document.getElementById('customerEmail').value = closing.customerEmail || '';
-    document.getElementById('salePrice').value = closing.salePrice;
-    document.getElementById('paymentStatus').value = closing.paymentStatus;
-    document.getElementById('closingNotes').value = closing.notes || '';
-    
+    document.getElementById("modalTitle").textContent = "Edit Closing";
+    document.getElementById("closingId").value = c.id;
+    document.getElementById("closingDate").value = c.date;
+    document.getElementById("closingAgent").value = c.agentId;
+    document.getElementById("closingProperty").value = c.propertyId;
+    document.getElementById("customerName").value = c.customerName;
+    document.getElementById("customerPhone").value = c.customerPhone;
+    document.getElementById("customerEmail").value = c.customerEmail;
+    document.getElementById("salePrice").value = c.salePrice;
+    document.getElementById("paymentStatus").value = c.paymentStatus;
+    document.getElementById("closingNotes").value = c.notes;
     updateCommissionPreview();
-    document.getElementById('closingModal').style.display = 'flex';
+    document.getElementById("closingModal").style.display = "flex";
 }
 
-// Update Commission Preview
-function updateCommissionPreview() {
-    const agentSelect = document.getElementById('closingAgent');
-    const salePrice = parseFloat(document.getElementById('salePrice').value) || 0;
-    
-    if (!agentSelect.value || salePrice === 0) {
-        document.getElementById('commissionPreview').style.display = 'none';
-        return;
-    }
-    
-    const selectedOption = agentSelect.options[agentSelect.selectedIndex];
-    const commissionRate = parseFloat(selectedOption.dataset.commission);
-    const commission = salePrice * (commissionRate / 100);
-    
-    document.getElementById('previewPrice').textContent = formatCurrency(salePrice);
-    document.getElementById('previewRate').textContent = commissionRate + '%';
-    document.getElementById('previewCommission').textContent = formatCurrency(commission);
-    document.getElementById('commissionPreview').style.display = 'block';
-}
-
-// Close Modals
 function closeClosingModal() {
-    document.getElementById('closingModal').style.display = 'none';
-    document.getElementById('closingForm').reset();
+    document.getElementById("closingModal").style.display = "none";
+    document.getElementById("closingForm").reset();
     editingClosingId = null;
 }
 
 function closeDetailsModal() {
-    document.getElementById('detailsModal').style.display = 'none';
+    document.getElementById("detailsModal").style.display = "none";
 }
 
-// Save Closing
-function saveClosing() {
-    const date = document.getElementById('closingDate').value;
-    const agentId = parseInt(document.getElementById('closingAgent').value);
-    const propertyId = parseInt(document.getElementById('closingProperty').value);
-    const customerName = document.getElementById('customerName').value;
-    const customerPhone = document.getElementById('customerPhone').value;
-    const customerEmail = document.getElementById('customerEmail').value;
-    const salePrice = parseFloat(document.getElementById('salePrice').value);
-    const paymentStatus = document.getElementById('paymentStatus').value;
-    const notes = document.getElementById('closingNotes').value;
-    
-    if (!date || !agentId || !propertyId || !customerName || !customerPhone || !salePrice) {
-        alert('Mohon lengkapi semua field yang wajib diisi!');
+// -- Commission Preview -----------------------------------------------------
+
+function updateCommissionPreview() {
+    const agentSelect = document.getElementById("closingAgent");
+    const salePrice =
+        parseFloat(document.getElementById("salePrice").value) || 0;
+    if (!agentSelect.value || salePrice === 0) {
+        document.getElementById("commissionPreview").style.display = "none";
         return;
     }
-    
-    const agent = agents.find(a => a.id === agentId);
-    const property = properties.find(p => p.id === propertyId);
-    const commission = salePrice * (agent.commission / 100);
-    
-    if (editingClosingId) {
-        // Update existing closing
-        const index = closings.findIndex(c => c.id === editingClosingId);
-        if (index !== -1) {
-            closings[index] = {
-                ...closings[index],
-                date,
-                agentId,
-                agentName: agent.name,
-                agentCommission: agent.commission,
-                propertyId,
-                propertyName: property.name,
-                propertyPrice: property.price,
-                customerName,
-                customerPhone,
-                customerEmail,
-                salePrice,
-                commission,
-                paymentStatus,
-                notes
-            };
+    const rate = parseFloat(
+        agentSelect.options[agentSelect.selectedIndex].dataset.commission,
+    );
+    const commission = salePrice * (rate / 100);
+    document.getElementById("previewPrice").textContent =
+        formatCurrency(salePrice);
+    document.getElementById("previewRate").textContent = rate + "%";
+    document.getElementById("previewCommission").textContent =
+        formatCurrency(commission);
+    document.getElementById("commissionPreview").style.display = "block";
+}
+
+// -- Save Closing (API) -----------------------------------------------------
+
+async function saveClosing() {
+    const date = document.getElementById("closingDate").value;
+    const agentId = document.getElementById("closingAgent").value;
+    const propertyId = document.getElementById("closingProperty").value;
+    const customerName = document.getElementById("customerName").value.trim();
+    const customerPhone = document.getElementById("customerPhone").value.trim();
+    const salePrice = document.getElementById("salePrice").value;
+    const paymentStatus = document.getElementById("paymentStatus").value;
+    const notes = document.getElementById("closingNotes").value.trim();
+
+    if (!date || !propertyId || !customerName || !customerPhone || !salePrice) {
+        alert("Mohon lengkapi semua field yang wajib diisi!");
+        return;
+    }
+
+    const payload = {
+        tanggal_closing: date,
+        agent_id: agentId || null,
+        tipe_rumah_id: propertyId,
+        customer_name: customerName,
+        customer_phone: customerPhone,
+        harga_jual: salePrice,
+        payment_status: paymentStatus,
+        catatan: notes,
+    };
+
+    try {
+        const url = editingClosingId
+            ? closingBasePath + "/" + editingClosingId
+            : closingBasePath;
+        const method = editingClosingId ? "PUT" : "POST";
+        const res = await fetch(url, {
+            method,
+            headers: {
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-CSRF-TOKEN": csrfToken(),
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            body: JSON.stringify(payload),
+        });
+
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            alert("Gagal menyimpan: " + (err.message ?? res.statusText));
+            return;
         }
-        
-        alert('Data closing berhasil diupdate!');
-    } else {
-        // Add new closing
-        const newClosing = {
-            id: closings.length + 1,
-            date,
-            agentId,
-            agentName: agent.name,
-            agentCommission: agent.commission,
-            propertyId,
-            propertyName: property.name,
-            propertyPrice: property.price,
-            customerName,
-            customerPhone,
-            customerEmail,
-            salePrice,
-            commission,
-            paymentStatus,
-            notes,
-            createdAt: new Date().toISOString().replace('T', ' ').substring(0, 19)
-        };
-        closings.push(newClosing);
-        
-        alert('Closing berhasil ditambahkan!\n\nKomisi: ' + formatCurrency(commission));
-    }
-    
-    updateStats();
-    filterClosings();
-    closeClosingModal();
-}
 
-// Delete Closing
-function deleteClosing(id) {
-    if (confirm('Apakah Anda yakin ingin menghapus data closing ini?')) {
-        closings = closings.filter(c => c.id !== id);
-        updateStats();
-        filterClosings();
-        alert('Data closing berhasil dihapus!');
+        const result = await res.json();
+        if (!editingClosingId) {
+            alert(
+                "Closing berhasil ditambahkan!\n\nKomisi: " +
+                    formatCurrency(result.komisi_nominal ?? 0),
+            );
+        } else {
+            alert("Data closing berhasil diupdate!");
+        }
+        closeClosingModal();
+        await fetchAndRenderClosings();
+    } catch (e) {
+        console.error(e);
+        alert("Terjadi kesalahan jaringan.");
     }
 }
 
-// View Details
+// -- Delete Closing (API) ---------------------------------------------------
+
+async function deleteClosing(id) {
+    if (!confirm("Apakah Anda yakin ingin menghapus data closing ini?")) return;
+    try {
+        const res = await fetch(closingBasePath + "/" + id, {
+            method: "DELETE",
+            headers: {
+                Accept: "application/json",
+                "X-CSRF-TOKEN": csrfToken(),
+                "X-Requested-With": "XMLHttpRequest",
+            },
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            alert("Gagal menghapus: " + (err.message ?? res.statusText));
+            return;
+        }
+        alert("Data closing berhasil dihapus!");
+        await fetchAndRenderClosings();
+    } catch (e) {
+        console.error(e);
+        alert("Terjadi kesalahan jaringan.");
+    }
+}
+
+// -- View Details -----------------------------------------------------------
+
 function viewDetails(id) {
-    const closing = closings.find(c => c.id === id);
-    if (!closing) return;
-    
-    const detailsDiv = document.getElementById('closingDetails');
-    detailsDiv.innerHTML = `
+    const c = closings.find((x) => x.id === id);
+    if (!c) return;
+    document.getElementById("closingDetails").innerHTML = `
         <div class="details-grid">
             <div class="detail-item">
                 <label>Tanggal Closing</label>
-                <p>${formatDate(closing.date)}</p>
+                <p>${formatDate(c.date)}</p>
             </div>
             <div class="detail-item">
                 <label>Agent</label>
-                <p>${closing.agentName} (Komisi: ${closing.agentCommission}%)</p>
+                <p>${c.agentName} (Komisi: ${c.agentCommission}%)</p>
             </div>
             <div class="detail-item">
                 <label>Nama Customer</label>
-                <p>${closing.customerName}</p>
+                <p>${c.customerName}</p>
             </div>
             <div class="detail-item">
                 <label>Telepon Customer</label>
-                <p><a href="https://wa.me/${closing.customerPhone}" target="_blank" style="color: #10b981;">
-                    <i class="fab fa-whatsapp"></i> ${formatPhoneNumber(closing.customerPhone)}
+                <p><a href="https://wa.me/${c.customerPhone}" target="_blank" style="color:#10b981;">
+                    <i class="fab fa-whatsapp"></i> ${formatPhoneNumber(c.customerPhone)}
                 </a></p>
             </div>
-            ${closing.customerEmail ? `
-            <div class="detail-item">
-                <label>Email Customer</label>
-                <p>${closing.customerEmail}</p>
-            </div>` : ''}
             <div class="detail-item">
                 <label>Properti</label>
-                <p>${closing.propertyName}</p>
+                <p>${c.propertyName}</p>
             </div>
             <div class="detail-item">
                 <label>Harga Jual</label>
-                <p><strong style="font-size: 1.125rem;">${formatCurrency(closing.salePrice)}</strong></p>
+                <p><strong style="font-size:1.125rem;">${formatCurrency(c.salePrice)}</strong></p>
             </div>
             <div class="detail-item">
                 <label>Komisi Agent</label>
-                <p><strong style="font-size: 1.125rem; color: #10b981;">${formatCurrency(closing.commission)}</strong></p>
+                <p><strong style="font-size:1.125rem;color:#10b981;">${formatCurrency(c.commission)}</strong></p>
             </div>
             <div class="detail-item">
                 <label>Status Pembayaran</label>
-                <p>${getPaymentBadge(closing.paymentStatus)}</p>
+                <p>${getPaymentBadge(c.paymentStatus)}</p>
             </div>
-            <div class="detail-item" style="grid-column: 1 / -1;">
+            <div class="detail-item" style="grid-column:1/-1;">
                 <label>Catatan</label>
-                <p>${closing.notes || 'Tidak ada catatan'}</p>
+                <p>${c.notes || "Tidak ada catatan"}</p>
             </div>
-        </div>
-    `;
-    
-    document.getElementById('detailsModal').style.display = 'flex';
+        </div>`;
+    document.getElementById("detailsModal").style.display = "flex";
 }
 
-// Print Closing
+// -- Print / Export ---------------------------------------------------------
+
 function printClosing() {
-    alert('Fungsi cetak akan membuka halaman print preview');
-    // In Laravel, redirect to print page
-    // window.open('/closings/' + id + '/print', '_blank');
+    alert("Fungsi cetak akan membuka halaman print preview.");
 }
 
-// Export Closings
 function exportClosings() {
-    alert('Export data closing akan segera didownload...\n\nDi Laravel, ini akan generate file Excel');
-    // In Laravel:
-    // window.location.href = '/api/closings/export?' + new URLSearchParams({...});
+    alert("Export data closing akan segera didownload...");
 }
 
-// Close modal when clicking outside
-window.onclick = function(event) {
-    const closingModal = document.getElementById('closingModal');
-    const detailsModal = document.getElementById('detailsModal');
-    
-    if (event.target === closingModal) {
-        closeClosingModal();
-    }
-    if (event.target === detailsModal) {
-        closeDetailsModal();
-    }
-}
+// -- Close modal on outside click -------------------------------------------
 
-// Auto-fill sale price when property is selected
-document.getElementById('closingProperty').addEventListener('change', function() {
-    const selectedOption = this.options[this.selectedIndex];
-    const price = selectedOption.dataset.price;
-    
-    if (price && !document.getElementById('salePrice').value) {
-        document.getElementById('salePrice').value = price;
-        updateCommissionPreview();
-    }
-});
+window.onclick = function (event) {
+    const cm = document.getElementById("closingModal");
+    const dm = document.getElementById("detailsModal");
+    if (event.target === cm) closeClosingModal();
+    if (event.target === dm) closeDetailsModal();
+};

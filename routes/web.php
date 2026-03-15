@@ -13,6 +13,7 @@ use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\UnitController;
+use App\Http\Controllers\ClosingController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
@@ -28,7 +29,10 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::get('/tracking',               [TrackingController::class, 'index'])->name('tracking');
     Route::get('/tracking/data',           [TrackingController::class, 'data'])->name('tracking.data');
     Route::patch('/tracking/{id}/status',  [TrackingController::class, 'updateStatus'])->name('tracking.status');
-    Route::get('/closing',                 fn() => view('admin.closing'))->name('closing');
+    Route::get('/closing',                 [ClosingController::class, 'index'])->name('closing');
+    Route::post('/closing',                [ClosingController::class, 'store'])->name('closing.store');
+    Route::put('/closing/{id}',            [ClosingController::class, 'update'])->name('closing.update');
+    Route::delete('/closing/{id}',         [ClosingController::class, 'destroy'])->name('closing.destroy');
 
     // ── Agent pages & API ──────────────────────────────────────────────────
     Route::get('/agents',                [AgentController::class, 'index'])->name('agents');
@@ -118,7 +122,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     Route::delete('/users/{id}',         [UserController::class, 'destroy'])->name('users.destroy');
 
     // ── Manajemen Closing ─────────────────────────────────────────────────
-    Route::get('/closing', fn() => view('manager.closing'))->name('closing');
+    Route::get('/closing',                 [ClosingController::class, 'index'])->name('closing');
+    Route::post('/closing',                [ClosingController::class, 'store'])->name('closing.store');
+    Route::put('/closing/{id}',            [ClosingController::class, 'update'])->name('closing.update');
+    Route::delete('/closing/{id}',         [ClosingController::class, 'destroy'])->name('closing.destroy');
 
     // ── Manajemen Unit ────────────────────────────────────────────────────
     Route::get('/units',               [UnitController::class, 'index'])->name('units');
@@ -141,7 +148,7 @@ Route::middleware(['auth', 'role:affiliate'])->prefix('affiliate')->name('affili
     Route::put('/profile',           [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password',  [ProfileController::class, 'updatePassword'])->name('profile.password');
 
-    Route::get('/pengisian-data',  fn() => view('affiliate.pengisian-data'))->name('pengisian-data');
+    Route::get('/pengisian-data',  [PageController::class, 'pengisianDataAffiliate'])->name('pengisian-data');
     Route::post('/pengisian-data', [PageController::class, 'storeClientData'])->name('pengisian-data.store');
 
     // ── Tipe Rumah ────────────────────────────────────────────────────────
