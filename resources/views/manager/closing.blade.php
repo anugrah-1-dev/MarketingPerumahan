@@ -140,6 +140,22 @@
             </div>
         </div>
     </div>
+    <!-- Details Modal -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content" style="max-width:600px">
+            <div class="modal-header">
+                <h2>Detail Closing</h2>
+                <button class="close-btn" onclick="closeDetailsModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="closingDetails"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDetailsModal()">Tutup</button>
+                <button class="btn btn-primary" onclick="printClosing()"><i class="fas fa-print"></i> Cetak</button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')

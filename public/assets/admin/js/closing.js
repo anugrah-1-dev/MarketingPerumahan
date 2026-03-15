@@ -140,6 +140,7 @@ async function fetchAndRenderClosings() {
     }
     updateStats();
     filterClosings();
+    renderAgentSummary();
 }
 
 // -- Stats ------------------------------------------------------------------
@@ -310,7 +311,6 @@ function editClosing(id) {
     document.getElementById("closingProperty").value = c.propertyId;
     document.getElementById("customerName").value = c.customerName;
     document.getElementById("customerPhone").value = c.customerPhone;
-    document.getElementById("customerEmail").value = c.customerEmail;
     document.getElementById("salePrice").value = c.salePrice;
     document.getElementById("paymentStatus").value = c.paymentStatus;
     document.getElementById("closingNotes").value = c.notes;
@@ -490,6 +490,80 @@ function viewDetails(id) {
             </div>
         </div>`;
     document.getElementById("detailsModal").style.display = "flex";
+}
+
+// -- Agent Summary ----------------------------------------------------------
+
+function renderAgentSummary() {
+    const container = document.getElementById("agentSummaryContainer");
+    if (!container) return; // not on admin panel
+
+    if (closings.length === 0) {
+        container.innerHTML =
+            '<p style="color:#64748b;grid-column:1/-1;text-align:center;">Belum ada data closing.</p>';
+        return;
+    }
+
+    // Group all closings by agent
+    const map = {};
+    closings.forEach((c) => {
+        const key = c.agentId ?? "__none__";
+        if (!map[key]) {
+            map[key] = {
+                name: c.agentName,
+                totalClosing: 0,
+                totalSales: 0,
+                totalKomisi: 0,
+                paidKomisi: 0,
+                unpaidKomisi: 0,
+            };
+        }
+        map[key].totalClosing++;
+        map[key].totalSales += c.salePrice;
+        map[key].totalKomisi += c.commission;
+        if (c.paymentStatus === "paid-off") {
+            map[key].paidKomisi += c.commission;
+        } else {
+            map[key].unpaidKomisi += c.commission;
+        }
+    });
+
+    const entries = Object.values(map).sort(
+        (a, b) => b.totalKomisi - a.totalKomisi,
+    );
+
+    container.innerHTML = entries
+        .map(
+            (a) => `
+        <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:.75rem;padding:1rem">
+            <div style="font-weight:700;font-size:1rem;color:#1e3a5f;margin-bottom:.75rem;border-bottom:1px solid #e2e8f0;padding-bottom:.5rem">
+                <i class="fas fa-user-tie" style="color:#3d81af;margin-right:.4rem"></i>${a.name}
+            </div>
+            <div style="display:flex;flex-direction:column;gap:.4rem;font-size:.875rem">
+                <div style="display:flex;justify-content:space-between">
+                    <span style="color:#64748b">Total Closing</span>
+                    <strong>${a.totalClosing}</strong>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                    <span style="color:#64748b">Total Penjualan</span>
+                    <strong>${formatCurrency(a.totalSales)}</strong>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                    <span style="color:#64748b">Total Komisi</span>
+                    <strong style="color:#10b981">${formatCurrency(a.totalKomisi)}</strong>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                    <span style="color:#64748b">Komisi Terbayar</span>
+                    <strong style="color:#3b82f6">${formatCurrency(a.paidKomisi)}</strong>
+                </div>
+                <div style="display:flex;justify-content:space-between">
+                    <span style="color:#64748b">Komisi Pending</span>
+                    <strong style="color:#f59e0b">${formatCurrency(a.unpaidKomisi)}</strong>
+                </div>
+            </div>
+        </div>`,
+        )
+        .join("");
 }
 
 // -- Print / Export ---------------------------------------------------------

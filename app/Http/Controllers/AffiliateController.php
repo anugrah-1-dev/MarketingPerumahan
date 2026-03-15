@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Closing;
 use App\Models\WaClick;
 use Illuminate\Support\Facades\Auth;
 
@@ -113,28 +114,48 @@ class AffiliateController extends Controller
     }
 
     /**
-     * Halaman "Komisi" — ringkasan komisi affiliate berdasarkan closing.
+     * Halaman "Komisi" — ringkasan komisi affiliate berdasarkan data closing nyata.
      */
     public function komisiPage()
     {
-        $user    = Auth::user();
-        $refCode = $user->referral_code;
+        $user  = Auth::user();
+        $agent = $user->agent; // HasOne: users → agents via user_id
 
-        $commissionRate = $user->agent?->commission ?? 0;
+        if (!$agent) {
+            return view('affiliate.komisi', [
+                'agent'          => null,
+                'closings'       => collect(),
+                'totalClosing'   => 0,
+                'closingBulanIni'=> 0,
+                'totalKomisi'    => 0,
+                'komisiTerbayar' => 0,
+                'komisiPending'  => 0,
+                'commissionRate' => 0,
+            ]);
+        }
 
-        $closings = WaClick::where('referral_code', $refCode)
-                           ->where('status', 'closed')
-                           ->latest()
-                           ->get();
+        $closings = Closing::with('tipeRumah')
+            ->where('agent_id', $agent->id)
+            ->latest('tanggal_closing')
+            ->get();
 
-        $totalClosing    = $closings->count();
-        $closingBulanIni = WaClick::where('referral_code', $refCode)
-                                  ->where('status', 'closed')
-                                  ->where('created_at', '>=', now()->startOfMonth())
-                                  ->count();
+        $totalKomisi    = $closings->sum('komisi_nominal');
+        $komisiTerbayar = $closings->where('payment_status', 'paid-off')->sum('komisi_nominal');
+        $komisiPending  = $totalKomisi - $komisiTerbayar;
 
-        return view('affiliate.komisi', compact(
-            'closings', 'totalClosing', 'closingBulanIni', 'commissionRate'
-        ));
+        $closingBulanIni = $closings->filter(function ($c) {
+            return $c->tanggal_closing && $c->tanggal_closing->isCurrentMonth();
+        })->count();
+
+        return view('affiliate.komisi', [
+            'agent'          => $agent,
+            'closings'       => $closings,
+            'totalClosing'   => $closings->count(),
+            'closingBulanIni'=> $closingBulanIni,
+            'totalKomisi'    => $totalKomisi,
+            'komisiTerbayar' => $komisiTerbayar,
+            'komisiPending'  => $komisiPending,
+            'commissionRate' => $agent->commission ?? 0,
+        ]);
     }
 }
