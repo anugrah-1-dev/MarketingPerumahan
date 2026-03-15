@@ -79,8 +79,11 @@
                         <input type="tel" id="agentPhone" placeholder="Contoh: 081234567890">
                     </div>
 
-                    <!-- Commission hidden (default to 0 in Backend) -->
-                    <input type="hidden" id="agentCommission" value="0">
+                    <div class="form-group">
+                        <label for="agentCommission">Komisi (%)</label>
+                        <input type="number" id="agentCommission" placeholder="Contoh: 2.5" min="0" max="100" step="0.01" value="0">
+                        <small style="color:#94a3b8;">Persentase komisi penjualan (0–100%)</small>
+                    </div>
 
 
                 </form>
