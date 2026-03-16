@@ -14,8 +14,9 @@ class DashboardController extends Controller
     public function data(Request $request)
     {
         // ── Stats ──────────────────────────────────────────────────────────────
+        $unitStats       = Unit::stats();
         $totalClicks    = WaClick::count();
-        $totalClosing   = Unit::where('status', 'terjual')->count();
+        $totalClosing   = $unitStats['terjual'];
         $activeAgents   = Agent::aktif()->count();
         // Komisi = 1% dari total nilai unit terjual
         $totalNilai     = Unit::where('status', 'terjual')->sum('harga_jual');
