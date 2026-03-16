@@ -104,42 +104,6 @@
 
             </div>
 
-<<<<<<< HEAD
-            {{-- Right: Image Slider --}}
-            <div class="w-full lg:w-1/2 relative flex justify-center">
-                <div class="absolute right-0 top-[-20px] w-[90%] h-[105%] bg-[#D9D9D9] rounded-[20px] z-0 hidden lg:block">
-                </div>
-                
-                <!-- Swiper -->
-                <div class="swiper swiper-hero relative z-10 transition-transform duration-700 hover:scale-[1.01]">
-                    <div class="swiper-wrapper">
-                        <!-- Slide 1: Bukit -->
-                        <div class="swiper-slide">
-                            <img src="{{ asset('assets/images/bukit.jpg') }}"
-                                onerror="this.src='https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80';this.onerror=null;"
-                                alt="Pemandangan Bukit"
-                                class="w-full h-auto aspect-[4/3] object-cover">
-                        </div>
-                        <!-- Slide 2: Hero Static -->
-                        <div class="swiper-slide">
-                            <img src="{{ asset('assets/images/hero.png') }}"
-                                onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=800&q=80';this.onerror=null;"
-                                alt="Rumah Impian"
-                                class="w-full h-auto aspect-[4/3] object-cover">
-                        </div>
-                        <!-- Slide 3: Placeholder -->
-                        <div class="swiper-slide">
-                            <img src="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80"
-                                alt="Modern Home"
-                                class="w-full h-auto aspect-[4/3] object-cover">
-                        </div>
-                    </div>
-                    <!-- Custom Pagination -->
-                    <div class="swiper-pagination"></div>
-                    <!-- Custom Navigation -->
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-=======
             {{-- Right: Hero Slider --}}
             <div class="w-full lg:w-1/2 relative flex justify-center">
                 <div class="absolute right-0 top-[-20px] w-[90%] h-[105%] bg-[#D9D9D9] rounded-[20px] z-0 hidden lg:block">
@@ -173,7 +137,6 @@
                                     aria-label="Pilih slide {{ $index + 1 }}"></button>
                         @endforeach
                     </div>
->>>>>>> 9637b28f6ed3c1ae2677a87d33e561b1e5242268
                 </div>
             </div>
 
