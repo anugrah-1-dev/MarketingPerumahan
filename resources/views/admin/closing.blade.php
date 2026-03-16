@@ -152,7 +152,6 @@
             </div>
         </div>
     </div>
-@endsection
 
     <!-- Details Modal -->
     <div id="detailsModal" class="modal">
@@ -177,7 +176,5 @@
 window.TIPE_RUMAH    = @json($tipeRumah ?? []);
 window.CLOSING_PANEL = 'admin';
 </script>
-<script src="{{ asset('assets/admin/js/closing.js') }}?v={{ filemtime(public_path('assets/admin/js/closing.js')) }}"></script>
-@endpush
 <script src="{{ asset('assets/admin/js/closing.js') }}?v={{ filemtime(public_path('assets/admin/js/closing.js')) }}"></script>
 @endpush
