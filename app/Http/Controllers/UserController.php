@@ -21,7 +21,8 @@ class UserController extends Controller
             return response()->json($users);
         }
 
-        return view('admin.users');
+        $view = request()->routeIs('manager.*') ? 'manager.users' : 'admin.users';
+        return view($view);
     }
 
     /**

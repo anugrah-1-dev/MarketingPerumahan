@@ -17,6 +17,7 @@ class TipeRumah extends Model
         'kamar_tidur',
         'kamar_mandi',
         'lantai',
+        'garasi',
         'sertifikat',
         'fasilitas',
         'harga',
@@ -52,10 +53,39 @@ class TipeRumah extends Model
      */
     public function getGambarUrlAttribute(): string
     {
-        if ($this->gambar && file_exists(storage_path('app/public/' . $this->gambar))) {
-            return asset('storage/' . $this->gambar);
+        if ($this->gambar) {
+            // New location: public/uploads/ (no symlink needed)
+            if (file_exists(public_path('uploads/' . $this->gambar))) {
+                return asset('uploads/' . $this->gambar);
+            }
+            // Legacy: public/storage/ (via symlink)
+            if (file_exists(storage_path('app/public/' . $this->gambar))) {
+                return asset('storage/' . $this->gambar);
+            }
         }
         return 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80';
+    }
+
+    /**
+     * Kumpulan URL foto tipe rumah.
+     * Jika ada file di public/assets/tipe-rumah/{id}, gunakan itu.
+     * Jika tidak ada, fallback ke gambar utama dari database.
+     */
+    public function getGalleryUrlsAttribute(): array
+    {
+        $pattern = public_path('assets/tipe-rumah/' . $this->id . '/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}');
+        $files = glob($pattern, GLOB_BRACE) ?: [];
+
+        sort($files, SORT_NATURAL | SORT_FLAG_CASE);
+
+        if (!empty($files)) {
+            return array_map(
+                fn ($file) => asset('assets/tipe-rumah/' . $this->id . '/' . basename($file)),
+                $files
+            );
+        }
+
+        return [$this->gambar_url];
     }
 
     /**
@@ -82,8 +112,12 @@ class TipeRumah extends Model
         $urls = [];
 
         // Foto utama dari kolom gambar
-        if ($this->gambar && file_exists(storage_path('app/public/' . $this->gambar))) {
-            $urls[] = ['url' => asset('storage/' . $this->gambar), 'keterangan' => 'Foto Utama'];
+        $gambarOk = $this->gambar && (
+            file_exists(public_path('uploads/' . $this->gambar)) ||
+            file_exists(storage_path('app/public/' . $this->gambar))
+        );
+        if ($gambarOk) {
+            $urls[] = ['url' => $this->gambar_url, 'keterangan' => 'Foto Utama'];
         } else {
             $urls[] = ['url' => 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', 'keterangan' => 'Foto Utama'];
         }

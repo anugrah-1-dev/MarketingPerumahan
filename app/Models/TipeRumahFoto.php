@@ -25,8 +25,13 @@ class TipeRumahFoto extends Model
      */
     public function getUrlAttribute(): string
     {
-        if ($this->path && file_exists(storage_path('app/public/' . $this->path))) {
-            return asset('storage/' . $this->path);
+        if ($this->path) {
+            if (file_exists(public_path('uploads/' . $this->path))) {
+                return asset('uploads/' . $this->path);
+            }
+            if (file_exists(storage_path('app/public/' . $this->path))) {
+                return asset('storage/' . $this->path);
+            }
         }
         return 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80';
     }

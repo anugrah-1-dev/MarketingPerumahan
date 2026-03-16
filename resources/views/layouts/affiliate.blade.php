@@ -44,10 +44,6 @@
                 <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
                 Pengisian Data
             </a>
-            <a href="{{ route('affiliate.tipe-rumah') }}" class="nav-item {{ request()->routeIs('affiliate.tipe-rumah*') ? 'active' : '' }}">
-                <span class="nav-icon"><i class="fas fa-house-user"></i></span>
-                Tipe Rumah
-            </a>
             <a href="{{ route('affiliate.profile') }}" class="nav-item {{ request()->routeIs('affiliate.profile') ? 'active' : '' }}">
                 <span class="nav-icon"><i class="fas fa-user-circle"></i></span>
                 Profile

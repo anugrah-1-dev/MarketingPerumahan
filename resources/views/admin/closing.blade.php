@@ -23,6 +23,18 @@
         </div>
     </div>
 
+    <!-- Agent Summary (Rekap Per Agent) -->
+    <div class="card" style="margin-bottom:1.5rem">
+        <div class="card-header" style="display:flex;align-items:center;gap:.5rem">
+            <h2><i class="fas fa-users" style="color:#3d81af;margin-right:.5rem"></i>Rekap Penjualan Per Agent</h2>
+        </div>
+        <div class="card-body">
+            <div id="agentSummaryContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;min-height:60px">
+                <p style="color:#64748b;grid-column:1/-1;text-align:center">Memuat data...</p>
+            </div>
+        </div>
+    </div>
+
     <!-- Action Bar -->
     <div class="action-bar">
         <button class="btn btn-primary" onclick="openAddClosingModal()">
@@ -140,8 +152,29 @@
             </div>
         </div>
     </div>
+
+    <!-- Details Modal -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content" style="max-width:600px">
+            <div class="modal-header">
+                <h2>Detail Closing</h2>
+                <button class="close-btn" onclick="closeDetailsModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div id="closingDetails"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeDetailsModal()">Tutup</button>
+                <button class="btn btn-primary" onclick="printClosing()"><i class="fas fa-print"></i> Cetak</button>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/admin/js/closing.js') }}"></script>
+<script>
+window.TIPE_RUMAH    = @json($tipeRumah ?? []);
+window.CLOSING_PANEL = 'admin';
+</script>
+<script src="{{ asset('assets/admin/js/closing.js') }}?v={{ filemtime(public_path('assets/admin/js/closing.js')) }}"></script>
 @endpush

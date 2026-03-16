@@ -76,7 +76,8 @@ class AgentController extends Controller
             return response()->json($agents->filter()->values());
         }
 
-        return view('admin.agents');
+        $panel = auth()->user()->isAdmin() ? 'manager' : 'admin';
+        return view("{$panel}.agents");
     }
 
     /**

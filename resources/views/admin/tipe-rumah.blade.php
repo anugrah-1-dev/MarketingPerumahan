@@ -199,49 +199,73 @@
 @push('scripts')
 
 <script>
-let fotoCount = 0;
-let fasilitasCount = 0;
+let globalCounter = 0;
 
-function trAddFotoSlot() {
-    const list = document.getElementById('fotoTambahanList');
-    const idx  = fotoCount++;
-    const div  = document.createElement('div');
-    div.id     = 'foto-slot-' + idx;
-    div.style  = 'display:flex;gap:8px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;';
-    div.innerHTML = `
-        <input type="file" name="foto_tambahan[]" accept="image/*"
-               style="flex:1;font-size:13px;" required>
-        <input type="text" name="foto_keterangan[]" placeholder="Keterangan (opsional)"
-               style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:13px;">
-        <button type="button" onclick="document.getElementById('foto-slot-${idx}').remove()" title="Hapus"
-                style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;">×</button>
-    `;
+function trAddFotoSlot(btn) {
+    var list = btn.closest('.form-group').querySelector('.foto-tambahan-list');
+    var idx = globalCounter++;
+    var div = document.createElement('div');
+    div.className = 'foto-slot-item';
+    div.style = 'display:flex;gap:8px;align-items:center;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px 10px;';
+    var fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.name = 'foto_tambahan[]';
+    fileInput.accept = 'image/*';
+    fileInput.style = 'flex:1;font-size:13px;';
+    fileInput.required = true;
+    var textInput = document.createElement('input');
+    textInput.type = 'text';
+    textInput.name = 'foto_keterangan[]';
+    textInput.placeholder = 'Keterangan (opsional)';
+    textInput.style = 'flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;font-size:13px;';
+    var removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.title = 'Hapus';
+    removeBtn.innerHTML = '×';
+    removeBtn.style = 'background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;';
+    removeBtn.onclick = function() { div.remove(); };
+    div.appendChild(fileInput);
+    div.appendChild(textInput);
+    div.appendChild(removeBtn);
     list.appendChild(div);
 }
 
-function trAddFasilitas(value = '') {
-    const list = document.getElementById('fasilitasList');
-    const idx  = fasilitasCount++;
-    const div  = document.createElement('div');
-    div.id     = 'fasilitas-slot-' + idx;
-    div.style  = 'display:flex;gap:8px;align-items:center;';
-    div.innerHTML = `
-        <input type="text" name="fasilitas[]" value="${value}" placeholder="Contoh: Listrik 2200W"
-               style="flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:13px;">
-        <button type="button" onclick="document.getElementById('fasilitas-slot-${idx}').remove()" title="Hapus"
-                style="background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;">×</button>
-    `;
+function trAddFasilitas(btnOrList, value) {
+    var list;
+    if (btnOrList instanceof HTMLElement && btnOrList.classList.contains('fasilitas-list')) {
+        list = btnOrList;
+    } else {
+        list = btnOrList.closest('.form-group').querySelector('.fasilitas-list');
+    }
+    var val = value || '';
+    var div = document.createElement('div');
+    div.className = 'fasilitas-slot-item';
+    div.style = 'display:flex;gap:8px;align-items:center;';
+    var textInput = document.createElement('input');
+    textInput.type = 'text';
+    textInput.name = 'fasilitas[]';
+    textInput.value = val;
+    textInput.placeholder = 'Contoh: Listrik 2200W';
+    textInput.style = 'flex:1;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;font-size:13px;';
+    var removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.title = 'Hapus';
+    removeBtn.innerHTML = '×';
+    removeBtn.style = 'background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;';
+    removeBtn.onclick = function() { div.remove(); };
+    div.appendChild(textInput);
+    div.appendChild(removeBtn);
     list.appendChild(div);
 }
 
 function trOpenModal(id) {
-    const el = document.getElementById(id);
+    var el = document.getElementById(id);
     el.classList.add('is-open');
     document.body.style.overflow = 'hidden';
 }
 
 function trCloseModal(id) {
-    const el = document.getElementById(id);
+    var el = document.getElementById(id);
     el.classList.remove('is-open');
     document.body.style.overflow = '';
 }
@@ -260,31 +284,33 @@ document.addEventListener('keydown', function(e) {
 });
 
 function trOpenEditModal(data) {
-    const form = document.getElementById('form-edit');
-    form.action = `/admin/tipe-rumah/${data.id}`;
+    var form = document.getElementById('form-edit');
+    form.action = '/admin/tipe-rumah/' + data.id;
     form.querySelector('[name="nama_tipe"]').value      = data.nama_tipe;
     form.querySelector('[name="luas_bangunan"]').value  = data.luas_bangunan;
     form.querySelector('[name="luas_tanah"]').value     = data.luas_tanah;
-    form.querySelector('[name="kamar_tidur"]').value    = data.kamar_tidur ?? 2;
-    form.querySelector('[name="kamar_mandi"]').value    = data.kamar_mandi ?? 1;
-    form.querySelector('[name="lantai"]').value         = data.lantai ?? 1;
+    form.querySelector('[name="kamar_tidur"]').value    = data.kamar_tidur || 2;
+    form.querySelector('[name="kamar_mandi"]').value    = data.kamar_mandi || 1;
+    form.querySelector('[name="lantai"]').value         = data.lantai || 1;
+    form.querySelector('[name="garasi"]').value         = data.garasi || 0;
     form.querySelector('[name="harga"]').value          = data.harga;
-    form.querySelector('[name="harga_diskon"]').value   = data.harga_diskon ?? '';
+    form.querySelector('[name="harga_diskon"]').value   = data.harga_diskon || '';
     form.querySelector('[name="stok_tersedia"]').value  = data.stok_tersedia;
-    form.querySelector('[name="deskripsi"]').value      = data.deskripsi ?? '';
+    form.querySelector('[name="deskripsi"]').value      = data.deskripsi || '';
     form.querySelector('[name="is_diskon"]').checked    = data.is_diskon == 1;
 
     // Sertifikat
-    const sertSelect = form.querySelector('[name="sertifikat"]');
-    if (sertSelect) sertSelect.value = data.sertifikat ?? 'SHM';
+    var sertSelect = form.querySelector('[name="sertifikat"]');
+    if (sertSelect) sertSelect.value = data.sertifikat || 'SHM';
 
     // Fasilitas – isi ulang daftar dari array
-    const fasilitasList = form.querySelector('#fasilitasList');
+    var fasilitasList = form.querySelector('.fasilitas-list');
     if (fasilitasList) {
         fasilitasList.innerHTML = '';
-        fasilitasCount = 0;
-        const fasilitas = data.fasilitas ? (typeof data.fasilitas === 'string' ? JSON.parse(data.fasilitas) : data.fasilitas) : [];
-        fasilitas.forEach(f => trAddFasilitas(f));
+        var fasilitas = data.fasilitas ? (typeof data.fasilitas === 'string' ? JSON.parse(data.fasilitas) : data.fasilitas) : [];
+        for (var i = 0; i < fasilitas.length; i++) {
+            trAddFasilitas(fasilitasList, fasilitas[i]);
+        }
     }
 
     trOpenModal('modal-edit');

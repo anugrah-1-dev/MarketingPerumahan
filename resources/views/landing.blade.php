@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Bukit Shangrilla Asri – Pilihan Rumah Terbaik')
+@section('title', 'Bukit Shangrilla Asri – Hunian Modern Strategis')
 
 @section('head')
     <!-- Swiper CSS -->
@@ -66,6 +66,18 @@
     $refCode = session('affiliate_ref_code')
             ?? request()->cookie('affiliate_ref_code')
             ?? null;
+
+    $heroSlideFiles = glob(public_path('assets/landing/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}'), GLOB_BRACE) ?: [];
+    $heroSlideFiles = array_values(array_filter($heroSlideFiles, function ($file) {
+        $filename = strtolower(pathinfo($file, PATHINFO_FILENAME));
+        return !str_contains($filename, 'logo');
+    }));
+    $heroSlides = array_map(fn ($file) => asset('assets/landing/' . basename($file)), $heroSlideFiles);
+
+    $heroFallbackSlide = 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80';
+    if (empty($heroSlides)) {
+        $heroSlides = [$heroFallbackSlide];
+    }
 @endphp
 
 
@@ -80,18 +92,19 @@
 
             {{-- Left: Text --}}
             <div class="w-full lg:w-1/2 text-center lg:text-left z-10">
-                <p class="text-[#676767] text-[15px] font-medium uppercase tracking-widest mb-4">Bukit Shangrilla Asri</p>
-                <h1 class="text-[#393939] text-[40px] lg:text-[56px] font-bold leading-tight mb-5">
-                    Pilihan Rumah Terbaik<br class="hidden lg:block"> untuk Keluarga Anda
+                <h1 class="text-[#393939] text-[36px] lg:text-[52px] font-bold leading-tight mb-5">
+                    Hunian Modern Strategis: Investasi Cerdas untuk Keluarga
                 </h1>
                 <p
-                    class="text-[#676767] text-[17px] lg:text-[19px] font-medium leading-8 max-w-[500px] mx-auto lg:mx-0 mb-8">
-                    Berbagai tipe rumah dengan desain modern dan harga terjangkau.
-                    Lihat ketersediaan unit, cek lokasi, dan pesan sekarang juga.
+                    class="text-[#676767] text-[17px] lg:text-[19px] font-medium leading-8 max-w-[620px] mx-auto lg:mx-0 mb-8">
+                    Dapatkan rumah mewah harga terjangkau dengan nilai investasi yang terus bertumbuh.
+                    Terletak di lokasi emas dengan fasilitas lengkap dan desain kekinian.
+                    Unit terbatas! Cek lokasi sekarang sebelum kehabisan dan dapatkan promo menarik bulan ini.
                 </p>
 
             </div>
 
+<<<<<<< HEAD
             {{-- Right: Image Slider --}}
             <div class="w-full lg:w-1/2 relative flex justify-center">
                 <div class="absolute right-0 top-[-20px] w-[90%] h-[105%] bg-[#D9D9D9] rounded-[20px] z-0 hidden lg:block">
@@ -126,118 +139,286 @@
                     <!-- Custom Navigation -->
                     <div class="swiper-button-next"></div>
                     <div class="swiper-button-prev"></div>
+=======
+            {{-- Right: Hero Slider --}}
+            <div class="w-full lg:w-1/2 relative flex justify-center">
+                <div class="absolute right-0 top-[-20px] w-[90%] h-[105%] bg-[#D9D9D9] rounded-[20px] z-0 hidden lg:block">
+                </div>
+
+                <div id="hero-slider" class="relative z-10 w-[85%] lg:w-[95%] rounded-[15px] overflow-hidden shadow-2xl" data-total="{{ count($heroSlides) }}">
+                    <div id="hero-track" class="flex transition-transform duration-700 ease-out">
+                        @foreach ($heroSlides as $index => $slide)
+                            <div class="w-full shrink-0">
+                                  <img src="{{ $slide }}"
+                                      onerror="this.src='{{ $heroFallbackSlide }}';this.onerror=null;"
+                                     alt="Foto perumahan {{ $index + 1 }}"
+                                     class="w-full h-[260px] sm:h-[340px] lg:h-[430px] object-cover">
+                            </div>
+                        @endforeach
+                    </div>
+
+                    <button id="hero-prev" type="button" class="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 text-[#393939] shadow flex items-center justify-center hover:bg-white transition" aria-label="Slide sebelumnya">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+                    </button>
+
+                    <button id="hero-next" type="button" class="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/90 text-[#393939] shadow flex items-center justify-center hover:bg-white transition" aria-label="Slide berikutnya">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+                    </button>
+
+                    <div id="hero-dots" class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2">
+                        @foreach ($heroSlides as $index => $slide)
+                            <button type="button"
+                                    class="hero-dot w-2.5 h-2.5 rounded-full bg-white/60 transition"
+                                    data-slide="{{ $index }}"
+                                    aria-label="Pilih slide {{ $index + 1 }}"></button>
+                        @endforeach
+                    </div>
+>>>>>>> 9637b28f6ed3c1ae2677a87d33e561b1e5242268
                 </div>
             </div>
 
         </div>
 
         {{-- Stats bar --}}
-        <div class="mt-16 grid grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach ([['86', 'Total Unit'], ['66', 'Unit Tersedia'], ['20', 'Unit Terjual']] as $stat)
-                <div class="card text-center shadow-sm">
-                    <p class="text-3xl font-bold text-[#393939]">{{ $stat[0] }}</p>
-                    <p class="text-[#676767] text-sm mt-1">{{ $stat[1] }}</p>
+        @php
+            $stats = [
+                ['value' => $unitStats['total'] ?? 0, 'label' => 'Total Unit', 'icon' => 'home', 'iconClass' => 'bg-[#EEF5FF] text-[#1D4ED8]'],
+                ['value' => $unitStats['tersedia'] ?? 0, 'label' => 'Unit Tersedia', 'icon' => 'check', 'iconClass' => 'bg-[#ECFDF3] text-[#047857]'],
+                ['value' => $unitStats['terjual'] ?? 0, 'label' => 'Unit Terjual', 'icon' => 'chart', 'iconClass' => 'bg-[#FFF1F2] text-[#BE123C]'],
+                ['value' => $unitStats['booking'] ?? 0, 'label' => 'Unit Booking', 'icon' => 'calendar', 'iconClass' => 'bg-[#FFFBEB] text-[#B45309]'],
+            ];
+        @endphp
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+            @foreach ($stats as $stat)
+                <div class="card text-center shadow-sm flex flex-col items-center">
+                    <div class="w-11 h-11 rounded-full flex items-center justify-center {{ $stat['iconClass'] }} mb-3">
+                        @if($stat['icon'] === 'home')
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10.5L12 3l9 7.5" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9.5V20h14V9.5" />
+                            </svg>
+                        @elseif($stat['icon'] === 'check')
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+                            </svg>
+                        @elseif($stat['icon'] === 'chart')
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19h16" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l4-5 3 3 3-5" />
+                            </svg>
+                        @else
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 9h16M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z" />
+                            </svg>
+                        @endif
+                    </div>
+                    <p class="text-3xl font-bold text-[#393939]">{{ $stat['value'] }}</p>
+                    <p class="text-[#676767] text-sm mt-1">{{ $stat['label'] }}</p>
                 </div>
             @endforeach
         </div>
     </section>
 
     {{-- ================================================================
-     UNIT PERUMAHAN – Tipe dengan Diskon (dinamis dari DB)
+     UNIT PERUMAHAN
      ================================================================ --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-20">
-        <div class="flex items-end justify-between mb-8">
-            <div>
-                <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Unit Perumahan</h2>
-                <p class="text-[#676767] text-[15px]">Tipe rumah pilihan dengan penawaran terbaik</p>
+        <div class="bg-white rounded-[24px] border border-[#E9E9E9] p-6 lg:p-8 shadow-[0_18px_36px_rgba(0,0,0,0.06)]">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-7">
+                <div>
+                    <h3 class="text-[#393939] text-[22px] lg:text-[28px] font-bold">Tipe Pilihan Bukit Shangrilla Asri</h3>
+                    <p class="text-[#676767] text-sm">Temukan berbagai pilihan tipe rumah modern yang dirancang untuk kenyamanan, keindahan, dan kebutuhan keluarga masa kini.</p>
+                </div>
+                <a href="{{ route('unit-tersedia') }}"
+                    class="inline-flex items-center gap-1 text-sm font-semibold text-blue-600 hover:underline w-fit">
+                    Lihat Semua
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                </a>
             </div>
-            <a href="{{ route('tipe-rumah.publik') }}"
-                class="text-sm font-semibold text-blue-600 hover:underline flex items-center gap-1">
-                Lihat Semua
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-            </a>
-        </div>
 
-        @if($tipeRumahDiskon->isNotEmpty())
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($tipeRumahDiskon as $t)
-                <a href="{{ route('tipe-rumah.detail', $t->id) }}"
-                    class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="relative h-[200px] overflow-hidden">
-                        <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <span class="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
-                            🔥 DISKON
-                        </span>
-                        <span class="absolute top-3 right-3 status-tersedia text-xs font-semibold px-3 py-1 rounded-full capitalize">
-                            Stok {{ $t->stok_tersedia }}
-                        </span>
-                    </div>
-                    <div class="p-5">
-                        <p class="text-xs text-[#676767] mb-1">LB: {{ $t->luas_bangunan }}m² &nbsp;·&nbsp; LT: {{ $t->luas_tanah }}m²</p>
-                        <h3 class="text-lg font-bold text-[#393939] mb-2">{{ $t->nama_tipe }}</h3>
-                        @if($t->harga_diskon)
-                            <p class="text-sm text-[#999] line-through">{{ $t->harga_format }}</p>
-                            <p class="text-lg font-bold text-red-500 mb-3">{{ $t->harga_diskon_format }}</p>
-                        @else
-                            <p class="text-lg font-bold text-[#393939] mb-3">{{ $t->harga_format }}</p>
-                        @endif
-                        <span class="btn-primary text-sm w-full block text-center">Lihat Detail</span>
-                    </div>
-                </a>
-            @endforeach
+            @if($semuaTipeRumah->isEmpty())
+                <p class="text-center text-[#676767] py-10">Tipe rumah belum tersedia. Silakan tambah melalui panel admin.</p>
+            @else
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+                @foreach($semuaTipeRumah->take(4) as $tipe)
+                    @php
+                        $fitur = [];
+                        if ($tipe->lantai)       $fitur[] = $tipe->lantai . ' Lantai';
+                        if ($tipe->kamar_tidur)  $fitur[] = $tipe->kamar_tidur . ' Kamar Tidur';
+                        if ($tipe->kamar_mandi)  $fitur[] = $tipe->kamar_mandi . ' Kamar Mandi';
+                        if ($tipe->luas_bangunan && $tipe->luas_tanah) $fitur[] = 'Ukuran ' . $tipe->luas_bangunan . '/' . $tipe->luas_tanah;
+                        // fitur tambahan dari JSON fasilitas (max 1 item)
+                        if (!empty($tipe->fasilitas) && is_array($tipe->fasilitas)) {
+                            $fitur[] = $tipe->fasilitas[0];
+                        }
+                    @endphp
+                    <a href="{{ route('tipe-rumah.detail', $tipe->id) }}" class="group rounded-[20px] overflow-hidden border border-[#E7E7E7] bg-[#FCFCFC] hover:shadow-[0_18px_32px_rgba(0,0,0,0.10)] transition-all duration-300 block">
+                        <div class="relative h-[210px] overflow-hidden">
+                            <img src="{{ $tipe->gambar_url }}"
+                                onerror="this.src='https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1000&q=80';this.onerror=null;"
+                                alt="Tipe {{ $tipe->nama_tipe }}"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/65 to-transparent">
+                                <p class="text-white text-xs tracking-wide uppercase">Tipe Rumah</p>
+                                <h4 class="text-white text-2xl font-bold leading-tight">{{ $tipe->nama_tipe }}</h4>
+                            </div>
+                            @if($tipe->is_diskon && $tipe->harga_diskon)
+                                <div class="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">DISKON</div>
+                            @endif
+                        </div>
+
+                        <div class="p-5">
+                            <p class="text-[#676767] text-sm mb-4">{{ $tipe->deskripsi ?: 'Hunian nyaman untuk keluarga Anda.' }}</p>
+                            @if($tipe->harga)
+                                <p class="text-[#0B5E41] font-bold text-sm mb-3">
+                                    @if($tipe->is_diskon && $tipe->harga_diskon)
+                                        <span class="line-through text-gray-400 font-normal mr-1">{{ $tipe->harga_format }}</span>
+                                        {{ $tipe->harga_diskon_format }}
+                                    @else
+                                        {{ $tipe->harga_format }}
+                                    @endif
+                                </p>
+                            @endif
+                            <div class="grid grid-cols-2 gap-2">
+                                @foreach($fitur as $f)
+                                    <span class="inline-flex items-center justify-center text-center rounded-xl border border-[#D9E7DB] bg-[#F4FAF5] text-[#355B3E] text-xs font-semibold px-2 py-2">{{ $f }}</span>
+                                @endforeach
+                            </div>
+                        </div>
+                    </a>
+                @endforeach
+            </div>
+            @endif
         </div>
-        @elseif($semuaTipeRumah->isNotEmpty())
-        {{-- Jika tidak ada diskon, tampilkan semua tipe rumah (max 3) --}}
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            @foreach($semuaTipeRumah->take(3) as $t)
-                <a href="{{ route('tipe-rumah.detail', $t->id) }}"
-                    class="block bg-white rounded-[20px] overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group">
-                    <div class="relative h-[200px] overflow-hidden">
-                        <img src="{{ $t->gambar_url }}" alt="{{ $t->nama_tipe }}"
-                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                        <span class="absolute top-3 right-3 status-tersedia text-xs font-semibold px-3 py-1 rounded-full capitalize">
-                            Stok {{ $t->stok_tersedia }}
-                        </span>
-                    </div>
-                    <div class="p-5">
-                        <p class="text-xs text-[#676767] mb-1">LB: {{ $t->luas_bangunan }}m² &nbsp;·&nbsp; LT: {{ $t->luas_tanah }}m²</p>
-                        <h3 class="text-lg font-bold text-[#393939] mb-2">{{ $t->nama_tipe }}</h3>
-                        <p class="text-lg font-bold text-[#393939] mb-3">{{ $t->harga_format }}</p>
-                        <span class="btn-primary text-sm w-full block text-center">Lihat Detail</span>
-                    </div>
-                </a>
-            @endforeach
+    </section>
+
+    {{-- ================================================================
+     FASILITAS PERUMAHAN
+     ================================================================ --}}
+    @php
+        $fasilitas = [
+            [
+                'nama' => 'Mosque',
+                'deskripsi' => 'Masjid nyaman di dalam kawasan perumahan, memudahkan penghuni beribadah dengan tenang dan khusyuk.',
+                'icon' => 'mosque',
+            ],
+            [
+                'nama' => 'Waterpark',
+                'deskripsi' => 'Fasilitas waterpark kawasan hunian yang menghadirkan hiburan air menyenangkan untuk quality time keluarga.',
+                'icon' => 'waterpark',
+            ],
+            [
+                'nama' => 'Foodcourt',
+                'deskripsi' => 'Area foodcourt dengan beragam pilihan kuliner, nyaman untuk bersantai dan berkumpul bersama keluarga.',
+                'icon' => 'foodcourt',
+            ],
+            [
+                'nama' => 'Playground',
+                'deskripsi' => 'Playground aman dan seru untuk anak setiap hari, menghadirkan keceriaan di lingkungan perumahan.',
+                'icon' => 'playground',
+            ],
+            [
+                'nama' => 'Sport Center',
+                'deskripsi' => 'Fasilitas sport center modern untuk olahraga dan kebugaran penghuni setiap hari.',
+                'icon' => 'sport',
+            ],
+            [
+                'nama' => 'One Gate System',
+                'deskripsi' => 'Sistem satu pintu keluar masuk area cluster untuk menjaga keamanan lingkungan lebih optimal.',
+                'icon' => 'gate',
+            ],
+            [
+                'nama' => '24 Hour CCTV',
+                'deskripsi' => 'Pemantauan CCTV 24 jam membantu lingkungan perumahan menjadi lebih aman dan terpantau.',
+                'icon' => 'cctv',
+            ],
+            [
+                'nama' => '24 Hour Security',
+                'deskripsi' => 'Keamanan 24 jam untuk memastikan kenyamanan dan ketenangan penghuni sepanjang waktu.',
+                'icon' => 'security',
+            ],
+            [
+                'nama' => 'Mountain View',
+                'deskripsi' => 'Pemandangan pegunungan dari ketinggian yang menenangkan, memberi suasana asri setiap hari.',
+                'icon' => 'mountain',
+            ],
+            [
+                'nama' => 'Lokasi Strategis',
+                'deskripsi' => 'Hunian dengan akses terbaik, hanya berjarak 3 menit dari Stasiun Lawang, memudahkan mobilitas harian Anda dengan lebih efisien.',
+                'icon' => 'location',
+            ],
+        ];
+    @endphp
+    <section id="fasilitas" class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
+        <div class="relative overflow-hidden rounded-[24px] bg-[#0B5E41] text-white shadow-xl">
+            <div class="absolute -top-24 -right-20 w-72 h-72 rounded-full bg-white/5"></div>
+            <div class="absolute -bottom-16 -left-16 w-60 h-60 rounded-full bg-white/5"></div>
+
+            <div class="relative p-6 lg:p-10">
+                <h2 class="text-[28px] lg:text-[36px] font-bold mb-2">Fasilitas</h2>
+                <p class="text-white/85 text-sm lg:text-base mb-8">Beragam fasilitas penunjang kenyamanan hidup di Bukit Shangrilla Asri.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                    @foreach ($fasilitas as $item)
+                        <div class="flex items-start gap-4 border-b border-white/20 pb-4 last:border-b-0">
+                            <div class="w-12 h-12 rounded-xl border border-white/30 bg-white/10 flex items-center justify-center shrink-0">
+                                @if($item['icon'] === 'mosque')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 20h18M6 20V9l6-4 6 4v11M12 5V3m-2 9h4m-4 3h4"/></svg>
+                                @elseif($item['icon'] === 'waterpark')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 14c1 .9 2 .9 3 0s2-.9 3 0 2 .9 3 0 2-.9 3 0 2 .9 3 0M7 10l3-5h4l3 5"/></svg>
+                                @elseif($item['icon'] === 'foodcourt')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 4v8m3-8v8M5 8h4M13 4h2a2 2 0 012 2v14m0-9h2"/></svg>
+                                @elseif($item['icon'] === 'playground')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 20h16M7 20v-8l5-6 5 6v8M12 6V4"/></svg>
+                                @elseif($item['icon'] === 'sport')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 7h16M4 17h16M8 7v10m8-10v10"/></svg>
+                                @elseif($item['icon'] === 'gate')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 20h16M6 20V8h12v12M9 8V5h6v3"/></svg>
+                                @elseif($item['icon'] === 'cctv')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 9h11l2 2h3M7 14l-2 4m10-4l2 4M6 9l2-3h5"/></svg>
+                                @elseif($item['icon'] === 'security')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3l7 4v5c0 5-3.2 7.7-7 9-3.8-1.3-7-4-7-9V7l7-4zM9 12l2 2 4-4"/></svg>
+                                @elseif($item['icon'] === 'mountain')
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 20h18L14 9l-3 4-2-3-6 10z"/></svg>
+                                @else
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 21s7-5.4 7-11a7 7 0 10-14 0c0 5.6 7 11 7 11z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 11a2 2 0 100-4 2 2 0 000 4z"/></svg>
+                                @endif
+                            </div>
+
+                            <div>
+                                <h3 class="text-[28px] lg:text-[30px] font-semibold leading-none mb-2">{{ $item['nama'] }}</h3>
+                                <p class="text-white/90 text-sm leading-6">{{ $item['deskripsi'] }}</p>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
-        @else
-        {{-- Fallback jika database kosong --}}
-        <div class="text-center py-16 text-gray-400">
-            <p class="text-lg">Belum ada tipe rumah tersedia.</p>
-            <a href="{{ route('tipe-rumah.publik') }}" class="text-blue-600 hover:underline text-sm mt-2 inline-block">Lihat halaman tipe rumah →</a>
-        </div>
-        @endif
     </section>
 
     {{-- ================================================================
      SOCIAL MEDIA SHOWCASE — infinite auto-scroll carousel
      ================================================================ --}}
     @if($socialMedias->isNotEmpty())
-    <section class="pb-20 overflow-hidden" id="showcase-section">
+    <section class="pb-20 overflow-hidden" id="sosial-media">
 
         {{-- Section header --}}
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-10">
-            <p class="text-[#676767] text-[13px] font-semibold uppercase tracking-widest mb-2">Social Media</p>
+            <p class="text-[#676767] text-[13px] font-semibold uppercase tracking-widest mb-2">Media Sosial</p>
             <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold leading-tight">
-                Social Media Updates
+                Update Media Sosial
             </h2>
-            <p class="text-[#676767] text-[15px] mt-2">Follow our latest property promotions and house tours.</p>
+            <p class="text-[#676767] text-[15px] mt-2">Ikuti promosi properti dan tur rumah terbaru kami.</p>
         </div>
 
         {{-- Carousel wrapper — full width, no padding so cards bleed to edges --}}
-        <div class="relative" id="showcase-outer">
+        <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px]">
+            <div class="relative overflow-hidden" id="showcase-outer">
 
             {{-- Left edge fade --}}
-            <div class="pointer-events-none absolute left-0 top-0 h-full w-20 lg:w-32 z-10"
+              <div class="pointer-events-none absolute left-0 top-0 h-full w-20 lg:w-32 z-10"
                  style="background:linear-gradient(to right,#EEEEEE 30%,transparent);"></div>
             {{-- Right edge fade --}}
             <div class="pointer-events-none absolute right-0 top-0 h-full w-20 lg:w-32 z-10"
@@ -251,9 +432,11 @@
                 @for ($pass = 0; $pass < 2; $pass++)
                 @foreach($socialMedias as $sm)
                 @php $cfg = $sm->config; @endphp
-                <a href="{{ $sm->content_url }}" target="_blank" rel="noopener noreferrer"
+                     <a href="{{ $sm->display_href }}" target="_blank" rel="noopener noreferrer"
                    class="showcase-card block flex-shrink-0 rounded-[16px] overflow-hidden bg-white group"
                    style="width:280px;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease;"
+                         data-media-type="{{ $sm->media_type ?? '' }}"
+                         data-media-src="{{ $sm->media_src ?? '' }}"
                    aria-label="{{ e($sm->title) }} — {{ $cfg['name'] }}">
 
                     {{-- Thumbnail --}}
@@ -262,6 +445,22 @@
                             <img src="{{ $sm->thumbnail_src }}" alt="{{ e($sm->title) }}"
                                  loading="lazy"
                                  style="width:100%;height:100%;object-fit:cover;transition:transform .35s ease;display:block;">
+                        @elseif($sm->media_type === 'image' && $sm->media_src)
+                            <img src="{{ $sm->media_src }}" alt="{{ e($sm->title) }}"
+                                 loading="lazy"
+                                 style="width:100%;height:100%;object-fit:cover;transition:transform .35s ease;display:block;">
+                        @elseif($sm->media_type === 'video' && $sm->media_src)
+                            <video muted playsinline preload="metadata"
+                                   style="width:100%;height:100%;object-fit:cover;display:block;">
+                                <source src="{{ $sm->media_src }}">
+                            </video>
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/15">
+                                <div class="w-11 h-11 rounded-full bg-white/90 flex items-center justify-center shadow-lg">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#111827" class="w-5 h-5 ml-0.5">
+                                        <path d="M8 5v14l11-7z" />
+                                    </svg>
+                                </div>
+                            </div>
                         @else
                             {{-- Placeholder with platform icon --}}
                             <div class="w-full h-full flex flex-col items-center justify-center gap-3"
@@ -302,15 +501,31 @@
                 @endfor
 
             </div>
+            </div>
         </div>
 
     </section>
+
+    {{-- ── Video modal (YouTube auto-play saat card diklik) ── --}}
+    <div id="sm-video-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;">
+        <div style="position:relative;width:min(900px,95vw);aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 24px 64px rgba(0,0,0,.6);">
+            <iframe id="sm-video-frame" src="" frameborder="0"
+                    allow="autoplay; encrypted-media; picture-in-picture"
+                    allowfullscreen
+                style="width:100%;height:100%;display:none;"></iframe>
+            <video id="sm-video-player" controls playsinline
+               style="width:100%;height:100%;display:none;background:#000;"></video>
+            <button id="sm-video-close"
+                    style="position:absolute;top:12px;right:12px;width:38px;height:38px;background:rgba(0,0,0,.55);border:none;border-radius:50%;color:#fff;font-size:18px;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);"
+                    aria-label="Tutup video">&#x2715;</button>
+        </div>
+    </div>
 
     <style>
         #showcase-track {
             animation: showcaseScroll {{ max(20, $socialMedias->count() * 5) }}s linear infinite;
         }
-        #showcase-section:hover #showcase-track,
+        #sosial-media:hover #showcase-track,
         #showcase-track.dragging {
             animation-play-state: paused;
         }
@@ -384,10 +599,63 @@
             track.style.animationPlayState = '';
         }
 
-        // Prevent accidental link navigation when user drags
+        // ── Video modal – YouTube auto-play ───────────────────────────
+        var smModal = document.getElementById('sm-video-modal');
+        var smFrame = document.getElementById('sm-video-frame');
+        var smVideo = document.getElementById('sm-video-player');
+        var smClose = document.getElementById('sm-video-close');
+        function ytEmbed(url) {
+            var m = url.match(/(?:youtube\.com\/(?:watch\?v=|shorts\/|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+            return m ? 'https://www.youtube.com/embed/' + m[1] + '?autoplay=1&rel=0' : null;
+        }
+        function openSmModal(type, src) {
+            if (type === 'video') {
+                smFrame.style.display = 'none';
+                smFrame.src = '';
+                smVideo.style.display = 'block';
+                smVideo.src = src;
+                smVideo.play();
+            } else {
+                smVideo.pause();
+                smVideo.removeAttribute('src');
+                smVideo.load();
+                smVideo.style.display = 'none';
+                smFrame.style.display = 'block';
+                smFrame.src = src;
+            }
+            smModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeSmModal() {
+            smModal.style.display = 'none';
+            smFrame.src = '';
+            smFrame.style.display = 'none';
+            smVideo.pause();
+            smVideo.removeAttribute('src');
+            smVideo.load();
+            smVideo.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        if (smClose) smClose.addEventListener('click', closeSmModal);
+        if (smModal) smModal.addEventListener('click', function(e) { if (e.target === smModal) closeSmModal(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && smModal && smModal.style.display !== 'none') closeSmModal(); });
+
+        // Prevent accidental nav on drag; intercept YouTube links for in-page modal
         track.querySelectorAll('a').forEach(function(link) {
             link.addEventListener('click', function(e) {
-                if (dragDist > 8) e.preventDefault();
+                if (dragDist > 8) { e.preventDefault(); return; }
+                var embed = ytEmbed(this.href);
+                var mediaType = this.dataset.mediaType;
+                var mediaSrc = this.dataset.mediaSrc;
+                if (embed) {
+                    e.preventDefault();
+                    openSmModal('youtube', embed);
+                    return;
+                }
+                if (mediaType === 'video' && mediaSrc) {
+                    e.preventDefault();
+                    openSmModal('video', mediaSrc);
+                }
             });
         });
     })();
@@ -397,7 +665,7 @@
     {{-- ================================================================
      LOKASI PERUMAHAN (Google Maps)
      ================================================================ --}}
-    <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
+    <section id="lokasi" class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
         <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Lokasi Kami</h2>
         <p class="text-[#676767] text-[15px] mb-8">Kunjungi kantor pemasaran dan lokasi proyek kami</p>
 
@@ -410,7 +678,7 @@
                      3. Klik "Bagikan" -> "Sematkan peta" -> Salin HTML
                      Ganti URL src di bawah ini dengan URL lokasi Anda. --}}
                 <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.339678564254!2d106.9427017!3d-6.7283287!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e684d0032bda4eb%3A0xe542fff8e0861194!2sKantor%20Pemasaran%20Perumahan%20Bukit%20Shangrilla%20Asri%202!5e0!3m2!1sid!2sid!4v1709999999999!5m2!1sid!2sid" 
+                    src="https://maps.google.com/maps?q=Jl+Indrokilo+No+135+Kalirejo+Lawang+Malang&output=embed" 
                     width="100%" 
                     height="100%" 
                     style="border:0;" 
@@ -427,11 +695,11 @@
                     </div>
                     <div>
                         <h4 class="font-bold text-gray-800 text-lg">Kantor Pemasaran Bukit Shangrilla Asri 2</h4>
-                        <p class="text-gray-500 text-sm mt-1 max-w-lg">Sukaraya, Kec. Karangbahagia, Kabupaten Bekasi, Jawa Barat 17530</p>
+                        <p class="text-gray-500 text-sm mt-1 max-w-lg">Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
                     </div>
                 </div>
                 
-                <a href="https://maps.app.goo.gl/8ih1wSvpCPuMRRfa8" target="_blank" rel="noopener noreferrer" 
+                <a href="https://www.google.com/maps/search/?api=1&query=Jl.+Indrokilo+No.135+Kalirejo+Lawang+Kabupaten+Malang+Jawa+Timur+65216" target="_blank" rel="noopener noreferrer" 
                     class="bg-white border rounded-lg border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition whitespace-nowrap">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
                     Buka di Google Maps
@@ -472,6 +740,126 @@
     </a>
 
     <script>
+    function initHeroSlider() {
+        const slider = document.getElementById('hero-slider');
+        const track = document.getElementById('hero-track');
+        const prevBtn = document.getElementById('hero-prev');
+        const nextBtn = document.getElementById('hero-next');
+        const dots = Array.from(document.querySelectorAll('.hero-dot'));
+
+        if (!slider || !track) {
+            return;
+        }
+
+        const total = Number(slider.dataset.total || 0);
+        if (total === 0) {
+            return;
+        }
+
+        let currentIndex = 0;
+        let autoSlideTimer = null;
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const render = () => {
+            track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+            dots.forEach((dot, idx) => {
+                if (idx === currentIndex) {
+                    dot.classList.add('bg-white');
+                    dot.classList.remove('bg-white/60');
+                } else {
+                    dot.classList.add('bg-white/60');
+                    dot.classList.remove('bg-white');
+                }
+            });
+        };
+
+        const next = () => {
+            currentIndex = (currentIndex + 1) % total;
+            render();
+        };
+
+        const prev = () => {
+            currentIndex = (currentIndex - 1 + total) % total;
+            render();
+        };
+
+        const startAutoSlide = () => {
+            if (total < 2) {
+                return;
+            }
+
+            autoSlideTimer = setInterval(next, 4000);
+        };
+
+        const stopAutoSlide = () => {
+            if (autoSlideTimer) {
+                clearInterval(autoSlideTimer);
+                autoSlideTimer = null;
+            }
+        };
+
+        prevBtn?.addEventListener('click', () => {
+            prev();
+            stopAutoSlide();
+            startAutoSlide();
+        });
+
+        nextBtn?.addEventListener('click', () => {
+            next();
+            stopAutoSlide();
+            startAutoSlide();
+        });
+
+        dots.forEach((dot) => {
+            dot.addEventListener('click', () => {
+                currentIndex = Number(dot.dataset.slide || 0);
+                render();
+                stopAutoSlide();
+                startAutoSlide();
+            });
+        });
+
+        slider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].clientX;
+        }, { passive: true });
+
+        slider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].clientX;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) < 40) {
+                return;
+            }
+
+            if (diff > 0) {
+                next();
+            } else {
+                prev();
+            }
+
+            stopAutoSlide();
+            startAutoSlide();
+        }, { passive: true });
+
+        slider.addEventListener('mouseenter', stopAutoSlide);
+        slider.addEventListener('mouseleave', startAutoSlide);
+
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                stopAutoSlide();
+            } else {
+                startAutoSlide();
+            }
+        });
+
+        render();
+        startAutoSlide();
+    }
+
+    initHeroSlider();
+
     // Referral code dari server (PHP session/cookie) — embed langsung sebagai JS variable
     const AFFILIATE_REF_CODE = @json($refCode ?? null);
 
