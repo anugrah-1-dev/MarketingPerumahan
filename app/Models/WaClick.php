@@ -12,6 +12,7 @@ class WaClick extends Model
         'referral_code', 'affiliate_user_id',
         'ip_address', 'device', 'browser',
         'page_url', 'status', 'notes', 'follow_up_date',
+        'sender_phone', 'sender_name', 'last_message', 'source',
     ];
 
     protected $casts = [

@@ -26,12 +26,13 @@ function loadData() {
         date: document.getElementById("filterDate")?.value ?? "all",
         agent: document.getElementById("filterAgent")?.value ?? "all",
         status: document.getElementById("filterStatus")?.value ?? "all",
+        source: document.getElementById("filterSource")?.value ?? "all",
         search: document.getElementById("searchClicks")?.value ?? "",
     });
 
     // Tampilkan loading
     document.getElementById("clicksTableBody").innerHTML =
-        '<tr><td colspan="8" style="text-align:center;padding:2rem;color:#94a3b8;">' +
+        '<tr><td colspan="9" style="text-align:center;padding:2rem;color:#94a3b8;">' +
         '<i class="fas fa-spinner fa-spin"></i> Memuat data…</td></tr>';
 
     fetch(`${trackingBasePath}/data?${params}`, {
@@ -51,7 +52,7 @@ function loadData() {
         })
         .catch(() => {
             document.getElementById("clicksTableBody").innerHTML =
-                '<tr><td colspan="8" style="text-align:center;padding:2rem;color:#ef4444;">' +
+                '<tr><td colspan="9" style="text-align:center;padding:2rem;color:#ef4444;">' +
                 '<i class="fas fa-exclamation-circle"></i> Gagal memuat data.</td></tr>';
         });
 }
@@ -62,6 +63,8 @@ function updateStats(stats) {
     document.getElementById("totalPending").textContent = stats.new;
     document.getElementById("totalFollowUp").textContent = stats.follow_up;
     document.getElementById("totalConverted").textContent = stats.interested;
+    const wablasEl = document.getElementById("totalWablas");
+    if (wablasEl) wablasEl.textContent = stats.wablas ?? 0;
 }
 
 // ─── Isi dropdown Agent dari database ───────────────────────────────────────
@@ -93,7 +96,7 @@ function renderTable() {
 
     if (page.length === 0) {
         tbody.innerHTML =
-            '<tr><td colspan="8" style="text-align:center;padding:2rem;color:#64748b;">' +
+            '<tr><td colspan="9" style="text-align:center;padding:2rem;color:#64748b;">' +
             "Belum ada data klik WhatsApp.</td></tr>";
         renderPagination();
         return;
@@ -106,12 +109,27 @@ function renderTable() {
             <td>
                 <div>${formatDateTime(c.timestamp)}</div>
                 <div style="color:#64748b;font-size:.8rem;">${formatTimeAgo(c.timestamp)}</div>
+                ${getSourceBadge(c.source)}
+            </td>
+            <td>
+                ${
+                    c.senderPhone
+                        ? `<div style="font-weight:600;"><i class="fas fa-user" style="color:#22c55e;margin-right:4px;"></i>${c.senderName || "Tidak dikenal"}</div>
+                       <div style="color:#64748b;font-size:.8rem;">${formatPhone(c.senderPhone)}</div>`
+                        : `<div style="color:#94a3b8;font-size:.85rem;"><i class="fas fa-question-circle"></i> Belum diketahui</div>`
+                }
             </td>
             <td>
                 <strong>${c.agentName}</strong>
                 <div style="color:#64748b;font-size:.8rem;">/${c.agentSlug}</div>
             </td>
-            <td style="font-size:.85rem;color:#64748b;">${c.pageUrl}</td>
+            <td style="font-size:.85rem;color:#64748b;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+                ${
+                    c.lastMessage
+                        ? `<span title="${escHtml(c.lastMessage)}">${escHtml(c.lastMessage.substring(0, 60))}${c.lastMessage.length > 60 ? "…" : ""}</span>`
+                        : '<span style="color:#cbd5e1">-</span>'
+                }
+            </td>
             <td>
                 <div style="font-size:.85rem;">
                     <i class="fas fa-${c.device === "Mobile" ? "mobile-alt" : "desktop"}"></i>
@@ -119,7 +137,6 @@ function renderTable() {
                 </div>
                 <div style="color:#64748b;font-size:.8rem;">${c.browser}</div>
             </td>
-            <td style="font-size:.8rem;color:#64748b;">${c.ipAddress}</td>
             <td>${getStatusBadge(c.status)}</td>
             <td style="max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.8rem;">
                 ${c.notes || '<span style="color:#cbd5e1">-</span>'}
@@ -137,6 +154,34 @@ function renderTable() {
         .join("");
 
     renderPagination();
+}
+
+// ─── Badge sumber lead ───────────────────────────────────────────────────────
+function getSourceBadge(source) {
+    if (source === "wablas") {
+        return '<span style="display:inline-block;margin-top:4px;font-size:.7rem;background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;"><i class="fab fa-whatsapp"></i> Pesan Masuk</span>';
+    }
+    return '<span style="display:inline-block;margin-top:4px;font-size:.7rem;background:#e0f2fe;color:#0369a1;border-radius:4px;padding:1px 6px;"><i class="fas fa-mouse-pointer"></i> Klik WA</span>';
+}
+
+// ─── Format nomor HP ─────────────────────────────────────────────────────────
+function formatPhone(phone) {
+    if (!phone) return "-";
+    return (
+        "+" +
+        phone
+            .replace(/^62/, "62")
+            .replace(/(\d{2})(\d{4})(\d{4})(\d*)/, "$1 $2-$3-$4")
+    );
+}
+
+// ─── Escape HTML ──────────────────────────────────────────────────────────────
+function escHtml(str) {
+    return (str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
 }
 
 // ─── Badge status ─────────────────────────────────────────────────────────────
@@ -238,6 +283,10 @@ function exportClicks() {
     // Buat CSV dari data yang sudah ada di memory
     const header = [
         "Waktu",
+        "Sumber",
+        "Nama Pengirim",
+        "No HP",
+        "Pesan Terakhir",
         "Agent",
         "Slug",
         "Device",
@@ -248,6 +297,10 @@ function exportClicks() {
     ];
     const rows = filteredClicks.map((c) => [
         c.timestamp,
+        c.source,
+        `"${(c.senderName || "").replace(/"/g, '""')}"`,
+        c.senderPhone || "",
+        `"${(c.lastMessage || "").replace(/"/g, '""')}"`,
         c.agentName,
         c.agentSlug,
         c.device,

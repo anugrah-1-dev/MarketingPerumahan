@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    // ── Wablas WhatsApp API ────────────────────────────────────────────────
+    'wablas' => [
+        // Token device Wablas (dari dashboard Wablas → Device → Token)
+        'token'         => env('WABLAS_TOKEN'),
+        // Secret webhook (bebas diisi, harus sama dengan yang di-set di Wablas webhook URL)
+        'webhook_secret' => env('WABLAS_WEBHOOK_SECRET'),
+    ],
+
 ];

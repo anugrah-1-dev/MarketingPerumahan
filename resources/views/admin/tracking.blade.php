@@ -21,6 +21,10 @@
             <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
             <div class="stat-content"><h3 id="totalConverted">0</h3><p>Tertarik</p></div>
         </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#dcfce7;color:#166534;"><i class="fab fa-whatsapp"></i></div>
+            <div class="stat-content"><h3 id="totalWablas">0</h3><p>Pesan Masuk WA</p></div>
+        </div>
     </div>
 
     <!-- Filter & Action Bar -->
@@ -55,10 +59,18 @@
                         <option value="closed">Closing</option>
                     </select>
                 </div>
+                <div class="filter-item">
+                    <label>Sumber Lead</label>
+                    <select id="filterSource" onchange="filterClicks()">
+                        <option value="all">Semua Sumber</option>
+                        <option value="website">Klik WA (Website)</option>
+                        <option value="wablas">Pesan Masuk (Wablas)</option>
+                    </select>
+                </div>
             </div>
             <div class="search-box" style="margin-top:1rem">
                 <i class="fas fa-search"></i>
-                <input type="text" id="searchClicks" placeholder="Cari nama agent, slug..." onkeyup="searchClickData()">
+                <input type="text" id="searchClicks" placeholder="Cari nama, nomor HP, agent..." onkeyup="searchClickData()">
             </div>
         </div>
     </div>
@@ -74,18 +86,18 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Waktu Klik</th>
-                            <th>Agent</th>
-                            <th>Halaman Asal</th>
-                            <th>Device</th>
-                            <th>IP Address</th>
-                            <th>Status Lead</th>
-                            <th>Catatan</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
+                            <thead>
+                                <tr>
+                                    <th>Waktu Klik</th>
+                                    <th>Nama / No HP</th>
+                                    <th>Agent</th>
+                                    <th>Pesan Terakhir</th>
+                                    <th>Device</th>
+                                    <th>Status Lead</th>
+                                    <th>Catatan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
                     <tbody id="clicksTableBody"></tbody>
                 </table>
             </div>

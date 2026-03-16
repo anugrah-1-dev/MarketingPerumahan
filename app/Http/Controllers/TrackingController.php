@@ -99,12 +99,20 @@ class TrackingController extends Controller
             $query->where('status', $statusParam);
         }
 
+        // Filter source (website / wablas)
+        $sourceParam = $request->query('source');
+        if ($sourceParam && $sourceParam !== 'all') {
+            $query->where('source', $sourceParam);
+        }
+
         // Search
         if ($search = $request->query('search')) {
             $query->where(function ($q) use ($search) {
                 $q->where('ip_address', 'like', "%$search%")
                   ->orWhere('agent_slug', 'like', "%$search%")
                   ->orWhere('referral_code', 'like', "%$search%")
+                  ->orWhere('sender_phone', 'like', "%$search%")
+                  ->orWhere('sender_name', 'like', "%$search%")
                   ->orWhereHas('agent', fn($q2) => $q2->where('nama', 'like', "%$search%"))
                   ->orWhereHas('affiliateUser', fn($q2) => $q2->where('name', 'like', "%$search%"));
             });
@@ -126,6 +134,10 @@ class TrackingController extends Controller
                 'status'            => $c->status,
                 'notes'             => $c->notes ?? '',
                 'followUpDate'      => $c->follow_up_date?->format('Y-m-d H:i:s'),
+                'senderPhone'       => $c->sender_phone ?? '',
+                'senderName'        => $c->sender_name ?? '',
+                'lastMessage'       => $c->last_message ?? '',
+                'source'            => $c->source ?? 'website',
             ];
         });
 
@@ -136,6 +148,7 @@ class TrackingController extends Controller
             'new'        => $all->where('status', 'new')->count(),
             'follow_up'  => $all->where('status', 'follow-up')->count(),
             'interested' => $all->where('status', 'interested')->count(),
+            'wablas'     => $all->where('source', 'wablas')->count(),
         ];
 
         // List agents untuk dropdown filter

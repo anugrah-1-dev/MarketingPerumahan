@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WablasWebhookController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\ProfileController;
@@ -173,6 +174,9 @@ Route::get('/detail-rumah/{blok?}',  [PageController::class, 'detailRumah'])->na
 
 // Catat klik WA (publik, tanpa auth)
 Route::post('/wa-click',             [TrackingController::class, 'record'])->name('wa-click.record');
+
+// ── Wablas Webhook (publik, diproteksi secret query-param) ──────────────────
+Route::post('/webhook/wablas',       [WablasWebhookController::class, 'handle'])->name('webhook.wablas');
 
 // ── Referral Link ────────────────────────────────────────────────────────
 // HARUS di atas dynamic /{nama} agar tidak tertimpa
