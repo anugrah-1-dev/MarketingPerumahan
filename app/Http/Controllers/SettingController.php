@@ -44,10 +44,13 @@ class SettingController extends Controller
             'wa_admin.max'      => 'Nomor WA maksimal 20 karakter.',
         ]);
 
-        Setting::set('wa_admin', $request->wa_admin);
-        Setting::set('instagram_url', $request->instagram_url ?? '');
-        Setting::set('tiktok_url',    $request->tiktok_url    ?? '');
-        Setting::set('facebook_url',  $request->facebook_url  ?? '');
+        Setting::set('wa_admin', trim((string) $request->wa_admin));
+
+        foreach (['instagram_url', 'tiktok_url', 'facebook_url'] as $key) {
+            if ($request->exists($key)) {
+                Setting::set($key, trim((string) $request->input($key, '')));
+            }
+        }
 
         $route = request()->routeIs('manager.*') ? 'manager.settings' : 'admin.settings';
         return redirect()->route($route)
