@@ -679,14 +679,12 @@
     {{-- ================================================================
      FLOATING WHATSAPP BUTTON – dinamis berdasarkan agent di URL
      ================================================================ --}}
-    <a  href="{{ $waUrl }}"
-        target="_blank"
-        rel="noopener noreferrer"
+    <button type="button"
         title="Chat dengan {{ $waNama }}"
         id="wa-float-btn"
-        onclick="recordWaClick(event, '{{ $waUrl }}', '{{ $agent['slug'] ?? '' }}')"
+        onclick="openWaPopup('{{ $waUrl }}', '{{ $agent['slug'] ?? '' }}')"
         class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-[#25D366] text-white
-               px-5 py-3 rounded-full shadow-2xl
+               px-5 py-3 rounded-full shadow-2xl border-0 cursor-pointer
                hover:bg-[#1ebe5d] hover:scale-105 active:scale-95
                transition-all duration-200 group">
 
@@ -700,7 +698,62 @@
         <span class="font-semibold text-sm leading-tight">
             Chat {{ $waNama }}
         </span>
-    </a>
+    </button>
+
+    {{-- ================================================================
+     POPUP FORM – Kumpulkan nama & HP sebelum membuka WhatsApp
+     ================================================================ --}}
+    <div id="wa-contact-modal"
+         class="fixed inset-0 z-[9999] flex items-center justify-center p-4 hidden"
+         style="background:rgba(0,0,0,0.55);"
+         onclick="closeWaPopup(event)">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm p-6 relative" onclick="event.stopPropagation()">
+            {{-- Tombol tutup --}}
+            <button type="button" onclick="closeWaPopupDirect()"
+                    class="absolute top-3 right-3 text-gray-400 hover:text-gray-600 text-xl leading-none border-0 bg-transparent cursor-pointer"
+                    aria-label="Tutup">&times;</button>
+
+            {{-- Header --}}
+            <div class="flex items-center gap-3 mb-4">
+                <div class="bg-[#25D366] rounded-full p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="white" class="w-6 h-6">
+                        <path d="M16.003 2C8.28 2 2 8.28 2 16.003c0 2.46.666 4.843 1.93 6.93L2 30l7.27-1.904A13.938 13.938 0 0016.003 30C23.72 30 30 23.72 30 16.003 30 8.28 23.72 2 16.003 2zm0 25.447a11.93 11.93 0 01-6.09-1.666l-.437-.26-4.316 1.13 1.153-4.204-.284-.45A11.938 11.938 0 014.063 16.003c0-6.582 5.356-11.94 11.94-11.94 6.583 0 11.94 5.358 11.94 11.94 0 6.583-5.357 11.944-11.94 11.944zm6.54-8.942c-.357-.18-2.114-1.043-2.443-1.163-.328-.12-.566-.18-.804.18-.238.358-.924 1.163-1.133 1.402-.208.24-.417.27-.775.09-.357-.18-1.504-.554-2.865-1.77-1.058-.946-1.773-2.116-1.98-2.473-.208-.358-.022-.55.156-.729.16-.16.358-.417.536-.625.18-.208.24-.358.358-.596.12-.24.06-.447-.03-.626-.09-.18-.803-1.938-1.1-2.653-.29-.697-.584-.6-.804-.61-.207-.01-.447-.012-.685-.012-.238 0-.625.09-.953.447-.328.358-1.25 1.22-1.25 2.978 0 1.757 1.28 3.455 1.46 3.694.178.238 2.52 3.847 6.103 5.394.854.37 1.52.59 2.04.756.857.272 1.638.234 2.254.142.688-.102 2.114-.864 2.413-1.7.298-.835.298-1.549.208-1.7-.09-.149-.328-.238-.685-.417z"/>
+                    </svg>
+                </div>
+                <div>
+                    <h3 class="font-bold text-gray-800 text-base leading-tight">Hubungi {{ $waNama }}</h3>
+                    <p class="text-gray-500 text-xs">via WhatsApp</p>
+                </div>
+            </div>
+
+            <p class="text-gray-600 text-sm mb-4">Silakan isi data Anda agar kami bisa menghubungi Anda kembali.</p>
+
+            {{-- Form --}}
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Lengkap <span class="text-red-500">*</span></label>
+                    <input type="text" id="wa-popup-name" placeholder="Contoh: Budi Santoso"
+                           class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:border-transparent">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nomor HP / WhatsApp <span class="text-red-500">*</span></label>
+                    <input type="tel" id="wa-popup-phone" placeholder="Contoh: 08123456789"
+                           class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#25D366] focus:border-transparent">
+                </div>
+                <p id="wa-popup-error" class="text-red-500 text-xs hidden">Mohon isi nama dan nomor HP terlebih dahulu.</p>
+            </div>
+
+            {{-- Submit --}}
+            <button type="button" onclick="submitWaPopup()"
+                    class="mt-5 w-full bg-[#25D366] hover:bg-[#1ebe5d] text-white font-semibold py-3 rounded-xl
+                           transition-colors duration-200 cursor-pointer border-0 flex items-center justify-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" class="w-5 h-5">
+                    <path d="M16.003 2C8.28 2 2 8.28 2 16.003c0 2.46.666 4.843 1.93 6.93L2 30l7.27-1.904A13.938 13.938 0 0016.003 30C23.72 30 30 23.72 30 16.003 30 8.28 23.72 2 16.003 2zm0 25.447a11.93 11.93 0 01-6.09-1.666l-.437-.26-4.316 1.13 1.153-4.204-.284-.45A11.938 11.938 0 014.063 16.003c0-6.582 5.356-11.94 11.94-11.94 6.583 0 11.94 5.358 11.94 11.94 0 6.583-5.357 11.944-11.94 11.944zm6.54-8.942c-.357-.18-2.114-1.043-2.443-1.163-.328-.12-.566-.18-.804.18-.238.358-.924 1.163-1.133 1.402-.208.24-.417.27-.775.09-.357-.18-1.504-.554-2.865-1.77-1.058-.946-1.773-2.116-1.98-2.473-.208-.358-.022-.55.156-.729.16-.16.358-.417.536-.625.18-.208.24-.358.358-.596.12-.24.06-.447-.03-.626-.09-.18-.803-1.938-1.1-2.653-.29-.697-.584-.6-.804-.61-.207-.01-.447-.012-.685-.012-.238 0-.625.09-.953.447-.328.358-1.25 1.22-1.25 2.978 0 1.757 1.28 3.455 1.46 3.694.178.238 2.52 3.847 6.103 5.394.854.37 1.52.59 2.04.756.857.272 1.638.234 2.254.142.688-.102 2.114-.864 2.413-1.7.298-.835.298-1.549.208-1.7-.09-.149-.328-.238-.685-.417z"/>
+                </svg>
+                Chat Sekarang
+            </button>
+        </div>
+    </div>
 
     <script>
     function initHeroSlider() {
@@ -832,14 +885,45 @@
         return val ? decodeURIComponent(val.split('=')[1]) : null;
     }
 
-    function recordWaClick(e, waUrl, slug) {
-        // Jangan block navigasi WA bawaan dari <a href="...">
-        // Biarkan request API berjalan di background menggunakan keepalive.
+    // ── Popup WA: buka modal ────────────────────────────────────────────────
+    let _pendingWaUrl  = null;
+    let _pendingWaSlug = null;
 
-        // Prioritas: PHP session → cookie browser
+    function openWaPopup(waUrl, slug) {
+        _pendingWaUrl  = waUrl;
+        _pendingWaSlug = slug;
+        document.getElementById('wa-popup-name').value  = '';
+        document.getElementById('wa-popup-phone').value = '';
+        document.getElementById('wa-popup-error').classList.add('hidden');
+        document.getElementById('wa-contact-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => document.getElementById('wa-popup-name').focus(), 100);
+    }
+
+    function closeWaPopupDirect() {
+        document.getElementById('wa-contact-modal').classList.add('hidden');
+        document.body.style.overflow = '';
+    }
+
+    function closeWaPopup(event) {
+        // hanya tutup jika klik overlay luar (bukan konten modal)
+        if (event.target === document.getElementById('wa-contact-modal')) {
+            closeWaPopupDirect();
+        }
+    }
+
+    function submitWaPopup() {
+        const name  = document.getElementById('wa-popup-name').value.trim();
+        const phone = document.getElementById('wa-popup-phone').value.trim();
+        const errEl = document.getElementById('wa-popup-error');
+
+        if (!name || !phone) {
+            errEl.classList.remove('hidden');
+            return;
+        }
+        errEl.classList.add('hidden');
+
         const refCode = AFFILIATE_REF_CODE || getCookieVal('affiliate_ref_code') || null;
-
-        console.log('[WA Track] refCode:', refCode, 'slug:', slug);
 
         fetch('{{ route("wa-click.record") }}', {
             method: 'POST',
@@ -848,13 +932,23 @@
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? ''
             },
             body: JSON.stringify({
-                slug:          slug  || null,
+                slug:          _pendingWaSlug || null,
                 referral_code: refCode || null,
-                page_url:      window.location.href
+                page_url:      window.location.href,
+                sender_name:   name,
+                sender_phone:  phone
             }),
-            keepalive: true // Penting agar request tetap terkirim meski halaman berpindah/ditutup
+            keepalive: true
         }).catch(err => console.error("Gagal mencatat klik WA:", err));
+
+        closeWaPopupDirect();
+        window.open(_pendingWaUrl, '_blank');
     }
+
+    // Tutup modal saat tekan Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeWaPopupDirect();
+    });
     </script>
 
 @endsection

@@ -58,6 +58,9 @@ class TrackingController extends Controller
             'device'            => $device,
             'browser'           => $browser,
             'page_url'          => $request->input('page_url'),
+            'sender_name'       => $request->input('sender_name'),
+            'sender_phone'      => $request->input('sender_phone'),
+            'source'            => 'website',
             'status'            => 'new',
         ]);
 
