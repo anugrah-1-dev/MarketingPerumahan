@@ -2,7 +2,7 @@
 @section('title', 'Daftar Closing')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('assets/affiliate/css/closing.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/affiliate/css/closing.css') }}?v={{ file_exists(public_path('assets/affiliate/css/closing.css')) ? filemtime(public_path('assets/affiliate/css/closing.css')) : '1.0' }}">
 @endpush
 
 @section('content')

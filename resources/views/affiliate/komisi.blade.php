@@ -2,7 +2,7 @@
 @section('title', 'Komisi')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('assets/affiliate/css/komisi.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/affiliate/css/komisi.css') }}?v={{ file_exists(public_path('assets/affiliate/css/komisi.css')) ? filemtime(public_path('assets/affiliate/css/komisi.css')) : '1.0' }}">
 @endpush
 
 @section('content')
