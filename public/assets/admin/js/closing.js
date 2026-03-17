@@ -148,10 +148,10 @@ async function fetchAndRenderClosings() {
 function updateStats() {
     const now = new Date();
     document.getElementById("totalClosing").textContent = closings.length;
-    document.getElementById("totalSales").textContent = formatCurrency(
+    document.getElementById("totalSales").textContent = formatCurrencyCompact(
         closings.reduce((s, c) => s + c.salePrice, 0),
     );
-    document.getElementById("totalCommission").textContent = formatCurrency(
+    document.getElementById("totalCommission").textContent = formatCurrencyCompact(
         closings.reduce((s, c) => s + c.commission, 0),
     );
     document.getElementById("closingThisMonth").textContent = closings.filter(
@@ -174,6 +174,19 @@ function formatCurrency(amount) {
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
     }).format(amount);
+}
+
+// Format kompak untuk stat card (angka besar menjadi M / Jt)
+function formatCurrencyCompact(amount) {
+    if (amount >= 1_000_000_000) {
+        const val = (amount / 1_000_000_000).toLocaleString("id-ID", { maximumFractionDigits: 2 });
+        return "Rp " + val + " M";
+    }
+    if (amount >= 1_000_000) {
+        const val = (amount / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 1 });
+        return "Rp " + val + " Jt";
+    }
+    return formatCurrency(amount);
 }
 
 function formatDate(dateStr) {
