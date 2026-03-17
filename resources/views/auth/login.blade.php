@@ -62,6 +62,8 @@
         </div>
     </div>
 
+@endsection
+
 @section('scripts')
 <script>
     function togglePassword() {
@@ -80,6 +82,4 @@
         }
     }
 </script>
-@endsection
-
 @endsection
