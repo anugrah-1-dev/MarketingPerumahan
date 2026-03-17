@@ -12,39 +12,52 @@
 </head>
 <body>
 
+    <!-- ── Mobile Top Bar (hanya terlihat di ≤1024px) ── -->
+    <div class="mobile-topbar">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu" onclick="toggleSidebar()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <div class="topbar-title">Affiliate Panel</div>
+    </div>
+
+    <!-- ── Overlay (untuk menutup sidebar saat klik di luar) ── -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
     <!-- ── Sidebar ── -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <h2>Affiliate Panel</h2>
             <p>Perumahan premium</p>
         </div>
 
         <nav class="sidebar-nav">
-            <a href="{{ route('affiliate.dashboard') }}" class="nav-item {{ request()->routeIs('affiliate.dashboard') ? 'active' : '' }}">
+            <a href="{{ route('affiliate.dashboard') }}" class="nav-item {{ request()->routeIs('affiliate.dashboard') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-th-large"></i></span>
                 Dashboard
             </a>
-            <a href="{{ route('affiliate.link') }}" class="nav-item {{ request()->routeIs('affiliate.link') ? 'active' : '' }}">
+            <a href="{{ route('affiliate.link') }}" class="nav-item {{ request()->routeIs('affiliate.link') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-link"></i></span>
                 Link saya
             </a>
-            <a href="{{ route('affiliate.leads') }}" class="nav-item {{ request()->routeIs('affiliate.leads') ? 'active' : '' }}">
+            <a href="{{ route('affiliate.leads') }}" class="nav-item {{ request()->routeIs('affiliate.leads') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-users"></i></span>
                 Leads
             </a>
-            <a href="{{ route('affiliate.closing') }}" class="nav-item {{ request()->routeIs('affiliate.closing') ? 'active' : '' }}">
+            <a href="{{ route('affiliate.closing') }}" class="nav-item {{ request()->routeIs('affiliate.closing') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-check-circle"></i></span>
                 Closing
             </a>
-            <a href="{{ route('affiliate.komisi') }}" class="nav-item {{ request()->routeIs('affiliate.komisi') ? 'active' : '' }}">
+            <a href="{{ route('affiliate.komisi') }}" class="nav-item {{ request()->routeIs('affiliate.komisi') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-coins"></i></span>
                 Komisi
             </a>
-            <a href="{{ route('affiliate.pengisian-data') }}" class="nav-item {{ request()->routeIs('affiliate.pengisian-data') ? 'active' : '' }}">
+            <a href="{{ route('affiliate.pengisian-data') }}" class="nav-item {{ request()->routeIs('affiliate.pengisian-data') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
                 Pengisian Data
             </a>
-            <a href="{{ route('affiliate.profile') }}" class="nav-item {{ request()->routeIs('affiliate.profile') ? 'active' : '' }}">
+            <a href="{{ route('affiliate.profile') }}" class="nav-item {{ request()->routeIs('affiliate.profile') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-user-circle"></i></span>
                 Profile
             </a>
@@ -67,5 +80,27 @@
     </main>
 
     @stack('scripts')
+
+    <script>
+    function toggleSidebar() {
+        document.body.classList.toggle('sidebar-open');
+    }
+
+    function closeSidebar() {
+        document.body.classList.remove('sidebar-open');
+    }
+
+    // Tutup sidebar saat nav item diklik (di mobile, agar halaman baru terasa responsif)
+    function closeSidebarOnNav() {
+        if (window.innerWidth <= 1024) {
+            closeSidebar();
+        }
+    }
+
+    // Tutup sidebar saat tekan Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSidebar();
+    });
+    </script>
 </body>
 </html>

@@ -5,6 +5,27 @@
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('assets/admin/css/tiperumah.css') }}">
+<style>
+/* ── Tipe Rumah – Responsive Overrides untuk Affiliate Layout ── */
+.p-6 { padding: 24px; }
+.tr-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.tr-table { min-width: 680px; }
+.tr-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+@media (max-width: 600px) {
+    .p-6 { padding: 12px; }
+    .tr-page-header h1 { font-size: 20px; }
+    .tr-btn-tambah { width: 100%; justify-content: center; }
+    .tr-modal-box { margin: 12px; width: calc(100% - 24px); max-height: calc(100dvh - 24px); }
+    .tr-modal-body { max-height: 65vh; overflow-y: auto; }
+}
+</style>
 @endpush
 
 @section('content')

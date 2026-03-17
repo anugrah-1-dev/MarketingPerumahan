@@ -404,7 +404,7 @@ async function saveClosing() {
         if (!editingClosingId) {
             alert(
                 "Closing berhasil ditambahkan!\n\nKomisi: " +
-                    formatCurrency(result.komisi_nominal ?? 0),
+                formatCurrency(result.komisi_nominal ?? 0),
             );
         } else {
             alert("Data closing berhasil diupdate!");

@@ -57,33 +57,41 @@
         <table>
             <thead>
                 <tr>
-                    <th>Catatan Lead</th>
-                    <th>Sumber Referral</th>
-                    <th>Perangkat</th>
+                    <th>Nama Customer</th>
+                    <th>Tipe Rumah</th>
+                    <th>Harga Jual</th>
                     <th>Tanggal Closing</th>
-                    <th>Komisi ({{ $commissionRate }}%)</th>
+                    <th>Komisi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($closings as $closing)
                 <tr>
                     <td>
-                        {{ $closing->notes ?: '(tidak ada catatan)' }}
-                        <div class="secondary">{{ $closing->ip_address ?? '-' }}</div>
+                        <div style="font-weight:600; color:#1e293b;">{{ $closing->customer_name }}</div>
+                        <div class="secondary">{{ $closing->customer_phone ?? '-' }}</div>
                     </td>
                     <td>
-                        @if($closing->referral_code)
-                            <span class="badge badge-wa">🔗 {{ $closing->referral_code }}</span>
+                        @if($closing->tipeRumah)
+                            <span class="badge badge-wa">{{ $closing->tipeRumah->nama }}</span>
                         @else
                             <span class="badge">–</span>
                         @endif
                     </td>
-                    <td>{{ $closing->device ?? '-' }} / {{ $closing->browser ?? '-' }}</td>
+                    <td>Rp {{ number_format($closing->harga_jual, 0, ',', '.') }}</td>
                     <td>
-                        {{ $closing->updated_at->format('d M Y') }}
-                        <div class="secondary">{{ $closing->updated_at->format('H:i') }}</div>
+                        {{ $closing->tanggal_closing ? $closing->tanggal_closing->format('d M Y') : '-' }}
                     </td>
-                    <td><span class="badge badge-sudah">{{ $commissionRate }}%</span></td>
+                    <td>
+                        <div style="font-weight: 600; color: #059669;">Rp {{ number_format($closing->komisi_nominal, 0, ',', '.') }}</div>
+                        @if($closing->payment_status === 'paid-off')
+                            <span class="badge badge-sudah" style="margin-top: 4px;">Lunas</span>
+                        @elseif($closing->payment_status === 'installment')
+                            <span class="badge badge-ig" style="margin-top: 4px; background: #dbeafe; color: #1e40af;">Cicilan</span>
+                        @else
+                            <span class="badge badge-pending" style="margin-top: 4px; background: #fef3c7; color: #92400e;">DP</span>
+                        @endif
+                    </td>
                 </tr>
                 @empty
                 <tr>

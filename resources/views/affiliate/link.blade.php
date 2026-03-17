@@ -253,6 +253,16 @@
     .two-col    { grid-template-columns: 1fr; }
     .ref-code-badge { font-size: 22px; letter-spacing: 2px; }
     .klik-stats { grid-template-columns: repeat(2, 1fr); }
+    .link-header h1 { font-size: 22px; }
+    .ref-code-box { padding: 20px 18px; }
+}
+@media (max-width: 480px) {
+    .klik-stats { grid-template-columns: repeat(2, 1fr); }
+    .ref-code-badge { font-size: 16px; letter-spacing: 1px; padding: 8px 16px; }
+    .klik-stat-card .ks-val { font-size: 22px; }
+    .link-input-row { flex-direction: column; }
+    .link-input-row input { width: 100%; }
+    .copy-btn { width: 100%; justify-content: center; }
 }
 
 /* ── Stat Klik Cards ── */

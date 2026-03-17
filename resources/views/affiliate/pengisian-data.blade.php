@@ -162,8 +162,17 @@
 .btn-new:hover { opacity: 0.85; }
 
 @media (max-width: 600px) {
-    .form-wrap { padding: 20px 16px 40px; }
-    .form-card  { padding: 20px 16px; }
+    .form-wrap  { padding: 20px 12px 40px; }
+    .form-card  { padding: 18px 14px; max-width: 100%; }
+    .form-header h1 { font-size: 22px; }
+    .stepper { gap: 4px; }
+    .step { padding: 6px 12px; font-size: 13px; }
+    .form-actions { flex-direction: column; }
+    .btn-batal, .btn-tambah, .btn-confirm, .btn-back, .btn-new {
+        width: 100%;
+        text-align: center;
+        justify-content: center;
+    }
 }
 </style>
 @endpush

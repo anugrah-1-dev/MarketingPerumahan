@@ -92,23 +92,30 @@ class AffiliateController extends Controller
      */
     public function closingPage()
     {
-        $user    = Auth::user();
-        $refCode = $user->referral_code;
+        $user  = Auth::user();
+        $agent = $user->agent;
 
-        $closings = WaClick::where('referral_code', $refCode)
-                           ->where('status', 'closed')
-                           ->latest()
-                           ->get();
+        if (!$agent) {
+            return view('affiliate.closing', [
+                'closings'       => collect(),
+                'stats'          => ['total_closing' => 0, 'closing_bulan_ini' => 0],
+                'commissionRate' => 0
+            ]);
+        }
+
+        $closings = Closing::with('tipeRumah')
+            ->where('agent_id', $agent->id)
+            ->latest('tanggal_closing')
+            ->get();
 
         $stats = [
             'total_closing'     => $closings->count(),
-            'closing_bulan_ini' => WaClick::where('referral_code', $refCode)
-                                          ->where('status', 'closed')
-                                          ->where('created_at', '>=', now()->startOfMonth())
-                                          ->count(),
+            'closing_bulan_ini' => $closings->filter(function($c) {
+                return $c->tanggal_closing && $c->tanggal_closing->isCurrentMonth();
+            })->count(),
         ];
 
-        $commissionRate = $user->agent?->commission ?? 0;
+        $commissionRate = $agent->commission ?? 0;
 
         return view('affiliate.closing', compact('closings', 'stats', 'commissionRate'));
     }
