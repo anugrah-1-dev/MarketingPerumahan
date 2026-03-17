@@ -752,6 +752,12 @@
                 </svg>
                 Chat Sekarang
             </button>
+
+            {{-- Lewati --}}
+            <button type="button" onclick="skipWaPopup()"
+                    class="mt-2 w-full text-gray-400 hover:text-gray-600 text-sm py-2 bg-transparent border-0 cursor-pointer">
+                Lewati, langsung chat →
+            </button>
         </div>
     </div>
 
@@ -941,6 +947,25 @@
             keepalive: true
         }).catch(err => console.error("Gagal mencatat klik WA:", err));
 
+        closeWaPopupDirect();
+        window.open(_pendingWaUrl, '_blank');
+    }
+
+    function skipWaPopup() {
+        const refCode = AFFILIATE_REF_CODE || getCookieVal('affiliate_ref_code') || null;
+        fetch('{{ route("wa-click.record") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content ?? ''
+            },
+            body: JSON.stringify({
+                slug:          _pendingWaSlug || null,
+                referral_code: refCode || null,
+                page_url:      window.location.href
+            }),
+            keepalive: true
+        }).catch(err => console.error("Gagal mencatat klik WA:", err));
         closeWaPopupDirect();
         window.open(_pendingWaUrl, '_blank');
     }
