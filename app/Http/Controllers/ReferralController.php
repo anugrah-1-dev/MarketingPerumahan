@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agent;
 use App\Models\User;
 use App\Models\TipeRumah;
 use App\Models\Setting;
@@ -36,10 +37,22 @@ class ReferralController extends Controller
         $request->session()->put('affiliate_user_id',  $affiliate->id);
         $request->session()->put('affiliate_name',      $affiliate->name);
 
-        // Redirect ke landing page dengan cookie (30 hari)
-        // Redirect penting agar cookie dikirim ke browser SEBELUM halaman dirender
-        return redirect()->route('landing')
-            ->withCookie(cookie('affiliate_ref_code', $code,            60 * 24 * 30))
-            ->withCookie(cookie('affiliate_user_id',  (string)$affiliate->id, 60 * 24 * 30));
+        // Cari Agent record milik affiliate ini (berdasarkan user_id)
+        $agent = Agent::where('user_id', $affiliate->id)
+                      ->where('aktif', true)
+                      ->first();
+
+        // Tentukan tujuan redirect:
+        // - Jika punya agent page aktif → ke /{slug} (halaman landing per-agent)
+        // - Jika tidak → fallback ke homepage
+        $redirect = $agent
+            ? redirect()->route('agent-landing', ['nama' => $agent->slug])
+            : redirect()->route('landing');
+
+        // Kirim cookie 30 hari agar referral tetap terlacak
+        return $redirect
+            ->withCookie(cookie('affiliate_ref_code', $code,                     60 * 24 * 30))
+            ->withCookie(cookie('affiliate_user_id',  (string) $affiliate->id,   60 * 24 * 30));
     }
 }
+
