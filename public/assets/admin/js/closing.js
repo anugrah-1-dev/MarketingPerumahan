@@ -151,9 +151,8 @@ function updateStats() {
     document.getElementById("totalSales").textContent = formatCurrencyCompact(
         closings.reduce((s, c) => s + c.salePrice, 0),
     );
-    document.getElementById("totalCommission").textContent = formatCurrencyCompact(
-        closings.reduce((s, c) => s + c.commission, 0),
-    );
+    document.getElementById("totalCommission").textContent =
+        formatCurrencyCompact(closings.reduce((s, c) => s + c.commission, 0));
     document.getElementById("closingThisMonth").textContent = closings.filter(
         (c) => {
             const d = new Date(c.date);
@@ -179,11 +178,15 @@ function formatCurrency(amount) {
 // Format kompak untuk stat card (angka besar menjadi M / Jt)
 function formatCurrencyCompact(amount) {
     if (amount >= 1_000_000_000) {
-        const val = (amount / 1_000_000_000).toLocaleString("id-ID", { maximumFractionDigits: 2 });
+        const val = (amount / 1_000_000_000).toLocaleString("id-ID", {
+            maximumFractionDigits: 2,
+        });
         return "Rp " + val + " M";
     }
     if (amount >= 1_000_000) {
-        const val = (amount / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 1 });
+        const val = (amount / 1_000_000).toLocaleString("id-ID", {
+            maximumFractionDigits: 1,
+        });
         return "Rp " + val + " Jt";
     }
     return formatCurrency(amount);
@@ -417,7 +420,7 @@ async function saveClosing() {
         if (!editingClosingId) {
             alert(
                 "Closing berhasil ditambahkan!\n\nKomisi: " +
-                formatCurrency(result.komisi_nominal ?? 0),
+                    formatCurrency(result.komisi_nominal ?? 0),
             );
         } else {
             alert("Data closing berhasil diupdate!");

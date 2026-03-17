@@ -21,11 +21,15 @@ function formatCurrency(amount) {
 // Format kompak untuk stat card (angka besar menjadi M / Jt)
 function formatCurrencyCompact(amount) {
     if (amount >= 1_000_000_000) {
-        const val = (amount / 1_000_000_000).toLocaleString("id-ID", { maximumFractionDigits: 2 });
+        const val = (amount / 1_000_000_000).toLocaleString("id-ID", {
+            maximumFractionDigits: 2,
+        });
         return "Rp " + val + " M";
     }
     if (amount >= 1_000_000) {
-        const val = (amount / 1_000_000).toLocaleString("id-ID", { maximumFractionDigits: 1 });
+        const val = (amount / 1_000_000).toLocaleString("id-ID", {
+            maximumFractionDigits: 1,
+        });
         return "Rp " + val + " Jt";
     }
     return formatCurrency(amount);
@@ -65,9 +69,8 @@ function renderStats(stats) {
     animateValue("totalClicks", 0, stats.totalClicks, 800);
     animateValue("totalClosing", 0, stats.totalClosing, 800);
     animateValue("activeAgents", 0, stats.activeAgents, 800);
-    document.getElementById("totalCommission").textContent = formatCurrencyCompact(
-        stats.totalCommission,
-    );
+    document.getElementById("totalCommission").textContent =
+        formatCurrencyCompact(stats.totalCommission);
 }
 
 function animateValue(id, start, end, duration) {
