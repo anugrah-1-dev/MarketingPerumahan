@@ -14,7 +14,7 @@
             <div class="stat-content"><h3 id="totalClosing">0</h3><p>Total Closing</p></div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon yellow"><i class="fas fa-dollar-sign"></i></div>
+            <div class="stat-icon yellow"><i class="fas fa-rupiah-sign"></i></div>
             <div class="stat-content"><h3 id="totalCommission">Rp 0</h3><p>Total Komisi</p></div>
         </div>
         <div class="stat-card">
