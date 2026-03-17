@@ -251,16 +251,25 @@ body {
 .stat-icon.purple { background-color: #8b5cf6; }
 .stat-icon.red { background-color: #ef4444; }
 
+.stat-content {
+    min-width: 0;
+    overflow: hidden;
+}
+
 .stat-content h3 {
-    font-size: 1.875rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--text-primary);
     margin-bottom: 0.25rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .stat-content p {
     color: var(--text-secondary);
     font-size: 0.875rem;
+    white-space: nowrap;
 }
 
 /* Charts Grid */
