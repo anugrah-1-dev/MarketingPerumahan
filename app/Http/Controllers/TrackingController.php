@@ -102,12 +102,6 @@ class TrackingController extends Controller
             $query->where('status', $statusParam);
         }
 
-        // Filter source (website / wablas)
-        $sourceParam = $request->query('source');
-        if ($sourceParam && $sourceParam !== 'all') {
-            $query->where('source', $sourceParam);
-        }
-
         // Search
         if ($search = $request->query('search')) {
             $query->where(function ($q) use ($search) {
@@ -151,7 +145,6 @@ class TrackingController extends Controller
             'new'        => $all->where('status', 'new')->count(),
             'follow_up'  => $all->where('status', 'follow-up')->count(),
             'interested' => $all->where('status', 'interested')->count(),
-            'wablas'     => $all->where('source', 'wablas')->count(),
         ];
 
         // List agents untuk dropdown filter

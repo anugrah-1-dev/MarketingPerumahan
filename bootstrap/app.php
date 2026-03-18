@@ -21,10 +21,9 @@ return Application::configure(basePath: dirname(__DIR__))
             'affiliate_user_id',
         ]);
 
-        // Exclude /wa-click dan /webhook/wablas dari CSRF — endpoint publik
+        // Exclude /wa-click dari CSRF — endpoint publik
         $middleware->validateCsrfTokens(except: [
             'wa-click',
-            'webhook/wablas',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

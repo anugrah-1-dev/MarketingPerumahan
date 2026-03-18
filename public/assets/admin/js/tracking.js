@@ -26,14 +26,13 @@ function loadData() {
         date: document.getElementById("filterDate")?.value ?? "all",
         agent: document.getElementById("filterAgent")?.value ?? "all",
         status: document.getElementById("filterStatus")?.value ?? "all",
-        source: document.getElementById("filterSource")?.value ?? "all",
         search: document.getElementById("searchClicks")?.value ?? "",
     });
 
     // Tampilkan loading
     document.getElementById("clicksTableBody").innerHTML =
-        '<tr><td colspan="8" style="text-align:center;padding:2rem;color:#94a3b8;">' +
-        '<i class="fas fa-spinner fa-spin"></i> Memuat data…</td></tr>';
+        '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#94a3b8;">';
+    ('<i class="fas fa-spinner fa-spin"></i> Memuat data…</td></tr>');
 
     fetch(`${trackingBasePath}/data?${params}`, {
         headers: {
@@ -52,8 +51,8 @@ function loadData() {
         })
         .catch(() => {
             document.getElementById("clicksTableBody").innerHTML =
-                '<tr><td colspan="9" style="text-align:center;padding:2rem;color:#ef4444;">' +
-                '<i class="fas fa-exclamation-circle"></i> Gagal memuat data.</td></tr>';
+                '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#ef4444;">';
+            ('<i class="fas fa-exclamation-circle"></i> Gagal memuat data.</td></tr>');
         });
 }
 
@@ -63,8 +62,6 @@ function updateStats(stats) {
     document.getElementById("totalPending").textContent = stats.new;
     document.getElementById("totalFollowUp").textContent = stats.follow_up;
     document.getElementById("totalConverted").textContent = stats.interested;
-    const wablasEl = document.getElementById("totalWablas");
-    if (wablasEl) wablasEl.textContent = stats.wablas ?? 0;
 }
 
 // ─── Isi dropdown Agent dari database ───────────────────────────────────────
@@ -98,8 +95,8 @@ function renderTable() {
 
     if (page.length === 0) {
         tbody.innerHTML =
-            '<tr><td colspan="9" style="text-align:center;padding:2rem;color:#64748b;">' +
-            "Belum ada data klik WhatsApp.</td></tr>";
+            '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#64748b;">';
+        ("Belum ada data klik WhatsApp.</td></tr>");
         renderPagination();
         return;
     }
@@ -111,7 +108,6 @@ function renderTable() {
             <td>
                 <div>${formatDateTime(c.timestamp)}</div>
                 <div style="color:#64748b;font-size:.8rem;">${formatTimeAgo(c.timestamp)}</div>
-                ${getSourceBadge(c.source)}
             </td>
             <td>
                 ${
@@ -124,13 +120,6 @@ function renderTable() {
             <td>
                 <strong>${c.agentName}</strong>
                 <div style="color:#64748b;font-size:.8rem;">/${c.agentSlug}</div>
-            </td>
-            <td style="font-size:.85rem;color:#64748b;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
-                ${
-                    c.lastMessage
-                        ? `<span title="${escHtml(c.lastMessage)}">${escHtml(c.lastMessage.substring(0, 60))}${c.lastMessage.length > 60 ? "…" : ""}</span>`
-                        : '<span style="color:#cbd5e1">-</span>'
-                }
             </td>
             <td>
                 <div style="font-size:.85rem;">
@@ -156,14 +145,6 @@ function renderTable() {
         .join("");
 
     renderPagination();
-}
-
-// ─── Badge sumber lead ───────────────────────────────────────────────────────
-function getSourceBadge(source) {
-    if (source === "wablas") {
-        return '<span style="display:inline-block;margin-top:4px;font-size:.7rem;background:#dcfce7;color:#166534;border-radius:4px;padding:1px 6px;"><i class="fab fa-whatsapp"></i> Pesan Masuk</span>';
-    }
-    return '<span style="display:inline-block;margin-top:4px;font-size:.7rem;background:#e0f2fe;color:#0369a1;border-radius:4px;padding:1px 6px;"><i class="fas fa-mouse-pointer"></i> Klik WA</span>';
 }
 
 // ─── Format nomor HP ──────────────────────────────────────────────────────────
@@ -285,10 +266,8 @@ function exportClicks() {
     // Buat CSV dari data yang sudah ada di memory
     const header = [
         "Waktu",
-        "Sumber",
         "Nama Pengirim",
         "No HP",
-        "Pesan Terakhir",
         "Agent",
         "Slug",
         "Device",
@@ -299,10 +278,8 @@ function exportClicks() {
     ];
     const rows = filteredClicks.map((c) => [
         c.timestamp,
-        c.source,
         `"${(c.senderName || "").replace(/"/g, '""')}"`,
         c.senderPhone || "",
-        `"${(c.lastMessage || "").replace(/"/g, '""')}"`,
         c.agentName,
         c.agentSlug,
         c.device,
