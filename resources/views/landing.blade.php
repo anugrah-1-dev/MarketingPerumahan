@@ -948,7 +948,10 @@
         }).catch(err => console.error("Gagal mencatat klik WA:", err));
 
         closeWaPopupDirect();
-        window.open(_pendingWaUrl, '_blank');
+        // Bangun ulang URL WA dengan pesan personal visitor (strip ?text= dari URL lama)
+        const waBase    = _pendingWaUrl.split('?')[0];
+        const waMessage = `Halo, nama saya ${name}. Saya tertarik dengan Bukit Shangrilla Asri 2. No HP saya: ${phone}.`;
+        window.open(`${waBase}?text=${encodeURIComponent(waMessage)}`, '_blank');
     }
 
     function skipWaPopup() {
