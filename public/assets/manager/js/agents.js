@@ -213,7 +213,7 @@ function buildRow(agent) {
         : '<span class="badge danger">Nonaktif</span>';
     const origin = window.location.origin;
     const refCode = agent.user?.referral_code || agent.slug;
-    const affiliateLink = `${origin}/?ref=${refCode}`;
+    const affiliateLink = `${origin}/${agent.slug}?ref=${refCode}`;
     const emailRow = agent.email ? `<div>${agent.email}</div>` : "";
     const phoneRow = agent.phone
         ? `<div style="color:#64748b;font-size:.875rem;">${agent.phone}</div>`
@@ -236,7 +236,7 @@ function buildRow(agent) {
         </td>
         <td>
             <div style="display:flex;align-items:center;gap:.5rem;">
-                <code style="background:#f1f5f9;padding:.25rem .5rem;border-radius:.25rem;font-size:.875rem;">/?ref=${refCode}</code>
+                <code style="background:#f1f5f9;padding:.25rem .5rem;border-radius:.25rem;font-size:.875rem;">/${agent.slug}?ref=${refCode}</code>
                 <button class="btn-icon" data-action="copy" data-link="${affiliateLink}" title="Salin link affiliate">
                     <i class="fas fa-copy"></i>
                 </button>
