@@ -42,10 +42,19 @@ class User extends Authenticatable
 
     // ── Referral Link Accessor ───────────────────────
     /**
-     * Link referral lengkap: https://domain.com/ref/BSA-XXXX
+     * Link referral: https://domain.com/{agent-slug}?ref=BSA-XXXX
+     * Fallback ke /ref/{code} jika affiliate belum punya agent aktif.
      */
     public function getReferralLinkAttribute(): string
     {
+        $agent = Agent::where('user_id', $this->id)
+                      ->where('aktif', true)
+                      ->first();
+
+        if ($agent) {
+            return url('/' . $agent->slug . '?ref=' . $this->referral_code);
+        }
+
         return url('/ref/' . $this->referral_code);
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use App\Models\Agent;
 use App\Models\ClientData;
 use App\Models\Closing;
@@ -21,7 +22,7 @@ class PageController extends Controller
      * Landing page utama (/).
      * Gunakan agent pertama yang aktif sebagai default.
      */
-    public function landing()
+    public function landing(Request $request)
     {
         // Homepage langsung (/) → tampilkan "Admin", bukan agent tertentu
         $agent = [
@@ -30,6 +31,9 @@ class PageController extends Controller
             'slug'    => null,
             'wa'      => Setting::get('wa_admin', '6283876766055'),
         ];
+
+        // Baca ?ref= dari query string dan simpan ke session + cookie
+        $this->handleRefParam($request);
 
         $tipeRumahDiskon = TipeRumah::diskon()->latest()->take(6)->get();
         $semuaTipeRumah  = TipeRumah::orderBy('harga', 'asc')->get();
@@ -45,7 +49,7 @@ class PageController extends Controller
      * URL: /{nama}  e.g. /anugrah, /fajar, /rizky
      * Data diambil dari tabel agents di database.
      */
-    public function agentLanding(string $nama)
+    public function agentLanding(string $nama, Request $request)
     {
         // Cari agent berdasarkan slug & harus aktif — auto 404 jika tidak ada
         $agentModel = Agent::where('slug', strtolower($nama))
@@ -73,7 +77,36 @@ class PageController extends Controller
             'agent_nama'  => $agentModel->nama,
         ]);
 
+        // Baca ?ref= dari query string dan simpan ke session + cookie
+        $this->handleRefParam($request);
+
         return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats'));
+    }
+
+    /**
+     * Simpan referral code dari ?ref= ke session dan cookie.
+     * Dipakai oleh landing() dan agentLanding().
+     */
+    private function handleRefParam(Request $request): void
+    {
+        $ref = strtoupper(trim($request->query('ref', '')));
+        if (! $ref) {
+            return;
+        }
+
+        $affiliateUser = User::where('referral_code', $ref)
+                             ->where('role', 'affiliate')
+                             ->first();
+        if (! $affiliateUser) {
+            return;
+        }
+
+        $request->session()->put('affiliate_ref_code', $ref);
+        $request->session()->put('affiliate_user_id',  $affiliateUser->id);
+        $request->session()->put('affiliate_name',      $affiliateUser->name);
+
+        Cookie::queue('affiliate_ref_code', $ref,                        60 * 24 * 30);
+        Cookie::queue('affiliate_user_id',  (string) $affiliateUser->id, 60 * 24 * 30);
     }
 
     public function login()
