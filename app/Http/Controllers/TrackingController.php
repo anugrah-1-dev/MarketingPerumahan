@@ -61,7 +61,7 @@ class TrackingController extends Controller
             'sender_name'       => $request->input('sender_name'),
             'sender_phone'      => $request->input('sender_phone'),
             'source'            => 'website',
-            'status'            => 'new',
+            'status'            => ($request->filled('sender_name') && $request->filled('sender_phone')) ? 'follow-up' : 'new',
         ]);
 
         return response()->json(['ok' => true]);
