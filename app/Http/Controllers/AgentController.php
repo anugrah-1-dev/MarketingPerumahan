@@ -16,68 +16,63 @@ class AgentController extends Controller
      * – Browser → tampilkan view
      * – Fetch/AJAX (Accept: application/json) → return JSON list
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->expectsJson()) {
-            // Ambil semua user dengan role affiliate
-            $users = User::where('role', 'affiliate')->with('agent')->orderBy('created_at', 'desc')->get();
-
-            // Map data agar sesuai struktur JS
-            $agents = $users->map(function ($user) {
-                $agent = $user->agent;
-
-                // Jika user affiliate belum punya Agent record, buat otomatis
-                if (!$agent) {
-                    try {
-                        $slug = \Illuminate\Support\Str::slug($user->name);
-                        $base = $slug;
-                        $i    = 1;
-                        while (Agent::where('slug', $slug)->exists()) {
-                            $slug = $base . '-' . $i++;
-                        }
-                        $agent = Agent::create([
-                            'user_id'    => $user->id,
-                            'nama'       => $user->name,
-                            'jabatan'    => 'Affiliate',
-                            'slug'       => $slug,
-                            'aktif'      => true,
-                            'email'      => $user->email,
-                            'phone'      => null,
-                            'commission' => 0,
-                        ]);
-                    } catch (\Throwable $e) {
-                        // Lewati user ini jika gagal membuat agent record
-                        return null;
-                    }
-                }
-
-                // Pastikan agent punya ID yang valid sebelum dikembalikan
-                if (!$agent || !$agent->id) {
-                    return null;
-                }
-
-                return [
-                    'id'         => $agent->id,
-                    'nama'       => $user->name,
-                    'jabatan'    => $agent->jabatan,
-                    'email'      => $user->email,
-                    'phone'      => $agent->phone,
-                    'commission' => $agent->commission,
-                    'slug'       => $agent->slug,
-                    'aktif'      => $agent->aktif,
-                    'user'       => [
-                        'referral_code' => $user->referral_code
-                    ],
-                    'user_id'    => $user->id,
-                ];
-            });
-
-            // Hapus entry null (agent gagal dibuat)
-            return response()->json($agents->filter()->values());
-        }
-
         $panel = auth()->user()->isAdmin() ? 'manager' : 'admin';
         return view("{$panel}.agents");
+    }
+
+    public function data()
+    {
+        $users = User::where('role', 'affiliate')->with('agent')->orderBy('created_at', 'desc')->get();
+
+        $agents = $users->map(function ($user) {
+            $agent = $user->agent;
+
+            if (! $agent) {
+                try {
+                    $slug = Str::slug($user->name);
+                    $base = $slug;
+                    $i = 1;
+                    while (Agent::where('slug', $slug)->exists()) {
+                        $slug = $base . '-' . $i++;
+                    }
+                    $agent = Agent::create([
+                        'user_id' => $user->id,
+                        'nama' => $user->name,
+                        'jabatan' => 'Affiliate',
+                        'slug' => $slug,
+                        'aktif' => true,
+                        'email' => $user->email,
+                        'phone' => null,
+                        'commission' => 0,
+                    ]);
+                } catch (\Throwable $e) {
+                    return null;
+                }
+            }
+
+            if (! $agent || ! $agent->id) {
+                return null;
+            }
+
+            return [
+                'id' => $agent->id,
+                'nama' => $user->name,
+                'jabatan' => $agent->jabatan,
+                'email' => $user->email,
+                'phone' => $agent->phone,
+                'commission' => $agent->commission,
+                'slug' => $agent->slug,
+                'aktif' => $agent->aktif,
+                'user' => [
+                    'referral_code' => $user->referral_code,
+                ],
+                'user_id' => $user->id,
+            ];
+        });
+
+        return response()->json($agents->filter()->values());
     }
 
     /**

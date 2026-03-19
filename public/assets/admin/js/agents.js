@@ -14,6 +14,7 @@ const agentsBasePath = (() => {
     const seg = window.location.pathname.split("/").filter(Boolean)[0];
     return seg === "manager" ? "/manager/agents" : "/admin/agents";
 })();
+const agentsDataPath = `${agentsBasePath}/data`;
 
 // ── Helpers ──────────────────────────────────────────────────
 function getCsrf() {
@@ -175,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
 async function loadAgents() {
     showLoading();
     try {
-        const resp = await fetch(agentsBasePath, {
+        const resp = await fetch(agentsDataPath, {
             headers: { Accept: "application/json" },
         });
         if (!resp.ok) throw new Error("Gagal memuat data agent.");
