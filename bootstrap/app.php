@@ -15,10 +15,13 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\RoleMiddleware::class,
         ]);
 
+        $middleware->web(append: [
+            \App\Http\Middleware\SecurityHeadersMiddleware::class,
+        ]);
+
         // Exclude cookie affiliate dari enkripsi agar JS bisa membacanya
         $middleware->encryptCookies(except: [
             'affiliate_ref_code',
-            'affiliate_user_id',
         ]);
 
         // Exclude /wa-click dari CSRF — endpoint publik

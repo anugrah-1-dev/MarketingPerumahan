@@ -68,12 +68,13 @@ class SocialMediaController extends Controller
             'platform'    => ['required', 'string', Rule::in(['youtube', 'tiktok', 'instagram'])],
             'title'       => 'required|string|max:150',
             'description' => 'nullable|string|max:300',
-            'content_url' => 'nullable|url|max:500',
+            'content_url' => ['nullable', 'url', 'max:500', 'starts_with:http://,https://'],
             'thumbnail'   => 'nullable|image|max:2048',
             'media_file'  => 'nullable|file|mimetypes:image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime|max:51200',
         ], [
             'media_file.mimetypes' => 'File media harus berupa foto atau video yang didukung.',
             'media_file.max' => 'Ukuran file media maksimal 50 MB.',
+            'content_url.starts_with' => 'URL konten harus diawali http:// atau https://.',
         ]);
 
         $hasExistingMedia = $item && ($item->content_url || $item->media_path);

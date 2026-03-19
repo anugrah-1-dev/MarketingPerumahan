@@ -43,6 +43,10 @@ class TipeRumahController extends Controller
             'is_diskon'      => 'nullable|boolean',
             'deskripsi'      => 'nullable|string',
             'gambar'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto_tambahan'  => 'nullable|array|max:10',
+            'foto_tambahan.*'=> 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto_keterangan'=> 'nullable|array',
+            'foto_keterangan.*' => 'nullable|string|max:150',
             'stok_tersedia'  => 'required|integer|min:0',
         ]);
 
@@ -94,6 +98,10 @@ class TipeRumahController extends Controller
             'is_diskon'      => 'nullable|boolean',
             'deskripsi'      => 'nullable|string',
             'gambar'         => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto_tambahan'  => 'nullable|array|max:10',
+            'foto_tambahan.*'=> 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'foto_keterangan'=> 'nullable|array',
+            'foto_keterangan.*' => 'nullable|string|max:150',
             'stok_tersedia'  => 'required|integer|min:0',
         ]);
 

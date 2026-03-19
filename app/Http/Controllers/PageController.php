@@ -14,6 +14,7 @@ use App\Models\User;
 
 use App\Models\TipeRumah;
 use App\Models\SocialMedia;
+use Illuminate\Validation\Rules\Password;
 
 class PageController extends Controller
 {
@@ -90,7 +91,7 @@ class PageController extends Controller
     private function handleRefParam(Request $request): void
     {
         $ref = strtoupper(trim($request->query('ref', '')));
-        if (! $ref) {
+        if (! $ref || ! preg_match('/^BSA-[A-Z0-9]{4}$/', $ref)) {
             return;
         }
 
@@ -196,8 +197,8 @@ class PageController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string', 'in:super_admin,affiliate'],
+            'password' => ['required', 'string', Password::min(8)->letters()->mixedCase()->numbers(), 'confirmed'],
+            'role' => ['required', 'string', 'in:affiliate'],
         ]);
 
         $user = \App\Models\User::create([

@@ -5,8 +5,12 @@ namespace App\Providers;
 use App\Models\User;
 use App\Models\Setting;
 use App\Observers\UserObserver;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Str;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +23,16 @@ class AppServiceProvider extends ServiceProvider
     {
         // Auto-generate referral_code saat user baru dibuat
         User::observe(UserObserver::class);
+
+        RateLimiter::for('login', function (Request $request) {
+            $email = Str::lower((string) $request->input('email'));
+
+            return Limit::perMinute(5)->by($email.'|'.$request->ip());
+        });
+
+        RateLimiter::for('tracking', function (Request $request) {
+            return Limit::perMinute(30)->by($request->ip());
+        });
 
         // Bagikan nomor WA admin ke semua view yang memakai layout app
         View::composer('layouts.app', function ($view) {

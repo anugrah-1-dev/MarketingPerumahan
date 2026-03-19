@@ -22,6 +22,10 @@ class ReferralController extends Controller
     {
         $code = strtoupper(trim($code));
 
+        if (! preg_match('/^BSA-[A-Z0-9]{4}$/', $code)) {
+            return redirect()->route('landing');
+        }
+
         // Cari affiliate berdasarkan referral_code
         $affiliate = User::where('referral_code', $code)
                          ->where('role', 'affiliate')
@@ -55,4 +59,3 @@ class ReferralController extends Controller
             ->withCookie(cookie('affiliate_user_id',  (string) $affiliate->id,   60 * 24 * 30));
     }
 }
-

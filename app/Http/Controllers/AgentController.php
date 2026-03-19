@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
 
 class AgentController extends Controller
@@ -84,7 +85,7 @@ class AgentController extends Controller
         $request->validate([
             'nama'       => 'required|string|max:100',
             'email'      => 'required|email|max:150|unique:users,email',
-            'password'   => 'required|string|min:6',
+            'password'   => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
             'jabatan'    => 'nullable|string|max:100', // hidden, default Affiliate
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:0|max:100',
@@ -148,7 +149,7 @@ class AgentController extends Controller
         $request->validate([
             'nama'       => 'required|string|max:100',
             'email'      => 'required|email|max:150|unique:users,email,' . ($agent->user_id ?? 'NULL'),
-            'password'   => 'nullable|string|min:6',
+            'password'   => ['nullable', Password::min(8)->letters()->mixedCase()->numbers()],
             'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:0|max:100',

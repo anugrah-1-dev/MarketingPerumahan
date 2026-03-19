@@ -17,7 +17,7 @@ use App\Http\Controllers\ClosingController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
-Route::post('/login',                [PageController::class, 'authenticate'])->name('login.post');
+Route::post('/login',                [PageController::class, 'authenticate'])->middleware('throttle:login')->name('login.post');
 Route::post('/logout',               [PageController::class, 'logout'])->name('logout');
 
 
@@ -174,7 +174,7 @@ Route::get('/site-plan',             [PageController::class, 'sitePlan'])->name(
 Route::get('/detail-rumah/{blok?}',  [PageController::class, 'detailRumah'])->name('detail-rumah');
 
 // Catat klik WA (publik, tanpa auth)
-Route::post('/wa-click',             [TrackingController::class, 'record'])->name('wa-click.record');
+Route::post('/wa-click',             [TrackingController::class, 'record'])->middleware('throttle:tracking')->name('wa-click.record');
 
 // ── Referral Link ────────────────────────────────────────────────────────
 // HARUS di atas dynamic /{nama} agar tidak tertimpa
