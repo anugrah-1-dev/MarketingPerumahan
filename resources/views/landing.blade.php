@@ -256,47 +256,47 @@
     @php
         $fasilitas = [
             [
-                'nama' => 'Mosque',
+                'nama' => 'Masjid',
                 'deskripsi' => 'Masjid nyaman di dalam kawasan perumahan, memudahkan penghuni beribadah dengan tenang dan khusyuk.',
                 'icon' => 'mosque',
             ],
             [
-                'nama' => 'Waterpark',
-                'deskripsi' => 'Fasilitas waterpark kawasan hunian yang menghadirkan hiburan air menyenangkan untuk quality time keluarga.',
+                'nama' => 'Taman Air',
+                'deskripsi' => 'Fasilitas taman air kawasan hunian yang menghadirkan hiburan air menyenangkan untuk waktu berkualitas bersama keluarga.',
                 'icon' => 'waterpark',
             ],
             [
-                'nama' => 'Foodcourt',
-                'deskripsi' => 'Area foodcourt dengan beragam pilihan kuliner, nyaman untuk bersantai dan berkumpul bersama keluarga.',
+                'nama' => 'Area Kuliner',
+                'deskripsi' => 'Area kuliner dengan beragam pilihan makanan, nyaman untuk bersantai dan berkumpul bersama keluarga.',
                 'icon' => 'foodcourt',
             ],
             [
-                'nama' => 'Playground',
-                'deskripsi' => 'Playground aman dan seru untuk anak setiap hari, menghadirkan keceriaan di lingkungan perumahan.',
+                'nama' => 'Taman Bermain',
+                'deskripsi' => 'Taman bermain aman dan seru untuk anak setiap hari, menghadirkan keceriaan di lingkungan perumahan.',
                 'icon' => 'playground',
             ],
             [
-                'nama' => 'Sport Center',
-                'deskripsi' => 'Fasilitas sport center modern untuk olahraga dan kebugaran penghuni setiap hari.',
+                'nama' => 'Pusat Olahraga',
+                'deskripsi' => 'Fasilitas pusat olahraga modern untuk kebugaran penghuni setiap hari.',
                 'icon' => 'sport',
             ],
             [
-                'nama' => 'One Gate System',
-                'deskripsi' => 'Sistem satu pintu keluar masuk area cluster untuk menjaga keamanan lingkungan lebih optimal.',
+                'nama' => 'Sistem Satu Gerbang',
+                'deskripsi' => 'Sistem satu pintu keluar masuk area kluster untuk menjaga keamanan lingkungan lebih optimal.',
                 'icon' => 'gate',
             ],
             [
-                'nama' => '24 Hour CCTV',
+                'nama' => 'CCTV 24 Jam',
                 'deskripsi' => 'Pemantauan CCTV 24 jam membantu lingkungan perumahan menjadi lebih aman dan terpantau.',
                 'icon' => 'cctv',
             ],
             [
-                'nama' => '24 Hour Security',
+                'nama' => 'Keamanan 24 Jam',
                 'deskripsi' => 'Keamanan 24 jam untuk memastikan kenyamanan dan ketenangan penghuni sepanjang waktu.',
                 'icon' => 'security',
             ],
             [
-                'nama' => 'Mountain View',
+                'nama' => 'Pemandangan Pegunungan',
                 'deskripsi' => 'Pemandangan pegunungan dari ketinggian yang menenangkan, memberi suasana asri setiap hari.',
                 'icon' => 'mountain',
             ],
@@ -353,6 +353,44 @@
             </div>
         </div>
     </section>
+
+    {{-- ================================================================
+     DENAH PERUMAHAN (Site Plan)
+     ================================================================ --}}
+    @if(!empty($denahImage))
+    <section id="denah" class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
+        <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Denah Perumahan</h2>
+        <p class="text-[#676767] text-[15px] mb-8">Lihat tata letak kawasan dan posisi unit yang tersedia di Bukit Shangrilla Asri.</p>
+
+        <div class="bg-white p-4 lg:p-6 rounded-[24px] border border-[#E9E9E9] shadow-[0_18px_36px_rgba(0,0,0,0.06)] text-center">
+            <img src="{{ asset($denahImage) }}" alt="Denah Perumahan Bukit Shangrilla Asri"
+                 class="w-full rounded-[16px] cursor-pointer transition-transform duration-300 hover:scale-[1.01]"
+                 style="max-height:700px;object-fit:contain;"
+                 onclick="openDenahModal(this.src)"
+                 onerror="this.parentElement.style.display='none';">
+            <p class="text-[#94a3b8] text-xs mt-3">Klik gambar untuk memperbesar</p>
+        </div>
+    </section>
+
+    {{-- Denah Zoom Modal --}}
+    <div id="denahModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;cursor:zoom-out;" onclick="closeDenahModal()">
+        <img id="denahModalImg" src="" alt="Denah Perumahan"
+             style="max-width:95vw;max-height:95vh;border-radius:16px;object-fit:contain;box-shadow:0 24px 64px rgba(0,0,0,.6);">
+        <button style="position:absolute;top:16px;right:16px;width:40px;height:40px;background:rgba(0,0,0,.55);border:none;border-radius:50%;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);" aria-label="Tutup">&#x2715;</button>
+    </div>
+    <script>
+    function openDenahModal(src){
+        document.getElementById('denahModalImg').src=src;
+        document.getElementById('denahModal').style.display='flex';
+        document.body.style.overflow='hidden';
+    }
+    function closeDenahModal(){
+        document.getElementById('denahModal').style.display='none';
+        document.body.style.overflow='';
+    }
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDenahModal();}});
+    </script>
+    @endif
 
     {{-- ================================================================
      ETALASE MEDIA SOSIAL - carousel geser otomatis tanpa batas

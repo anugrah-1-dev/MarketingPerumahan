@@ -59,6 +59,10 @@
                 <i class="fas fa-images"></i>
                 <span>Slider Beranda</span>
             </a>
+            <a href="{{ route('manager.denah') }}" class="nav-item {{ request()->routeIs('manager.denah*') ? 'active' : '' }}">
+                <i class="fas fa-map"></i>
+                <span>Denah Perumahan</span>
+            </a>
             <a href="{{ route('manager.settings') }}" class="nav-item {{ request()->routeIs('manager.settings*') ? 'active' : '' }}">
                 <i class="fas fa-cog"></i>
                 <span>Pengaturan</span>
