@@ -39,7 +39,7 @@
             <p class="profile-meta">
                 <span>{{ $agent->jabatan ?? 'Marketing Executive' }}</span>
                 @if($agent)
-                    &nbsp;Â·&nbsp;Kode: <strong>{{ $agent->slug }}</strong>
+                    &nbsp;·&nbsp;Kode: <strong>{{ $agent->slug }}</strong>
                 @endif
             </p>
             <p class="profile-meta">

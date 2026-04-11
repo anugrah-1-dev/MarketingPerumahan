@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 
-@section('title', 'Bukit Shangrilla Asri â€“ Hunian Modern Strategis')
+@section('title', 'Bukit Shangrilla Asri - Hunian Modern Strategis')
 
 @section('head')
     <!-- Swiper CSS -->
@@ -593,7 +593,7 @@
             track.style.animationPlayState = '';
         }
 
-        // -- Video modal â€“ YouTube auto-play ---------------------------
+        // -- Video modal - YouTube auto-play ---------------------------
         var smModal = document.getElementById('sm-video-modal');
         var smFrame = document.getElementById('sm-video-frame');
         var smVideo = document.getElementById('sm-video-player');
@@ -708,7 +708,7 @@
 
 
     {{-- ================================================================
-     FLOATING WHATSAPP BUTTON â€“ dinamis berdasarkan agent di URL
+     FLOATING WHATSAPP BUTTON - dinamis berdasarkan agent di URL
      ================================================================ --}}
     <button type="button"
         title="Chat dengan {{ $waNama }}"
@@ -732,7 +732,7 @@
     </button>
 
     {{-- ================================================================
-     POPUP FORM â€“ Kumpulkan nama & HP sebelum membuka WhatsApp
+     POPUP FORM - Kumpulkan nama & HP sebelum membuka WhatsApp
      ================================================================ --}}
     <div id="wa-contact-modal"
          class="fixed inset-0 z-[9999] flex items-center justify-center p-4 hidden"

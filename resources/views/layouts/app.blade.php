@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Bukit Shangrilla Asri') â€“ Pilihan Rumah Terbaik</title>
+    <title>@yield('title', 'Bukit Shangrilla Asri') - Pilihan Rumah Terbaik</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Fonts: Inter -->
@@ -530,7 +530,7 @@
             <!-- Lokasi -->
             <div>
                 <h4 class="text-lg font-semibold mb-4">Lokasi</h4>
-                <p class="text-gray-300 text-sm">ðŸ“ Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
+                <p class="text-gray-300 text-sm">Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
             </div>
             <!-- Footer House Photo -->
             <div>
@@ -542,7 +542,7 @@
             </div>
         </div>
         <div class="border-t border-gray-600 text-center py-5 text-gray-400 text-xs">
-            Â© {{ date('Y') }} Bukit Shangrilla Asri. All rights reserved.
+            © {{ date('Y') }} Bukit Shangrilla Asri. All rights reserved.
         </div>
     </footer>
 

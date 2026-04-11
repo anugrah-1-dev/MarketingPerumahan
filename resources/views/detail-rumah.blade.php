@@ -1,6 +1,6 @@
 ﻿@extends('layouts.app')
 @section('title')
-    Detail Rumah â€“ Blok {{ $unit['blok'] ?? '' }} â€“ Bukit Shangrilla Asri
+    Detail Rumah - Blok {{ $unit['blok'] ?? '' }} - Bukit Shangrilla Asri
 @endsection
 
 @section('content')
@@ -176,7 +176,7 @@
     </div>
 
     {{-- ================================================================
-     POPUP FORM DETAIL â€“ Kumpulkan nama & HP sebelum membuka WhatsApp
+     POPUP FORM DETAIL - Kumpulkan nama & HP sebelum membuka WhatsApp
      ================================================================ --}}
     <div id="wa-detail-modal"
          class="fixed inset-0 z-[9999] flex items-center justify-center p-4 hidden"

@@ -1,5 +1,5 @@
 ﻿@extends('layouts.affiliate')
-@section('title', 'Daftar Prospek â€" Bukit Shangrilla Asri')
+@section('title', 'Daftar Prospek - Bukit Shangrilla Asri')
 
 @push('styles')
 <style>
@@ -250,7 +250,7 @@
     <div class="filter-bar">
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Cari IP, browser, page URLâ€¦" oninput="filterTable()">
+            <input type="text" id="searchInput" placeholder="Cari IP, browser, page URL..." oninput="filterTable()">
         </div>
         <select class="filter-select" id="filterStatus" onchange="filterTable()">
             <option value="">Semua Status</option>

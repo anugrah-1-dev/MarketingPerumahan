@@ -6,7 +6,7 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('assets/admin/css/tiperumah.css') }}">
 <style>
-/* -- Tipe Rumah â€“ Responsive Overrides untuk Affiliate Layout -- */
+/* -- Tipe Rumah - Responsive Overrides untuk Affiliate Layout -- */
 .p-6 { padding: 24px; }
 .tr-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tr-table { min-width: 680px; }

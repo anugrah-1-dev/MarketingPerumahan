@@ -1,5 +1,5 @@
 ﻿@extends('layouts.affiliate')
-@section('title', 'Pengisian Data Klien â€“ Bukit Shangrilla Asri')
+@section('title', 'Pengisian Data Klien - Bukit Shangrilla Asri')
 
 @push('styles')
 <style>

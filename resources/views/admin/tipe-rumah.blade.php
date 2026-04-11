@@ -303,7 +303,7 @@ function trOpenEditModal(data) {
     var sertSelect = form.querySelector('[name="sertifikat"]');
     if (sertSelect) sertSelect.value = data.sertifikat || 'SHM';
 
-    // Fasilitas â€“ isi ulang daftar dari array
+    // Fasilitas - isi ulang daftar dari array
     var fasilitasList = form.querySelector('.fasilitas-list');
     if (fasilitasList) {
         fasilitasList.innerHTML = '';

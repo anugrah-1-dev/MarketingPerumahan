@@ -1,5 +1,5 @@
 ﻿@extends('layouts.affiliate')
-@section('title', 'Tautan Afiliasi Saya â€“ Bukit Shangrilla Asri')
+@section('title', 'Tautan Afiliasi Saya - Bukit Shangrilla Asri')
 
 @push('styles')
 <style>
@@ -292,7 +292,7 @@
     $user      = auth()->user();
     $refCode   = $user->referral_code ?? 'BSA-????';
     $linkUrl   = $user->referral_link ?? url('/ref/' . $refCode);
-    $joinDate  = $user->created_at ? $user->created_at->translatedFormat('d F Y') : 'â€“';
+    $joinDate  = $user->created_at ? $user->created_at->translatedFormat('d F Y') : '-';
     $qrUrl     = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&format=png&data=' . urlencode($linkUrl);
     $shareText = 'Temukan rumah impianmu di Bukit Shangrilla Asri! Cek di sini: ' . $linkUrl;
 @endphp
@@ -380,7 +380,7 @@
 
             <div class="info-row">
                 <span class="info-label">Nama</span>
-                <span class="info-val">{{ $user->name ?? 'â€“' }}</span>
+                <span class="info-val">{{ $user->name ?? '-' }}</span>
             </div>
             <div class="info-row">
                 <span class="info-label">Kode Referral</span>
