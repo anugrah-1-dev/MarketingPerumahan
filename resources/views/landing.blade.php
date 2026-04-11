@@ -355,6 +355,44 @@
     </section>
 
     {{-- ================================================================
+     DENAH PERUMAHAN (Site Plan)
+     ================================================================ --}}
+    @if(!empty($denahImage))
+    <section id="denah" class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
+        <h2 class="text-[#393939] text-[28px] lg:text-[36px] font-bold mb-2">Denah Perumahan</h2>
+        <p class="text-[#676767] text-[15px] mb-8">Lihat tata letak kawasan dan posisi unit yang tersedia di Bukit Shangrilla Asri.</p>
+
+        <div class="bg-white p-4 lg:p-6 rounded-[24px] border border-[#E9E9E9] shadow-[0_18px_36px_rgba(0,0,0,0.06)] text-center">
+            <img src="{{ asset($denahImage) }}" alt="Denah Perumahan Bukit Shangrilla Asri"
+                 class="w-full rounded-[16px] cursor-pointer transition-transform duration-300 hover:scale-[1.01]"
+                 style="max-height:700px;object-fit:contain;"
+                 onclick="openDenahModal(this.src)"
+                 onerror="this.parentElement.style.display='none';">
+            <p class="text-[#94a3b8] text-xs mt-3">Klik gambar untuk memperbesar</p>
+        </div>
+    </section>
+
+    {{-- Denah Zoom Modal --}}
+    <div id="denahModal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;cursor:zoom-out;" onclick="closeDenahModal()">
+        <img id="denahModalImg" src="" alt="Denah Perumahan"
+             style="max-width:95vw;max-height:95vh;border-radius:16px;object-fit:contain;box-shadow:0 24px 64px rgba(0,0,0,.6);">
+        <button style="position:absolute;top:16px;right:16px;width:40px;height:40px;background:rgba(0,0,0,.55);border:none;border-radius:50%;color:#fff;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);" aria-label="Tutup">&#x2715;</button>
+    </div>
+    <script>
+    function openDenahModal(src){
+        document.getElementById('denahModalImg').src=src;
+        document.getElementById('denahModal').style.display='flex';
+        document.body.style.overflow='hidden';
+    }
+    function closeDenahModal(){
+        document.getElementById('denahModal').style.display='none';
+        document.body.style.overflow='';
+    }
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDenahModal();}});
+    </script>
+    @endif
+
+    {{-- ================================================================
      SOCIAL MEDIA SHOWCASE — infinite auto-scroll carousel
      ================================================================ --}}
     @if($socialMedias->isNotEmpty())

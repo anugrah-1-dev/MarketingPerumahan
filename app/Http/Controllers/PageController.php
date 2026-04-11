@@ -42,8 +42,9 @@ class PageController extends Controller
         $socialMedias    = SocialMedia::aktif()->get();
         $unitStats       = Unit::stats();
         $heroSlides      = $this->resolveHeroSlides();
+        $denahImage      = Setting::get('denah_image', '');
 
-        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats', 'heroSlides'));
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats', 'heroSlides', 'denahImage'));
     }
 
 
@@ -73,6 +74,7 @@ class PageController extends Controller
         $socialMedias    = SocialMedia::aktif()->get();
         $unitStats       = Unit::stats();
         $heroSlides      = $this->resolveHeroSlides();
+        $denahImage      = Setting::get('denah_image', '');
 
         // Catat agent ke session agar tersedia di halaman detail
         session([
@@ -84,7 +86,7 @@ class PageController extends Controller
         // Baca ?ref= dari query string dan simpan ke session + cookie
         $this->handleRefParam($request);
 
-        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats', 'heroSlides'));
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats', 'heroSlides', 'denahImage'));
     }
 
     private function resolveHeroSlides(): array

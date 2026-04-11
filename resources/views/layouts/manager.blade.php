@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Manager') – Properti Management</title>
+    <title>@yield('title', 'Manajer') – Manajemen Properti</title>
     <link rel="stylesheet" href="{{ asset('assets/manager/css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @stack('styles')
@@ -13,7 +13,7 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>Properti Manager</h2>
+            <h2>Manajer Properti</h2>
             <button class="toggle-btn" id="toggleSidebar">
                 <i class="fas fa-bars"></i>
             </button>
@@ -21,11 +21,11 @@
         <nav class="sidebar-nav">
             <a href="{{ route('manager.dashboard') }}" class="nav-item {{ request()->routeIs('manager.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-home"></i>
-                <span>Dashboard</span>
+                <span>Dasbor</span>
             </a>
             <a href="{{ route('manager.agents') }}" class="nav-item {{ request()->routeIs('manager.agents*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
-                <span>Manajemen Agent</span>
+                <span>Manajemen Agen</span>
             </a>
             <a href="{{ route('manager.tipe-rumah') }}" class="nav-item {{ request()->routeIs('manager.tipe-rumah*') ? 'active' : '' }}">
                 <i class="fas fa-home"></i>
@@ -37,11 +37,11 @@
             </a>
             <a href="{{ route('manager.pengisian-data') }}" class="nav-item {{ request()->routeIs('manager.pengisian-data') ? 'active' : '' }}">
                 <i class="fas fa-clipboard-list"></i>
-                <span>Pengisian Data Client</span>
+                <span>Pengisian Data Klien</span>
             </a>
             <a href="{{ route('manager.users') }}" class="nav-item {{ request()->routeIs('manager.users*') ? 'active' : '' }}">
                 <i class="fas fa-user-lock"></i>
-                <span>Manajemen Users</span>
+                <span>Manajemen Pengguna</span>
             </a>
             <a href="{{ route('manager.tracking') }}" class="nav-item {{ request()->routeIs('manager.tracking') ? 'active' : '' }}">
                 <i class="fas fa-mouse-pointer"></i>
@@ -53,11 +53,15 @@
             </a>
             <a href="{{ route('manager.social-media') }}" class="nav-item {{ request()->routeIs('manager.social-media*') ? 'active' : '' }}">
                 <i class="fas fa-share-alt"></i>
-                <span>Social Media</span>
+                <span>Media Sosial</span>
             </a>
             <a href="{{ route('manager.hero-slides') }}" class="nav-item {{ request()->routeIs('manager.hero-slides*') ? 'active' : '' }}">
                 <i class="fas fa-images"></i>
-                <span>Hero Slider</span>
+                <span>Slider Utama</span>
+            </a>
+            <a href="{{ route('manager.denah') }}" class="nav-item {{ request()->routeIs('manager.denah*') ? 'active' : '' }}">
+                <i class="fas fa-map"></i>
+                <span>Denah Perumahan</span>
             </a>
             <a href="{{ route('manager.settings') }}" class="nav-item {{ request()->routeIs('manager.settings*') ? 'active' : '' }}">
                 <i class="fas fa-cog"></i>
@@ -76,7 +80,7 @@
                 @csrf
                 <button type="submit" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>
@@ -90,7 +94,7 @@
                 <button class="mobile-toggle" id="mobileToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h1>@yield('page-title', 'Dashboard')</h1>
+                <h1>@yield('page-title', 'Dasbor')</h1>
             </div>
             <div class="header-right">
                 <div class="user-info">

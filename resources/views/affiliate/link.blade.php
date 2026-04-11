@@ -1,5 +1,5 @@
 @extends('layouts.affiliate')
-@section('title', 'Link Affiliate Saya – Bukit Shangrilla Asri')
+@section('title', 'Link Afiliasi Saya – Bukit Shangrilla Asri')
 
 @push('styles')
 <style>
@@ -301,7 +301,7 @@
 
     {{-- Header --}}
     <div class="link-header">
-        <h1>Link Affiliate Saya</h1>
+        <h1>Link Afiliasi Saya</h1>
         <p>Share kode atau link berikut kepada calon pembeli untuk mendapatkan komisi</p>
     </div>
 
@@ -317,7 +317,7 @@
             </div>
         </div>
 
-        <div class="box-sublabel">🔗 Link Affiliate</div>
+        <div class="box-sublabel">🔗 Link Afiliasi</div>
         <div class="link-input-row">
             <input type="text" id="affiliateLink" value="{{ $linkUrl }}" readonly>
             <button class="copy-btn" id="copyBtn" onclick="copyLink()">
@@ -348,7 +348,7 @@
         </div>
         <div class="klik-stat-card">
             <div class="ks-icon">🔥</div>
-            <div class="ks-label">Leads Tertarik</div>
+            <div class="ks-label">Prospek Tertarik</div>
             <div class="ks-val">{{ $klikInterest ?? 0 }}</div>
             <div class="ks-sub">Status: Interested</div>
         </div>
@@ -376,7 +376,7 @@
 
         {{-- Info Affiliate --}}
         <div class="info-card">
-            <h3><i class="fas fa-id-card" style="color:#3d81af;margin-right:6px;"></i>Informasi Affiliate</h3>
+            <h3><i class="fas fa-id-card" style="color:#3d81af;margin-right:6px;"></i>Informasi Afiliasi</h3>
 
             <div class="info-row">
                 <span class="info-label">Nama</span>

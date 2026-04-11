@@ -59,4 +59,50 @@ class SettingController extends Controller
         return redirect()->route($route)
                          ->with('success', 'Pengaturan berhasil diperbarui!');
     }
+
+    /**
+     * GET /admin/denah
+     * Tampilkan halaman kelola denah perumahan.
+     */
+    public function denah()
+    {
+        $denahImage = Setting::get('denah_image', '');
+        $isManager  = request()->routeIs('manager.*');
+        $view       = $isManager ? 'manager.denah' : 'admin.denah';
+        return view($view, compact('denahImage'));
+    }
+
+    /**
+     * POST /admin/denah
+     * Upload dan simpan gambar denah perumahan.
+     */
+    public function updateDenah(Request $request)
+    {
+        $request->validate([
+            'denah_image' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+        ], [
+            'denah_image.required' => 'Gambar denah wajib diunggah.',
+            'denah_image.image'    => 'File harus berupa gambar.',
+            'denah_image.mimes'    => 'Format gambar harus JPG, JPEG, PNG, atau WebP.',
+            'denah_image.max'      => 'Ukuran gambar maksimal 5 MB.',
+        ]);
+
+        // Hapus file lama jika ada
+        $oldPath = Setting::get('denah_image', '');
+        if ($oldPath && file_exists(public_path($oldPath))) {
+            @unlink(public_path($oldPath));
+        }
+
+        // Simpan file baru
+        $file     = $request->file('denah_image');
+        $filename = 'denah_' . time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('uploads/denah'), $filename);
+        $relativePath = 'uploads/denah/' . $filename;
+
+        Setting::set('denah_image', $relativePath);
+
+        $route = request()->routeIs('manager.*') ? 'manager.denah' : 'admin.denah';
+        return redirect()->route($route)
+                         ->with('success', 'Gambar denah berhasil diperbarui!');
+    }
 }

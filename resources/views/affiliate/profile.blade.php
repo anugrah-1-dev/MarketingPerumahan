@@ -1,5 +1,5 @@
 @extends('layouts.affiliate')
-@section('title', 'Profile & Akun')
+@section('title', 'Profil & Akun')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('assets/affiliate/css/profile.css') }}?v={{ file_exists(public_path('assets/affiliate/css/profile.css')) ? filemtime(public_path('assets/affiliate/css/profile.css')) : '1.0' }}">
@@ -10,7 +10,7 @@
 
     {{-- ── Header ── --}}
     <div class="page-header">
-        <h1 class="page-title">Profile & Akun</h1>
+        <h1 class="page-title">Profil & Akun</h1>
         <p class="page-subtitle">Kelola informasi akun dan pengaturan Anda</p>
     </div>
 
@@ -140,7 +140,7 @@
                     @endif
 
                     <div class="form-group">
-                        <label for="password_lama">Password Lama</label>
+                        <label for="password_lama">Kata Sandi Lama</label>
                         <div class="input-icon-wrap input-password-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
                             <input type="password" id="password_lama" name="password_lama"
@@ -153,7 +153,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password_baru">Password Baru</label>
+                        <label for="password_baru">Kata Sandi Baru</label>
                         <div class="input-icon-wrap input-password-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
                             <input type="password" id="password_baru" name="password_baru"
@@ -166,7 +166,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password_baru_confirmation">Konfirmasi Password Baru</label>
+                        <label for="password_baru_confirmation">Konfirmasi Kata Sandi Baru</label>
                         <div class="input-icon-wrap input-password-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
                             <input type="password" id="password_baru_confirmation" name="password_baru_confirmation"
@@ -180,7 +180,7 @@
 
                     <button type="submit" class="btn-save btn-password">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
-                        Ganti Password
+                        Ganti Kata Sandi
                     </button>
                 </form>
             </div>

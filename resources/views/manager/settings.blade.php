@@ -87,7 +87,7 @@
 
             <h3 style="font-size:1.1rem; font-weight:700; color:#1e293b; margin-bottom:.4rem;">
                 <i class="fas fa-share-alt" style="color:#6366f1; margin-right:6px;"></i>
-                Akun Social Media
+                Akun Media Sosial
             </h3>
             <p style="font-size:.85rem; color:#64748b; margin-bottom:1.5rem; line-height:1.6;">
                 URL akun social media perusahaan yang akan ditampilkan di footer halaman website.
@@ -144,7 +144,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Simpan Social Media
+                    <i class="fas fa-save"></i> Simpan Media Sosial
                 </button>
             </form>
 

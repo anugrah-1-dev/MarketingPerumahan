@@ -57,7 +57,7 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nama Customer</th>
+                    <th>Nama Pelanggan</th>
                     <th>Tipe Rumah</th>
                     <th>Harga Jual</th>
                     <th>Tanggal Closing</th>
@@ -67,7 +67,7 @@
             <tbody>
                 @forelse($closings as $closing)
                 <tr>
-                    <td data-label="Nama Customer">
+                    <td data-label="Nama Pelanggan">
                         <div style="font-weight:600; color:#1e293b;">{{ $closing->customer_name }}</div>
                         <div class="secondary">{{ $closing->customer_phone ?? '-' }}</div>
                     </td>

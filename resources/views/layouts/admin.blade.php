@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin') – Properti Management</title>
+    <title>@yield('title', 'Admin') – Manajemen Properti</title>
     <link rel="stylesheet" href="{{ asset('assets/admin/css/styles.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @stack('styles')
@@ -21,11 +21,11 @@
         <nav class="sidebar-nav">
             <a href="{{ route('admin.dashboard') }}" class="nav-item {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-home"></i>
-                <span>Dashboard</span>
+                <span>Dasbor</span>
             </a>
             <a href="{{ route('admin.agents') }}" class="nav-item {{ request()->routeIs('admin.agents') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
-                <span>Manajemen Agent</span>
+                <span>Manajemen Agen</span>
             </a>
             <a href="{{ route('admin.tipe-rumah') }}" class="nav-item {{ request()->routeIs('admin.tipe-rumah*') ? 'active' : '' }}">
                 <i class="fas fa-home"></i>
@@ -37,11 +37,11 @@
             </a>
             <a href="{{ route('admin.pengisian-data') }}" class="nav-item {{ request()->routeIs('admin.pengisian-data') ? 'active' : '' }}">
                 <i class="fas fa-clipboard-list"></i>
-                <span>Pengisian Data Client</span>
+                <span>Pengisian Data Klien</span>
             </a>
             <a href="{{ route('admin.users') }}" class="nav-item {{ request()->routeIs('admin.users*') ? 'active' : '' }}">
                 <i class="fas fa-user-lock"></i>
-                <span>Manajemen Users</span>
+                <span>Manajemen Pengguna</span>
             </a>
             <a href="{{ route('admin.tracking') }}" class="nav-item {{ request()->routeIs('admin.tracking') ? 'active' : '' }}">
                 <i class="fas fa-mouse-pointer"></i>
@@ -53,11 +53,15 @@
             </a>
             <a href="{{ route('admin.social-media') }}" class="nav-item {{ request()->routeIs('admin.social-media*') ? 'active' : '' }}">
                 <i class="fas fa-share-alt"></i>
-                <span>Social Media</span>
+                <span>Media Sosial</span>
             </a>
             <a href="{{ route('admin.hero-slides') }}" class="nav-item {{ request()->routeIs('admin.hero-slides*') ? 'active' : '' }}">
                 <i class="fas fa-images"></i>
-                <span>Hero Slider</span>
+                <span>Slider Utama</span>
+            </a>
+            <a href="{{ route('admin.denah') }}" class="nav-item {{ request()->routeIs('admin.denah*') ? 'active' : '' }}">
+                <i class="fas fa-map"></i>
+                <span>Denah Perumahan</span>
             </a>
             <a href="{{ route('admin.settings') }}" class="nav-item {{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
                 <i class="fas fa-cog"></i>
@@ -76,7 +80,7 @@
                 @csrf
                 <button type="submit" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>
@@ -90,7 +94,7 @@
                 <button class="mobile-toggle" id="mobileToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h1>@yield('page-title', 'Dashboard')</h1>
+                <h1>@yield('page-title', 'Dasbor')</h1>
             </div>
             <div class="header-right">
                 <div class="user-info">

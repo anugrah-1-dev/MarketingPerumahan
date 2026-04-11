@@ -68,7 +68,7 @@
                     <table class="table">
                         <thead>
                         <tr>
-                            <th style="width:120px;">Preview</th>
+                            <th style="width:120px;">Pratinjau</th>
                             <th>Detail</th>
                             <th style="width:120px;">Status</th>
                             <th style="width:360px;">Aksi</th>

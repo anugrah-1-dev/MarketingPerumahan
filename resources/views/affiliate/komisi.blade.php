@@ -62,7 +62,7 @@
             </ul>
         </div>
         <div class="info-box">
-            <h3>👤 Informasi Agent</h3>
+            <h3>👤 Informasi Agen</h3>
             <ul>
                 <li>Nama: <strong>{{ $agent->nama }}</strong></li>
                 <li>Rate Komisi: <strong>{{ $commissionRate }}%</strong></li>
@@ -90,7 +90,7 @@
                 <tr>
                     <th>Tanggal Closing</th>
                     <th>Tipe Rumah</th>
-                    <th>Customer</th>
+                    <th>Pelanggan</th>
                     <th>Harga Jual</th>
                     <th>Rate Komisi</th>
                     <th>Komisi</th>
@@ -102,7 +102,7 @@
                 <tr>
                     <td data-label="Tanggal Closing">{{ $closing->tanggal_closing?->format('d M Y') ?? '-' }}</td>
                     <td data-label="Tipe Rumah">{{ $closing->tipeRumah?->nama_tipe ?? '-' }}</td>
-                    <td data-label="Customer">
+                    <td data-label="Pelanggan">
                         <div><strong>{{ $closing->customer_name }}</strong></div>
                         <div style="font-size:.8rem;color:#6b7280">{{ $closing->customer_phone }}</div>
                     </td>

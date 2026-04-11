@@ -26,7 +26,7 @@
     <!-- Agent Summary (Rekap Per Agent) -->
     <div class="card" style="margin-bottom:1.5rem">
         <div class="card-header" style="display:flex;align-items:center;gap:.5rem">
-            <h2><i class="fas fa-users" style="color:#3d81af;margin-right:.5rem"></i>Rekap Penjualan Per Agent</h2>
+            <h2><i class="fas fa-users" style="color:#3d81af;margin-right:.5rem"></i>Rekap Penjualan Per Agen</h2>
         </div>
         <div class="card-body">
             <div id="agentSummaryContainer" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1rem;min-height:60px">
@@ -47,7 +47,7 @@
                 <option value="last">Bulan Lalu</option>
             </select>
             <select id="filterAgent" onchange="filterClosings()">
-                <option value="all">Semua Agent</option>
+                <option value="all">Semua Agen</option>
             </select>
             <select id="filterPaymentStatus" onchange="filterClosings()">
                 <option value="all">Semua Status</option>
@@ -63,7 +63,7 @@
         <div class="card-header">
             <h2>Data Closing</h2>
             <button class="btn btn-success" onclick="exportClosings()">
-                <i class="fas fa-download"></i> Export Data
+                <i class="fas fa-download"></i> Ekspor Data
             </button>
         </div>
         <div class="card-body">
@@ -71,7 +71,7 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Tanggal</th><th>Agent</th><th>Customer</th>
+                            <th>Tanggal</th><th>Agen</th><th>Pelanggan</th>
                             <th>Properti</th><th>Harga Jual</th><th>Komisi</th>
                             <th>Status Pembayaran</th><th>Aksi</th>
                         </tr>
@@ -97,9 +97,9 @@
                         <input type="date" id="closingDate" required>
                     </div>
                     <div class="form-group">
-                        <label>Agent *</label>
+                        <label>Agen *</label>
                         <select id="closingAgent" required onchange="updateCommissionPreview()">
-                            <option value="">Pilih Agent</option>
+                            <option value="">Pilih Agen</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -109,11 +109,11 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Nama Customer *</label>
+                        <label>Nama Pelanggan *</label>
                         <input type="text" id="customerName" required>
                     </div>
                     <div class="form-group">
-                        <label>Telepon Customer *</label>
+                        <label>Telepon Pelanggan *</label>
                         <input type="tel" id="customerPhone" required placeholder="08xxxxxxxxxx">
                     </div>
                     <div class="form-group">
@@ -137,7 +137,7 @@
                         <h4 style="margin-bottom:.5rem;color:#166534">💰 Perhitungan Komisi</h4>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.875rem">
                             <div>Harga Jual:</div><div style="font-weight:600" id="previewPrice">Rp 0</div>
-                            <div>Rate Komisi:</div><div style="font-weight:600" id="previewRate">0%</div>
+                            <div>Tarif Komisi:</div><div style="font-weight:600" id="previewRate">0%</div>
                             <div style="border-top:1px solid #86efac;padding-top:.5rem">Total Komisi:</div>
                             <div style="border-top:1px solid #86efac;padding-top:.5rem;font-weight:700;color:#166534;font-size:1.125rem" id="previewCommission">Rp 0</div>
                         </div>

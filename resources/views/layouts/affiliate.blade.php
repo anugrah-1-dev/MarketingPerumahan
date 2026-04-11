@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Affiliate Panel') – Perumahan Premium</title>
+    <title>@yield('title', 'Panel Afiliasi') – Perumahan Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('assets/affiliate/css/sidebar.css') }}?v={{ file_exists(public_path('assets/affiliate/css/sidebar.css')) ? filemtime(public_path('assets/affiliate/css/sidebar.css')) : '1.0' }}">
@@ -14,12 +14,12 @@
 
     <!-- ── Mobile Top Bar (hanya terlihat di ≤1024px) ── -->
     <div class="mobile-topbar">
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu" onclick="toggleSidebar()">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu" onclick="toggleSidebar()">
             <span></span>
             <span></span>
             <span></span>
         </button>
-        <div class="topbar-title">Affiliate Panel</div>
+        <div class="topbar-title">Panel Afiliasi</div>
     </div>
 
     <!-- ── Overlay (untuk menutup sidebar saat klik di luar) ── -->
@@ -28,14 +28,14 @@
     <!-- ── Sidebar ── -->
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-brand">
-            <h2>Affiliate Panel</h2>
+            <h2>Panel Afiliasi</h2>
             <p>Perumahan premium</p>
         </div>
 
         <nav class="sidebar-nav">
             <a href="{{ route('affiliate.dashboard') }}" class="nav-item {{ request()->routeIs('affiliate.dashboard') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-th-large"></i></span>
-                Dashboard
+                Dasbor
             </a>
             <a href="{{ route('affiliate.link') }}" class="nav-item {{ request()->routeIs('affiliate.link') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-link"></i></span>
@@ -59,7 +59,7 @@
             </a>
             <a href="{{ route('affiliate.profile') }}" class="nav-item {{ request()->routeIs('affiliate.profile') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-user-circle"></i></span>
-                Profile
+                Profil
             </a>
         </nav>
 
@@ -68,7 +68,7 @@
                 @csrf
                 <button type="submit" class="logout-btn">
                     <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
+                    <span>Keluar</span>
                 </button>
             </form>
         </div>

@@ -1,5 +1,5 @@
 @extends('layouts.affiliate')
-@section('title', 'Dashboard Affiliate')
+@section('title', 'Dasbor Afiliasi')
 
 @push('styles')
 <style>
@@ -123,7 +123,7 @@
 
     {{-- Header --}}
     <div class="dash-header">
-        <h1>Dashboard Affiliate</h1>
+        <h1>Dasbor Afiliasi</h1>
         <p>Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong> 👋</p>
     </div>
 
@@ -144,7 +144,7 @@
         <div class="stat-card">
             <div class="stat-icon blue"><i class="fas fa-users"></i></div>
             <div class="stat-info">
-                <div class="label">Total Leads</div>
+                <div class="label">Total Prospek</div>
                 <div class="value">{{ $stats['total_leads'] }}</div>
                 @if($stats['conversion_rate'] > 0)
                     <span class="badge" style="background:rgba(59,130,246,0.12);color:#2563eb;">{{ $stats['conversion_rate'] }}% Conv.</span>
@@ -172,7 +172,7 @@
     {{-- Link Saya --}}
     <div class="link-box">
         <div>
-            <div class="link-label">🔗 Link Affiliate Utama Saya</div>
+            <div class="link-label">🔗 Link Afiliasi Utama Saya</div>
             <div class="link-url">{{ auth()->user()->referral_link }}</div>
         </div>
         <button class="copy-btn" onclick="navigator.clipboard.writeText('{{ auth()->user()->referral_link }}'); alert('Link berhasil disalin!');">
@@ -196,8 +196,8 @@
                     };
                     $statusText = match($activity->status) {
                         'new' => 'Klik link WhatsApp baru',
-                        'follow-up' => 'Proses Follow-Up Leads',
-                        'interested' => 'Leads tertarik produk',
+                        'follow-up' => 'Proses Tindak Lanjut Prospek',
+                        'interested' => 'Prospek tertarik produk',
                         'closed' => 'Closing berhasil',
                         default => 'Aktivitas WhatsApp'
                     };

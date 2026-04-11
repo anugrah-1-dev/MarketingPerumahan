@@ -1,6 +1,6 @@
 @extends('layouts.admin')
-@section('title', 'Manajemen Agent')
-@section('page-title', 'Manajemen Agent')
+@section('title', 'Manajemen Agen')
+@section('page-title', 'Manajemen Agen')
 
 @section('content')
     {{-- CSRF token untuk dipakai oleh agents.js --}}
@@ -9,11 +9,11 @@
     <!-- Action Bar -->
     <div class="action-bar">
         <button class="btn btn-primary" onclick="openAddAgentModal()">
-            <i class="fas fa-plus"></i> Tambah Agent
+            <i class="fas fa-plus"></i> Tambah Agen
         </button>
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchAgent" placeholder="Cari agent..." onkeyup="searchAgents()">
+            <input type="text" id="searchAgent" placeholder="Cari agen..." onkeyup="searchAgents()">
         </div>
     </div>
 
@@ -24,9 +24,9 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Agent</th>
+                            <th>Agen</th>
                             <th>Email / Telepon</th>
-                            <th>Link Affiliate</th>
+                            <th>Link Afiliasi</th>
                             <th>Komisi</th>
                             <th>Status</th>
                             <th>Aksi</th>
@@ -48,7 +48,7 @@
     <div id="agentModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modalTitle">Tambah Affiliate</h2>
+                <h2 id="modalTitle">Tambah Afiliasi</h2>
                 <button class="close-btn" onclick="closeAgentModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
@@ -64,9 +64,9 @@
                     <input type="hidden" id="agentJabatan" value="Affiliate">
 
                     <div class="form-group" id="groupPassword">
-                        <label for="agentPassword">Password *</label>
-                        <input type="password" id="agentPassword" placeholder="Password untuk login Affiliate">
-                        <small style="color:#94a3b8; display:none;" id="helpPasswordEdit">Kosongkan jika tidak ingin mengubah password.</small>
+                        <label for="agentPassword">Kata Sandi *</label>
+                        <input type="password" id="agentPassword" placeholder="Kata sandi untuk login Afiliasi">
+                        <small style="color:#94a3b8; display:none;" id="helpPasswordEdit">Kosongkan jika tidak ingin mengubah kata sandi.</small>
                     </div>
 
                     <div class="form-group">
