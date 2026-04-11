@@ -10,7 +10,7 @@
 
     {{-- -- Header -- --}}
     <div class="page-header">
-        <h1 class="page-title">Profile & Akun</h1>
+        <h1 class="page-title">Profil & Akun</h1>
         <p class="page-subtitle">Kelola informasi akun dan pengaturan Anda</p>
     </div>
 

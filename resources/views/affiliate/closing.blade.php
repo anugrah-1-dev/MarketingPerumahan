@@ -67,22 +67,22 @@
             <tbody>
                 @forelse($closings as $closing)
                 <tr>
-                    <td>
+                    <td data-label="Nama Pelanggan">
                         <div style="font-weight:600; color:#1e293b;">{{ $closing->customer_name }}</div>
                         <div class="secondary">{{ $closing->customer_phone ?? '-' }}</div>
                     </td>
-                    <td>
+                    <td data-label="Tipe Rumah">
                         @if($closing->tipeRumah)
                             <span class="badge badge-wa">{{ $closing->tipeRumah->nama }}</span>
                         @else
                             <span class="badge">–</span>
                         @endif
                     </td>
-                    <td>Rp {{ number_format($closing->harga_jual, 0, ',', '.') }}</td>
-                    <td>
+                    <td data-label="Harga Jual">Rp {{ number_format($closing->harga_jual, 0, ',', '.') }}</td>
+                    <td data-label="Tanggal Closing">
                         {{ $closing->tanggal_closing ? $closing->tanggal_closing->format('d M Y') : '-' }}
                     </td>
-                    <td>
+                    <td data-label="Komisi">
                         <div style="font-weight: 600; color: #059669;">Rp {{ number_format($closing->komisi_nominal, 0, ',', '.') }}</div>
                         @if($closing->payment_status === 'paid-off')
                             <span class="badge badge-sudah" style="margin-top: 4px;">Lunas</span>

@@ -166,7 +166,7 @@ class TipeRumahController extends Controller
      */
     public function publicIndex()
     {
-        $tipeRumah = TipeRumah::latest()->get();
+        $tipeRumah = TipeRumah::orderBy('harga', 'asc')->get();
         return view('tipe-rumah', compact('tipeRumah'));
     }
 

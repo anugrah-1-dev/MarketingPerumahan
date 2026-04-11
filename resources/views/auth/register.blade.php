@@ -37,7 +37,7 @@
                         <label class="block text-sm font-semibold text-[#393939] mb-2">Daftar Sebagai</label>
                         <select name="role" class="input-field" required>
                             <option value="" disabled selected>Pilih peran Anda</option>
-                            <option value="affiliate" {{ old('role') == 'affiliate' ? 'selected' : '' }}>Affiliate</option>
+                            <option value="affiliate" {{ old('role') == 'affiliate' ? 'selected' : '' }}>Afiliasi</option>
                         </select>
                         @error('role')
                             <p class="text-red-500 text-xs mt-1">{{ $message }}</p>

@@ -51,6 +51,10 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::get('/settings',              [SettingController::class, 'index'])->name('settings');
     Route::post('/settings',             [SettingController::class, 'update'])->name('settings.update');
 
+    // ── Denah Perumahan ────────────────────────────────────────────────────
+    Route::get('/denah',                 [SettingController::class, 'denah'])->name('denah');
+    Route::post('/denah',                [SettingController::class, 'updateDenah'])->name('denah.update');
+
     // ── Manajemen Users ───────────────────────────────────────────────────
     Route::get('/users',                 [UserController::class, 'index'])->name('users');
     Route::post('/users',                [UserController::class, 'store'])->name('users.store');
@@ -111,6 +115,10 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     // ── Pengaturan ─────────────────────────────────────────────────────────
     Route::get('/settings',              [SettingController::class, 'index'])->name('settings');
     Route::post('/settings',             [SettingController::class, 'update'])->name('settings.update');
+
+    // ── Denah Perumahan ────────────────────────────────────────────────────
+    Route::get('/denah',                 [SettingController::class, 'denah'])->name('denah');
+    Route::post('/denah',                [SettingController::class, 'updateDenah'])->name('denah.update');
 
     // ── Tipe Rumah ────────────────────────────────────────────────────────
     Route::get('/tipe-rumah',            [TipeRumahController::class, 'index'])->name('tipe-rumah');

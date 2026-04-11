@@ -45,7 +45,7 @@
                     </select>
                 </div>
                 <div class="filter-item">
-                    <label>Status Lead</label>
+                    <label>Status Prospek</label>
                     <select id="filterStatus" onchange="filterClicks()">
                         <option value="all">Semua Status</option>
                         <option value="new">Baru</option>

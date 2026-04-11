@@ -30,28 +30,30 @@ class AgentController extends Controller
         $agents = $users->map(function ($user) {
             $agent = $user->agent;
 
-            if (! $agent) {
-                try {
-                    $slug = Str::slug($user->name);
-                    $base = $slug;
-                    $i = 1;
-                    while (Agent::where('slug', $slug)->exists()) {
-                        $slug = $base . '-' . $i++;
+                // Jika user affiliate belum punya Agent record, buat otomatis
+                if (!$agent) {
+                    try {
+                        $slug = \Illuminate\Support\Str::slug($user->name);
+                        $base = $slug;
+                        $i    = 1;
+                        while (Agent::where('slug', $slug)->exists()) {
+                            $slug = $base . '-' . $i++;
+                        }
+                        $agent = Agent::create([
+                            'user_id'    => $user->id,
+                            'nama'       => $user->name,
+                            'jabatan'    => 'Affiliate',
+                            'slug'       => $slug,
+                            'aktif'      => true,
+                            'email'      => $user->email,
+                            'phone'      => null,
+                            'commission' => 0,
+                        ]);
+                    } catch (\Throwable $e) {
+                        // Lewati user ini jika gagal membuat agent record
+                        return null;
                     }
-                    $agent = Agent::create([
-                        'user_id' => $user->id,
-                        'nama' => $user->name,
-                        'jabatan' => 'Affiliate',
-                        'slug' => $slug,
-                        'aktif' => true,
-                        'email' => $user->email,
-                        'phone' => null,
-                        'commission' => 0,
-                    ]);
-                } catch (\Throwable $e) {
-                    return null;
                 }
-            }
 
             if (! $agent || ! $agent->id) {
                 return null;
@@ -88,7 +90,7 @@ class AgentController extends Controller
             'password'   => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
             'jabatan'    => 'nullable|string|max:100', // hidden, default Affiliate
             'phone'      => 'nullable|string|max:20',
-            'commission' => 'nullable|numeric|min:0|max:100',
+            'commission' => 'nullable|numeric|min:1|max:100',
         ]);
 
         // Auto-generate referral code using Model's method
@@ -120,7 +122,7 @@ class AgentController extends Controller
             'aktif'      => true,
             'email'      => $request->email,
             'phone'      => $request->phone,
-            'commission' => $request->commission ?? 0,
+            'commission' => $request->commission ?? 1,
         ]);
 
         return response()->json($agent, 201);
@@ -152,7 +154,7 @@ class AgentController extends Controller
             'password'   => ['nullable', Password::min(8)->letters()->mixedCase()->numbers()],
             'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
-            'commission' => 'nullable|numeric|min:0|max:100',
+            'commission' => 'nullable|numeric|min:1|max:100',
         ]);
 
         // 1. Update User first (if exists)
@@ -201,7 +203,7 @@ class AgentController extends Controller
                 'aktif'      => true,
                 'email'      => $request->email,
                 'phone'      => $request->phone,
-                'commission' => $request->commission ?? 0,
+                'commission' => $request->commission ?? 1,
             ]);
         }
 
@@ -248,7 +250,7 @@ class AgentController extends Controller
                     'aktif'      => false,
                     'email'      => $user->email,
                     'phone'      => null,
-                    'commission' => 0,
+                    'commission' => min(),
                 ]);
             } else {
                 $user->agent->aktif = !$user->agent->aktif;

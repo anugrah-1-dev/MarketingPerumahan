@@ -13,7 +13,7 @@
     <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2>Properti Manager</h2>
+            <h2>Manajer Properti</h2>
             <button class="toggle-btn" id="toggleSidebar">
                 <i class="fas fa-bars"></i>
             </button>

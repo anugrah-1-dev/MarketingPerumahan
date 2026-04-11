@@ -304,6 +304,8 @@
                    class="nav-pill {{ $isUnitPage ? 'active' : '' }}">Unit Tersedia</a>
                 <a href="{{ $isLanding ? '#fasilitas' : route('landing').'#fasilitas' }}"
                    class="nav-pill">Fasilitas</a>
+                <a href="{{ $isLanding ? '#denah' : route('landing').'#denah' }}"
+                   class="nav-pill">Denah</a>
                 <a href="{{ $isLanding ? '#sosial-media' : route('landing').'#sosial-media' }}"
                    class="nav-pill">Media Sosial</a>
                 <a href="{{ $isLanding ? '#lokasi' : route('landing').'#lokasi' }}"
@@ -362,6 +364,12 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#0B5E41]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
                     </span>
                     Fasilitas
+                </a>
+                <a href="{{ route('landing') }}#denah" class="drawer-link">
+                    <span class="drawer-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#0B5E41]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                    </span>
+                    Denah
                 </a>
                 <a href="{{ route('landing') }}#sosial-media" class="drawer-link">
                     <span class="drawer-icon">

@@ -220,3 +220,14 @@
         font-size: 22px;
     }
 }
+
+/* Mobile: convert table rows into stacked cards for better readability */
+@media (max-width: 600px) {
+    .history-card table thead { display: none; }
+    .history-card table, .history-card tbody, .history-card tr, .history-card td { display: block; width: 100%; }
+    .history-card tbody tr { margin-bottom: 12px; background: #fff; border-radius: 12px; padding: 12px 14px; box-shadow: 0 1px 6px rgba(16,24,40,0.04); }
+    .history-card td { padding: 6px 0; border-bottom: none; }
+    .history-card td::before { content: attr(data-label); display: block; font-size: 12px; color: #6b7280; margin-bottom: 6px; font-weight: 600; }
+    .history-card td[data-label="Komisi"] { color: #10b981; font-weight: 700; }
+    .history-card td[data-label="Harga Jual"]::before { content: "Harga Jual"; }
+}

@@ -127,31 +127,31 @@ function closeUserModal() {
 
 async function editUser(id) {
     try {
-        const resp  = await fetch('/admin/users', { headers: { 'Accept': 'application/json' } });
+        const resp = await fetch('/admin/users', { headers: { 'Accept': 'application/json' } });
         const users = await resp.json();
-        const user  = users.find(u => u.id === id);
-        if (!user) { alert('User tidak ditemukan.'); return; }
+        const user = users.find(u => u.id === id);
+        if (!user) { alert('Pengguna tidak ditemukan.'); return; }
 
         _allUsers = users;
 
         document.getElementById('userModalTitle').textContent = 'Edit User';
-        document.getElementById('userId').value    = user.id;
-        document.getElementById('userName').value  = user.name;
+        document.getElementById('userId').value = user.id;
+        document.getElementById('userName').value = user.name;
         document.getElementById('userEmail').value = user.email;
-        document.getElementById('userRole').value  = user.role;
-        document.getElementById('userPassword').value    = '';
+        document.getElementById('userRole').value = user.role;
+        document.getElementById('userPassword').value = '';
         document.getElementById('userPassword').required = false;
         document.getElementById('passwordLabel').textContent = 'Ganti Password';
-        document.getElementById('passwordHint').textContent  = 'Kosongkan jika tidak ingin mengganti password.';
+        document.getElementById('passwordHint').textContent = 'Kosongkan jika tidak ingin mengganti password.';
         document.getElementById('userModal').style.display = 'flex';
     } catch {
-        alert('Gagal memuat data user.');
+        alert('Gagal memuat data pengguna.');
     }
 }
 
 function togglePassword() {
     const input = document.getElementById('userPassword');
-    const icon  = document.getElementById('passwordEyeIcon');
+    const icon = document.getElementById('passwordEyeIcon');
     if (input.type === 'password') {
         input.type = 'text';
         icon.classList.replace('fa-eye', 'fa-eye-slash');
@@ -165,28 +165,28 @@ function togglePassword() {
 // CREATE / UPDATE
 // ──────────────────────────────────────────────────────────────
 async function saveUser() {
-    const id       = document.getElementById('userId').value;
-    const name     = document.getElementById('userName').value.trim();
-    const email    = document.getElementById('userEmail').value.trim();
+    const id = document.getElementById('userId').value;
+    const name = document.getElementById('userName').value.trim();
+    const email = document.getElementById('userEmail').value.trim();
     const password = document.getElementById('userPassword').value;
-    const role     = document.getElementById('userRole').value;
-    const isEdit   = !!id;
+    const role = document.getElementById('userRole').value;
+    const isEdit = !!id;
 
     if (!name || !email || !role) {
-        alert('Nama, Email, dan Role wajib diisi!');
+        alert('Nama, Email, dan Peran wajib diisi!');
         return;
     }
     if (!isEdit && !password) {
-        alert('Password wajib diisi untuk user baru!');
+        alert('Kata sandi wajib diisi untuk pengguna baru!');
         return;
     }
 
     const btn = document.getElementById('saveUserBtn');
-    btn.disabled  = true;
+    btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan…';
 
     try {
-        const url    = isEdit ? `/admin/users/${id}` : '/admin/users';
+        const url = isEdit ? `/admin/users/${id}` : '/admin/users';
         const method = isEdit ? 'PUT' : 'POST';
 
         const payload = { name, email, role };
@@ -196,7 +196,7 @@ async function saveUser() {
             method,
             headers: {
                 'Content-Type': 'application/json',
-                'Accept':       'application/json',
+                'Accept': 'application/json',
                 'X-CSRF-TOKEN': getCsrf(),
             },
             body: JSON.stringify(payload),
@@ -216,7 +216,7 @@ async function saveUser() {
     } catch {
         alert('Gagal menyimpan. Cek koneksi atau coba lagi.');
     } finally {
-        btn.disabled  = false;
+        btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
     }
 }
@@ -225,20 +225,20 @@ async function saveUser() {
 // DELETE
 // ──────────────────────────────────────────────────────────────
 async function deleteUser(id, name) {
-    if (!confirm(`Hapus user "${name}"? Tindakan ini tidak dapat dibatalkan!`)) return;
+    if (!confirm(`Hapus pengguna "${name}"? Tindakan ini tidak dapat dibatalkan!`)) return;
     try {
         const resp = await fetch(`/admin/users/${id}`, {
-            method:  'DELETE',
+            method: 'DELETE',
             headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
         });
         if (!resp.ok) {
             const err = await resp.json();
-            alert(err.message || 'Gagal menghapus user.');
+            alert(err.message || 'Gagal menghapus pengguna.');
             return;
         }
         await loadUsers();
     } catch {
-        alert('Gagal menghapus user.');
+        alert('Gagal menghapus pengguna.');
     }
 }
 

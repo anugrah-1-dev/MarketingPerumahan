@@ -423,7 +423,7 @@ async function saveClosing() {
                     formatCurrency(result.komisi_nominal ?? 0),
             );
         } else {
-            alert("Data closing berhasil diupdate!");
+            alert("Data closing berhasil diperbarui!");
         }
         closeClosingModal();
         await fetchAndRenderClosings();
@@ -585,11 +585,11 @@ function renderAgentSummary() {
 // -- Print / Export ---------------------------------------------------------
 
 function printClosing() {
-    alert("Fungsi cetak akan membuka halaman print preview.");
+    alert("Fungsi cetak akan membuka pratinjau cetak.");
 }
 
 function exportClosings() {
-    alert("Export data closing akan segera didownload...");
+    alert("Ekspor data closing akan segera diunduh...");
 }
 
 // -- Close modal on outside click -------------------------------------------

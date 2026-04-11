@@ -119,7 +119,7 @@
                                 @elseif($item->media_src)
                                     <span style="font-size:.78rem;color:#0f172a;font-weight:600;display:inline-flex;align-items:center;gap:6px;">
                                         <i class="fas {{ $item->media_type === 'video' ? 'fa-video' : 'fa-image' }}"></i>
-                                        Upload {{ $item->media_type === 'video' ? 'video' : 'foto' }}
+                                        Unggah {{ $item->media_type === 'video' ? 'video' : 'foto' }}
                                     </span>
                                 @else
                                     <span style="font-size:.78rem;color:#94a3b8;">Tidak ada sumber</span>
@@ -227,7 +227,7 @@
 
                 {{-- Media file --}}
                 <div style="margin-bottom:1.1rem;">
-                    <label style="display:block;font-weight:600;font-size:.875rem;color:#374151;margin-bottom:.45rem;">Upload Foto / Video</label>
+                    <label style="display:block;font-weight:600;font-size:.875rem;color:#374151;margin-bottom:.45rem;">Unggah Foto / Video</label>
 
                     <div id="mediaCurrentWrap" style="margin-bottom:.75rem;display:none;">
                         <p style="font-size:.78rem;color:#64748b;margin-bottom:.4rem;">Media saat ini:</p>
@@ -243,7 +243,7 @@
                     <input type="file" name="media_file" id="f_media_file" accept="image/*,video/*"
                         style="width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:8px 12px;font-size:.85rem;color:#374151;"
                         onchange="previewMedia(this)">
-                    <p style="font-size:.75rem;color:#94a3b8;margin:.3rem 0 0;">Opsional. Upload foto atau video lokal. Minimal salah satu dari URL atau file upload harus diisi.</p>
+                    <p style="font-size:.75rem;color:#94a3b8;margin:.3rem 0 0;">Opsional. Unggah foto atau video lokal. Minimal salah satu dari URL atau file unggahan harus diisi.</p>
                 </div>
 
                 {{-- Thumbnail --}}

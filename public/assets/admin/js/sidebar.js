@@ -1,5 +1,5 @@
 // Sidebar Toggle Functionality
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const sidebar = document.getElementById('sidebar');
     const mainContent = document.getElementById('mainContent');
     const toggleSidebar = document.getElementById('toggleSidebar');
@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Desktop toggle
     if (toggleSidebar) {
-        toggleSidebar.addEventListener('click', function() {
+        toggleSidebar.addEventListener('click', function () {
             sidebar.classList.toggle('collapsed');
             mainContent.classList.toggle('expanded');
         });
@@ -15,13 +15,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Mobile toggle
     if (mobileToggle) {
-        mobileToggle.addEventListener('click', function() {
+        mobileToggle.addEventListener('click', function () {
             sidebar.classList.toggle('mobile-open');
         });
     }
 
     // Close sidebar when clicking outside on mobile
-    document.addEventListener('click', function(event) {
+    document.addEventListener('click', function (event) {
         if (window.innerWidth <= 768) {
             if (!sidebar.contains(event.target) && !mobileToggle.contains(event.target)) {
                 sidebar.classList.remove('mobile-open');
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Handle window resize
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         if (window.innerWidth > 768) {
             sidebar.classList.remove('mobile-open');
         }
@@ -39,12 +39,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Logout Handler
 function handleLogout() {
-    if (confirm('Apakah Anda yakin ingin logout?')) {
+    if (confirm('Apakah Anda yakin ingin keluar?')) {
         // In Laravel, you would redirect to logout route
         // window.location.href = '/logout';
-        
+
         // For demo purposes:
-        alert('Logout berhasil!');
+        alert('Berhasil keluar!');
         window.location.href = 'login.html';
     }
 }

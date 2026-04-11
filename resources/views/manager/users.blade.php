@@ -79,7 +79,7 @@
                         <select id="userRole" style="width:100%;padding:.625rem .875rem;border:1px solid #e2e8f0;border-radius:.5rem;font-size:.9375rem;">
                             <option value="affiliate">Afiliasi</option>
                         </select>
-                        <small style="color:#94a3b8;">Manager hanya dapat mengelola user affiliate.</small>
+                        <small style="color:#94a3b8;">Manajer hanya dapat mengelola pengguna afiliasi.</small>
                     </div>
                 </form>
             </div>

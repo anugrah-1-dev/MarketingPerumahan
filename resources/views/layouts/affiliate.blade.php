@@ -14,7 +14,7 @@
 
     <!-- -- Mobile Top Bar (hanya terlihat di â‰¤1024px) -- -->
     <div class="mobile-topbar">
-        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle menu" onclick="toggleSidebar()">
+        <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu" onclick="toggleSidebar()">
             <span></span>
             <span></span>
             <span></span>
@@ -59,7 +59,7 @@
             </a>
             <a href="{{ route('affiliate.profile') }}" class="nav-item {{ request()->routeIs('affiliate.profile') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-user-circle"></i></span>
-                Profile
+                Profil
             </a>
         </nav>
 
