@@ -55,6 +55,10 @@
                 <i class="fas fa-share-alt"></i>
                 <span>Social Media</span>
             </a>
+            <a href="{{ route('admin.hero-slides') }}" class="nav-item {{ request()->routeIs('admin.hero-slides*') ? 'active' : '' }}">
+                <i class="fas fa-images"></i>
+                <span>Hero Slider</span>
+            </a>
             <a href="{{ route('admin.settings') }}" class="nav-item {{ request()->routeIs('admin.settings*') ? 'active' : '' }}">
                 <i class="fas fa-cog"></i>
                 <span>Pengaturan</span>

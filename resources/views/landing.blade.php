@@ -67,15 +67,8 @@
             ?? request()->cookie('affiliate_ref_code')
             ?? null;
 
-    $heroSlideFiles = glob(public_path('assets/landing/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}'), GLOB_BRACE) ?: [];
-    $heroSlideFiles = array_values(array_filter($heroSlideFiles, function ($file) {
-        $filename = strtolower(pathinfo($file, PATHINFO_FILENAME));
-        return !str_contains($filename, 'logo');
-    }));
-    $heroSlides = array_map(fn ($file) => asset('assets/landing/' . basename($file)), $heroSlideFiles);
-
     $heroFallbackSlide = 'https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80';
-    if (empty($heroSlides)) {
+    if (empty($heroSlides ?? [])) {
         $heroSlides = [$heroFallbackSlide];
     }
 @endphp

@@ -12,6 +12,7 @@ use App\Http\Controllers\TipeRumahController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\HeroSlideController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ClosingController;
 
@@ -69,6 +70,13 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
     Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
 
+    // ── Hero Slides ───────────────────────────────────────────────────────
+    Route::get('/hero-slides',                [HeroSlideController::class, 'index'])->name('hero-slides');
+    Route::post('/hero-slides',               [HeroSlideController::class, 'store'])->name('hero-slides.store');
+    Route::put('/hero-slides/{id}',           [HeroSlideController::class, 'update'])->name('hero-slides.update');
+    Route::delete('/hero-slides/{id}',        [HeroSlideController::class, 'destroy'])->name('hero-slides.destroy');
+    Route::patch('/hero-slides/{id}/toggle',  [HeroSlideController::class, 'toggleStatus'])->name('hero-slides.toggle');
+
     // ── Manajemen Unit ────────────────────────────────────────────────────
     Route::get('/units',               [UnitController::class, 'index'])->name('units');
     Route::post('/units',              [UnitController::class, 'store'])->name('units.store');
@@ -116,6 +124,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     Route::put('/social-media/{id}',          [SocialMediaController::class, 'update'])->name('social-media.update');
     Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
     Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
+
+    // ── Hero Slides ───────────────────────────────────────────────────────
+    Route::get('/hero-slides',                [HeroSlideController::class, 'index'])->name('hero-slides');
+    Route::post('/hero-slides',               [HeroSlideController::class, 'store'])->name('hero-slides.store');
+    Route::put('/hero-slides/{id}',           [HeroSlideController::class, 'update'])->name('hero-slides.update');
+    Route::delete('/hero-slides/{id}',        [HeroSlideController::class, 'destroy'])->name('hero-slides.destroy');
+    Route::patch('/hero-slides/{id}/toggle',  [HeroSlideController::class, 'toggleStatus'])->name('hero-slides.toggle');
 
     // ── Manajemen Users ───────────────────────────────────────────────────
     Route::get('/users',                 [UserController::class, 'index'])->name('users');
