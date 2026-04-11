@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\Password;
 use App\Models\Agent;
 
 class ProfileController extends Controller
@@ -48,12 +50,13 @@ class ProfileController extends Controller
 
         $request->validate([
             'nama'  => ['required', 'string', 'max:100'],
-            'email' => ['required', 'email', 'max:150'],
-            'phone' => ['nullable', 'string', 'max:25'],
+            'email' => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($user->id)],
+            'phone' => ['nullable', 'string', 'max:25', 'regex:/^[0-9+]{8,25}$/'],
         ], [
             'nama.required'  => 'Nama lengkap wajib diisi.',
             'email.required' => 'Email wajib diisi.',
             'email.email'    => 'Format email tidak valid.',
+            'phone.regex'    => 'Format nomor telepon tidak valid.',
         ]);
 
         if ($agent) {
@@ -81,12 +84,11 @@ class ProfileController extends Controller
     {
         $request->validate([
             'password_lama'              => ['required'],
-            'password_baru'              => ['required', 'string', 'min:8', 'confirmed'],
+            'password_baru'              => ['required', 'string', Password::min(8)->letters()->mixedCase()->numbers(), 'confirmed'],
             'password_baru_confirmation' => ['required'],
         ], [
             'password_lama.required'  => 'Password lama wajib diisi.',
             'password_baru.required'  => 'Password baru wajib diisi.',
-            'password_baru.min'       => 'Password baru minimal 8 karakter.',
             'password_baru.confirmed' => 'Konfirmasi password tidak cocok.',
         ]);
 

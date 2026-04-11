@@ -35,13 +35,16 @@ class SettingController extends Controller
                 'max:20',
                 'regex:/^62[0-9]{8,14}$/',
             ],
-            'instagram_url' => ['nullable', 'url', 'max:255'],
-            'tiktok_url'    => ['nullable', 'url', 'max:255'],
-            'facebook_url'  => ['nullable', 'url', 'max:255'],
+            'instagram_url' => ['nullable', 'url', 'max:255', 'starts_with:http://,https://'],
+            'tiktok_url'    => ['nullable', 'url', 'max:255', 'starts_with:http://,https://'],
+            'facebook_url'  => ['nullable', 'url', 'max:255', 'starts_with:http://,https://'],
         ], [
             'wa_admin.required' => 'Nomor WA tidak boleh kosong.',
             'wa_admin.regex'    => 'Format nomor harus diawali 62 dan hanya berisi angka (contoh: 6281234567890).',
             'wa_admin.max'      => 'Nomor WA maksimal 20 karakter.',
+            'instagram_url.starts_with' => 'URL Instagram harus diawali http:// atau https://.',
+            'tiktok_url.starts_with'    => 'URL TikTok harus diawali http:// atau https://.',
+            'facebook_url.starts_with'  => 'URL Facebook harus diawali http:// atau https://.',
         ]);
 
         Setting::set('wa_admin', trim((string) $request->wa_admin));

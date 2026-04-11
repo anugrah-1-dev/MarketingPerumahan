@@ -15,6 +15,14 @@ class TrackingController extends Controller
     // ──────────────────────────────────────────────────────────────────────────
     public function record(Request $request)
     {
+        $data = $request->validate([
+            'slug' => ['nullable', 'string', 'max:150', 'regex:/^[a-z0-9-]+$/'],
+            'referral_code' => ['nullable', 'string', 'regex:/^BSA-[A-Z0-9]{4}$/i'],
+            'page_url' => ['nullable', 'string', 'max:2048'],
+            'sender_name' => ['nullable', 'string', 'max:100'],
+            'sender_phone' => ['nullable', 'string', 'max:20', 'regex:/^[0-9+]{8,20}$/'],
+        ]);
+
         $ua     = $request->userAgent() ?? '';
         $isMob  = preg_match('/Mobile|Android|iPhone|iPad/i', $ua);
         $device = $isMob ? 'Mobile' : 'Desktop';
@@ -28,11 +36,11 @@ class TrackingController extends Controller
         elseif (str_contains($ua, 'Safari'))  $browser = 'Safari';
 
         // ── Resolusi Agent (dari slug lama) ──
-        $slug  = $request->input('slug');
+        $slug  = $data['slug'] ?? null;
         $agent = $slug ? Agent::where('slug', $slug)->where('aktif', true)->first() : null;
 
         // ── Resolusi Referral Code (prioritas: request body → session → cookie) ──
-        $refCode = $request->input('referral_code')
+        $refCode = ($data['referral_code'] ?? null)
                 ?? $request->session()->get('affiliate_ref_code')
                 ?? $request->cookie('affiliate_ref_code');
 
@@ -57,11 +65,11 @@ class TrackingController extends Controller
             'ip_address'        => $request->ip(),
             'device'            => $device,
             'browser'           => $browser,
-            'page_url'          => $request->input('page_url'),
-            'sender_name'       => $request->input('sender_name'),
-            'sender_phone'      => $request->input('sender_phone'),
+            'page_url'          => $data['page_url'] ?? null,
+            'sender_name'       => $data['sender_name'] ?? null,
+            'sender_phone'      => $data['sender_phone'] ?? null,
             'source'            => 'website',
-            'status'            => ($request->filled('sender_name') && $request->filled('sender_phone')) ? 'follow-up' : 'new',
+            'status'            => (! empty($data['sender_name']) && ! empty($data['sender_phone'])) ? 'follow-up' : 'new',
         ]);
 
         return response()->json(['ok' => true]);

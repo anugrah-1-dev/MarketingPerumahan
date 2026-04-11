@@ -14,6 +14,8 @@ use App\Models\User;
 
 use App\Models\TipeRumah;
 use App\Models\SocialMedia;
+use App\Models\HeroSlide;
+use Illuminate\Validation\Rules\Password;
 
 class PageController extends Controller
 {
@@ -39,8 +41,9 @@ class PageController extends Controller
         $semuaTipeRumah  = TipeRumah::orderBy('harga', 'asc')->get();
         $socialMedias    = SocialMedia::aktif()->get();
         $unitStats       = Unit::stats();
+        $heroSlides      = $this->resolveHeroSlides();
 
-        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats'));
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats', 'heroSlides'));
     }
 
 
@@ -69,6 +72,7 @@ class PageController extends Controller
         $semuaTipeRumah  = TipeRumah::orderBy('harga', 'asc')->get();
         $socialMedias    = SocialMedia::aktif()->get();
         $unitStats       = Unit::stats();
+        $heroSlides      = $this->resolveHeroSlides();
 
         // Catat agent ke session agar tersedia di halaman detail
         session([
@@ -80,7 +84,27 @@ class PageController extends Controller
         // Baca ?ref= dari query string dan simpan ke session + cookie
         $this->handleRefParam($request);
 
-        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats'));
+        return view('landing', compact('agent', 'tipeRumahDiskon', 'semuaTipeRumah', 'socialMedias', 'unitStats', 'heroSlides'));
+    }
+
+    private function resolveHeroSlides(): array
+    {
+        $slidesFromDb = HeroSlide::aktif()->get()->map(fn (HeroSlide $slide) => $slide->image_url)->all();
+        if (!empty($slidesFromDb)) {
+            return $slidesFromDb;
+        }
+
+        $slideFiles = glob(public_path('assets/landing/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}'), GLOB_BRACE) ?: [];
+        $slideFiles = array_values(array_filter($slideFiles, function ($file) {
+            $filename = strtolower(pathinfo($file, PATHINFO_FILENAME));
+            return !str_contains($filename, 'logo');
+        }));
+
+        $slidesFromFolder = array_map(fn ($file) => asset('assets/landing/' . basename($file)), $slideFiles);
+
+        return !empty($slidesFromFolder)
+            ? $slidesFromFolder
+            : ['https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=1200&q=80'];
     }
 
     /**
@@ -90,7 +114,7 @@ class PageController extends Controller
     private function handleRefParam(Request $request): void
     {
         $ref = strtoupper(trim($request->query('ref', '')));
-        if (! $ref) {
+        if (! $ref || ! preg_match('/^BSA-[A-Z0-9]{4}$/', $ref)) {
             return;
         }
 
@@ -196,8 +220,8 @@ class PageController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-            'role' => ['required', 'string', 'in:super_admin,affiliate'],
+            'password' => ['required', 'string', Password::min(8)->letters()->mixedCase()->numbers(), 'confirmed'],
+            'role' => ['required', 'string', 'in:affiliate'],
         ]);
 
         $user = \App\Models\User::create([

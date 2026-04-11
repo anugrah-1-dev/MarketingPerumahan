@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
 
 class AgentController extends Controller
@@ -16,15 +17,18 @@ class AgentController extends Controller
      * – Browser → tampilkan view
      * – Fetch/AJAX (Accept: application/json) → return JSON list
      */
-    public function index(Request $request)
+    public function index()
     {
-        if ($request->expectsJson()) {
-            // Ambil semua user dengan role affiliate
-            $users = User::where('role', 'affiliate')->with('agent')->orderBy('created_at', 'desc')->get();
+        $panel = auth()->user()->isAdmin() ? 'manager' : 'admin';
+        return view("{$panel}.agents");
+    }
 
-            // Map data agar sesuai struktur JS
-            $agents = $users->map(function ($user) {
-                $agent = $user->agent;
+    public function data()
+    {
+        $users = User::where('role', 'affiliate')->with('agent')->orderBy('created_at', 'desc')->get();
+
+        $agents = $users->map(function ($user) {
+            $agent = $user->agent;
 
                 // Jika user affiliate belum punya Agent record, buat otomatis
                 if (!$agent) {
@@ -43,7 +47,7 @@ class AgentController extends Controller
                             'aktif'      => true,
                             'email'      => $user->email,
                             'phone'      => null,
-                            'commission' => 1,
+                            'commission' => 0,
                         ]);
                     } catch (\Throwable $e) {
                         // Lewati user ini jika gagal membuat agent record
@@ -51,33 +55,27 @@ class AgentController extends Controller
                     }
                 }
 
-                // Pastikan agent punya ID yang valid sebelum dikembalikan
-                if (!$agent || !$agent->id) {
-                    return null;
-                }
+            if (! $agent || ! $agent->id) {
+                return null;
+            }
 
-                return [
-                    'id'         => $agent->id,
-                    'nama'       => $user->name,
-                    'jabatan'    => $agent->jabatan,
-                    'email'      => $user->email,
-                    'phone'      => $agent->phone,
-                    'commission' => $agent->commission,
-                    'slug'       => $agent->slug,
-                    'aktif'      => $agent->aktif,
-                    'user'       => [
-                        'referral_code' => $user->referral_code
-                    ],
-                    'user_id'    => $user->id,
-                ];
-            });
+            return [
+                'id' => $agent->id,
+                'nama' => $user->name,
+                'jabatan' => $agent->jabatan,
+                'email' => $user->email,
+                'phone' => $agent->phone,
+                'commission' => $agent->commission,
+                'slug' => $agent->slug,
+                'aktif' => $agent->aktif,
+                'user' => [
+                    'referral_code' => $user->referral_code,
+                ],
+                'user_id' => $user->id,
+            ];
+        });
 
-            // Hapus entry null (agent gagal dibuat)
-            return response()->json($agents->filter()->values());
-        }
-
-        $panel = auth()->user()->isAdmin() ? 'manager' : 'admin';
-        return view("{$panel}.agents");
+        return response()->json($agents->filter()->values());
     }
 
     /**
@@ -89,7 +87,7 @@ class AgentController extends Controller
         $request->validate([
             'nama'       => 'required|string|max:100',
             'email'      => 'required|email|max:150|unique:users,email',
-            'password'   => 'required|string|min:6',
+            'password'   => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
             'jabatan'    => 'nullable|string|max:100', // hidden, default Affiliate
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:1|max:100',
@@ -153,7 +151,7 @@ class AgentController extends Controller
         $request->validate([
             'nama'       => 'required|string|max:100',
             'email'      => 'required|email|max:150|unique:users,email,' . ($agent->user_id ?? 'NULL'),
-            'password'   => 'nullable|string|min:6',
+            'password'   => ['nullable', Password::min(8)->letters()->mixedCase()->numbers()],
             'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:1|max:100',

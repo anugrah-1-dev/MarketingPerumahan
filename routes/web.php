@@ -12,12 +12,13 @@ use App\Http\Controllers\TipeRumahController;
 use App\Http\Controllers\ReferralController;
 use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\SocialMediaController;
+use App\Http\Controllers\HeroSlideController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ClosingController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
-Route::post('/login',                [PageController::class, 'authenticate'])->name('login.post');
+Route::post('/login',                [PageController::class, 'authenticate'])->middleware('throttle:login')->name('login.post');
 Route::post('/logout',               [PageController::class, 'logout'])->name('logout');
 
 
@@ -36,6 +37,7 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
 
     // ── Agent pages & API ──────────────────────────────────────────────────
     Route::get('/agents',                [AgentController::class, 'index'])->name('agents');
+    Route::get('/agents/data',           [AgentController::class, 'data'])->name('agents.data');
     Route::post('/agents',               [AgentController::class, 'store'])->name('agents.store');
     Route::put('/agents/{id}',           [AgentController::class, 'update'])->name('agents.update');
     Route::delete('/agents/{id}',        [AgentController::class, 'destroy'])->name('agents.destroy');
@@ -68,6 +70,13 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
     Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
 
+    // ── Hero Slides ───────────────────────────────────────────────────────
+    Route::get('/hero-slides',                [HeroSlideController::class, 'index'])->name('hero-slides');
+    Route::post('/hero-slides',               [HeroSlideController::class, 'store'])->name('hero-slides.store');
+    Route::put('/hero-slides/{id}',           [HeroSlideController::class, 'update'])->name('hero-slides.update');
+    Route::delete('/hero-slides/{id}',        [HeroSlideController::class, 'destroy'])->name('hero-slides.destroy');
+    Route::patch('/hero-slides/{id}/toggle',  [HeroSlideController::class, 'toggleStatus'])->name('hero-slides.toggle');
+
     // ── Manajemen Unit ────────────────────────────────────────────────────
     Route::get('/units',               [UnitController::class, 'index'])->name('units');
     Route::post('/units',              [UnitController::class, 'store'])->name('units.store');
@@ -93,6 +102,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
 
     // ── Agent ─────────────────────────────────────────────────────────────
     Route::get('/agents',                [AgentController::class, 'index'])->name('agents');
+    Route::get('/agents/data',           [AgentController::class, 'data'])->name('agents.data');
     Route::post('/agents',               [AgentController::class, 'store'])->name('agents.store');
     Route::put('/agents/{id}',           [AgentController::class, 'update'])->name('agents.update');
     Route::delete('/agents/{id}',        [AgentController::class, 'destroy'])->name('agents.destroy');
@@ -114,6 +124,13 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     Route::put('/social-media/{id}',          [SocialMediaController::class, 'update'])->name('social-media.update');
     Route::delete('/social-media/{id}',       [SocialMediaController::class, 'destroy'])->name('social-media.destroy');
     Route::patch('/social-media/{id}/toggle', [SocialMediaController::class, 'toggleStatus'])->name('social-media.toggle');
+
+    // ── Hero Slides ───────────────────────────────────────────────────────
+    Route::get('/hero-slides',                [HeroSlideController::class, 'index'])->name('hero-slides');
+    Route::post('/hero-slides',               [HeroSlideController::class, 'store'])->name('hero-slides.store');
+    Route::put('/hero-slides/{id}',           [HeroSlideController::class, 'update'])->name('hero-slides.update');
+    Route::delete('/hero-slides/{id}',        [HeroSlideController::class, 'destroy'])->name('hero-slides.destroy');
+    Route::patch('/hero-slides/{id}/toggle',  [HeroSlideController::class, 'toggleStatus'])->name('hero-slides.toggle');
 
     // ── Manajemen Users ───────────────────────────────────────────────────
     Route::get('/users',                 [UserController::class, 'index'])->name('users');
@@ -172,7 +189,7 @@ Route::get('/site-plan',             [PageController::class, 'sitePlan'])->name(
 Route::get('/detail-rumah/{blok?}',  [PageController::class, 'detailRumah'])->name('detail-rumah');
 
 // Catat klik WA (publik, tanpa auth)
-Route::post('/wa-click',             [TrackingController::class, 'record'])->name('wa-click.record');
+Route::post('/wa-click',             [TrackingController::class, 'record'])->middleware('throttle:tracking')->name('wa-click.record');
 
 // ── Referral Link ────────────────────────────────────────────────────────
 // HARUS di atas dynamic /{nama} agar tidak tertimpa

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\Rule;
 
 class UserController extends Controller
@@ -17,7 +18,10 @@ class UserController extends Controller
     public function index(Request $request)
     {
         if ($request->expectsJson()) {
-            $users = User::orderBy('created_at', 'desc')->get(['id', 'name', 'email', 'role', 'created_at']);
+            $users = $this->manageableUsersQuery()
+                ->orderBy('created_at', 'desc')
+                ->get(['id', 'name', 'email', 'role', 'created_at']);
+
             return response()->json($users);
         }
 
@@ -31,11 +35,13 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $allowedRoles = $this->allowedRoles();
+
         $request->validate([
             'name'     => 'required|string|max:100',
             'email'    => 'required|email|max:150|unique:users,email',
-            'password' => 'required|string|min:8',
-            'role'     => ['required', Rule::in(['super_admin', 'admin', 'affiliate'])],
+            'password' => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
+            'role'     => ['required', Rule::in($allowedRoles)],
         ]);
 
         $user = User::create([
@@ -55,12 +61,14 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::findOrFail($id);
+        $this->authorizeManageUser($user);
+        $allowedRoles = $this->allowedRoles();
 
         $request->validate([
             'name'     => 'required|string|max:100',
             'email'    => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($id)],
-            'password' => 'nullable|string|min:8',
-            'role'     => ['required', Rule::in(['super_admin', 'admin', 'affiliate'])],
+            'password' => ['nullable', Password::min(8)->letters()->mixedCase()->numbers()],
+            'role'     => ['required', Rule::in($allowedRoles)],
         ]);
 
         $user->name  = $request->name;
@@ -87,8 +95,42 @@ class UserController extends Controller
         }
 
         $user = User::findOrFail($id);
+        $this->authorizeManageUser($user);
         $user->delete();
 
         return response()->json(['message' => 'User berhasil dihapus.']);
+    }
+
+    protected function manageableUsersQuery()
+    {
+        $authUser = auth()->user();
+
+        if ($authUser->isSuperAdmin()) {
+            return User::query();
+        }
+
+        return User::where('role', 'affiliate');
+    }
+
+    protected function allowedRoles(): array
+    {
+        $authUser = auth()->user();
+
+        if ($authUser->isSuperAdmin()) {
+            return ['super_admin', 'admin', 'affiliate'];
+        }
+
+        return ['affiliate'];
+    }
+
+    protected function authorizeManageUser(User $user): void
+    {
+        $authUser = auth()->user();
+
+        if ($authUser->isSuperAdmin()) {
+            return;
+        }
+
+        abort_unless($user->role === 'affiliate', 403, 'Anda tidak punya izin untuk mengelola user ini.');
     }
 }

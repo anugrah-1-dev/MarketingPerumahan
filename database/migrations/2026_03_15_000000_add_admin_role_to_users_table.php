@@ -11,11 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
+        if (DB::getDriverName() === 'sqlite') {
+            return;
+        }
+
         DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('super_admin', 'admin', 'affiliate') NOT NULL DEFAULT 'affiliate'");
     }
 
     public function down(): void
     {
+        if (DB::getDriverName() === 'sqlite') {
+            DB::statement("UPDATE users SET role = 'affiliate' WHERE role = 'admin'");
+            return;
+        }
+
         // Ubah user dengan role 'admin' ke 'affiliate' sebelum rollback agar tidak error
         DB::statement("UPDATE users SET role = 'affiliate' WHERE role = 'admin'");
         DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('super_admin', 'affiliate') NOT NULL DEFAULT 'affiliate'");
