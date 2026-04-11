@@ -1,4 +1,4 @@
-@php
+﻿@php
     $routePrefix = $panel . '.units';
     $storeRoute = route($routePrefix . '.store');
     $updateRoute = route($routePrefix . '.update', 'summary');
@@ -19,13 +19,13 @@
     </div>
 
     @if(session('success'))
-        <div class="unit-alert-success">✅ {{ session('success') }}</div>
+        <div class="unit-alert-success">âœ… {{ session('success') }}</div>
     @endif
 
     @if($errors->any())
         <div class="unit-alert-error">
             <ul style="margin:0;padding-left:16px">
-                @foreach($errors->all() as $e)<li>❌ {{ $e }}</li>@endforeach
+                @foreach($errors->all() as $e)<li>âŒ {{ $e }}</li>@endforeach
             </ul>
         </div>
     @endif
@@ -211,3 +211,4 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 @endpush
+

@@ -35,7 +35,7 @@ class HeroSlideController extends Controller
 
         HeroSlide::create($data);
 
-        return back()->with('success', 'Slide hero berhasil ditambahkan.');
+        return back()->with('success', 'Slide beranda berhasil ditambahkan.');
     }
 
     public function update(Request $request, int $id)
@@ -59,7 +59,7 @@ class HeroSlideController extends Controller
 
         $slide->update($data);
 
-        return back()->with('success', 'Slide hero berhasil diperbarui.');
+        return back()->with('success', 'Slide beranda berhasil diperbarui.');
     }
 
     public function destroy(int $id)
@@ -69,7 +69,7 @@ class HeroSlideController extends Controller
         $this->deleteStoredFile($slide->image_path);
         $slide->delete();
 
-        return back()->with('success', 'Slide hero berhasil dihapus.');
+        return back()->with('success', 'Slide beranda berhasil dihapus.');
     }
 
     public function toggleStatus(int $id)

@@ -1,9 +1,9 @@
-@extends('layouts.affiliate')
-@section('title', 'Link Affiliate Saya – Bukit Shangrilla Asri')
+﻿@extends('layouts.affiliate')
+@section('title', 'Tautan Afiliasi Saya â€“ Bukit Shangrilla Asri')
 
 @push('styles')
 <style>
-/* ── Link Page Content ── */
+/* -- Link Page Konten -- */
 .link-wrap {
     padding: 36px 36px 40px;
     background: #f9f9f9;
@@ -13,7 +13,7 @@
 .link-header h1 { font-size: 28px; font-weight: 700; color: #222; }
 .link-header p  { color: #888; font-size: 14px; margin-top: 4px; }
 
-/* ── Kode Referral Besar ── */
+/* -- Kode Referral Besar -- */
 .ref-code-box {
     margin-top: 24px;
     background: linear-gradient(135deg, #3d81af 0%, #1a3649 100%);
@@ -53,7 +53,7 @@
     line-height: 1.5;
 }
 
-/* ── Link Input Row ── */
+/* -- Link Input Row -- */
 .box-sublabel {
     font-size: 12px;
     opacity: 0.65;
@@ -99,7 +99,7 @@
 .copy-btn:hover { background: rgba(255,255,255,0.32); }
 .copy-btn.copied { background: rgba(16,185,129,0.5); border-color: rgba(16,185,129,0.6); }
 
-/* ── Dua kolom: QR + Info ── */
+/* -- Dua kolom: QR + Info -- */
 .two-col {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -107,7 +107,7 @@
     margin-top: 18px;
 }
 
-/* ── QR Code Card ── */
+/* -- QR Code Card -- */
 .qr-card {
     background: #fff;
     border-radius: 14px;
@@ -160,7 +160,7 @@
 }
 .download-btn:hover { border-color: #3d81af; color: #3d81af; }
 
-/* ── Info Affiliate Card ── */
+/* -- Info Affiliate Card -- */
 .info-card {
     background: #fff;
     border-radius: 14px;
@@ -203,7 +203,7 @@
     letter-spacing: 1px;
 }
 
-/* ── Share Sosmed Card ── */
+/* -- Share Sosmed Card -- */
 .share-card {
     margin-top: 18px;
     background: #fff;
@@ -265,7 +265,7 @@
     .copy-btn { width: 100%; justify-content: center; }
 }
 
-/* ── Stat Klik Cards ── */
+/* -- Stat Klik Cards -- */
 .klik-stats {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -292,7 +292,7 @@
     $user      = auth()->user();
     $refCode   = $user->referral_code ?? 'BSA-????';
     $linkUrl   = $user->referral_link ?? url('/ref/' . $refCode);
-    $joinDate  = $user->created_at ? $user->created_at->translatedFormat('d F Y') : '–';
+    $joinDate  = $user->created_at ? $user->created_at->translatedFormat('d F Y') : 'â€“';
     $qrUrl     = 'https://api.qrserver.com/v1/create-qr-code/?size=160x160&format=png&data=' . urlencode($linkUrl);
     $shareText = 'Temukan rumah impianmu di Bukit Shangrilla Asri! Cek di sini: ' . $linkUrl;
 @endphp
@@ -301,13 +301,13 @@
 
     {{-- Header --}}
     <div class="link-header">
-        <h1>Link Affiliate Saya</h1>
+        <h1>Tautan Afiliasi Saya</h1>
         <p>Share kode atau link berikut kepada calon pembeli untuk mendapatkan komisi</p>
     </div>
 
     {{-- Kode Referral + Link --}}
     <div class="ref-code-box">
-        <div class="box-label">🎯 Kode Referral Unik Anda</div>
+        <div class="box-label">ðŸŽ¯ Kode Referral Unik Anda</div>
         <div class="ref-code-display">
             <div class="ref-code-badge">{{ $refCode }}</div>
             <div class="ref-code-hint">
@@ -317,11 +317,11 @@
             </div>
         </div>
 
-        <div class="box-sublabel">🔗 Link Affiliate</div>
+        <div class="box-sublabel">ðŸ”— Tautan Afiliasi</div>
         <div class="link-input-row">
             <input type="text" id="affiliateLink" value="{{ $linkUrl }}" readonly>
             <button class="copy-btn" id="copyBtn" onclick="copyLink()">
-                <i class="fas fa-copy"></i> Copy Link
+                <i class="fas fa-copy"></i> Salin Tautan
             </button>
         </div>
     </div>
@@ -329,26 +329,26 @@
     {{-- Stats Klik WA --}}
     <div class="klik-stats">
         <div class="klik-stat-card">
-            <div class="ks-icon">📊</div>
+            <div class="ks-icon">ðŸ“Š</div>
             <div class="ks-label">Total Klik WA</div>
             <div class="ks-val">{{ $totalKlik ?? 0 }}</div>
             <div class="ks-sub">Semua waktu</div>
         </div>
         <div class="klik-stat-card">
-            <div class="ks-icon">📅</div>
+            <div class="ks-icon">ðŸ“…</div>
             <div class="ks-label">Bulan Ini</div>
             <div class="ks-val">{{ $klikBulanIni ?? 0 }}</div>
             <div class="ks-sub">{{ now()->translatedFormat('F Y') }}</div>
         </div>
         <div class="klik-stat-card">
-            <div class="ks-icon">⚡</div>
+            <div class="ks-icon">âš¡</div>
             <div class="ks-label">Hari Ini</div>
             <div class="ks-val">{{ $klikHariIni ?? 0 }}</div>
             <div class="ks-sub">{{ now()->translatedFormat('d M Y') }}</div>
         </div>
         <div class="klik-stat-card">
-            <div class="ks-icon">🔥</div>
-            <div class="ks-label">Leads Tertarik</div>
+            <div class="ks-icon">ðŸ”¥</div>
+            <div class="ks-label">Prospek Tertarik</div>
             <div class="ks-val">{{ $klikInterest ?? 0 }}</div>
             <div class="ks-sub">Status: Interested</div>
         </div>
@@ -376,11 +376,11 @@
 
         {{-- Info Affiliate --}}
         <div class="info-card">
-            <h3><i class="fas fa-id-card" style="color:#3d81af;margin-right:6px;"></i>Informasi Affiliate</h3>
+            <h3><i class="fas fa-id-card" style="color:#3d81af;margin-right:6px;"></i>Informasi Afiliasi</h3>
 
             <div class="info-row">
                 <span class="info-label">Nama</span>
-                <span class="info-val">{{ $user->name ?? '–' }}</span>
+                <span class="info-val">{{ $user->name ?? 'â€“' }}</span>
             </div>
             <div class="info-row">
                 <span class="info-label">Kode Referral</span>
@@ -388,7 +388,7 @@
             </div>
             <div class="info-row">
                 <span class="info-label">Status</span>
-                <span class="badge-aktif">✔ Aktif</span>
+                <span class="badge-aktif">âœ” Aktif</span>
             </div>
             <div class="info-row">
                 <span class="info-label">Bergabung Sejak</span>
@@ -452,8 +452,10 @@ function showCopied(btn) {
     btn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
     setTimeout(() => {
         btn.classList.remove('copied');
-        btn.innerHTML = '<i class="fas fa-copy"></i> Copy Link';
+        btn.innerHTML = '<i class="fas fa-copy"></i> Salin Tautan';
     }, 2500);
 }
 </script>
 @endpush
+
+

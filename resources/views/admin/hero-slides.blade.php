@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 
-@section('title', 'Hero Slider')
-@section('page-title', 'Hero Slider')
+@section('title', 'Slider Beranda')
+@section('page-title', 'Slider Beranda')
 
 @section('content')
 <div class="p-6">

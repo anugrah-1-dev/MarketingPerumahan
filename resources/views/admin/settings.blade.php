@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 @section('title', 'Pengaturan')
 @section('page-title', 'Pengaturan')
 
@@ -87,10 +87,10 @@
 
             <h3 style="font-size:1.1rem; font-weight:700; color:#1e293b; margin-bottom:.4rem;">
                 <i class="fas fa-share-alt" style="color:#6366f1; margin-right:6px;"></i>
-                Akun Social Media
+                Akun Media Sosial
             </h3>
             <p style="font-size:.85rem; color:#64748b; margin-bottom:1.5rem; line-height:1.6;">
-                URL akun social media perusahaan yang akan ditampilkan di footer halaman website.
+                URL akun media sosial perusahaan yang akan ditampilkan di footer halaman website.
                 Kosongkan jika tidak ingin ditampilkan.
             </p>
 
@@ -144,7 +144,7 @@
                 </div>
 
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-save"></i> Simpan Social Media
+                    <i class="fas fa-save"></i> Simpan Media Sosial
                 </button>
             </form>
 
@@ -155,18 +155,21 @@
 
 @push('scripts')
 <script>
-    // Preview link WA realtime
+    // Pratinjau link WA realtime
     const input   = document.getElementById('wa_admin');
     const preview = document.getElementById('preview_wa');
 
-    function updatePreview() {
+    function updatePratinjau() {
         const nomor = input.value.trim();
         const url = nomor ? `https://wa.me/${nomor}` : '';
         preview.href = url;
         preview.textContent = url || '-';
     }
 
-    input.addEventListener('input', updatePreview);
-    updatePreview(); // jalankan saat halaman load
+    input.addEventListener('input', updatePratinjau);
+    updatePratinjau(); // jalankan saat halaman load
 </script>
 @endpush
+
+
+

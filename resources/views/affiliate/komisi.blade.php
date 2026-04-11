@@ -17,7 +17,7 @@
     <!-- No agent linked -->
     <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:.75rem;padding:1.5rem;margin-bottom:1.5rem;text-align:center">
         <i class="fas fa-exclamation-triangle" style="color:#f59e0b;font-size:1.5rem;margin-bottom:.5rem;display:block"></i>
-        <strong>Akun anda belum terhubung ke data agent.</strong><br>
+        <strong>Akun anda belum terhubung ke data agen.</strong><br>
         Silakan hubungi administrator untuk mengaitkan akun anda.
     </div>
     @else
@@ -25,15 +25,15 @@
     <!-- Stats -->
     <div class="stats-row">
         <div class="stat-card unpaid">
-            <div class="stat-label">Total Closing</div>
+            <div class="stat-label">Total Penutupan</div>
             <div class="stat-value">{{ $totalClosing }}</div>
         </div>
         <div class="stat-card paid">
-            <div class="stat-label">Closing Bulan Ini</div>
+            <div class="stat-label">Penutupan Bulan Ini</div>
             <div class="stat-value">{{ $closingBulanIni }}</div>
         </div>
         <div class="stat-card total">
-            <div class="stat-label">Rate Komisi</div>
+            <div class="stat-label">Tarif Komisi</div>
             <div class="stat-value">{{ $commissionRate }}%</div>
         </div>
         <div class="stat-card" style="border-top:4px solid #10b981">
@@ -62,7 +62,7 @@
             </ul>
         </div>
         <div class="info-box">
-            <h3>👤 Informasi Agent</h3>
+            <h3>👤 Informasi Agen</h3>
             <ul>
                 <li>Nama: <strong>{{ $agent->nama }}</strong></li>
                 <li>Rate Komisi: <strong>{{ $commissionRate }}%</strong></li>
@@ -84,15 +84,15 @@
 
     <!-- History Table -->
     <div class="history-card">
-        <h3><i class="fas fa-history" style="color:#3d81af; margin-right:8px;"></i>Riwayat Closing & Komisi</h3>
+        <h3><i class="fas fa-history" style="color:#3d81af; margin-right:8px;"></i>Riwayat Penutupan & Komisi</h3>
         <table>
             <thead>
                 <tr>
-                    <th>Tanggal Closing</th>
+                    <th>Tanggal Penutupan</th>
                     <th>Tipe Rumah</th>
-                    <th>Customer</th>
+                    <th>Pelanggan</th>
                     <th>Harga Jual</th>
-                    <th>Rate Komisi</th>
+                    <th>Tarif Komisi</th>
                     <th>Komisi</th>
                     <th>Status Bayar</th>
                 </tr>

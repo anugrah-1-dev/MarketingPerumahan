@@ -1,6 +1,6 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('title')
-    Detail Rumah – Blok {{ $unit['blok'] ?? '' }} – Bukit Shangrilla Asri
+    Detail Rumah â€“ Blok {{ $unit['blok'] ?? '' }} â€“ Bukit Shangrilla Asri
 @endsection
 
 @section('content')
@@ -8,7 +8,7 @@
 
         {{-- Breadcrumb --}}
         <nav class="text-sm text-[#676767] mb-8 flex items-center gap-2">
-            <a href="{{ route('landing') }}" class="hover:text-[#393939]">Home</a>
+            <a href="{{ route('landing') }}" class="hover:text-[#393939]">Beranda</a>
             <span>/</span>
             <a href="{{ route('tipe-rumah.publik') }}" class="hover:text-[#393939]">Tipe Rumah</a>
             <span>/</span>
@@ -18,7 +18,7 @@
         {{-- Title --}}
         <div class="mb-8 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
-                <p class="text-[#676767] text-sm uppercase tracking-widest mb-1">DetaiL Rumah</p>
+                <p class="text-[#676767] text-sm uppercase tracking-widest mb-1">Detail Rumah</p>
                 <h1 class="text-[#393939] text-[28px] lg:text-[38px] font-bold">{{ $unit['nama'] }}</h1>
                 <p class="text-[#676767] mt-2 max-w-[560px]">{{ $unit['deskripsi'] }}</p>
             </div>
@@ -60,9 +60,9 @@
 
                 {{-- Spesifikasi --}}
                 <div class="bg-white rounded-[20px] p-6 shadow-sm">
-                    <h2 class="text-[#393939] text-lg font-bold mb-5">📋 Spesifikasi</h2>
+                    <h2 class="text-[#393939] text-lg font-bold mb-5">ðŸ“‹ Spesifikasi</h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-5">
-                        @foreach ([['🛏', 'Kamar Tidur', $unit['kt'] . ' Kamar'], ['🚿', 'Kamar Mandi', $unit['km'] . ' Kamar'], ['🏢', 'Lantai', $unit['lantai'] . ' Lantai'], ['🚗', 'Garasi', $unit['garasi'] . ' Mobil'], ['📜', 'Sertifikat', $unit['sertifikat']], ['📐', 'Luas Bangunan', $unit['lb']], ['🌿', 'Luas Tanah', $unit['lt']]] as $spec)
+                        @foreach ([['ðŸ›', 'Kamar Tidur', $unit['kt'] . ' Kamar'], ['ðŸš¿', 'Kamar Mandi', $unit['km'] . ' Kamar'], ['ðŸ¢', 'Lantai', $unit['lantai'] . ' Lantai'], ['ðŸš—', 'Garasi', $unit['garasi'] . ' Mobil'], ['ðŸ“œ', 'Sertifikat', $unit['sertifikat']], ['ðŸ“', 'Luas Bangunan', $unit['lb']], ['ðŸŒ¿', 'Luas Tanah', $unit['lt']]] as $spec)
                             <div class="bg-[#F7F7F7] rounded-[14px] p-4 text-center">
                                 <p class="text-xl mb-1">{{ $spec[0] }}</p>
                                 <p class="text-xs text-[#676767]">{{ $spec[1] }}</p>
@@ -78,7 +78,7 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         @foreach ($unit['fasilitas'] as $f)
                             <div class="flex items-center gap-2 text-sm text-[#393939]">
-                                <span class="text-green-600 font-bold">✓</span> {{ $f }}
+                                <span class="text-green-600 font-bold">âœ“</span> {{ $f }}
                             </div>
                         @endforeach
                     </div>
@@ -90,7 +90,7 @@
 
                 {{-- Harga --}}
                 <div class="bg-white rounded-[20px] p-6 shadow-sm">
-                    <p class="text-[#676767] text-sm mb-1">💰 Harga</p>
+                    <p class="text-[#676767] text-sm mb-1">ðŸ’° Harga</p>
                     <p class="text-[#393939] text-3xl font-bold mb-5">{{ $unit['harga'] }}</p>
 
                     <div class="grid grid-cols-2 gap-3 mb-5">
@@ -167,7 +167,7 @@
                     <button type="button"
                         onclick="openDetailWaPopup('{{ $waUrlDetail }}', '{{ $waNamaDetail }}')"
                         class="block w-full bg-white text-[#393939] text-center font-semibold rounded-[25px] py-3 hover:bg-gray-100 transition-colors cursor-pointer border-0">
-                        📞 Chat {{ $waNamaDetail }} via WhatsApp
+                        ðŸ“ž Chat {{ $waNamaDetail }} via WhatsApp
                     </button>
                 </div>
             </div>
@@ -176,7 +176,7 @@
     </div>
 
     {{-- ================================================================
-     POPUP FORM DETAIL – Kumpulkan nama & HP sebelum membuka WhatsApp
+     POPUP FORM DETAIL â€“ Kumpulkan nama & HP sebelum membuka WhatsApp
      ================================================================ --}}
     <div id="wa-detail-modal"
          class="fixed inset-0 z-[9999] flex items-center justify-center p-4 hidden"
@@ -194,7 +194,7 @@
                     </svg>
                 </div>
                 <div>
-                    <h3 class="font-bold text-gray-800 text-base leading-tight" id="wa-detail-modal-title">Hubungi Agent</h3>
+                    <h3 class="font-bold text-gray-800 text-base leading-tight" id="wa-detail-modal-title">Hubungi Agen</h3>
                     <p class="text-gray-500 text-xs">via WhatsApp</p>
                 </div>
             </div>
@@ -226,7 +226,7 @@
 
             <button type="button" onclick="skipDetailWaPopup()"
                     class="mt-2 w-full text-gray-400 hover:text-gray-600 text-sm py-2 bg-transparent border-0 cursor-pointer">
-                Lewati, langsung chat →
+                Lewati, langsung chat â†’
             </button>
         </div>
     </div>
@@ -323,3 +323,5 @@
     });
 </script>
 @endsection
+
+

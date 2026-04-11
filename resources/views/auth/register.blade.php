@@ -46,7 +46,7 @@
 
                     {{-- Password --}}
                     <div>
-                        <label class="block text-sm font-semibold text-[#393939] mb-2">Password</label>
+                        <label class="block text-sm font-semibold text-[#393939] mb-2">Kata Sandi</label>
                         <input type="password" name="password" placeholder="••••••••" class="input-field" required
                             autocomplete="new-password">
                         @error('password')
@@ -56,7 +56,7 @@
 
                     {{-- Password Confirmation --}}
                     <div>
-                        <label class="block text-sm font-semibold text-[#393939] mb-2">Konfirmasi Password</label>
+                        <label class="block text-sm font-semibold text-[#393939] mb-2">Konfirmasi Kata Sandi</label>
                         <input type="password" name="password_confirmation" placeholder="••••••••" class="input-field" required
                             autocomplete="new-password">
                     </div>
@@ -68,7 +68,7 @@
                 {{-- Divider --}}
                 <div class="flex items-center gap-3 my-6">
                     <hr class="flex-1 border-gray-200">
-                    <span class="text-[#676767] text-sm">or</span>
+                    <span class="text-[#676767] text-sm">atau</span>
                     <hr class="flex-1 border-gray-200">
                 </div>
 

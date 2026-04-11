@@ -1,6 +1,6 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
-@section('title', 'Bukit Shangrilla Asri – Hunian Modern Strategis')
+@section('title', 'Bukit Shangrilla Asri â€“ Hunian Modern Strategis')
 
 @section('head')
     <!-- Swiper CSS -->
@@ -77,13 +77,13 @@
 @section('content')
 
     {{-- ================================================================
-     HERO SECTION
+     BAGIAN HERO
      ================================================================ --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pt-10 lg:pt-16 pb-20 relative overflow-hidden">
 
         <div class="flex flex-col-reverse lg:flex-row items-center justify-between gap-10">
 
-            {{-- Left: Text --}}
+            {{-- Kiri: Teks --}}
             <div class="w-full lg:w-1/2 text-center lg:text-left z-10">
                 <h1 class="text-[#393939] text-[36px] lg:text-[52px] font-bold leading-tight mb-5">
                     Hunian Modern Strategis: Investasi Cerdas untuk Keluarga
@@ -97,7 +97,7 @@
 
             </div>
 
-            {{-- Right: Hero Slider --}}
+            {{-- Kanan: Slider Beranda --}}
             <div class="w-full lg:w-1/2 relative flex justify-center">
                 <div class="absolute right-0 top-[-20px] w-[90%] h-[105%] bg-[#D9D9D9] rounded-[20px] z-0 hidden lg:block">
                 </div>
@@ -135,13 +135,13 @@
 
         </div>
 
-        {{-- Stats bar --}}
+        {{-- Bar statistik --}}
         @php
             $stats = [
-                ['value' => $unitStats['total'] ?? 0, 'label' => 'Total Unit', 'icon' => 'home', 'iconClass' => 'bg-[#EEF5FF] text-[#1D4ED8]'],
+                ['value' => $unitStats['total'] ?? 0, 'label' => 'Jumlah Unit', 'icon' => 'home', 'iconClass' => 'bg-[#EEF5FF] text-[#1D4ED8]'],
                 ['value' => $unitStats['tersedia'] ?? 0, 'label' => 'Unit Tersedia', 'icon' => 'check', 'iconClass' => 'bg-[#ECFDF3] text-[#047857]'],
                 ['value' => $unitStats['terjual'] ?? 0, 'label' => 'Unit Terjual', 'icon' => 'chart', 'iconClass' => 'bg-[#FFF1F2] text-[#BE123C]'],
-                ['value' => $unitStats['booking'] ?? 0, 'label' => 'Unit Booking', 'icon' => 'calendar', 'iconClass' => 'bg-[#FFFBEB] text-[#B45309]'],
+                ['value' => $unitStats['booking'] ?? 0, 'label' => 'Unit Dipesan', 'icon' => 'calendar', 'iconClass' => 'bg-[#FFFBEB] text-[#B45309]'],
             ];
         @endphp
         <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -355,7 +355,7 @@
     </section>
 
     {{-- ================================================================
-     SOCIAL MEDIA SHOWCASE — infinite auto-scroll carousel
+     ETALASE MEDIA SOSIAL - carousel geser otomatis tanpa batas
      ================================================================ --}}
     @if($socialMedias->isNotEmpty())
     <section class="pb-20 overflow-hidden" id="sosial-media">
@@ -369,7 +369,7 @@
             <p class="text-[#676767] text-[15px] mt-2">Ikuti promosi properti dan tur rumah terbaru kami.</p>
         </div>
 
-        {{-- Carousel wrapper — full width, no padding so cards bleed to edges --}}
+        {{-- Carousel wrapper - full width, no padding so cards bleed to edges --}}
         <div class="max-w-[1440px] mx-auto px-6 lg:px-[80px]">
             <div class="relative overflow-hidden" id="showcase-outer">
 
@@ -384,7 +384,7 @@
             <div id="showcase-track" class="flex gap-5 select-none"
                  style="width:max-content;will-change:transform;cursor:grab;">
 
-                {{-- Cards × 2 for seamless infinite loop --}}
+                {{-- Cards Ã— 2 for seamless infinite loop --}}
                 @for ($pass = 0; $pass < 2; $pass++)
                 @foreach($socialMedias as $sm)
                 @php $cfg = $sm->config; @endphp
@@ -393,7 +393,7 @@
                    style="width:280px;text-decoration:none;transition:transform .25s ease,box-shadow .25s ease;"
                          data-media-type="{{ $sm->media_type ?? '' }}"
                          data-media-src="{{ $sm->media_src ?? '' }}"
-                   aria-label="{{ e($sm->title) }} — {{ $cfg['name'] }}">
+                   aria-label="{{ e($sm->title) }} - {{ $cfg['name'] }}">
 
                     {{-- Thumbnail --}}
                     <div class="relative overflow-hidden" style="height:175px;background:#f1f5f9;">
@@ -462,7 +462,7 @@
 
     </section>
 
-    {{-- ── Video modal (YouTube auto-play saat card diklik) ── --}}
+    {{-- -- Video modal (YouTube auto-play saat card diklik) -- --}}
     <div id="sm-video-modal" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.88);align-items:center;justify-content:center;">
         <div style="position:relative;width:min(900px,95vw);aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:#000;box-shadow:0 24px 64px rgba(0,0,0,.6);">
             <iframe id="sm-video-frame" src="" frameborder="0"
@@ -503,7 +503,7 @@
         var outer  = document.getElementById('showcase-outer');
         if (!track || !outer) return;
 
-        // ── Drag / Swipe ────────────────────────────────────────────────
+        // -- Drag / Swipe ------------------------------------------------
         var isDragging = false, startX = 0, scrollStart = 0, dragDist = 0;
         var currentOffset = 0, animPaused = false;
 
@@ -548,14 +548,14 @@
             if (!isDragging) return;
             isDragging = false;
             track.classList.remove('dragging');
-            // If barely moved it's a click — let the <a> open
+            // If barely moved it's a click - let the <a> open
             // Re-enable animation from the current position isn't easy with pure CSS,
             // so we just resume (it snaps back to the animation's own timing)
             track.style.transform = '';
             track.style.animationPlayState = '';
         }
 
-        // ── Video modal – YouTube auto-play ───────────────────────────
+        // -- Video modal â€“ YouTube auto-play ---------------------------
         var smModal = document.getElementById('sm-video-modal');
         var smFrame = document.getElementById('sm-video-frame');
         var smVideo = document.getElementById('sm-video-player');
@@ -670,7 +670,7 @@
 
 
     {{-- ================================================================
-     FLOATING WHATSAPP BUTTON – dinamis berdasarkan agent di URL
+     FLOATING WHATSAPP BUTTON â€“ dinamis berdasarkan agent di URL
      ================================================================ --}}
     <button type="button"
         title="Chat dengan {{ $waNama }}"
@@ -694,7 +694,7 @@
     </button>
 
     {{-- ================================================================
-     POPUP FORM – Kumpulkan nama & HP sebelum membuka WhatsApp
+     POPUP FORM â€“ Kumpulkan nama & HP sebelum membuka WhatsApp
      ================================================================ --}}
     <div id="wa-contact-modal"
          class="fixed inset-0 z-[9999] flex items-center justify-center p-4 hidden"
@@ -749,7 +749,7 @@
             {{-- Lewati --}}
             <button type="button" onclick="skipWaPopup()"
                     class="mt-2 w-full text-gray-400 hover:text-gray-600 text-sm py-2 bg-transparent border-0 cursor-pointer">
-                Lewati, langsung chat →
+                Lewati, langsung chat â†’
             </button>
         </div>
     </div>
@@ -875,7 +875,7 @@
 
     initHeroSlider();
 
-    // Referral code dari server (PHP session/cookie) — embed langsung sebagai JS variable
+    // Referral code dari server (PHP session/cookie) - embed langsung sebagai JS variable
     const AFFILIATE_REF_CODE = @json($refCode ?? null);
 
     // Fallback: baca dari cookie browser (untuk kasus session expired tapi cookie masih ada)
@@ -884,7 +884,7 @@
         return val ? decodeURIComponent(val.split('=')[1]) : null;
     }
 
-    // ── Popup WA: buka modal ────────────────────────────────────────────────
+    // -- Popup WA: buka modal ------------------------------------------------
     let _pendingWaUrl  = null;
     let _pendingWaSlug = null;
 
@@ -997,3 +997,6 @@
         });
     </script>
 @endsection
+
+
+

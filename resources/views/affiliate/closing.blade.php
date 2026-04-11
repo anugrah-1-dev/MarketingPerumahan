@@ -1,5 +1,5 @@
 @extends('layouts.affiliate')
-@section('title', 'Daftar Closing')
+@section('title', 'Daftar Penutupan')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('assets/affiliate/css/closing.css') }}?v={{ file_exists(public_path('assets/affiliate/css/closing.css')) ? filemtime(public_path('assets/affiliate/css/closing.css')) : '1.0' }}">
@@ -9,26 +9,26 @@
 
     <!-- Header -->
     <div class="page-title">
-        <h1>Daftar Closing</h1>
-        <p>Transaksi berhasil dari leads yang masuk lewat link marketing Anda</p>
+        <h1>Daftar Penutupan</h1>
+        <p>Transaksi berhasil dari prospek yang masuk lewat link marketing Anda</p>
     </div>
 
     <!-- Stats -->
     <div class="stats-row">
         <div class="stat-card pink">
-            <div class="stat-label">Total Closing</div>
+            <div class="stat-label">Total Penutupan</div>
             <div class="stat-value">{{ $stats['total_closing'] }}</div>
             <span class="stat-badge badge-blue">Sepanjang waktu</span>
         </div>
         <div class="stat-card purple">
-            <div class="stat-label">Closing Bulan Ini</div>
+            <div class="stat-label">Penutupan Bulan Ini</div>
             <div class="stat-value">{{ $stats['closing_bulan_ini'] }}</div>
             <span class="stat-badge badge-blue">{{ now()->translatedFormat('F Y') }}</span>
         </div>
         <div class="stat-card green">
-            <div class="stat-label">Rate Komisi</div>
+            <div class="stat-label">Tarif Komisi</div>
             <div class="stat-value">{{ $commissionRate }}%</div>
-            <span class="stat-badge badge-blue">Per closing</span>
+            <span class="stat-badge badge-blue">Per penutupan</span>
         </div>
     </div>
 
@@ -57,10 +57,10 @@
         <table>
             <thead>
                 <tr>
-                    <th>Nama Customer</th>
+                    <th>Nama Pelanggan</th>
                     <th>Tipe Rumah</th>
                     <th>Harga Jual</th>
-                    <th>Tanggal Closing</th>
+                    <th>Tanggal Penutupan</th>
                     <th>Komisi</th>
                 </tr>
             </thead>
@@ -96,7 +96,7 @@
                 @empty
                 <tr>
                     <td colspan="5" style="text-align:center;padding:2rem;color:#6b7280;">
-                        Belum ada closing dari link Anda.
+                        Belum ada penutupan dari link Anda.
                     </td>
                 </tr>
                 @endforelse

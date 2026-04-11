@@ -1,6 +1,6 @@
-@extends('layouts.manager')
-@section('title', 'Dashboard')
-@section('page-title', 'Dashboard')
+﻿@extends('layouts.manager')
+@section('title', 'Dasbor')
+@section('page-title', 'Dasbor')
 
 @section('content')
     <!-- Stats Cards -->
@@ -19,7 +19,7 @@
         </div>
         <div class="stat-card">
             <div class="stat-icon purple"><i class="fas fa-users"></i></div>
-            <div class="stat-content"><h3 id="activeAgents">0</h3><p>Agent Aktif</p></div>
+            <div class="stat-content"><h3 id="activeAgens">0</h3><p>Agen Aktif</p></div>
         </div>
     </div>
 
@@ -30,9 +30,9 @@
             <div class="card-body"><div style="position:relative;height:300px;"><canvas id="clickTrendsChart"></canvas></div></div>
         </div>
         <div class="card">
-            <div class="card-header"><h2>Top 5 Agent</h2></div>
+            <div class="card-header"><h2>Top 5 Agen</h2></div>
             <div class="card-body">
-                <div class="agent-list" id="topAgentsList"></div>
+                <div class="agent-list" id="topAgensList"></div>
             </div>
         </div>
     </div>
@@ -44,7 +44,7 @@
             <div class="table-responsive">
                 <table class="table">
                     <thead>
-                        <tr><th>Waktu</th><th>Agent</th><th>Aktivitas</th><th>Status</th></tr>
+                        <tr><th>Waktu</th><th>Agen</th><th>Aktivitas</th><th>Status</th></tr>
                     </thead>
                     <tbody id="recentActivityTable"></tbody>
                 </table>
@@ -56,3 +56,4 @@
 @push('scripts')
 <script src="{{ asset('assets/manager/js/dashboard.js') }}"></script>
 @endpush
+

@@ -1,4 +1,4 @@
-<div class="space-y-1">
+﻿<div class="space-y-1">
     {{-- Nama Tipe --}}
     <div class="form-group">
         <label>Nama Tipe <span class="req">*</span></label>
@@ -9,12 +9,12 @@
     {{-- Luas Bangunan & Luas Tanah --}}
     <div class="tr-form-row">
         <div class="form-group">
-            <label>Luas Bangunan (m²) <span class="req">*</span></label>
+            <label>Luas Bangunan (mÂ²) <span class="req">*</span></label>
             <input type="number" name="luas_bangunan" min="1" placeholder="36"
                 class="form-input" required>
         </div>
         <div class="form-group">
-            <label>Luas Tanah (m²) <span class="req">*</span></label>
+            <label>Luas Tanah (mÂ²) <span class="req">*</span></label>
             <input type="number" name="luas_tanah" min="1" placeholder="72"
                 class="form-input" required>
         </div>
@@ -95,14 +95,14 @@
             class="form-input"></textarea>
     </div>
 
-    {{-- ── Foto Utama ─────────────────────────────── --}}
+    {{-- -- Foto Utama ------------------------------- --}}
     <div class="form-group">
         <label>Foto Utama</label>
         <input type="file" name="gambar" accept="image/*" class="tr-file-input">
         <p class="tr-file-hint">Format: JPG, PNG, WebP. Maks 2MB.</p>
     </div>
 
-    {{-- ── Foto Tambahan (dinamis) ─────────────────── --}}
+    {{-- -- Foto Tambahan (dinamis) ------------------- --}}
     <div class="form-group">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
             <label style="margin-bottom:0">Foto Tambahan</label>
@@ -124,3 +124,4 @@
         </label>
     </div>
 </div>
+

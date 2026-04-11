@@ -1,5 +1,5 @@
-@extends('layouts.affiliate')
-@section('title', 'Daftar Leads – Bukit Shangrilla Asri')
+﻿@extends('layouts.affiliate')
+@section('title', 'Daftar Prospek â€" Bukit Shangrilla Asri')
 
 @push('styles')
 <style>
@@ -201,7 +201,7 @@
 
     {{-- Header --}}
     <div class="leads-header">
-        <h1>Daftar Leads Saya</h1>
+        <h1>Daftar Prospek Saya</h1>
         <p>Semua pengunjung yang klik WhatsApp melalui link referral Anda</p>
     </div>
 
@@ -224,7 +224,7 @@
         <div class="stat-card">
             <div class="stat-icon amber"><i class="fas fa-phone-alt"></i></div>
             <div class="stat-info">
-                <div class="label">Follow Up</div>
+                <div class="label">Tindak Lanjut</div>
                 <div class="value">{{ $stats['follow_up'] }}</div>
             </div>
         </div>
@@ -241,18 +241,18 @@
     <div class="filter-bar">
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchInput" placeholder="Cari IP, browser, page URL…" oninput="filterTable()">
+            <input type="text" id="searchInput" placeholder="Cari IP, browser, page URLâ€¦" oninput="filterTable()">
         </div>
         <select class="filter-select" id="filterStatus" onchange="filterTable()">
             <option value="">Semua Status</option>
             <option value="new">Baru</option>
-            <option value="follow-up">Follow Up</option>
+            <option value="follow-up">Tindak Lanjut</option>
             <option value="interested">Tertarik</option>
             <option value="not-interested">Tidak Tertarik</option>
-            <option value="closed">Closed</option>
+            <option value="closed">Penutupan</option>
         </select>
         <select class="filter-select" id="filterDevice" onchange="filterTable()">
-            <option value="">Semua Device</option>
+            <option value="">Semua Perangkat</option>
             <option value="Mobile">Mobile</option>
             <option value="Desktop">Desktop</option>
         </select>
@@ -265,7 +265,7 @@
                 <tr>
                     <th>#</th>
                     <th>IP Address</th>
-                    <th>Device / Browser</th>
+                    <th>Perangkat / Browser</th>
                     <th>Halaman Asal</th>
                     <th>Waktu Klik</th>
                     <th>Status</th>
@@ -276,8 +276,8 @@
                 <tr data-status="{{ $click->status }}" data-device="{{ $click->device }}">
                     <td class="click-no">{{ $i + 1 }}</td>
                     <td>
-                        <div class="click-ip">{{ $click->ip_address ?? '—' }}</div>
-                        <div class="click-sub">{{ $click->page_url ? \Illuminate\Support\Str::limit($click->page_url, 40) : '—' }}</div>
+                        <div class="click-ip">{{ $click->ip_address ?? '-' }}</div>
+                        <div class="click-sub">{{ $click->page_url ? \Illuminate\Support\Str::limit($click->page_url, 40) : '-' }}</div>
                     </td>
                     <td>
                         <span class="click-device">
@@ -286,9 +286,9 @@
                             @else
                                 <i class="fas fa-desktop"></i>
                             @endif
-                            {{ $click->device ?? '—' }}
+                            {{ $click->device ?? '-' }}
                         </span>
-                        <div class="click-sub" style="margin-top:5px;">{{ $click->browser ?? '—' }}</div>
+                        <div class="click-sub" style="margin-top:5px;">{{ $click->browser ?? '-' }}</div>
                     </td>
                     <td>
                         @if($click->page_url)
@@ -298,7 +298,7 @@
                                 {{ \Illuminate\Support\Str::limit($click->page_url, 50) }}
                             </a>
                         @else
-                            <span style="color:#bbb;">—</span>
+                            <span style="color:#bbb;">-</span>
                         @endif
                     </td>
                     <td>
@@ -316,10 +316,10 @@
                             ];
                             $labelMap = [
                                 'new'           => 'Baru',
-                                'follow-up'     => 'Follow Up',
+                                'follow-up'     => 'Tindak Lanjut',
                                 'interested'    => 'Tertarik',
                                 'not-interested'=> 'Tidak Tertarik',
-                                'closed'        => 'Closed',
+                                'closed'        => 'Penutupan',
                             ];
                         @endphp
                         <span class="badge {{ $badgeMap[$click->status] ?? 'badge-new' }}">
@@ -331,7 +331,7 @@
                 <tr>
                     <td colspan="6">
                         <div class="empty-state">
-                            <div class="es-icon">📭</div>
+                            <div class="es-icon">ðŸ“­</div>
                             <p><strong>Belum ada klik WhatsApp</strong></p>
                             <small>Bagikan link referral Anda agar pengunjung mulai tercatat di sini</small>
                         </div>
@@ -378,3 +378,5 @@ function filterTable() {
 }
 </script>
 @endpush
+
+

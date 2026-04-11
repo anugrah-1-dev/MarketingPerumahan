@@ -1,5 +1,5 @@
-@extends('layouts.affiliate')
-@section('title', 'Pengisian Data Client – Bukit Shangrilla Asri')
+﻿@extends('layouts.affiliate')
+@section('title', 'Pengisian Data Klien â€“ Bukit Shangrilla Asri')
 
 @push('styles')
 <style>
@@ -182,15 +182,15 @@
 
     {{-- Header --}}
     <div class="form-header">
-        <h1>Form data client</h1>
-        <p>Submit data calon pembeli untuk diproses oleh tim marketing.</p>
+        <h1>Formulir data klien</h1>
+        <p>Kirim data calon pembeli untuk diproses oleh tim marketing.</p>
     </div>
 
     @php $step = session('step', 'form'); @endphp
 
     {{-- Stepper --}}
     <div class="stepper">
-        <div class="step {{ $step === 'form' ? 'active' : 'done' }}" id="stepper-1">Data client</div>
+        <div class="step {{ $step === 'form' ? 'active' : 'done' }}" id="stepper-1">Data klien</div>
         <span class="step-arrow">&#8594;</span>
         <div class="step {{ $step === 'review' ? 'active' : ($step === 'selesai' ? 'done' : '') }}" id="stepper-2">Review</div>
         <span class="step-arrow">&#8594;</span>
@@ -198,14 +198,14 @@
     </div>
 
     @if($step === 'selesai')
-    {{-- ── STEP 3: SELESAI ── --}}
+    {{-- -- STEP 3: SELESAI -- --}}
     <div class="form-card" style="max-width:560px; text-align:center;">
         <div class="success-icon">
             <i class="fas fa-check-circle"></i>
         </div>
         <div class="success-text">
             <h2>Data berhasil dikirim!</h2>
-            <p>Data calon pembeli telah berhasil disubmit dan akan diproses oleh tim marketing.</p>
+            <p>Data calon pembeli telah berhasil dikirim dan akan diproses oleh tim marketing.</p>
         </div>
         <div class="form-actions" style="justify-content:center; margin-top:24px;">
             <a href="{{ route('affiliate.pengisian-data') }}" class="btn-new">+ Tambah Data Baru</a>
@@ -214,7 +214,7 @@
     </div>
 
     @else
-    {{-- ── STEP 1: FORM DATA ── --}}
+    {{-- -- STEP 1: FORM DATA -- --}}
     <div class="form-card" id="step-form">
         <form id="clientForm" novalidate>
             @csrf
@@ -252,7 +252,7 @@
                 <select id="f_tipe_rumah" name="tipe_rumah_id" style="width:100%;padding:11px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;color:#333;background:#fff;outline:none;box-sizing:border-box;cursor:pointer;">
                     <option value="">-- Pilih Tipe Rumah --</option>
                     @foreach($tipeRumah ?? [] as $tipe)
-                    <option value="{{ $tipe->id }}" data-harga="{{ $tipe->harga }}">{{ $tipe->nama_tipe }} — Rp {{ number_format($tipe->harga, 0, ',', '.') }}</option>
+                    <option value="{{ $tipe->id }}" data-harga="{{ $tipe->harga }}">{{ $tipe->nama_tipe }} - Rp {{ number_format($tipe->harga, 0, ',', '.') }}</option>
                     @endforeach
                 </select>
                 <div class="err-msg" id="err_tipe_rumah"></div>
@@ -271,7 +271,7 @@
         </form>
     </div>
 
-    {{-- ── STEP 2: REVIEW ── --}}
+    {{-- -- STEP 2: REVIEW -- --}}
     <div class="form-card" id="step-review" style="display:none;">
         <p style="font-size:14px;color:#555;margin-bottom:16px;">Periksa kembali data sebelum dikonfirmasi.</p>
         <table class="review-table">
@@ -418,3 +418,6 @@ function confirmBatal() {
 }
 </script>
 @endpush
+
+
+

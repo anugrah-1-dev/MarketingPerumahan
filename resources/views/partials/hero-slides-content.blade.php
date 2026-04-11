@@ -59,17 +59,17 @@
 
     <div class="card">
         <div class="card-body">
-            <h3 style="margin:0 0 .9rem;font-size:1rem;font-weight:700;color:#1e293b;">Daftar Slide Hero</h3>
+            <h3 style="margin:0 0 .9rem;font-size:1rem;font-weight:700;color:#1e293b;">Daftar Slide Beranda</h3>
 
             @if($slides->isEmpty())
-                <p style="margin:0;color:#64748b;font-size:.9rem;">Belum ada slide hero. Tambahkan slide pertama Anda.</p>
+                <p style="margin:0;color:#64748b;font-size:.9rem;">Belum ada slide beranda. Tambahkan slide pertama Anda.</p>
             @else
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
                         <tr>
-                            <th style="width:120px;">Preview</th>
-                            <th>Detail</th>
+                            <th style="width:120px;">Pratinjau</th>
+                            <th>Rincian</th>
                             <th style="width:120px;">Status</th>
                             <th style="width:360px;">Aksi</th>
                         </tr>
@@ -78,7 +78,7 @@
                         @foreach($slides as $slide)
                             <tr>
                                 <td>
-                                    <img src="{{ $slide->image_url }}" alt="{{ e($slide->title ?: 'Hero Slide') }}"
+                                    <img src="{{ $slide->image_url }}" alt="{{ e($slide->title ?: 'Slide Beranda') }}"
                                          style="width:100px;height:64px;object-fit:cover;border-radius:8px;border:1px solid #e2e8f0;">
                                 </td>
                                 <td>

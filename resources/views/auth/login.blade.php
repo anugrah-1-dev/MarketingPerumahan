@@ -25,9 +25,9 @@
                     {{-- Password --}}
                     <div>
                         <div class="flex justify-between items-center mb-2">
-                            <label class="text-sm font-semibold text-[#393939]">Password</label>
-                            <a href="#" class="text-[#676767] text-xs hover:text-[#393939] transition-colors">forgot
-                                password?</a>
+                            <label class="text-sm font-semibold text-[#393939]">Kata Sandi</label>
+                            <a href="#" class="text-[#676767] text-xs hover:text-[#393939] transition-colors">lupa
+                                kata sandi?</a>
                         </div>
                         <div class="relative">
                             <input type="password" id="password" name="password" placeholder="••••••••" class="input-field pr-11" required

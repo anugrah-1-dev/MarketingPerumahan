@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 
 @section('title', 'Tipe Rumah')
 @section('page-title', 'Tipe Rumah')
@@ -27,7 +27,7 @@
     {{-- Alert --}}
     @if(session('success'))
         <div style="margin-bottom:16px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:12px 16px;border-radius:10px;font-size:0.85rem;">
-            ✅ {{ session('success') }}
+            âœ… {{ session('success') }}
         </div>
     @endif
 
@@ -36,7 +36,7 @@
         <div style="margin-bottom:16px;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:12px 16px;border-radius:10px;font-size:0.85rem;">
             <ul style="margin:0;padding-left:16px;">
                 @foreach ($errors->all() as $error)
-                    <li>❌ {{ $error }}</li>
+                    <li>âŒ {{ $error }}</li>
                 @endforeach
             </ul>
         </div>
@@ -85,14 +85,14 @@
                              onerror="this.src='https://placehold.co/68x52/f3f4f6/9ca3af?text=No+Img'">
                     </td>
                     <td class="tr-cell-name">{{ $t->nama_tipe }}</td>
-                    <td class="tr-cell-ukuran">{{ $t->luas_bangunan }}m² / {{ $t->luas_tanah }}m²</td>
+                    <td class="tr-cell-ukuran">{{ $t->luas_bangunan }}mÂ² / {{ $t->luas_tanah }}mÂ²</td>
                     <td class="tr-cell-harga">{{ $t->harga_format }}</td>
-                    <td class="tr-cell-diskon-harga">{{ $t->harga_diskon_format ?? '—' }}</td>
+                    <td class="tr-cell-diskon-harga">{{ $t->harga_diskon_format ?? '-' }}</td>
                     <td class="center">
                         @if($t->is_diskon)
-                            <span class="tr-badge-on">✔ Aktif</span>
+                            <span class="tr-badge-on">âœ” Aktif</span>
                         @else
-                            <span class="tr-badge-off">—</span>
+                            <span class="tr-badge-off">-</span>
                         @endif
                     </td>
                     <td class="center tr-stok">{{ $t->stok_tersedia }}</td>
@@ -157,7 +157,7 @@
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
-                    💾 &nbsp;Simpan Tipe Rumah
+                    ðŸ’¾ &nbsp;Simpan Tipe Rumah
                 </button>
             </div>
         </form>
@@ -187,7 +187,7 @@
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
-                    ✏️ &nbsp;Perbarui Tipe Rumah
+                    âœï¸ &nbsp;Perbarui Tipe Rumah
                 </button>
             </div>
         </form>
@@ -221,7 +221,7 @@ function trAddFotoSlot(btn) {
     var removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.title = 'Hapus';
-    removeBtn.innerHTML = '×';
+    removeBtn.innerHTML = 'Ã—';
     removeBtn.style = 'background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;';
     removeBtn.onclick = function() { div.remove(); };
     div.appendChild(fileInput);
@@ -250,7 +250,7 @@ function trAddFasilitas(btnOrList, value) {
     var removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.title = 'Hapus';
-    removeBtn.innerHTML = '×';
+    removeBtn.innerHTML = 'Ã—';
     removeBtn.style = 'background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;';
     removeBtn.onclick = function() { div.remove(); };
     div.appendChild(textInput);
@@ -303,7 +303,7 @@ function trOpenEditModal(data) {
     var sertSelect = form.querySelector('[name="sertifikat"]');
     if (sertSelect) sertSelect.value = data.sertifikat || 'SHM';
 
-    // Fasilitas – isi ulang daftar dari array
+    // Fasilitas â€“ isi ulang daftar dari array
     var fasilitasList = form.querySelector('.fasilitas-list');
     if (fasilitasList) {
         fasilitasList.innerHTML = '';
@@ -345,3 +345,5 @@ function trClearSearch() {
 }
 </script>
 @endpush
+
+

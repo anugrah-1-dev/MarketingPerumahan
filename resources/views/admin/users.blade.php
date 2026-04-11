@@ -1,20 +1,20 @@
-@extends('layouts.admin')
-@section('title', 'Manajemen Users')
-@section('page-title', 'Manajemen Users')
+﻿@extends('layouts.admin')
+@section('title', 'Manajemen Pengguna')
+@section('page-title', 'Manajemen Pengguna')
 
 @section('content')
     <!-- Action Bar -->
     <div class="action-bar">
         <button class="btn btn-primary" onclick="openAddUserModal()">
-            <i class="fas fa-plus"></i> Tambah User
+            <i class="fas fa-plus"></i> Tambah Pengguna
         </button>
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchUser" placeholder="Cari user..." onkeyup="searchUsers()">
+            <input type="text" id="searchUser" placeholder="Cari pengguna..." onkeyup="searchPengguna()">
         </div>
     </div>
 
-    <!-- Users Table -->
+    <!-- Pengguna Table -->
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
@@ -23,7 +23,7 @@
                         <tr>
                             <th>Nama</th>
                             <th>Email</th>
-                            <th>Role</th>
+                            <th>Peran</th>
                             <th>Dibuat</th>
                             <th>Aksi</th>
                         </tr>
@@ -31,7 +31,7 @@
                     <tbody id="usersTableBody">
                         <tr>
                             <td colspan="5" style="text-align:center; padding:2rem; color:#94a3b8;">
-                                <i class="fas fa-spinner fa-spin"></i> Memuat data…
+                                <i class="fas fa-spinner fa-spin"></i> Memuat data...
                             </td>
                         </tr>
                     </tbody>
@@ -44,7 +44,7 @@
     <div id="userModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="userModalTitle">Tambah User</h2>
+                <h2 id="userModalTitle">Tambah Pengguna</h2>
                 <button class="close-btn" onclick="closeUserModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
@@ -62,7 +62,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="userPassword" id="passwordLabel">Password *</label>
+                        <label for="userPassword" id="passwordLabel">Kata Sandi *</label>
                         <div style="position:relative;">
                             <input type="password" id="userPassword" placeholder="Minimal 8 karakter">
                             <button type="button"
@@ -71,13 +71,13 @@
                                 <i class="fas fa-eye" id="passwordEyeIcon"></i>
                             </button>
                         </div>
-                        <small id="passwordHint" style="color:#94a3b8;">Wajib diisi saat membuat user baru.</small>
+                        <small id="passwordHint" style="color:#94a3b8;">Wajib diisi saat membuat pengguna baru.</small>
                     </div>
 
                     <div class="form-group">
-                        <label for="userRole">Role *</label>
+                        <label for="userRole">Peran *</label>
                         <select id="userRole" style="width:100%;padding:.625rem .875rem;border:1px solid #e2e8f0;border-radius:.5rem;font-size:.9375rem;">
-                            <option value="affiliate">Affiliate</option>
+                            <option value="affiliate">Afiliasi</option>
                             <option value="admin">Admin</option>
                             <option value="super_admin">Super Admin</option>
                         </select>
@@ -97,3 +97,4 @@
 @push('scripts')
 <script src="{{ asset('assets/admin/js/users.js') }}?v={{ filemtime(public_path('assets/admin/js/users.js')) }}"></script>
 @endpush
+

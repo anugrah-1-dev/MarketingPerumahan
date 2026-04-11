@@ -1,4 +1,4 @@
-@extends('layouts.affiliate')
+﻿@extends('layouts.affiliate')
 
 @section('title', 'Tipe Rumah')
 @section('page-title', 'Tipe Rumah')
@@ -6,7 +6,7 @@
 @push('styles')
 <link rel="stylesheet" href="{{ asset('assets/admin/css/tiperumah.css') }}">
 <style>
-/* ── Tipe Rumah – Responsive Overrides untuk Affiliate Layout ── */
+/* -- Tipe Rumah â€“ Responsive Overrides untuk Affiliate Layout -- */
 .p-6 { padding: 24px; }
 .tr-table-wrapper { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tr-table { min-width: 680px; }
@@ -48,7 +48,7 @@
     {{-- Alert --}}
     @if(session('success'))
         <div style="margin-bottom:16px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:12px 16px;border-radius:10px;font-size:0.85rem;">
-            ✅ {{ session('success') }}
+            âœ… {{ session('success') }}
         </div>
     @endif
 
@@ -77,14 +77,14 @@
                              onerror="this.src='https://placehold.co/68x52/f3f4f6/9ca3af?text=No+Img'">
                     </td>
                     <td class="tr-cell-name">{{ $t->nama_tipe }}</td>
-                    <td class="tr-cell-ukuran">{{ $t->luas_bangunan }}m² / {{ $t->luas_tanah }}m²</td>
+                    <td class="tr-cell-ukuran">{{ $t->luas_bangunan }}mÂ² / {{ $t->luas_tanah }}mÂ²</td>
                     <td class="tr-cell-harga">{{ $t->harga_format }}</td>
-                    <td class="tr-cell-diskon-harga">{{ $t->harga_diskon_format ?? '—' }}</td>
+                    <td class="tr-cell-diskon-harga">{{ $t->harga_diskon_format ?? '-' }}</td>
                     <td class="center">
                         @if($t->is_diskon)
-                            <span class="tr-badge-on">✔ Aktif</span>
+                            <span class="tr-badge-on">âœ” Aktif</span>
                         @else
-                            <span class="tr-badge-off">—</span>
+                            <span class="tr-badge-off">-</span>
                         @endif
                     </td>
                     <td class="center tr-stok">{{ $t->stok_tersedia }}</td>
@@ -149,7 +149,7 @@
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
-                    💾 &nbsp;Simpan Tipe Rumah
+                    ðŸ’¾ &nbsp;Simpan Tipe Rumah
                 </button>
             </div>
         </form>
@@ -179,7 +179,7 @@
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
-                    ✏️ &nbsp;Perbarui Tipe Rumah
+                    âœï¸ &nbsp;Perbarui Tipe Rumah
                 </button>
             </div>
         </form>
@@ -257,3 +257,5 @@ function trClearSearch() {
 }
 </script>
 @endpush
+
+

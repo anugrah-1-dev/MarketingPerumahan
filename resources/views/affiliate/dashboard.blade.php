@@ -1,9 +1,9 @@
-@extends('layouts.affiliate')
-@section('title', 'Dashboard Affiliate')
+﻿@extends('layouts.affiliate')
+@section('title', 'Dasbor Afiliasi')
 
 @push('styles')
 <style>
-/* ── Dashboard Content ── */
+/* -- Dasbor Konten -- */
 .dash-wrap {
     padding: 36px 36px 40px;
     background: #f9f9f9;
@@ -123,8 +123,8 @@
 
     {{-- Header --}}
     <div class="dash-header">
-        <h1>Dashboard Affiliate</h1>
-        <p>Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong> 👋</p>
+        <h1>Dasbor Afiliasi</h1>
+        <p>Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong> ðŸ‘‹</p>
     </div>
 
     {{-- Stats --}}
@@ -144,19 +144,19 @@
         <div class="stat-card">
             <div class="stat-icon blue"><i class="fas fa-users"></i></div>
             <div class="stat-info">
-                <div class="label">Total Leads</div>
+                <div class="label">Total Prospek</div>
                 <div class="value">{{ $stats['total_leads'] }}</div>
                 @if($stats['conversion_rate'] > 0)
-                    <span class="badge" style="background:rgba(59,130,246,0.12);color:#2563eb;">{{ $stats['conversion_rate'] }}% Conv.</span>
+                    <span class="badge" style="background:rgba(59,130,246,0.12);color:#2563eb;">{{ $stats['conversion_rate'] }}% Konv.</span>
                 @else
-                    <span class="badge" style="background:#f3f4f6;color:#6b7280;">Conv. Rate</span>
+                    <span class="badge" style="background:#f3f4f6;color:#6b7280;">Tingkat Konv.</span>
                 @endif
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
             <div class="stat-info">
-                <div class="label">Total Closing</div>
+                <div class="label">Total Penutupan</div>
                 <div class="value">{{ $stats['total_closing'] }}</div>
             </div>
         </div>
@@ -172,11 +172,11 @@
     {{-- Link Saya --}}
     <div class="link-box">
         <div>
-            <div class="link-label">🔗 Link Affiliate Utama Saya</div>
+            <div class="link-label">ðŸ”— Tautan Afiliasi Utama Saya</div>
             <div class="link-url">{{ auth()->user()->referral_link }}</div>
         </div>
         <button class="copy-btn" onclick="navigator.clipboard.writeText('{{ auth()->user()->referral_link }}'); alert('Link berhasil disalin!');">
-            <i class="fas fa-copy"></i> Copy Link
+            <i class="fas fa-copy"></i> Salin Tautan
         </button>
     </div>
 
@@ -196,9 +196,9 @@
                     };
                     $statusText = match($activity->status) {
                         'new' => 'Klik link WhatsApp baru',
-                        'follow-up' => 'Proses Follow-Up Leads',
-                        'interested' => 'Leads tertarik produk',
-                        'closed' => 'Closing berhasil',
+                        'follow-up' => 'Proses Tindak Lanjut Prospek',
+                        'interested' => 'Prospek tertarik produk',
+                        'closed' => 'Penutupan berhasil',
                         default => 'Aktivitas WhatsApp'
                     };
                 @endphp
@@ -223,3 +223,5 @@
 
 </div>
 @endsection
+
+

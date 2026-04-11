@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -28,14 +28,14 @@
         
         <!-- Navbar -->
         <nav class="w-full flex justify-center lg:justify-start items-center gap-8 lg:gap-16 pt-8 lg:pt-[46px] px-6 lg:pl-[203px] flex-wrap z-20 relative">
-            <a href="#" class="text-[#393939] text-lg lg:text-[24px] font-medium hover:text-blue-600 transition-colors">Home</a>
+            <a href="#" class="text-[#393939] text-lg lg:text-[24px] font-medium hover:text-blue-600 transition-colors">Beranda</a>
             <a href="#" class="text-[#393939] text-lg lg:text-[24px] font-medium hover:text-blue-600 transition-colors whitespace-nowrap">Unit tersedia</a>
             <a href="#" class="text-[#393939] text-lg lg:text-[24px] font-medium hover:text-blue-600 transition-colors whitespace-nowrap">Site plan</a>
             <a href="#" class="text-[#393939] text-lg lg:text-[24px] font-medium hover:text-blue-600 transition-colors">Simulasi</a>
             <a href="#" class="text-[#393939] text-lg lg:text-[24px] font-medium hover:text-blue-600 transition-colors whitespace-nowrap">Tentang kami</a>
         </nav>
 
-        <!-- Hero Content Section -->
+        <!-- Hero Konten Section -->
         <main class="w-full flex flex-col-reverse lg:flex-row items-center justify-between mt-12 lg:mt-[150px] relative">
             
             <!-- Left Text -->
@@ -74,3 +74,4 @@
 
 </body>
 </html>
+

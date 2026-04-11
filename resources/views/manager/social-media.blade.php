@@ -1,6 +1,6 @@
-@extends('layouts.manager')
-@section('title', 'Konten Social Media')
-@section('page-title', 'Social Media Showcase')
+﻿@extends('layouts.manager')
+@section('title', 'Konten Media Sosial')
+@section('page-title', 'Media Sosial Showcase')
 
 @section('content')
 
@@ -32,7 +32,7 @@
             <i class="fas fa-plus"></i> Tambah Konten
         </button>
         <p style="font-size:.85rem;color:#64748b;margin:0;">
-            Kelola konten YouTube, Instagram, TikTok, atau file foto/video lokal untuk showcase homepage.
+            Kelola konten YouTube, Instagram, TikTok, atau file foto/video lokal untuk etalase beranda.
         </p>
     </div>
 
@@ -43,14 +43,14 @@
                 <div style="text-align:center;padding:3rem;color:#94a3b8;">
                     <i class="fas fa-photo-video" style="font-size:2.5rem;margin-bottom:1rem;display:block;opacity:.4;"></i>
                     <p style="font-weight:600;margin-bottom:.5rem;">Belum ada konten.</p>
-                    <p style="font-size:.85rem;">Tambahkan link social media atau upload foto/video lokal.</p>
+                    <p style="font-size:.85rem;">Tambahkan tautan media sosial atau upload foto/video lokal.</p>
                 </div>
             @else
             <div class="table-responsive">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th style="width:90px;">Preview</th>
+                            <th style="width:90px;">Pratinjau</th>
                             <th style="width:110px;">Platform</th>
                             <th>Judul</th>
                             <th style="width:180px;">Sumber</th>
@@ -170,7 +170,7 @@
         </div>
     </div>
 
-    {{-- ── ADD / EDIT MODAL ─────────────────────────────────────────────── --}}
+    {{-- -- ADD / EDIT MODAL ----------------------------------------------- --}}
     <div id="smModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9000;align-items:center;justify-content:center;padding:1rem;">
         <div style="background:#fff;border-radius:16px;width:100%;max-width:560px;max-height:92vh;overflow-y:auto;padding:2rem;">
 
@@ -214,7 +214,7 @@
                         style="width:100%;border:1px solid #cbd5e1;border-radius:8px;padding:10px 14px;font-size:.9rem;color:#1e293b;resize:vertical;box-sizing:border-box;"></textarea>
                 </div>
 
-                {{-- Content URL --}}
+                {{-- Konten URL --}}
                 <div style="margin-bottom:1.1rem;">
                     <label style="display:block;font-weight:600;font-size:.875rem;color:#374151;margin-bottom:.45rem;">
                         URL Konten
@@ -234,10 +234,10 @@
                         <img id="mediaCurrentImage" src="" alt="" style="max-height:120px;border-radius:10px;object-fit:cover;display:none;">
                         <video id="mediaCurrentVideo" controls playsinline style="max-height:140px;border-radius:10px;display:none;background:#0f172a;"></video>
                     </div>
-                    <div id="mediaPreviewWrap" style="margin-bottom:.75rem;display:none;">
-                        <p style="font-size:.78rem;color:#64748b;margin-bottom:.4rem;">Preview baru:</p>
-                        <img id="mediaPreviewImage" src="" alt="Preview" style="max-height:120px;border-radius:10px;object-fit:cover;display:none;">
-                        <video id="mediaPreviewVideo" controls playsinline style="max-height:140px;border-radius:10px;display:none;background:#0f172a;"></video>
+                    <div id="mediaPratinjauWrap" style="margin-bottom:.75rem;display:none;">
+                        <p style="font-size:.78rem;color:#64748b;margin-bottom:.4rem;">Pratinjau baru:</p>
+                        <img id="mediaPratinjauImage" src="" alt="Pratinjau" style="max-height:120px;border-radius:10px;object-fit:cover;display:none;">
+                        <video id="mediaPratinjauVideo" controls playsinline style="max-height:140px;border-radius:10px;display:none;background:#0f172a;"></video>
                     </div>
 
                     <input type="file" name="media_file" id="f_media_file" accept="image/*,video/*"
@@ -255,9 +255,9 @@
                         <img id="thumbCurrent" src="" alt=""
                              style="max-height:100px;border-radius:10px;object-fit:cover;display:block;">
                     </div>
-                    <div id="thumbPreviewWrap" style="margin-bottom:.75rem;display:none;">
-                        <p style="font-size:.78rem;color:#64748b;margin-bottom:.4rem;">Preview baru:</p>
-                        <img id="thumbPreview" src="" alt="Preview"
+                    <div id="thumbPratinjauWrap" style="margin-bottom:.75rem;display:none;">
+                        <p style="font-size:.78rem;color:#64748b;margin-bottom:.4rem;">Pratinjau baru:</p>
+                        <img id="thumbPratinjau" src="" alt="Pratinjau"
                              style="max-height:100px;border-radius:10px;object-fit:cover;display:block;">
                     </div>
 
@@ -297,9 +297,9 @@
             document.getElementById('f_content_url').value = '';
             document.getElementById('f_media_file').value  = '';
             document.getElementById('f_thumbnail').value   = '';
-            document.getElementById('thumbPreviewWrap').style.display = 'none';
+            document.getElementById('thumbPratinjauWrap').style.display = 'none';
             document.getElementById('thumbCurrentWrap').style.display = 'none';
-            resetMediaPreview();
+            resetMediaPratinjau();
             resetCurrentMedia();
             smModal.style.display = 'flex';
         }
@@ -315,8 +315,8 @@
             document.getElementById('f_content_url').value = item.content_url   || '';
             document.getElementById('f_media_file').value  = '';
             document.getElementById('f_thumbnail').value   = '';
-            document.getElementById('thumbPreviewWrap').style.display = 'none';
-            resetMediaPreview();
+            document.getElementById('thumbPratinjauWrap').style.display = 'none';
+            resetMediaPratinjau();
 
             var currentWrap = document.getElementById('thumbCurrentWrap');
             var currentImg  = document.getElementById('thumbCurrent');
@@ -335,8 +335,8 @@
         function closeModal() { smModal.style.display = 'none'; }
 
         function previewThumb(input) {
-            var wrap = document.getElementById('thumbPreviewWrap');
-            var img  = document.getElementById('thumbPreview');
+            var wrap = document.getElementById('thumbPratinjauWrap');
+            var img  = document.getElementById('thumbPratinjau');
             if (input.files && input.files[0]) {
                 img.src = URL.createObjectURL(input.files[0]);
                 wrap.style.display = 'block';
@@ -370,27 +370,27 @@
             wrap.style.display = 'block';
         }
 
-        function resetMediaPreview() {
-            document.getElementById('mediaPreviewWrap').style.display = 'none';
-            document.getElementById('mediaPreviewImage').style.display = 'none';
-            document.getElementById('mediaPreviewVideo').style.display = 'none';
-            document.getElementById('mediaPreviewImage').src = '';
-            document.getElementById('mediaPreviewVideo').src = '';
+        function resetMediaPratinjau() {
+            document.getElementById('mediaPratinjauWrap').style.display = 'none';
+            document.getElementById('mediaPratinjauImage').style.display = 'none';
+            document.getElementById('mediaPratinjauVideo').style.display = 'none';
+            document.getElementById('mediaPratinjauImage').src = '';
+            document.getElementById('mediaPratinjauVideo').src = '';
         }
 
         function previewMedia(input) {
-            resetMediaPreview();
+            resetMediaPratinjau();
             if (!(input.files && input.files[0])) return;
 
             var file = input.files[0];
             var url = URL.createObjectURL(file);
-            var wrap = document.getElementById('mediaPreviewWrap');
+            var wrap = document.getElementById('mediaPratinjauWrap');
             if (file.type.indexOf('video/') === 0) {
-                var video = document.getElementById('mediaPreviewVideo');
+                var video = document.getElementById('mediaPratinjauVideo');
                 video.src = url;
                 video.style.display = 'block';
             } else {
-                var image = document.getElementById('mediaPreviewImage');
+                var image = document.getElementById('mediaPratinjauImage');
                 image.src = url;
                 image.style.display = 'block';
             }
@@ -402,3 +402,6 @@
     </script>
 
 @endsection
+
+
+

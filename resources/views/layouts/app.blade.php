@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Bukit Shangrilla Asri') – Pilihan Rumah Terbaik</title>
+    <title>@yield('title', 'Bukit Shangrilla Asri') â€“ Pilihan Rumah Terbaik</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Google Fonts: Inter -->
@@ -162,7 +162,7 @@
     @endphp
 
     <style>
-        /* ── Navbar ───────────────────────────────────────── */
+        /* -- Navbar ----------------------------------------- */
         #mainNav {
             position: sticky;
             top: 0;
@@ -291,7 +291,7 @@
                 </span>
             </a>
 
-            {{-- Desktop Nav Links (flex-1 + justify-center agar benar-benar di tengah) --}}
+            {{-- Navigasi Desktop (flex-1 + justify-center agar benar-benar di tengah) --}}
             @php
                 $isLanding  = request()->routeIs('landing');
                 $isUnitPage = request()->routeIs('unit-tersedia');
@@ -299,7 +299,7 @@
             @endphp
             <div class="hidden lg:flex flex-1 justify-center items-center gap-7">
                 <a href="{{ route('landing') }}"
-                   class="nav-pill {{ $isLanding ? 'active' : '' }}">Home</a>
+                         class="nav-pill {{ $isLanding ? 'active' : '' }}">Beranda</a>
                 <a href="{{ route('unit-tersedia') }}"
                    class="nav-pill {{ $isUnitPage ? 'active' : '' }}">Unit Tersedia</a>
                 <a href="{{ $isLanding ? '#fasilitas' : route('landing').'#fasilitas' }}"
@@ -312,7 +312,7 @@
                    class="nav-pill">Tentang Kami</a>
             </div>
 
-            {{-- Desktop CTA — buka WhatsApp Admin --}}
+            {{-- Tombol Aksi Desktop - buka WhatsApp Admin --}}
             <div class="hidden lg:flex items-center flex-shrink-0">
                 <a href="{{ $waUrl }}" target="_blank" rel="noopener"
                    class="nav-pill nav-cta inline-flex items-center gap-2">
@@ -323,7 +323,7 @@
                 </a>
             </div>
 
-            {{-- Mobile Hamburger --}}
+            {{-- Tombol Menu Seluler --}}
             <button id="drawerToggle" class="lg:hidden flex flex-col justify-center gap-[5px] w-10 h-10 rounded-xl hover:bg-gray-100 transition items-center" aria-label="Menu">
                 <span id="hb1" class="block w-5 h-0.5 bg-[#393939] transition-all duration-300 origin-center"></span>
                 <span id="hb2" class="block w-5 h-0.5 bg-[#393939] transition-all duration-300"></span>
@@ -336,20 +336,20 @@
     <div id="mobileDrawer">
         <div id="drawerOverlay"></div>
         <div id="drawerPanel">
-            {{-- Drawer Header --}}
+            {{-- Header Drawer --}}
             <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100">
                 <span class="font-bold text-[#0B5E41] text-lg">Menu</span>
                 <button id="drawerClose" class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition text-gray-500">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
-            {{-- Drawer Links --}}
+            {{-- Tautan Drawer --}}
             <nav class="flex-1 overflow-y-auto py-4">
                 <a href="{{ route('landing') }}" class="drawer-link {{ request()->routeIs('landing') ? 'active' : '' }}">
                     <span class="drawer-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#0B5E41]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                     </span>
-                    Home
+                    Beranda
                 </a>
                 <a href="{{ route('unit-tersedia') }}" class="drawer-link {{ request()->routeIs('unit-tersedia') ? 'active' : '' }}">
                     <span class="drawer-icon">
@@ -367,7 +367,7 @@
                     <span class="drawer-icon">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#0B5E41]" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"/></svg>
                     </span>
-                    MediaSosial
+                    Media Sosial
                 </a>
                 <a href="{{ route('landing') }}#lokasi" class="drawer-link">
                     <span class="drawer-icon">
@@ -382,7 +382,7 @@
                     Tentang Kami
                 </a>
             </nav>
-            {{-- Drawer Footer CTA --}}
+            {{-- Tombol Aksi Footer Drawer --}}
             <div class="px-6 py-5 border-t border-gray-100">
                 <a href="{{ $waUrl ?? '#' }}" target="_blank" rel="noopener"
                    class="flex items-center justify-center gap-2 bg-[#0B5E41] text-white font-semibold text-sm py-3 rounded-xl hover:bg-[#094d36] transition">
@@ -397,7 +397,7 @@
 
     <script>
     (function () {
-        // ── Scroll-aware navbar ──────────────────────────────
+        // -- Navbar mengikuti posisi scroll -------------------
         var nav = document.getElementById('mainNav');
         function updateNav() {
             if (window.scrollY > 30) {
@@ -409,7 +409,7 @@
         window.addEventListener('scroll', updateNav, { passive: true });
         updateNav();
 
-        // ── Mobile Drawer ────────────────────────────────────
+        // -- Mobile Drawer ------------------------------------
         var drawer       = document.getElementById('mobileDrawer');
         var overlay      = document.getElementById('drawerOverlay');
         var panel        = document.getElementById('drawerPanel');
@@ -445,7 +445,7 @@
         closeBtn.addEventListener('click', closeDrawer);
         overlay.addEventListener('click', closeDrawer);
 
-        // Close drawer when any link inside is clicked
+        // Tutup drawer saat salah satu tautan di dalamnya diklik
         panel.querySelectorAll('a').forEach(function (link) {
             link.addEventListener('click', closeDrawer);
         });
@@ -522,7 +522,7 @@
             <!-- Lokasi -->
             <div>
                 <h4 class="text-lg font-semibold mb-4">Lokasi</h4>
-                <p class="text-gray-300 text-sm">📍 Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
+                <p class="text-gray-300 text-sm">ðŸ“ Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
             </div>
             <!-- Footer House Photo -->
             <div>
@@ -534,7 +534,7 @@
             </div>
         </div>
         <div class="border-t border-gray-600 text-center py-5 text-gray-400 text-xs">
-            © {{ date('Y') }} Bukit Shangrilla Asri. All rights reserved.
+            Â© {{ date('Y') }} Bukit Shangrilla Asri. All rights reserved.
         </div>
     </footer>
 
@@ -542,3 +542,4 @@
 </body>
 
 </html>
+

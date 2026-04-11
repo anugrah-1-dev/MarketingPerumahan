@@ -1,4 +1,4 @@
-@extends('layouts.affiliate')
+﻿@extends('layouts.affiliate')
 @section('title', 'Profile & Akun')
 
 @push('styles')
@@ -8,13 +8,13 @@
 @section('content')
 <div class="profile-page">
 
-    {{-- ── Header ── --}}
+    {{-- -- Header -- --}}
     <div class="page-header">
         <h1 class="page-title">Profile & Akun</h1>
         <p class="page-subtitle">Kelola informasi akun dan pengaturan Anda</p>
     </div>
 
-    {{-- ── Alert Sukses / Error ── --}}
+    {{-- -- Alert Sukses / Error -- --}}
     @if(session('success_biodata'))
         <div class="alert alert-success">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -28,7 +28,7 @@
         </div>
     @endif
 
-    {{-- ── Kartu Header Profil ── --}}
+    {{-- -- Kartu Header Profil -- --}}
     <div class="profile-header-card">
         <div class="avatar-wrap">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z" clip-rule="evenodd"/></svg>
@@ -39,7 +39,7 @@
             <p class="profile-meta">
                 <span>{{ $agent->jabatan ?? 'Marketing Executive' }}</span>
                 @if($agent)
-                    &nbsp;·&nbsp;Kode: <strong>{{ $agent->slug }}</strong>
+                    &nbsp;Â·&nbsp;Kode: <strong>{{ $agent->slug }}</strong>
                 @endif
             </p>
             <p class="profile-meta">
@@ -50,7 +50,7 @@
 
     <div class="profile-grid">
 
-        {{-- ── Card Informasi Pribadi ── --}}
+        {{-- -- Card Informasi Pribadi -- --}}
         <div class="profile-card accordion-card">
             <div class="card-header-section accordion-header" onclick="toggleAccordion('content-biodata', this)">
                 <div class="d-flex align-center gap-10">
@@ -117,7 +117,7 @@
             </div>
         </div>
 
-        {{-- ── Card Keamanan ── --}}
+        {{-- -- Card Keamanan -- --}}
         <div class="profile-card accordion-card">
             <div class="card-header-section accordion-header" onclick="toggleAccordion('content-security', this)">
                 <div class="d-flex align-center gap-10">
@@ -140,12 +140,12 @@
                     @endif
 
                     <div class="form-group">
-                        <label for="password_lama">Password Lama</label>
+                        <label for="password_lama">Kata Sandi Lama</label>
                         <div class="input-icon-wrap input-password-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
                             <input type="password" id="password_lama" name="password_lama"
                                    class="form-input {{ $errors->has('password_lama') ? 'input-error' : '' }}"
-                                   placeholder="Masukkan password lama">
+                                   placeholder="Masukkan kata sandi lama">
                             <button type="button" class="toggle-pw" onclick="togglePw('password_lama', this)">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             </button>
@@ -153,7 +153,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password_baru">Password Baru</label>
+                        <label for="password_baru">Kata Sandi Baru</label>
                         <div class="input-icon-wrap input-password-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
                             <input type="password" id="password_baru" name="password_baru"
@@ -166,12 +166,12 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="password_baru_confirmation">Konfirmasi Password Baru</label>
+                        <label for="password_baru_confirmation">Konfirmasi Kata Sandi Baru</label>
                         <div class="input-icon-wrap input-password-wrap">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
                             <input type="password" id="password_baru_confirmation" name="password_baru_confirmation"
                                    class="form-input"
-                                   placeholder="Ulangi password baru">
+                                   placeholder="Ulangi kata sandi baru">
                             <button type="button" class="toggle-pw" onclick="togglePw('password_baru_confirmation', this)">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                             </button>
@@ -180,7 +180,7 @@
 
                     <button type="submit" class="btn-save btn-password">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
-                        Ganti Password
+                        Ganti Kata Sandi
                     </button>
                 </form>
             </div>
@@ -221,3 +221,4 @@ function toggleAccordion(contentId, headerEl) {
 }
 </script>
 @endsection
+
