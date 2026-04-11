@@ -223,7 +223,7 @@
                 <select id="f_agent" name="agent_id" style="width:100%;padding:11px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;color:#333;background:#fff;outline:none;box-sizing:border-box;cursor:pointer;">
                     <option value="">-- Pilih Agent --</option>
                     @foreach($agents ?? [] as $agent)
-                    <option value="{{ $agent->id }}">{{ $agent->nama }} (Komisi: {{ $agent->commission }}%)</option>
+                    <option value="{{ $agent->id }}">{{ $agent->nama }} (Komisi: {{ $agent->commission}}%)</option>
                     @endforeach
                 </select>
             </div>

@@ -100,18 +100,18 @@
             <tbody>
                 @forelse($closings as $closing)
                 <tr>
-                    <td>{{ $closing->tanggal_closing?->format('d M Y') ?? '-' }}</td>
-                    <td>{{ $closing->tipeRumah?->nama_tipe ?? '-' }}</td>
-                    <td>
+                    <td data-label="Tanggal Closing">{{ $closing->tanggal_closing?->format('d M Y') ?? '-' }}</td>
+                    <td data-label="Tipe Rumah">{{ $closing->tipeRumah?->nama_tipe ?? '-' }}</td>
+                    <td data-label="Customer">
                         <div><strong>{{ $closing->customer_name }}</strong></div>
                         <div style="font-size:.8rem;color:#6b7280">{{ $closing->customer_phone }}</div>
                     </td>
-                    <td>Rp {{ number_format($closing->harga_jual, 0, ',', '.') }}</td>
-                    <td>{{ $closing->komisi_persen }}%</td>
-                    <td style="font-weight:600;color:#10b981">
+                    <td data-label="Harga Jual">Rp {{ number_format($closing->harga_jual, 0, ',', '.') }}</td>
+                    <td data-label="Rate Komisi">{{ $closing->komisi_persen }}%</td>
+                    <td data-label="Komisi" style="font-weight:600;color:#10b981">
                         Rp {{ number_format($closing->komisi_nominal, 0, ',', '.') }}
                     </td>
-                    <td>
+                    <td data-label="Status Bayar">
                         @if($closing->payment_status === 'paid-off')
                             <span style="background:#d1fae5;color:#065f46;padding:.25rem .6rem;border-radius:1rem;font-size:.8rem;font-weight:600">Lunas</span>
                         @elseif($closing->payment_status === 'installment')

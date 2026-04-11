@@ -193,6 +193,15 @@
     .stats-row { grid-template-columns: 1fr; }
     .stat-info .value { font-size: 20px; }
 }
+/* Mobile: stacked cards for leads table */
+@media (max-width: 600px) {
+    .table-card thead { display: none; }
+    .table-card table, .table-card tbody, .table-card tr, .table-card td { display: block; width: 100%; }
+    .table-card tbody tr { margin-bottom: 12px; background: #fff; border-radius: 12px; padding: 12px 14px; box-shadow: 0 1px 6px rgba(16,24,40,0.04); }
+    .table-card td { padding: 6px 0; border-bottom: none; }
+    .table-card td::before { content: attr(data-label); display: block; font-size: 12px; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
+    .table-card td[data-label="#"]::before { content: "#"; }
+}
 </style>
 @endpush
 
@@ -274,12 +283,12 @@
             <tbody>
                 @forelse($clicks as $i => $click)
                 <tr data-status="{{ $click->status }}" data-device="{{ $click->device }}">
-                    <td class="click-no">{{ $i + 1 }}</td>
-                    <td>
+                    <td class="click-no" data-label="#">{{ $i + 1 }}</td>
+                    <td data-label="IP Address">
                         <div class="click-ip">{{ $click->ip_address ?? '—' }}</div>
                         <div class="click-sub">{{ $click->page_url ? \Illuminate\Support\Str::limit($click->page_url, 40) : '—' }}</div>
                     </td>
-                    <td>
+                    <td data-label="Device / Browser">
                         <span class="click-device">
                             @if($click->device === 'Mobile')
                                 <i class="fas fa-mobile-alt"></i>
@@ -290,7 +299,7 @@
                         </span>
                         <div class="click-sub" style="margin-top:5px;">{{ $click->browser ?? '—' }}</div>
                     </td>
-                    <td>
+                    <td data-label="Halaman Asal">
                         @if($click->page_url)
                             <a href="{{ $click->page_url }}" target="_blank"
                                style="color:#3d81af;font-size:12px;word-break:break-all;text-decoration:none;"
@@ -301,11 +310,11 @@
                             <span style="color:#bbb;">—</span>
                         @endif
                     </td>
-                    <td>
+                    <td data-label="Waktu Klik">
                         <div class="click-date">{{ $click->created_at->format('d M Y') }}</div>
                         <div class="click-time">{{ $click->created_at->format('H:i') }} WIB</div>
                     </td>
-                    <td>
+                    <td data-label="Status">
                         @php
                             $badgeMap = [
                                 'new'           => 'badge-new',

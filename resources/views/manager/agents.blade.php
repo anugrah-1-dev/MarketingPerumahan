@@ -80,9 +80,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="agentCommission">Komisi (%)</label>
-                        <input type="number" id="agentCommission" placeholder="Contoh: 2.5" min="0" max="100" step="0.01" value="0">
-                        <small style="color:#94a3b8;">Persentase komisi penjualan (0–100%)</small>
+                        <label for="agentCommission">Komisi</label>
+                        <input type="text" id="agentCommission" value="1%" readonly title="Komisi dikunci pada 1%" style="width:6.5rem;">
+                        <small style="color:#94a3b8;">Komisi dikunci pada <strong>1%</strong> (tidak dapat diubah)</small>
                     </div>
                 </form>
             </div>

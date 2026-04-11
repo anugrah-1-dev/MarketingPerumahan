@@ -295,7 +295,8 @@ function editAgent(id) {
     document.getElementById("agentJabatan").value = agent.jabatan;
     document.getElementById("agentEmail").value = agent.email ?? "";
     document.getElementById("agentPhone").value = agent.phone ?? "";
-    document.getElementById("agentCommission").value = agent.commission ?? "";
+    // Tampilkan teks '1%' di popup (komisi dikunci)
+    document.getElementById("agentCommission").value = '1%';
     document.getElementById("agentPassword").value = "";
     document.getElementById("agentPassword").required = false;
     document.getElementById("helpPasswordEdit").style.display = "block";
@@ -309,7 +310,7 @@ async function saveAgent() {
     const email = document.getElementById("agentEmail").value.trim();
     const phone = document.getElementById("agentPhone").value.trim();
     const password = document.getElementById("agentPassword").value;
-    const commission = document.getElementById("agentCommission").value;
+    // Komisi dikunci menjadi 1% — jangan ambil dari input
     const id = document.getElementById("agentId").value;
     const isEdit = !!id;
 
@@ -329,7 +330,8 @@ async function saveAgent() {
         const payload = { nama, jabatan, email };
         if (phone) payload.phone = phone;
         if (password) payload.password = password;
-        if (commission) payload.commission = parseFloat(commission);
+        // Paksa komisi 1% untuk semua agent yang dibuat/diupdate dari modal ini
+        payload.commission = 1;
 
         const resp = await fetch(url, {
             method,

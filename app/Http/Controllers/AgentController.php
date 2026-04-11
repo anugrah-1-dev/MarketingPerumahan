@@ -43,7 +43,7 @@ class AgentController extends Controller
                             'aktif'      => true,
                             'email'      => $user->email,
                             'phone'      => null,
-                            'commission' => 0,
+                            'commission' => 1,
                         ]);
                     } catch (\Throwable $e) {
                         // Lewati user ini jika gagal membuat agent record
@@ -92,7 +92,7 @@ class AgentController extends Controller
             'password'   => 'required|string|min:6',
             'jabatan'    => 'nullable|string|max:100', // hidden, default Affiliate
             'phone'      => 'nullable|string|max:20',
-            'commission' => 'nullable|numeric|min:0|max:100',
+            'commission' => 'nullable|numeric|min:1|max:100',
         ]);
 
         // Auto-generate referral code using Model's method
@@ -124,7 +124,7 @@ class AgentController extends Controller
             'aktif'      => true,
             'email'      => $request->email,
             'phone'      => $request->phone,
-            'commission' => $request->commission ?? 0,
+            'commission' => $request->commission ?? 1,
         ]);
 
         return response()->json($agent, 201);
@@ -156,7 +156,7 @@ class AgentController extends Controller
             'password'   => 'nullable|string|min:6',
             'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
-            'commission' => 'nullable|numeric|min:0|max:100',
+            'commission' => 'nullable|numeric|min:1|max:100',
         ]);
 
         // 1. Update User first (if exists)
@@ -205,7 +205,7 @@ class AgentController extends Controller
                 'aktif'      => true,
                 'email'      => $request->email,
                 'phone'      => $request->phone,
-                'commission' => $request->commission ?? 0,
+                'commission' => $request->commission ?? 1,
             ]);
         }
 
@@ -252,7 +252,7 @@ class AgentController extends Controller
                     'aktif'      => false,
                     'email'      => $user->email,
                     'phone'      => null,
-                    'commission' => 0,
+                    'commission' => min(),
                 ]);
             } else {
                 $user->agent->aktif = !$user->agent->aktif;

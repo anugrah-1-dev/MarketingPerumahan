@@ -99,7 +99,7 @@ class AffiliateController extends Controller
             return view('affiliate.closing', [
                 'closings'       => collect(),
                 'stats'          => ['total_closing' => 0, 'closing_bulan_ini' => 0],
-                'commissionRate' => 0
+                'commissionRate' => 1
             ]);
         }
 
@@ -115,7 +115,7 @@ class AffiliateController extends Controller
             })->count(),
         ];
 
-        $commissionRate = $agent->commission ?? 0;
+        $commissionRate = $agent->commission ?? 1;
 
         return view('affiliate.closing', compact('closings', 'stats', 'commissionRate'));
     }
@@ -162,7 +162,7 @@ class AffiliateController extends Controller
             'totalKomisi'    => $totalKomisi,
             'komisiTerbayar' => $komisiTerbayar,
             'komisiPending'  => $komisiPending,
-            'commissionRate' => $agent->commission ?? 0,
+            'commissionRate' => $agent->commission ?? 1,
         ]);
     }
 }
