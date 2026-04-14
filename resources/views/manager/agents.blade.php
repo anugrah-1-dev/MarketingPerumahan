@@ -8,12 +8,12 @@
 
     <!-- Action Bar -->
     <div class="action-bar">
-        <button class="btn btn-primary" onclick="openAddAgenModal()">
+        <button class="btn btn-primary" onclick="openAddAgentModal()">
             <i class="fas fa-plus"></i> Tambah Agen
         </button>
         <div class="search-box">
             <i class="fas fa-search"></i>
-            <input type="text" id="searchAgen" placeholder="Cari agen..." onkeyup="searchAgens()">
+            <input type="text" id="searchAgen" placeholder="Cari agen..." onkeyup="searchAgents()">
         </div>
     </div>
 
@@ -49,7 +49,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modalTitle">Tambah Afiliasi</h2>
-                <button class="close-btn" onclick="closeAgenModal()"><i class="fas fa-times"></i></button>
+                <button class="close-btn" onclick="closeAgentModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
                 <form id="agentForm">
@@ -87,8 +87,8 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeAgenModal()">Batal</button>
-                <button class="btn btn-primary" id="saveBtn" onclick="saveAgen()">
+                <button class="btn btn-secondary" onclick="closeAgentModal()">Batal</button>
+                <button class="btn btn-primary" id="saveBtn" onclick="saveAgent()">
                     <i class="fas fa-save"></i> Simpan
                 </button>
             </div>
