@@ -60,9 +60,9 @@
 
                 {{-- Spesifikasi --}}
                 <div class="bg-white rounded-[20px] p-6 shadow-sm">
-                    <h2 class="text-[#393939] text-lg font-bold mb-5">ðŸ“‹ Spesifikasi</h2>
+                    <h2 class="text-[#393939] text-lg font-bold mb-5">📋 Spesifikasi</h2>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-5">
-                        @foreach ([['ðŸ›', 'Kamar Tidur', $unit['kt'] . ' Kamar'], ['ðŸš¿', 'Kamar Mandi', $unit['km'] . ' Kamar'], ['ðŸ¢', 'Lantai', $unit['lantai'] . ' Lantai'], ['ðŸš—', 'Garasi', $unit['garasi'] . ' Mobil'], ['ðŸ“œ', 'Sertifikat', $unit['sertifikat']], ['ðŸ“', 'Luas Bangunan', $unit['lb']], ['ðŸŒ¿', 'Luas Tanah', $unit['lt']]] as $spec)
+                        @foreach ([['🛏', 'Kamar Tidur', $unit['kt'] . ' Kamar'], ['🚿', 'Kamar Mandi', $unit['km'] . ' Kamar'], ['🏢', 'Lantai', $unit['lantai'] . ' Lantai'], ['🚗', 'Garasi', $unit['garasi'] . ' Mobil'], ['📜', 'Sertifikat', $unit['sertifikat']], ['📐', 'Luas Bangunan', $unit['lb']], ['🌿', 'Luas Tanah', $unit['lt']]] as $spec)
                             <div class="bg-[#F7F7F7] rounded-[14px] p-4 text-center">
                                 <p class="text-xl mb-1">{{ $spec[0] }}</p>
                                 <p class="text-xs text-[#676767]">{{ $spec[1] }}</p>
@@ -78,7 +78,7 @@
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
                         @foreach ($unit['fasilitas'] as $f)
                             <div class="flex items-center gap-2 text-sm text-[#393939]">
-                                <span class="text-green-600 font-bold">âœ“</span> {{ $f }}
+                                <span class="text-green-600 font-bold">&#10003;</span> {{ $f }}
                             </div>
                         @endforeach
                     </div>
@@ -90,7 +90,7 @@
 
                 {{-- Harga --}}
                 <div class="bg-white rounded-[20px] p-6 shadow-sm">
-                    <p class="text-[#676767] text-sm mb-1">ðŸ’° Harga</p>
+                    <p class="text-[#676767] text-sm mb-1">💰 Harga</p>
                     <p class="text-[#393939] text-3xl font-bold mb-5">{{ $unit['harga'] }}</p>
 
                     <div class="grid grid-cols-2 gap-3 mb-5">
@@ -167,7 +167,7 @@
                     <button type="button"
                         onclick="openDetailWaPopup('{{ $waUrlDetail }}', '{{ $waNamaDetail }}')"
                         class="block w-full bg-white text-[#393939] text-center font-semibold rounded-[25px] py-3 hover:bg-gray-100 transition-colors cursor-pointer border-0">
-                        ðŸ“ž Chat {{ $waNamaDetail }} via WhatsApp
+                        📞 Chat {{ $waNamaDetail }} via WhatsApp
                     </button>
                 </div>
             </div>
@@ -226,7 +226,7 @@
 
             <button type="button" onclick="skipDetailWaPopup()"
                     class="mt-2 w-full text-gray-400 hover:text-gray-600 text-sm py-2 bg-transparent border-0 cursor-pointer">
-                Lewati, langsung chat â†’
+                Lewati, langsung chat →
             </button>
         </div>
     </div>

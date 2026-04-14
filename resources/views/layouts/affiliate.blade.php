@@ -12,7 +12,7 @@
 </head>
 <body>
 
-    <!-- -- Mobile Top Bar (hanya terlihat di â‰¤1024px) -- -->
+    <!-- -- Mobile Top Bar (hanya terlihat di &le;1024px) -- -->
     <div class="mobile-topbar">
         <button class="hamburger-btn" id="hamburgerBtn" aria-label="Buka menu" onclick="toggleSidebar()">
             <span></span>

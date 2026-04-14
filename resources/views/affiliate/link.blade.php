@@ -307,7 +307,7 @@
 
     {{-- Kode Referral + Link --}}
     <div class="ref-code-box">
-        <div class="box-label">ðŸŽ¯ Kode Referral Unik Anda</div>
+        <div class="box-label"><i class="fas fa-bullseye"></i> Kode Referral Unik Anda</div>
         <div class="ref-code-display">
             <div class="ref-code-badge">{{ $refCode }}</div>
             <div class="ref-code-hint">
@@ -317,7 +317,7 @@
             </div>
         </div>
 
-        <div class="box-sublabel">ðŸ”— Tautan Afiliasi</div>
+        <div class="box-sublabel"><i class="fas fa-link"></i> Tautan Afiliasi</div>
         <div class="link-input-row">
             <input type="text" id="affiliateLink" value="{{ $linkUrl }}" readonly>
             <button class="copy-btn" id="copyBtn" onclick="copyLink()">
@@ -329,25 +329,25 @@
     {{-- Stats Klik WA --}}
     <div class="klik-stats">
         <div class="klik-stat-card">
-            <div class="ks-icon">ðŸ“Š</div>
+            <div class="ks-icon"><i class="fas fa-chart-bar"></i></div>
             <div class="ks-label">Total Klik WA</div>
             <div class="ks-val">{{ $totalKlik ?? 0 }}</div>
             <div class="ks-sub">Semua waktu</div>
         </div>
         <div class="klik-stat-card">
-            <div class="ks-icon">ðŸ“…</div>
+            <div class="ks-icon"><i class="fas fa-calendar-alt"></i></div>
             <div class="ks-label">Bulan Ini</div>
             <div class="ks-val">{{ $klikBulanIni ?? 0 }}</div>
             <div class="ks-sub">{{ now()->translatedFormat('F Y') }}</div>
         </div>
         <div class="klik-stat-card">
-            <div class="ks-icon">âš¡</div>
+            <div class="ks-icon"><i class="fas fa-bolt"></i></div>
             <div class="ks-label">Hari Ini</div>
             <div class="ks-val">{{ $klikHariIni ?? 0 }}</div>
             <div class="ks-sub">{{ now()->translatedFormat('d M Y') }}</div>
         </div>
         <div class="klik-stat-card">
-            <div class="ks-icon">ðŸ”¥</div>
+            <div class="ks-icon"><i class="fas fa-fire"></i></div>
             <div class="ks-label">Prospek Tertarik</div>
             <div class="ks-val">{{ $klikInterest ?? 0 }}</div>
             <div class="ks-sub">Status: Interested</div>
@@ -388,7 +388,7 @@
             </div>
             <div class="info-row">
                 <span class="info-label">Status</span>
-                <span class="badge-aktif">âœ” Aktif</span>
+                <span class="badge-aktif">&#10003; Aktif</span>
             </div>
             <div class="info-row">
                 <span class="info-label">Bergabung Sejak</span>

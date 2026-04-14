@@ -9,12 +9,12 @@
     {{-- Luas Bangunan & Luas Tanah --}}
     <div class="tr-form-row">
         <div class="form-group">
-            <label>Luas Bangunan (mÂ²) <span class="req">*</span></label>
+            <label>Luas Bangunan (m²) <span class="req">*</span></label>
             <input type="number" name="luas_bangunan" min="1" placeholder="36"
                 class="form-input" required>
         </div>
         <div class="form-group">
-            <label>Luas Tanah (mÂ²) <span class="req">*</span></label>
+            <label>Luas Tanah (m²) <span class="req">*</span></label>
             <input type="number" name="luas_tanah" min="1" placeholder="72"
                 class="form-input" required>
         </div>

@@ -402,7 +402,7 @@
             <div id="showcase-track" class="flex gap-5 select-none"
                  style="width:max-content;will-change:transform;cursor:grab;">
 
-                {{-- Cards Ã— 2 for seamless infinite loop --}}
+                {{-- Cards &times; 2 for seamless infinite loop --}}
                 @for ($pass = 0; $pass < 2; $pass++)
                 @foreach($socialMedias as $sm)
                 @php $cfg = $sm->config; @endphp
@@ -822,7 +822,7 @@
             {{-- Lewati --}}
             <button type="button" onclick="skipWaPopup()"
                     class="mt-2 w-full text-gray-400 hover:text-gray-600 text-sm py-2 bg-transparent border-0 cursor-pointer">
-                Lewati, langsung chat â†’
+                Lewati, langsung chat →
             </button>
         </div>
     </div>

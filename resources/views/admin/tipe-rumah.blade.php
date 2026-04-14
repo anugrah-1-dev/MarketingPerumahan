@@ -27,7 +27,7 @@
     {{-- Alert --}}
     @if(session('success'))
         <div style="margin-bottom:16px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:12px 16px;border-radius:10px;font-size:0.85rem;">
-            âœ… {{ session('success') }}
+            <i class="fas fa-check-circle" style="margin-right:6px"></i> {{ session('success') }}
         </div>
     @endif
 
@@ -36,7 +36,7 @@
         <div style="margin-bottom:16px;background:#fef2f2;border:1px solid #fecaca;color:#b91c1c;padding:12px 16px;border-radius:10px;font-size:0.85rem;">
             <ul style="margin:0;padding-left:16px;">
                 @foreach ($errors->all() as $error)
-                    <li>âŒ {{ $error }}</li>
+                    <li><i class="fas fa-times-circle" style="margin-right:4px"></i> {{ $error }}</li>
                 @endforeach
             </ul>
         </div>
@@ -85,12 +85,12 @@
                              onerror="this.src='https://placehold.co/68x52/f3f4f6/9ca3af?text=No+Img'">
                     </td>
                     <td class="tr-cell-name">{{ $t->nama_tipe }}</td>
-                    <td class="tr-cell-ukuran">{{ $t->luas_bangunan }}mÂ² / {{ $t->luas_tanah }}mÂ²</td>
+                    <td class="tr-cell-ukuran">{{ $t->luas_bangunan }}m&sup2; / {{ $t->luas_tanah }}m&sup2;</td>
                     <td class="tr-cell-harga">{{ $t->harga_format }}</td>
                     <td class="tr-cell-diskon-harga">{{ $t->harga_diskon_format ?? '-' }}</td>
                     <td class="center">
                         @if($t->is_diskon)
-                            <span class="tr-badge-on">âœ” Aktif</span>
+                            <span class="tr-badge-on">&#10003; Aktif</span>
                         @else
                             <span class="tr-badge-off">-</span>
                         @endif
@@ -157,7 +157,7 @@
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
-                    ðŸ’¾ &nbsp;Simpan Tipe Rumah
+                    <i class="fas fa-save"></i> &nbsp;Simpan Tipe Rumah
                 </button>
             </div>
         </form>
@@ -187,7 +187,7 @@
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
-                    âœï¸ &nbsp;Perbarui Tipe Rumah
+                    <i class="fas fa-edit"></i> &nbsp;Perbarui Tipe Rumah
                 </button>
             </div>
         </form>
@@ -221,7 +221,7 @@ function trAddFotoSlot(btn) {
     var removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.title = 'Hapus';
-    removeBtn.innerHTML = 'Ã—';
+    removeBtn.innerHTML = '&times;';
     removeBtn.style = 'background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;';
     removeBtn.onclick = function() { div.remove(); };
     div.appendChild(fileInput);
@@ -250,7 +250,7 @@ function trAddFasilitas(btnOrList, value) {
     var removeBtn = document.createElement('button');
     removeBtn.type = 'button';
     removeBtn.title = 'Hapus';
-    removeBtn.innerHTML = 'Ã—';
+    removeBtn.innerHTML = '&times;';
     removeBtn.style = 'background:none;border:none;cursor:pointer;color:#ef4444;font-size:18px;line-height:1;';
     removeBtn.onclick = function() { div.remove(); };
     div.appendChild(textInput);

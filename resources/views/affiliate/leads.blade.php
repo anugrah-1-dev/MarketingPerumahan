@@ -340,7 +340,7 @@
                 <tr>
                     <td colspan="6">
                         <div class="empty-state">
-                            <div class="es-icon">ðŸ“­</div>
+                            <div class="es-icon"><i class="fas fa-search"></i></div>
                             <p><strong>Belum ada klik WhatsApp</strong></p>
                             <small>Bagikan link referral Anda agar pengunjung mulai tercatat di sini</small>
                         </div>

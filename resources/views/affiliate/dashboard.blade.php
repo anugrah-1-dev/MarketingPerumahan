@@ -124,7 +124,7 @@
     {{-- Header --}}
     <div class="dash-header">
         <h1>Beranda Afiliasi</h1>
-        <p>Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong> ðŸ‘‹</p>
+        <p>Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong> </p>
     </div>
 
     {{-- Stats --}}
@@ -172,7 +172,7 @@
     {{-- Link Saya --}}
     <div class="link-box">
         <div>
-            <div class="link-label">ðŸ”— Tautan Afiliasi Utama Saya</div>
+            <div class="link-label"><i class="fas fa-link"></i> Tautan Afiliasi Utama Saya</div>
             <div class="link-url">{{ auth()->user()->referral_link }}</div>
         </div>
         <button class="copy-btn" onclick="navigator.clipboard.writeText('{{ auth()->user()->referral_link }}'); alert('Link berhasil disalin!');">

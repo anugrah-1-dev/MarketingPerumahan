@@ -48,7 +48,7 @@
     {{-- Alert --}}
     @if(session('success'))
         <div style="margin-bottom:16px;background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:12px 16px;border-radius:10px;font-size:0.85rem;">
-            âœ… {{ session('success') }}
+            <i class="fas fa-check-circle text-green-500 mr-2"></i> {{ session('success') }}
         </div>
     @endif
 
@@ -77,12 +77,12 @@
                              onerror="this.src='https://placehold.co/68x52/f3f4f6/9ca3af?text=No+Img'">
                     </td>
                     <td class="tr-cell-name">{{ $t->nama_tipe }}</td>
-                    <td class="tr-cell-ukuran">{{ $t->luas_bangunan }}mÂ² / {{ $t->luas_tanah }}mÂ²</td>
+                    <td class="tr-cell-ukuran">{{ $t->luas_bangunan }}m² / {{ $t->luas_tanah }}m²</td>
                     <td class="tr-cell-harga">{{ $t->harga_format }}</td>
                     <td class="tr-cell-diskon-harga">{{ $t->harga_diskon_format ?? '-' }}</td>
                     <td class="center">
                         @if($t->is_diskon)
-                            <span class="tr-badge-on">âœ” Aktif</span>
+                            <span class="tr-badge-on">&#10003; Aktif</span>
                         @else
                             <span class="tr-badge-off">-</span>
                         @endif
@@ -149,7 +149,7 @@
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
-                    ðŸ’¾ &nbsp;Simpan Tipe Rumah
+                    <i class="fas fa-save"></i> &nbsp;Simpan Tipe Rumah
                 </button>
             </div>
         </form>
@@ -179,7 +179,7 @@
             </div>
             <div class="tr-modal-footer">
                 <button type="submit" class="tr-btn-submit">
-                    âœï¸ &nbsp;Perbarui Tipe Rumah
+                    <i class="fas fa-edit"></i> &nbsp;Perbarui Tipe Rumah
                 </button>
             </div>
         </form>

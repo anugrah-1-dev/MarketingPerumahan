@@ -19,13 +19,13 @@
     </div>
 
     @if(session('success'))
-        <div class="unit-alert-success">âœ… {{ session('success') }}</div>
+        <div class="unit-alert-success"><i class="fas fa-check-circle text-green-500 mr-2"></i> {{ session('success') }}</div>
     @endif
 
     @if($errors->any())
         <div class="unit-alert-error">
             <ul style="margin:0;padding-left:16px">
-                @foreach($errors->all() as $e)<li>âŒ {{ $e }}</li>@endforeach
+                @foreach($errors->all() as $e)<li><i class="fas fa-times-circle text-red-500"></i> {{ $e }}</li>@endforeach
             </ul>
         </div>
     @endif

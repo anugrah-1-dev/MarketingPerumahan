@@ -122,7 +122,7 @@
                         <textarea id="closingNotes" rows="3" placeholder="Catatan tambahan..."></textarea>
                     </div>
                     <div id="commissionPratinjau" style="display:none;background:#f0fdf4;border:1px solid #86efac;border-radius:.5rem;padding:1rem;margin-top:1rem">
-                        <h4 style="margin-bottom:.5rem;color:#166534">ðŸ’° Perhitungan Komisi</h4>
+                        <h4 style="margin-bottom:.5rem;color:#166534"><i class="fas fa-coins"></i> Perhitungan Komisi</h4>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.875rem">
                             <div>Harga Jual:</div><div style="font-weight:600" id="previewPrice">Rp 0</div>
                             <div>Tarif Komisi:</div><div style="font-weight:600" id="previewRate">0%</div>
