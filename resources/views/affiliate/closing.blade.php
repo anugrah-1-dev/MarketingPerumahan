@@ -73,7 +73,7 @@
                     </td>
                     <td data-label="Tipe Rumah">
                         @if($closing->tipeRumah)
-                            <span class="badge badge-wa">{{ $closing->tipeRumah->nama }}</span>
+                            <span class="badge badge-wa">{{ $closing->tipeRumah->nama_tipe }}</span>
                         @else
                             <span class="badge">–</span>
                         @endif

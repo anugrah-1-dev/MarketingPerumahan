@@ -1,7 +1,7 @@
 // -- Closing Management � Real API version ---------------------------------
 const closingPanel = window.CLOSING_PANEL ?? "admin";
 const closingBasePath = "/" + closingPanel + "/closing";
-const agentsBasePath = "/" + closingPanel + "/agents";
+const agentsBasePath = "/" + closingPanel + "/agents/data";
 
 let closings = [];
 let agents = [];
@@ -69,7 +69,7 @@ function loadPropertiesForSelect() {
     properties.forEach((p) => {
         const opt = document.createElement("option");
         opt.value = p.id;
-        opt.textContent = p.name + " � " + formatCurrency(p.price);
+        opt.textContent = p.name + " - " + formatCurrency(p.price);
         opt.dataset.price = p.price;
         select.appendChild(opt);
     });

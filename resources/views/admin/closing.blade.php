@@ -1,6 +1,6 @@
 ﻿@extends('layouts.admin')
-@section('title', 'Manajemen Penutupan')
-@section('page-title', 'Manajemen Penutupan')
+@section('title', 'Manajemen Client')
+@section('page-title', 'Manajemen Client')
 
 @section('content')
     <!-- Stats Summary -->
@@ -46,7 +46,7 @@
                 <option value="current" selected>Bulan Ini</option>
                 <option value="last">Bulan Lalu</option>
             </select>
-            <select id="filterAgen" onchange="filterClosings()">
+            <select id="filterAgent" onchange="filterClosings()">
                 <option value="all">Semua Agen</option>
             </select>
             <select id="filterPaymentStatus" onchange="filterClosings()">
@@ -98,7 +98,7 @@
                     </div>
                     <div class="form-group">
                         <label>Agen *</label>
-                        <select id="closingAgen" required onchange="updateCommissionPratinjau()">
+                        <select id="closingAgent" required onchange="updateCommissionPreview()">
                             <option value="">Pilih Agen</option>
                         </select>
                     </div>
@@ -118,7 +118,7 @@
                     </div>
                     <div class="form-group">
                         <label>Harga Jual *</label>
-                        <input type="number" id="salePrice" required min="0" step="1000000" onchange="updateCommissionPratinjau()" placeholder="0">
+                        <input type="number" id="salePrice" required min="0" step="1000000" onchange="updateCommissionPreview()" placeholder="0">
                         <small style="color:#64748b">Harga dalam Rupiah</small>
                     </div>
                     <div class="form-group">
@@ -133,7 +133,7 @@
                         <label>Catatan</label>
                         <textarea id="closingNotes" rows="3" placeholder="Catatan tambahan..."></textarea>
                     </div>
-                    <div id="commissionPratinjau" style="display:none;background:#f0fdf4;border:1px solid #86efac;border-radius:.5rem;padding:1rem;margin-top:1rem">
+                    <div id="commissionPreview" style="display:none;background:#f0fdf4;border:1px solid #86efac;border-radius:.5rem;padding:1rem;margin-top:1rem">
                         <h4 style="margin-bottom:.5rem;color:#166534"><i class="fas fa-coins"></i> Perhitungan Komisi</h4>
                         <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.875rem">
                             <div>Harga Jual:</div><div style="font-weight:600" id="previewPrice">Rp 0</div>

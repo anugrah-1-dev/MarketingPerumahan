@@ -258,7 +258,7 @@
                 <div class="err-msg" id="err_tipe_rumah"></div>
             </div>
             <div class="form-group" id="fg_bukti">
-                <label>Bukti Pembayaran <span style="font-weight:400;color:#888;font-size:12px">(opsional, maks 5 MB)</span></label>
+                <label>Bukti Pembayaran <span class="req">*</span> <span style="font-weight:400;color:#888;font-size:12px">(maks 5 MB)</span></label>
                 <input type="file" id="f_bukti" name="bukti_pembayaran" accept="image/jpeg,image/png,image/webp"
                     style="border:1.5px dashed #d1d5db;border-radius:8px;padding:10px 14px;background:#fafafa;cursor:pointer;width:100%;box-sizing:border-box;">
                 <div style="font-size:12px;color:#888;margin-top:4px">Format: JPG, PNG, WEBP</div>
@@ -355,6 +355,18 @@ function goToReview() {
         tipeEl.style.borderColor = '#d1d5db';
     }
 
+    // Validasi bukti pembayaran
+    const fileInput = document.getElementById('f_bukti');
+    const errBukti  = document.getElementById('err_bukti');
+    if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+        errBukti.textContent = 'Bukti pembayaran wajib diunggah.';
+        fileInput.style.borderColor = '#e53935';
+        valid = false;
+    } else {
+        errBukti.textContent = '';
+        fileInput.style.borderColor = '#d1d5db';
+    }
+
     if (!valid) return;
 
     // Isi tabel review
@@ -374,7 +386,6 @@ function goToReview() {
     document.getElementById('hd_tipe_rumah_id').value = tipeEl.value;
 
     // Pindahkan file input ke dalam submitForm agar ikut ter-submit
-    const fileInput = document.getElementById('f_bukti');
     const placeholder = document.getElementById('buktiPlaceholder');
     if (fileInput && placeholder) {
         placeholder.innerHTML = '';

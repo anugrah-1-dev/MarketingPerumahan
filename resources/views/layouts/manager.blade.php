@@ -23,6 +23,30 @@
                 <i class="fas fa-home"></i>
                 <span>Beranda</span>
             </a>
+            <a href="{{ route('manager.units') }}" class="nav-item {{ request()->routeIs('manager.units*') ? 'active' : '' }}">
+                <i class="fas fa-building"></i>
+                <span>Manajemen Unit</span>
+            </a>
+            <a href="{{ route('manager.tracking') }}" class="nav-item {{ request()->routeIs('manager.tracking') ? 'active' : '' }}">
+                <i class="fas fa-mouse-pointer"></i>
+                <span>Pelacakan Klik WA</span>
+            </a>
+            <a href="{{ route('manager.pengisian-data') }}" class="nav-item {{ request()->routeIs('manager.pengisian-data') ? 'active' : '' }}">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Pengisian Data Klien</span>
+            </a>
+            <a href="{{ route('manager.closing') }}" class="nav-item {{ request()->routeIs('manager.closing') ? 'active' : '' }}">
+                <i class="fas fa-handshake"></i>
+                <span>Manajemen Client</span>
+            </a>
+            <a href="{{ route('manager.users') }}" class="nav-item {{ request()->routeIs('manager.users*') ? 'active' : '' }}">
+                <i class="fas fa-user-lock"></i>
+                <span>Manajemen Pengguna</span>
+            </a>
+            <a href="{{ route('manager.social-media') }}" class="nav-item {{ request()->routeIs('manager.social-media*') ? 'active' : '' }}">
+                <i class="fas fa-share-alt"></i>
+                <span>Media Sosial</span>
+            </a>
             <a href="{{ route('manager.agents') }}" class="nav-item {{ request()->routeIs('manager.agents*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
                 <span>Manajemen Agen</span>
@@ -30,30 +54,6 @@
             <a href="{{ route('manager.tipe-rumah') }}" class="nav-item {{ request()->routeIs('manager.tipe-rumah*') ? 'active' : '' }}">
                 <i class="fas fa-home"></i>
                 <span>Tipe Rumah</span>
-            </a>
-            <a href="{{ route('manager.units') }}" class="nav-item {{ request()->routeIs('manager.units*') ? 'active' : '' }}">
-                <i class="fas fa-building"></i>
-                <span>Manajemen Unit</span>
-            </a>
-            <a href="{{ route('manager.pengisian-data') }}" class="nav-item {{ request()->routeIs('manager.pengisian-data') ? 'active' : '' }}">
-                <i class="fas fa-clipboard-list"></i>
-                <span>Pengisian Data Klien</span>
-            </a>
-            <a href="{{ route('manager.users') }}" class="nav-item {{ request()->routeIs('manager.users*') ? 'active' : '' }}">
-                <i class="fas fa-user-lock"></i>
-                <span>Manajemen Pengguna</span>
-            </a>
-            <a href="{{ route('manager.tracking') }}" class="nav-item {{ request()->routeIs('manager.tracking') ? 'active' : '' }}">
-                <i class="fas fa-mouse-pointer"></i>
-                <span>Pelacakan Klik WA</span>
-            </a>
-            <a href="{{ route('manager.closing') }}" class="nav-item {{ request()->routeIs('manager.closing') ? 'active' : '' }}">
-                <i class="fas fa-handshake"></i>
-                <span>Manajemen Penutupan</span>
-            </a>
-            <a href="{{ route('manager.social-media') }}" class="nav-item {{ request()->routeIs('manager.social-media*') ? 'active' : '' }}">
-                <i class="fas fa-share-alt"></i>
-                <span>Media Sosial</span>
             </a>
             <a href="{{ route('manager.hero-slides') }}" class="nav-item {{ request()->routeIs('manager.hero-slides*') ? 'active' : '' }}">
                 <i class="fas fa-images"></i>

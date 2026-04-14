@@ -181,7 +181,7 @@ class PageController extends Controller
             'no_whatsapp'     => ['required', 'string', 'max:20'],
             'alamat'          => ['required', 'string'],
             'tipe_rumah_id'   => ['required', 'exists:tipe_rumah,id'],
-            'bukti_pembayaran' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'bukti_pembayaran' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ], [
             'nama_lengkap.required'  => 'Nama lengkap wajib diisi.',
             'email.required'         => 'Email wajib diisi.',
@@ -192,6 +192,7 @@ class PageController extends Controller
             'alamat.required'        => 'Alamat wajib diisi.',
             'tipe_rumah_id.required' => 'Tipe rumah wajib dipilih.',
             'tipe_rumah_id.exists'   => 'Tipe rumah tidak valid.',
+            'bukti_pembayaran.required' => 'Bukti pembayaran wajib diunggah.',
             'bukti_pembayaran.image' => 'File harus berupa gambar.',
             'bukti_pembayaran.mimes' => 'Format gambar: jpg, jpeg, png, atau webp.',
             'bukti_pembayaran.max'   => 'Ukuran file maksimal 5 MB.',
@@ -406,7 +407,7 @@ class PageController extends Controller
             'alamat'           => ['required', 'string'],
             'tipe_rumah_id'    => ['required', 'exists:tipe_rumah,id'],
             'agent_id'         => ['nullable', 'exists:agents,id'],
-            'bukti_pembayaran' => ['nullable', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
+            'bukti_pembayaran' => ['required', 'image', 'mimes:jpg,jpeg,png,webp', 'max:5120'],
         ], [
             'nama_lengkap.required'  => 'Nama lengkap wajib diisi.',
             'email.required'         => 'Email wajib diisi.',
@@ -417,6 +418,7 @@ class PageController extends Controller
             'alamat.required'        => 'Alamat wajib diisi.',
             'tipe_rumah_id.required' => 'Tipe rumah wajib dipilih.',
             'tipe_rumah_id.exists'   => 'Tipe rumah tidak valid.',
+            'bukti_pembayaran.required' => 'Bukti pembayaran wajib diunggah.',
             'bukti_pembayaran.image' => 'File harus berupa gambar.',
             'bukti_pembayaran.mimes' => 'Format gambar: jpg, jpeg, png, atau webp.',
             'bukti_pembayaran.max'   => 'Ukuran file maksimal 5 MB.',
