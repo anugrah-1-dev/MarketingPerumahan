@@ -1,7 +1,7 @@
 @extends('layouts.manager')
 
-@section('title', 'Slider Beranda')
-@section('page-title', 'Slider Beranda')
+@section('title', 'Galeri Beranda')
+@section('page-title', 'Galeri Beranda')
 
 @section('content')
 <div class="p-6">

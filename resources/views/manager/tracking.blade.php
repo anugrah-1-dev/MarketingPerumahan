@@ -1,6 +1,6 @@
 ﻿@extends('layouts.manager')
-@section('title', 'Tracking Klik WA')
-@section('page-title', 'Tracking Klik WhatsApp')
+@section('title', 'Pelacakan Klik WA')
+@section('page-title', 'Pelacakan Klik WhatsApp')
 
 @section('content')
     <!-- Stats Summary -->

@@ -1,5 +1,5 @@
 ﻿@extends('layouts.affiliate')
-@section('title', 'Profile & Akun')
+@section('title', 'Profil & Akun')
 
 @push('styles')
 <link rel="stylesheet" href="{{ asset('assets/affiliate/css/profile.css') }}?v={{ file_exists(public_path('assets/affiliate/css/profile.css')) ? filemtime(public_path('assets/affiliate/css/profile.css')) : '1.0' }}">

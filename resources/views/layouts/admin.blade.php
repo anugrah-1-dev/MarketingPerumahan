@@ -45,7 +45,7 @@
             </a>
             <a href="{{ route('admin.tracking') }}" class="nav-item {{ request()->routeIs('admin.tracking') ? 'active' : '' }}">
                 <i class="fas fa-mouse-pointer"></i>
-                <span>Tracking Klik WA</span>
+                <span>Pelacakan Klik WA</span>
             </a>
             <a href="{{ route('admin.closing') }}" class="nav-item {{ request()->routeIs('admin.closing') ? 'active' : '' }}">
                 <i class="fas fa-handshake"></i>
@@ -57,7 +57,7 @@
             </a>
             <a href="{{ route('admin.hero-slides') }}" class="nav-item {{ request()->routeIs('admin.hero-slides*') ? 'active' : '' }}">
                 <i class="fas fa-images"></i>
-                <span>Slider Beranda</span>
+                <span>Galeri Beranda</span>
             </a>
             <a href="{{ route('admin.denah') }}" class="nav-item {{ request()->routeIs('admin.denah*') ? 'active' : '' }}">
                 <i class="fas fa-map"></i>

@@ -39,7 +39,7 @@
             </a>
             <a href="{{ route('affiliate.link') }}" class="nav-item {{ request()->routeIs('affiliate.link') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-link"></i></span>
-                Link saya
+                Tautan Saya
             </a>
             <a href="{{ route('affiliate.leads') }}" class="nav-item {{ request()->routeIs('affiliate.leads') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-users"></i></span>

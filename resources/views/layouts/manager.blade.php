@@ -45,7 +45,7 @@
             </a>
             <a href="{{ route('manager.tracking') }}" class="nav-item {{ request()->routeIs('manager.tracking') ? 'active' : '' }}">
                 <i class="fas fa-mouse-pointer"></i>
-                <span>Tracking Klik WA</span>
+                <span>Pelacakan Klik WA</span>
             </a>
             <a href="{{ route('manager.closing') }}" class="nav-item {{ request()->routeIs('manager.closing') ? 'active' : '' }}">
                 <i class="fas fa-handshake"></i>
@@ -57,7 +57,7 @@
             </a>
             <a href="{{ route('manager.hero-slides') }}" class="nav-item {{ request()->routeIs('manager.hero-slides*') ? 'active' : '' }}">
                 <i class="fas fa-images"></i>
-                <span>Slider Beranda</span>
+                <span>Galeri Beranda</span>
             </a>
             <a href="{{ route('manager.denah') }}" class="nav-item {{ request()->routeIs('manager.denah*') ? 'active' : '' }}">
                 <i class="fas fa-map"></i>

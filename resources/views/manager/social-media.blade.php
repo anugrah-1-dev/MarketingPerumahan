@@ -1,6 +1,6 @@
 ﻿@extends('layouts.manager')
 @section('title', 'Konten Media Sosial')
-@section('page-title', 'Media Sosial Showcase')
+@section('page-title', 'Media Sosial')
 
 @section('content')
 
