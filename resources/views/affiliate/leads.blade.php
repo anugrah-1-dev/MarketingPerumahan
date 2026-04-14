@@ -1,5 +1,5 @@
 ﻿@extends('layouts.affiliate')
-@section('title', 'Daftar Prospek - Bukit Shangrilla Asri')
+@section('title', 'Rekap - Bukit Shangrilla Asri')
 
 @push('styles')
 <style>
@@ -210,7 +210,7 @@
 
     {{-- Header --}}
     <div class="leads-header">
-        <h1>Daftar Prospek Saya</h1>
+        <h1>Rekap Klien</h1>
         <p>Semua pengunjung yang klik WhatsApp melalui link referral Anda</p>
     </div>
 

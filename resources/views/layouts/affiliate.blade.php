@@ -43,7 +43,7 @@
             </a>
             <a href="{{ route('affiliate.leads') }}" class="nav-item {{ request()->routeIs('affiliate.leads') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-users"></i></span>
-                Prospek
+                Rekap
             </a>
             <a href="{{ route('affiliate.closing') }}" class="nav-item {{ request()->routeIs('affiliate.closing') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-check-circle"></i></span>
