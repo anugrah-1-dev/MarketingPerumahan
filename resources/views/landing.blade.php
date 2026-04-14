@@ -263,37 +263,37 @@
             [
                 'nama' => 'Taman Air',
                 'deskripsi' => 'Fasilitas taman air kawasan hunian yang menghadirkan hiburan air menyenangkan untuk waktu berkualitas bersama keluarga.',
-                'icon' => 'waterpark',
+                'icon' => 'person-swimming',
             ],
             [
                 'nama' => 'Area Kuliner',
                 'deskripsi' => 'Area kuliner dengan beragam pilihan makanan, nyaman untuk bersantai dan berkumpul bersama keluarga.',
-                'icon' => 'foodcourt',
+                'icon' => 'utensils',
             ],
             [
                 'nama' => 'Taman Bermain',
                 'deskripsi' => 'Taman bermain aman dan seru untuk anak setiap hari, menghadirkan keceriaan di lingkungan perumahan.',
-                'icon' => 'playground',
+                'icon' => 'children',
             ],
             [
                 'nama' => 'Pusat Olahraga',
                 'deskripsi' => 'Fasilitas pusat olahraga modern untuk kebugaran penghuni setiap hari.',
-                'icon' => 'sport',
+                'icon' => 'dumbbell',
             ],
             [
                 'nama' => 'Sistem Satu Gerbang',
                 'deskripsi' => 'Sistem satu pintu keluar masuk area kluster untuk menjaga keamanan lingkungan lebih optimal.',
-                'icon' => 'gate',
+                'icon' => 'archway',
             ],
             [
                 'nama' => 'CCTV 24 Jam',
                 'deskripsi' => 'Pemantauan CCTV 24 jam membantu lingkungan perumahan menjadi lebih aman dan terpantau.',
-                'icon' => 'cctv',
+                'icon' => 'camera',
             ],
             [
                 'nama' => 'Keamanan 24 Jam',
                 'deskripsi' => 'Keamanan 24 jam untuk memastikan kenyamanan dan ketenangan penghuni sepanjang waktu.',
-                'icon' => 'security',
+                'icon' => 'shield-halved',
             ],
             [
                 'nama' => 'Pemandangan Pegunungan',
@@ -303,7 +303,7 @@
             [
                 'nama' => 'Lokasi Strategis',
                 'deskripsi' => 'Hunian dengan akses terbaik, hanya berjarak 3 menit dari Stasiun Lawang, memudahkan mobilitas harian Anda dengan lebih efisien.',
-                'icon' => 'location',
+                'icon' => 'location-dot',
             ],
         ];
     @endphp
@@ -320,27 +320,7 @@
                     @foreach ($fasilitas as $item)
                         <div class="flex items-start gap-4 border-b border-white/20 pb-4 last:border-b-0">
                             <div class="w-12 h-12 rounded-xl border border-white/30 bg-white/10 flex items-center justify-center shrink-0">
-                                @if($item['icon'] === 'mosque')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 20h18M6 20V9l6-4 6 4v11M12 5V3m-2 9h4m-4 3h4"/></svg>
-                                @elseif($item['icon'] === 'waterpark')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 14c1 .9 2 .9 3 0s2-.9 3 0 2 .9 3 0 2-.9 3 0 2 .9 3 0M7 10l3-5h4l3 5"/></svg>
-                                @elseif($item['icon'] === 'foodcourt')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M7 4v8m3-8v8M5 8h4M13 4h2a2 2 0 012 2v14m0-9h2"/></svg>
-                                @elseif($item['icon'] === 'playground')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 20h16M7 20v-8l5-6 5 6v8M12 6V4"/></svg>
-                                @elseif($item['icon'] === 'sport')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 7h16M4 17h16M8 7v10m8-10v10"/></svg>
-                                @elseif($item['icon'] === 'gate')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 20h16M6 20V8h12v12M9 8V5h6v3"/></svg>
-                                @elseif($item['icon'] === 'cctv')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 9h11l2 2h3M7 14l-2 4m10-4l2 4M6 9l2-3h5"/></svg>
-                                @elseif($item['icon'] === 'security')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 3l7 4v5c0 5-3.2 7.7-7 9-3.8-1.3-7-4-7-9V7l7-4zM9 12l2 2 4-4"/></svg>
-                                @elseif($item['icon'] === 'mountain')
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 20h18L14 9l-3 4-2-3-6 10z"/></svg>
-                                @else
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 21s7-5.4 7-11a7 7 0 10-14 0c0 5.6 7 11 7 11z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 11a2 2 0 100-4 2 2 0 000 4z"/></svg>
-                                @endif
+                                <i class="fas fa-{{ $item['icon'] }} text-xl"></i>
                             </div>
 
                             <div>
