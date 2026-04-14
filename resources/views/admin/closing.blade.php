@@ -37,9 +37,6 @@
 
     <!-- Action Bar -->
     <div class="action-bar">
-        <button class="btn btn-primary" onclick="openAddClosingModal()">
-            <i class="fas fa-plus"></i> Input Penutupan Baru
-        </button>
         <div class="filter-group" style="display:flex;gap:1rem">
             <select id="filterMonth" onchange="filterClosings()">
                 <option value="all">Semua Bulan</option>
@@ -62,9 +59,6 @@
     <div class="card">
         <div class="card-header">
             <h2>Data Penutupan</h2>
-            <button class="btn btn-success" onclick="exportClosings()">
-                <i class="fas fa-download"></i> Ekspor Data
-            </button>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -86,7 +80,7 @@
     <div id="closingModal" class="modal">
         <div class="modal-content" style="max-width:600px">
             <div class="modal-header">
-                <h2 id="modalTitle">Input Penutupan Baru</h2>
+                <h2 id="modalTitle">Edit Closing</h2>
                 <button class="close-btn" onclick="closeClosingModal()"><i class="fas fa-times"></i></button>
             </div>
             <div class="modal-body">
@@ -104,7 +98,7 @@
                     </div>
                     <div class="form-group">
                         <label>Properti *</label>
-                        <select id="closingProperty" required onchange="updateCommissionPratinjau()">
+                        <select id="closingProperty" required onchange="updateCommissionPreview()">
                             <option value="">Pilih Properti</option>
                         </select>
                     </div>
@@ -165,7 +159,6 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeDetailsModal()">Tutup</button>
-                <button class="btn btn-primary" onclick="printClosing()"><i class="fas fa-print"></i> Cetak</button>
             </div>
         </div>
     </div>

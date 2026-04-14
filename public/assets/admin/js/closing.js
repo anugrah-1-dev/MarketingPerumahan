@@ -306,16 +306,6 @@ function renderClosingsTable() {
 
 // -- Modal: Open / Close ----------------------------------------------------
 
-function openAddClosingModal() {
-    editingClosingId = null;
-    document.getElementById("modalTitle").textContent = "Input Closing Baru";
-    document.getElementById("closingForm").reset();
-    document.getElementById("closingId").value = "";
-    document.getElementById("closingDate").valueAsDate = new Date();
-    document.getElementById("commissionPreview").style.display = "none";
-    document.getElementById("closingModal").style.display = "flex";
-}
-
 function editClosing(id) {
     const c = closings.find((x) => x.id === id);
     if (!c) return;
@@ -580,16 +570,6 @@ function renderAgentSummary() {
         </div>`,
         )
         .join("");
-}
-
-// -- Print / Export ---------------------------------------------------------
-
-function printClosing() {
-    alert("Fungsi cetak akan membuka pratinjau cetak.");
-}
-
-function exportClosings() {
-    alert("Ekspor data closing akan segera diunduh...");
 }
 
 // -- Close modal on outside click -------------------------------------------
