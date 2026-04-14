@@ -682,6 +682,38 @@
                 </iframe>
             </div>
             
+            {{-- Tombol Video Rute --}}
+            <div class="mt-4">
+                <button type="button" onclick="toggleVideoRute()"
+                    id="btn-video-rute"
+                    class="w-full flex items-center justify-between gap-3 bg-gray-50 hover:bg-gray-100 border border-gray-200 rounded-[12px] px-5 py-3 text-sm font-semibold text-gray-700 transition-all duration-200">
+                    <span class="flex items-center gap-2">
+                        <span class="flex items-center justify-center w-8 h-8 bg-blue-600 rounded-full shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                        </span>
+                        Tonton Video Rute ke Lokasi
+                    </span>
+                    <svg id="icon-chevron-rute" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                </button>
+
+                <div id="video-rute-wrap" class="overflow-hidden transition-all duration-500" style="max-height:0;">
+                    <div class="pt-3">
+                        <div class="w-full rounded-[12px] overflow-hidden bg-black" style="aspect-ratio:16/9;">
+                            <video id="video-rute-player"
+                                class="w-full h-full object-contain"
+                                controls
+                                preload="none"
+                                playsinline>
+                                <source src="{{ asset('assets/images/rute.mp4') }}" type="video/mp4">
+                                Browser Anda tidak mendukung pemutaran video.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="mt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div class="flex items-start gap-3">
                     <div class="bg-blue-50 text-blue-600 p-3 rounded-full mt-1">
@@ -701,6 +733,24 @@
             </div>
         </div>
     </section>
+
+    <script>
+    function toggleVideoRute() {
+        var wrap    = document.getElementById('video-rute-wrap');
+        var chevron = document.getElementById('icon-chevron-rute');
+        var video   = document.getElementById('video-rute-player');
+        var isOpen  = wrap.style.maxHeight !== '0px' && wrap.style.maxHeight !== '';
+
+        if (isOpen) {
+            wrap.style.maxHeight = '0';
+            chevron.style.transform = 'rotate(0deg)';
+            if (video) video.pause();
+        } else {
+            wrap.style.maxHeight = wrap.scrollHeight + 500 + 'px';
+            chevron.style.transform = 'rotate(180deg)';
+        }
+    }
+    </script>
 
 
 

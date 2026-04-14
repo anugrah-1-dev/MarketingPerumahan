@@ -105,4 +105,67 @@ class SettingController extends Controller
         return redirect()->route($route)
                          ->with('success', 'Gambar denah berhasil diperbarui!');
     }
+
+    /**
+     * GET /admin/lokasi-video
+     * Tampilkan halaman kelola video lokasi.
+     */
+    public function lokasiVideo()
+    {
+        $lokasiVideo = Setting::get('lokasi_video', '');
+        $isManager   = request()->routeIs('manager.*');
+        $view        = $isManager ? 'manager.lokasi-video' : 'admin.lokasi-video';
+        return view($view, compact('lokasiVideo'));
+    }
+
+    /**
+     * POST /admin/lokasi-video
+     * Upload dan simpan video lokasi.
+     */
+    public function updateLokasiVideo(Request $request)
+    {
+        $request->validate([
+            'lokasi_video' => ['required', 'file', 'mimes:mp4,mov,webm,ogg', 'max:102400'],
+        ], [
+            'lokasi_video.required' => 'File video wajib diunggah.',
+            'lokasi_video.file'     => 'File harus berupa video.',
+            'lokasi_video.mimes'    => 'Format video harus MP4, MOV, WebM, atau OGG.',
+            'lokasi_video.max'      => 'Ukuran video maksimal 100 MB.',
+        ]);
+
+        // Hapus file lama jika ada
+        $oldPath = Setting::get('lokasi_video', '');
+        if ($oldPath && file_exists(public_path($oldPath))) {
+            @unlink(public_path($oldPath));
+        }
+
+        // Simpan file baru
+        $file         = $request->file('lokasi_video');
+        $filename     = 'lokasi_video_' . time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('uploads/video'), $filename);
+        $relativePath = 'uploads/video/' . $filename;
+
+        Setting::set('lokasi_video', $relativePath);
+
+        $route = request()->routeIs('manager.*') ? 'manager.lokasi-video' : 'admin.lokasi-video';
+        return redirect()->route($route)
+                         ->with('success', 'Video lokasi berhasil diperbarui!');
+    }
+
+    /**
+     * DELETE /admin/lokasi-video
+     * Hapus video lokasi.
+     */
+    public function deleteLokasiVideo()
+    {
+        $oldPath = Setting::get('lokasi_video', '');
+        if ($oldPath && file_exists(public_path($oldPath))) {
+            @unlink(public_path($oldPath));
+        }
+        Setting::set('lokasi_video', '');
+
+        $route = request()->routeIs('manager.*') ? 'manager.lokasi-video' : 'admin.lokasi-video';
+        return redirect()->route($route)
+                         ->with('success', 'Video lokasi berhasil dihapus!');
+    }
 }

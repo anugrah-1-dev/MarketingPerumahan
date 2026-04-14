@@ -63,6 +63,10 @@
                 <i class="fas fa-map"></i>
                 <span>Denah Perumahan</span>
             </a>
+            <a href="{{ route('manager.lokasi-video') }}" class="nav-item {{ request()->routeIs('manager.lokasi-video*') ? 'active' : '' }}">
+                <i class="fas fa-video"></i>
+                <span>Video Lokasi</span>
+            </a>
             <a href="{{ route('manager.settings') }}" class="nav-item {{ request()->routeIs('manager.settings*') ? 'active' : '' }}">
                 <i class="fas fa-cog"></i>
                 <span>Pengaturan</span>
