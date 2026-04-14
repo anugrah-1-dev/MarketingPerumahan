@@ -682,6 +682,24 @@
                 </iframe>
             </div>
             
+            <div class="mt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div class="flex items-start gap-3">
+                    <div class="bg-blue-50 text-blue-600 p-3 rounded-full mt-1">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 text-lg">Kantor Pemasaran Bukit Shangrilla Asri 2</h4>
+                        <p class="text-gray-500 text-sm mt-1 max-w-lg">Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
+                    </div>
+                </div>
+                
+                <a href="https://www.google.com/maps/search/?api=1&query=Jl.+Indrokilo+No.135+Kalirejo+Lawang+Kabupaten+Malang+Jawa+Timur+65216" target="_blank" rel="noopener noreferrer" 
+                    class="bg-white border rounded-lg border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
+                    Buka di Google Maps
+                </a>
+            </div>
+
             {{-- Tombol Video Rute --}}
             <div class="mt-4">
                 <button type="button" onclick="toggleVideoRute()"
@@ -706,30 +724,17 @@
                                 controls
                                 preload="none"
                                 playsinline>
-                                <source src="{{ asset('assets/images/rute.mp4') }}" type="video/mp4">
+                                @php
+                                    $ruteVideoSrc = !empty($lokasiVideo) ? asset($lokasiVideo) : asset('assets/images/rute.mp4');
+                                    $ruteVideoExt = strtolower(pathinfo($ruteVideoSrc, PATHINFO_EXTENSION));
+                                    $ruteVideoType = $ruteVideoExt === 'mov' ? 'video/quicktime' : 'video/mp4';
+                                @endphp
+                                <source src="{{ $ruteVideoSrc }}" type="{{ $ruteVideoType }}">
                                 Browser Anda tidak mendukung pemutaran video.
                             </video>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <div class="mt-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                <div class="flex items-start gap-3">
-                    <div class="bg-blue-50 text-blue-600 p-3 rounded-full mt-1">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    </div>
-                    <div>
-                        <h4 class="font-bold text-gray-800 text-lg">Kantor Pemasaran Bukit Shangrilla Asri 2</h4>
-                        <p class="text-gray-500 text-sm mt-1 max-w-lg">Jl. Indrokilo No.135, Krajan, Kalirejo, Kec. Lawang, Kabupaten Malang, Jawa Timur 65216</p>
-                    </div>
-                </div>
-                
-                <a href="https://www.google.com/maps/search/?api=1&query=Jl.+Indrokilo+No.135+Kalirejo+Lawang+Kabupaten+Malang+Jawa+Timur+65216" target="_blank" rel="noopener noreferrer" 
-                    class="bg-white border rounded-lg border-gray-200 px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-50 flex items-center gap-2 transition whitespace-nowrap">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7"/></svg>
-                    Buka di Google Maps
-                </a>
             </div>
         </div>
     </section>
