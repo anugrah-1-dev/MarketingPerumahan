@@ -21,7 +21,7 @@
         <nav class="sidebar-nav">
             <a href="{{ route('manager.dashboard') }}" class="nav-item {{ request()->routeIs('manager.dashboard') ? 'active' : '' }}">
                 <i class="fas fa-home"></i>
-                <span>Dasbor</span>
+                <span>Beranda</span>
             </a>
             <a href="{{ route('manager.agents') }}" class="nav-item {{ request()->routeIs('manager.agents*') ? 'active' : '' }}">
                 <i class="fas fa-users"></i>
@@ -98,7 +98,7 @@
                 <button class="mobile-toggle" id="mobileToggle">
                     <i class="fas fa-bars"></i>
                 </button>
-                <h1>@yield('page-title', 'Dasbor')</h1>
+                <h1>@yield('page-title', 'Beranda')</h1>
             </div>
             <div class="header-right">
                 <div class="user-info">

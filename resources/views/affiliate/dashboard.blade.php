@@ -1,5 +1,5 @@
 ﻿@extends('layouts.affiliate')
-@section('title', 'Dasbor Afiliasi')
+@section('title', 'Beranda Afiliasi')
 
 @push('styles')
 <style>
@@ -123,7 +123,7 @@
 
     {{-- Header --}}
     <div class="dash-header">
-        <h1>Dasbor Afiliasi</h1>
+        <h1>Beranda Afiliasi</h1>
         <p>Selamat datang kembali, <strong>{{ auth()->user()->name }}</strong> ðŸ‘‹</p>
     </div>
 

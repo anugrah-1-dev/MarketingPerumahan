@@ -35,7 +35,7 @@
         <nav class="sidebar-nav">
             <a href="{{ route('affiliate.dashboard') }}" class="nav-item {{ request()->routeIs('affiliate.dashboard') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-th-large"></i></span>
-                Dasbor
+                Beranda
             </a>
             <a href="{{ route('affiliate.link') }}" class="nav-item {{ request()->routeIs('affiliate.link') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-link"></i></span>

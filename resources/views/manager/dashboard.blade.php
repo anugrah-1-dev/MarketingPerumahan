@@ -1,6 +1,6 @@
 ﻿@extends('layouts.manager')
-@section('title', 'Dasbor')
-@section('page-title', 'Dasbor')
+@section('title', 'Beranda')
+@section('page-title', 'Beranda')
 
 @section('content')
     <!-- Stats Cards -->

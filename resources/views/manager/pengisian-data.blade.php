@@ -170,7 +170,7 @@
         </div>
         <div class="form-actions" style="justify-content:center; margin-top:24px;">
             <a href="{{ route('manager.pengisian-data') }}" class="btn-new">+ Tambah Data Baru</a>
-            <a href="{{ route('manager.dashboard') }}" class="btn-back" style="text-decoration:none;">Kembali ke Dasbor</a>
+            <a href="{{ route('manager.dashboard') }}" class="btn-back" style="text-decoration:none;">Kembali ke Beranda</a>
         </div>
     </div>
 
