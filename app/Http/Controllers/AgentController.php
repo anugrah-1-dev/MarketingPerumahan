@@ -217,6 +217,12 @@ class AgentController extends Controller
     public function destroy($id)
     {
         $agent = Agent::findOrFail($id);
+
+        // Hapus user yang terhubung agar tidak dibuat ulang otomatis saat loadAgents()
+        if ($agent->user_id) {
+            User::where('id', $agent->user_id)->delete();
+        }
+
         $agent->delete();
 
         return response()->json(['message' => 'Agent dan akun berhasil dihapus.']);

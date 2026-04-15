@@ -484,7 +484,7 @@ async function deleteAgent(id) {
 
 // ── SEARCH — filter di sisi klien ────────────────────────────
 function searchAgents() {
-    const term = document.getElementById("searchAgent").value.toLowerCase();
+    const term = document.getElementById("searchAgen").value.toLowerCase();
     document.querySelectorAll("#agentsTableBody tr").forEach((row) => {
         row.style.display = row.textContent.toLowerCase().includes(term)
             ? ""

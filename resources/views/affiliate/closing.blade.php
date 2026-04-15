@@ -36,25 +36,31 @@
     <div class="filter-bar">
         <div class="filter-search">
             <span class="icon"><i class="fas fa-search"></i></span>
-            <input type="text" placeholder="Cari nama, no HP, atau email">
+            <input type="text" id="closingSearch" placeholder="Cari nama, no HP..." oninput="filterClosing()">
         </div>
-        <div class="filter-select">
-            Semua Sumber <span class="chevron"><i class="fas fa-chevron-down"></i></span>
-        </div>
-        <div class="filter-select">
-            Semua Tipe Unit <span class="chevron"><i class="fas fa-chevron-down"></i></span>
-        </div>
-        <div class="filter-select">
-            30 hari terakhir <span class="chevron"><i class="fas fa-chevron-down"></i></span>
-        </div>
-        <div class="filter-select">
-            Semua Komisi <span class="chevron"><i class="fas fa-chevron-down"></i></span>
-        </div>
+        <select class="filter-select-el" id="filterTipe" onchange="filterClosing()">
+            <option value="">Semua Tipe Unit</option>
+            @foreach($closings->pluck('tipeRumah')->filter()->unique('id') as $tipe)
+                <option value="{{ $tipe->nama_tipe }}">{{ $tipe->nama_tipe }}</option>
+            @endforeach
+        </select>
+        <select class="filter-select-el" id="filterPeriod" onchange="filterClosing()">
+            <option value="">Semua Periode</option>
+            <option value="30">30 Hari Terakhir</option>
+            <option value="90">90 Hari Terakhir</option>
+            <option value="365">1 Tahun Terakhir</option>
+        </select>
+        <select class="filter-select-el" id="filterPayment" onchange="filterClosing()">
+            <option value="">Semua Status Komisi</option>
+            <option value="paid-off">Lunas</option>
+            <option value="installment">Cicilan</option>
+            <option value="dp">DP</option>
+        </select>
     </div>
 
     <!-- Table -->
     <div class="table-wrapper">
-        <table>
+        <table id="closingTable">
             <thead>
                 <tr>
                     <th>Nama Pelanggan</th>
@@ -66,7 +72,13 @@
             </thead>
             <tbody>
                 @forelse($closings as $closing)
-                <tr>
+                <tr
+                    data-nama="{{ strtolower($closing->customer_name) }}"
+                    data-phone="{{ $closing->customer_phone ?? '' }}"
+                    data-tipe="{{ $closing->tipeRumah ? $closing->tipeRumah->nama_tipe : '' }}"
+                    data-payment="{{ $closing->payment_status }}"
+                    data-date="{{ $closing->tanggal_closing ? $closing->tanggal_closing->format('Y-m-d') : '' }}"
+                >
                     <td data-label="Nama Pelanggan">
                         <div style="font-weight:600; color:#1e293b;">{{ $closing->customer_name }}</div>
                         <div class="secondary">{{ $closing->customer_phone ?? '-' }}</div>
@@ -94,7 +106,7 @@
                     </td>
                 </tr>
                 @empty
-                <tr>
+                <tr id="emptyRow">
                     <td colspan="5" style="text-align:center;padding:2rem;color:#6b7280;">
                         Belum ada penutupan dari link Anda.
                     </td>
@@ -105,3 +117,30 @@
     </div>
 
 @endsection
+
+@push('scripts')
+<script>
+function filterClosing() {
+    const search  = document.getElementById('closingSearch').value.toLowerCase();
+    const tipe    = document.getElementById('filterTipe').value;
+    const payment = document.getElementById('filterPayment').value;
+    const days    = parseInt(document.getElementById('filterPeriod').value) || 0;
+    const cutoff  = days ? new Date(Date.now() - days * 86400000) : null;
+
+    document.querySelectorAll('#closingTable tbody tr[data-nama]').forEach(row => {
+        const nama    = row.dataset.nama;
+        const phone   = row.dataset.phone.toLowerCase();
+        const rowTipe = row.dataset.tipe;
+        const rowPay  = row.dataset.payment;
+        const rowDate = row.dataset.date ? new Date(row.dataset.date) : null;
+
+        const okSearch  = !search  || nama.includes(search) || phone.includes(search);
+        const okTipe    = !tipe    || rowTipe === tipe;
+        const okPayment = !payment || rowPay === payment;
+        const okDate    = !cutoff  || (rowDate && rowDate >= cutoff);
+
+        row.style.display = (okSearch && okTipe && okPayment && okDate) ? '' : 'none';
+    });
+}
+</script>
+@endpush

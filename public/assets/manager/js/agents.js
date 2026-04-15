@@ -297,7 +297,7 @@ function editAgent(id) {
     document.getElementById("agentEmail").value = agent.email ?? "";
     document.getElementById("agentPhone").value = agent.phone ?? "";
     // Tampilkan teks '1%' di popup (komisi dikunci)
-    document.getElementById("agentCommission").value = '1%';
+    document.getElementById("agentCommission").value = "1%";
     document.getElementById("agentPassword").value = "";
     document.getElementById("agentPassword").required = false;
     document.getElementById("helpPasswordEdit").style.display = "block";
@@ -482,7 +482,7 @@ async function deleteAgent(id) {
 
 // ── SEARCH — filter di sisi klien ────────────────────────────
 function searchAgents() {
-    const term = document.getElementById("searchAgent").value.toLowerCase();
+    const term = document.getElementById("searchAgen").value.toLowerCase();
     document.querySelectorAll("#agentsTableBody tr").forEach((row) => {
         row.style.display = row.textContent.toLowerCase().includes(term)
             ? ""

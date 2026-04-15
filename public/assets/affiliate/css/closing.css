@@ -126,6 +126,24 @@
     background: #e2e8f0;
 }
 
+.filter-select-el {
+    padding: 8px 14px;
+    background: #f1f5f9;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #334155;
+    cursor: pointer;
+    white-space: nowrap;
+    outline: none;
+    font-family: inherit;
+}
+
+.filter-select-el:focus {
+    border-color: #3d81af;
+    background: #fff;
+}
+
 .chevron {
     color: #94a3b8;
     font-size: 11px;
@@ -250,10 +268,37 @@
 
 /* Mobile: stacked cards for table rows */
 @media (max-width: 600px) {
-    .table-wrapper table thead { display: none; }
-    .table-wrapper table, .table-wrapper tbody, .table-wrapper tr, .table-wrapper td { display: block; width: 100%; }
-    .table-wrapper tbody tr { margin-bottom: 12px; background: #fff; border-radius: 12px; padding: 12px 14px; box-shadow: 0 1px 6px rgba(16,24,40,0.04); }
-    .table-wrapper td { padding: 6px 0; border-bottom: none; }
-    .table-wrapper td::before { content: attr(data-label); display: block; font-size: 12px; color: #94a3b8; margin-bottom: 6px; font-weight: 600; }
-    .table-wrapper td[data-label="Komisi"] { color: #059669; font-weight: 700; }
+    .table-wrapper table thead {
+        display: none;
+    }
+    .table-wrapper table,
+    .table-wrapper tbody,
+    .table-wrapper tr,
+    .table-wrapper td {
+        display: block;
+        width: 100%;
+    }
+    .table-wrapper tbody tr {
+        margin-bottom: 12px;
+        background: #fff;
+        border-radius: 12px;
+        padding: 12px 14px;
+        box-shadow: 0 1px 6px rgba(16, 24, 40, 0.04);
+    }
+    .table-wrapper td {
+        padding: 6px 0;
+        border-bottom: none;
+    }
+    .table-wrapper td::before {
+        content: attr(data-label);
+        display: block;
+        font-size: 12px;
+        color: #94a3b8;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+    .table-wrapper td[data-label="Komisi"] {
+        color: #059669;
+        font-weight: 700;
+    }
 }
