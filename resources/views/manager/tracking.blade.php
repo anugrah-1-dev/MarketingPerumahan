@@ -31,8 +31,8 @@
                 <div class="filter-item">
                     <label>Tanggal</label>
                     <select id="filterDate" onchange="filterClicks()">
-                        <option value="all">Semua Waktu</option>
-                        <option value="today" selected>Hari Ini</option>
+                        <option value="all" selected>Semua Waktu</option>
+                        <option value="today">Hari Ini</option>
                         <option value="yesterday">Kemarin</option>
                         <option value="week">7 Hari Terakhir</option>
                         <option value="month">30 Hari Terakhir</option>
