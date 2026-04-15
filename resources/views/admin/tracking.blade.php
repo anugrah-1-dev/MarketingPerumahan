@@ -132,6 +132,6 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/admin/js/tracking.js') }}"></script>
+<script src="{{ asset('assets/admin/js/tracking.js') }}?v={{ filemtime(public_path('assets/admin/js/tracking.js')) }}"></script>
 @endpush
 

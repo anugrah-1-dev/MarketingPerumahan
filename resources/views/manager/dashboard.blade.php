@@ -54,6 +54,6 @@
 @endsection
 
 @push('scripts')
-<script src="{{ asset('assets/manager/js/dashboard.js') }}"></script>
+<script src="{{ asset('assets/manager/js/dashboard.js') }}?v={{ filemtime(public_path('assets/manager/js/dashboard.js')) }}"></script>
 @endpush
 
