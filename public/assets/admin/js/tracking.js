@@ -24,15 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
 function loadData() {
     const params = new URLSearchParams({
         date: document.getElementById("filterDate")?.value ?? "all",
-        agent: document.getElementById("filterAgent")?.value ?? "all",
+        agent: document.getElementById("filterAgen")?.value ?? "all",
         status: document.getElementById("filterStatus")?.value ?? "all",
         search: document.getElementById("searchClicks")?.value ?? "",
     });
 
     // Tampilkan loading
     document.getElementById("clicksTableBody").innerHTML =
-        '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#94a3b8;">';
-    ('<i class="fas fa-spinner fa-spin"></i> Memuat data…</td></tr>');
+        '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#94a3b8;">' +
+        '<i class="fas fa-spinner fa-spin"></i> Memuat data…</td></tr>';
 
     fetch(`${trackingBasePath}/data?${params}`, {
         headers: {
@@ -51,8 +51,8 @@ function loadData() {
         })
         .catch(() => {
             document.getElementById("clicksTableBody").innerHTML =
-                '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#ef4444;">';
-            ('<i class="fas fa-exclamation-circle"></i> Gagal memuat data.</td></tr>');
+                '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#ef4444;">' +
+                '<i class="fas fa-exclamation-circle"></i> Gagal memuat data.</td></tr>';
         });
 }
 
@@ -66,7 +66,7 @@ function updateStats(stats) {
 
 // ─── Isi dropdown Agent dari database ───────────────────────────────────────
 function populateAgentFilter(agents) {
-    const sel = document.getElementById("filterAgent");
+    const sel = document.getElementById("filterAgen");
     const currentValue = sel.value; // simpan pilihan sebelum rebuild
     // Hapus option lama kecuali "Semua Agent"
     while (sel.options.length > 1) sel.remove(1);
@@ -95,8 +95,8 @@ function renderTable() {
 
     if (page.length === 0) {
         tbody.innerHTML =
-            '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#64748b;">';
-        ("Belum ada data klik WhatsApp.</td></tr>");
+            '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#64748b;">' +
+            "Belum ada data klik WhatsApp.</td></tr>";
         renderPagination();
         return;
     }
@@ -260,7 +260,7 @@ function changePage(page) {
 function exportClicks() {
     const params = new URLSearchParams({
         date: document.getElementById("filterDate")?.value ?? "all",
-        agent: document.getElementById("filterAgent")?.value ?? "all",
+        agent: document.getElementById("filterAgen")?.value ?? "all",
         status: document.getElementById("filterStatus")?.value ?? "all",
     });
     // Buat CSV dari data yang sudah ada di memory

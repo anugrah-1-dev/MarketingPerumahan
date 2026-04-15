@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
 function loadData() {
     const params = new URLSearchParams({
         date: document.getElementById("filterDate")?.value ?? "all",
-        agent: document.getElementById("filterAgent")?.value ?? "all",
+        agent: document.getElementById("filterAgen")?.value ?? "all",
         status: document.getElementById("filterStatus")?.value ?? "all",
         search: document.getElementById("searchClicks")?.value ?? "",
     });
@@ -66,7 +66,7 @@ function updateStats(stats) {
 
 // ─── Isi dropdown Agent dari database ───────────────────────────────────────
 function populateAgentFilter(agents) {
-    const sel = document.getElementById("filterAgent");
+    const sel = document.getElementById("filterAgen");
     // Hapus option lama kecuali "Semua Agent"
     while (sel.options.length > 1) sel.remove(1);
     agents.forEach((a) => {
@@ -258,7 +258,7 @@ function changePage(page) {
 function exportClicks() {
     const params = new URLSearchParams({
         date: document.getElementById("filterDate")?.value ?? "all",
-        agent: document.getElementById("filterAgent")?.value ?? "all",
+        agent: document.getElementById("filterAgen")?.value ?? "all",
         status: document.getElementById("filterStatus")?.value ?? "all",
     });
     // Buat CSV dari data yang sudah ada di memory
