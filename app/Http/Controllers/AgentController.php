@@ -256,7 +256,7 @@ class AgentController extends Controller
                     'aktif'      => false,
                     'email'      => $user->email,
                     'phone'      => null,
-                    'commission' => min(),
+                    'commission' => 1,
                 ]);
             } else {
                 $user->agent->aktif = !$user->agent->aktif;

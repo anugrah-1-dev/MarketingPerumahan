@@ -36,4 +36,12 @@ class Agent extends Model
     {
         return $this->hasMany(WaClick::class);
     }
+
+    /**
+     * Semua closing yang terkait dengan agent ini.
+     */
+    public function closings(): HasMany
+    {
+        return $this->hasMany(Closing::class);
+    }
 }
