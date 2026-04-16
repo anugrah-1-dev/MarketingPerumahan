@@ -18,6 +18,12 @@ const trackingBasePath = (() => {
 // ─── Init ───────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
+    // Auto-refresh data dari server setiap 30 detik
+    setInterval(loadData, 30000);
+    // Re-render tabel setiap menit agar teks "X menit lalu" ikut bergerak
+    setInterval(() => {
+        if (filteredClicks.length) renderTable();
+    }, 60000);
 });
 
 // ─── Ambil data dari server ──────────────────────────────────────────────────

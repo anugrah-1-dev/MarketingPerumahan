@@ -16,12 +16,20 @@ class AffiliateController extends Controller
         $user    = Auth::user();
         $refCode = $user->referral_code;
 
+        // Filter by affiliate_user_id (primary) or referral_code (fallback for old data)
+        $baseQuery = fn() => WaClick::where(function ($q) use ($user, $refCode) {
+            $q->where('affiliate_user_id', $user->id);
+            if ($refCode) {
+                $q->orWhere('referral_code', $refCode);
+            }
+        });
+
         $stats = [
-            'total_klik'   => WaClick::where('referral_code', $refCode)->count(),
-            'klik_hari_ini'=> WaClick::where('referral_code', $refCode)->whereDate('created_at', today())->count(),
-            'klik_bulan'   => WaClick::where('referral_code', $refCode)->where('created_at', '>=', now()->startOfMonth())->count(),
-            'total_leads'  => WaClick::where('referral_code', $refCode)->whereIn('status', ['new', 'follow-up', 'interested'])->count(),
-            'total_closing'=> WaClick::where('referral_code', $refCode)->where('status', 'closed')->count(),
+            'total_klik'   => $baseQuery()->count(),
+            'klik_hari_ini'=> $baseQuery()->whereDate('created_at', today())->count(),
+            'klik_bulan'   => $baseQuery()->where('created_at', '>=', now()->startOfMonth())->count(),
+            'total_leads'  => $baseQuery()->whereIn('status', ['new', 'follow-up', 'interested'])->count(),
+            'total_closing'=> $baseQuery()->where('status', 'closed')->count(),
             'pendapatan'   => 0, // Dikosongkan sementara atau bisa fetch dari komisi di-develop selanjutnya
         ];
 
@@ -31,7 +39,7 @@ class AffiliateController extends Controller
             : 0;
 
         // Aktivitas terbaru (5 klik WA terbaru dari link affiliate ini)
-        $activities = WaClick::where('referral_code', $refCode)
+        $activities = $baseQuery()
             ->latest()
             ->take(5)
             ->get();
@@ -47,16 +55,17 @@ class AffiliateController extends Controller
         $user    = Auth::user();
         $refCode = $user->referral_code;
 
-        $totalKlik    = WaClick::where('referral_code', $refCode)->count();
-        $klikBulanIni = WaClick::where('referral_code', $refCode)
-                               ->where('created_at', '>=', now()->startOfMonth())
-                               ->count();
-        $klikHariIni  = WaClick::where('referral_code', $refCode)
-                               ->whereDate('created_at', today())
-                               ->count();
-        $klikInterest = WaClick::where('referral_code', $refCode)
-                               ->where('status', 'interested')
-                               ->count();
+        $baseQuery = fn() => WaClick::where(function ($q) use ($user, $refCode) {
+            $q->where('affiliate_user_id', $user->id);
+            if ($refCode) {
+                $q->orWhere('referral_code', $refCode);
+            }
+        });
+
+        $totalKlik    = $baseQuery()->count();
+        $klikBulanIni = $baseQuery()->where('created_at', '>=', now()->startOfMonth())->count();
+        $klikHariIni  = $baseQuery()->whereDate('created_at', today())->count();
+        $klikInterest = $baseQuery()->where('status', 'interested')->count();
 
         return view('affiliate.link', compact(
             'totalKlik', 'klikBulanIni', 'klikHariIni', 'klikInterest'
@@ -71,8 +80,13 @@ class AffiliateController extends Controller
         $user    = Auth::user();
         $refCode = $user->referral_code;
 
-        // Ambil klik WA dari referral code ini, terbaru dulu
-        $clicks = WaClick::where('referral_code', $refCode)
+        // Filter by affiliate_user_id (primary) or referral_code (fallback for old data)
+        $clicks = WaClick::where(function ($q) use ($user, $refCode) {
+                        $q->where('affiliate_user_id', $user->id);
+                        if ($refCode) {
+                            $q->orWhere('referral_code', $refCode);
+                        }
+                    })
                          ->latest()
                          ->get();
 
