@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Agent;
 use App\Models\Closing;
 use App\Models\WaClick;
 use Illuminate\Support\Facades\Auth;
@@ -9,20 +10,32 @@ use Illuminate\Support\Facades\Auth;
 class AffiliateController extends Controller
 {
     /**
-     * Halaman Dashboard Utama Affiliate — Tampilkan ringkasan ringkas, link cepat, dan aktivitas terbaru.
+     * Buat closure filter WaClick yang mencakup semua cara klik bisa dikaitkan ke affiliate ini:
+     * 1. affiliate_user_id = user->id  (klik via link ref, data baru)
+     * 2. referral_code = refCode       (fallback data lama)
+     * 3. agent_id = agent->id          (klik via halaman agent tanpa ?ref=)
      */
-    public function dashboard()
+    private function waClickScope(\App\Models\User $user): \Closure
     {
-        $user    = Auth::user();
         $refCode = $user->referral_code;
+        $agentId = Agent::where('user_id', $user->id)->where('aktif', true)->value('id');
 
-        // Filter by affiliate_user_id (primary) or referral_code (fallback for old data)
-        $baseQuery = fn() => WaClick::where(function ($q) use ($user, $refCode) {
+        return function ($q) use ($user, $refCode, $agentId) {
             $q->where('affiliate_user_id', $user->id);
             if ($refCode) {
                 $q->orWhere('referral_code', $refCode);
             }
-        });
+            if ($agentId) {
+                $q->orWhere('agent_id', $agentId);
+            }
+        };
+    }
+
+    public function dashboard()
+    {
+        $user      = Auth::user();
+        $scope     = $this->waClickScope($user);
+        $baseQuery = fn() => WaClick::where($scope);
 
         $stats = [
             'total_klik'   => $baseQuery()->count(),
@@ -52,15 +65,9 @@ class AffiliateController extends Controller
      */
     public function linkPage()
     {
-        $user    = Auth::user();
-        $refCode = $user->referral_code;
-
-        $baseQuery = fn() => WaClick::where(function ($q) use ($user, $refCode) {
-            $q->where('affiliate_user_id', $user->id);
-            if ($refCode) {
-                $q->orWhere('referral_code', $refCode);
-            }
-        });
+        $user      = Auth::user();
+        $scope     = $this->waClickScope($user);
+        $baseQuery = fn() => WaClick::where($scope);
 
         $totalKlik    = $baseQuery()->count();
         $klikBulanIni = $baseQuery()->where('created_at', '>=', now()->startOfMonth())->count();
@@ -77,16 +84,8 @@ class AffiliateController extends Controller
      */
     public function leadsPage()
     {
-        $user    = Auth::user();
-        $refCode = $user->referral_code;
-
-        // Filter by affiliate_user_id (primary) or referral_code (fallback for old data)
-        $clicks = WaClick::where(function ($q) use ($user, $refCode) {
-                        $q->where('affiliate_user_id', $user->id);
-                        if ($refCode) {
-                            $q->orWhere('referral_code', $refCode);
-                        }
-                    })
+        $user   = Auth::user();
+        $clicks = WaClick::where($this->waClickScope($user))
                          ->latest()
                          ->get();
 
