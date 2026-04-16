@@ -48,8 +48,9 @@
             </select>
             <select id="filterPaymentStatus" onchange="filterClosings()">
                 <option value="all">Semua Status</option>
-                <option value="pending">Pending</option>
-                <option value="terbayar">Terbayar</option>
+                <option value="dp">DP</option>
+                <option value="installment">Cicilan</option>
+                <option value="paid-off">Lunas</option>
             </select>
         </div>
     </div>
@@ -117,8 +118,9 @@
                     <div class="form-group">
                         <label>Status Pembayaran *</label>
                         <select id="paymentStatus" required>
-                            <option value="pending">Pending</option>
-                            <option value="terbayar">Terbayar</option>
+                            <option value="dp">DP (Uang Muka)</option>
+                            <option value="installment">Cicilan</option>
+                            <option value="paid-off">Lunas</option>
                         </select>
                     </div>
                     <div class="form-group">

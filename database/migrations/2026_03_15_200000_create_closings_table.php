@@ -18,7 +18,7 @@ return new class extends Migration
             $table->bigInteger('harga_jual')->default(0);
             $table->decimal('komisi_persen', 5, 2)->default(0);
             $table->bigInteger('komisi_nominal')->default(0);
-            $table->enum('payment_status', ['pending', 'terbayar'])->default('pending');
+            $table->enum('payment_status', ['dp', 'installment', 'paid-off'])->default('dp');
             $table->text('catatan')->nullable();
             $table->date('tanggal_closing');
             $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete();

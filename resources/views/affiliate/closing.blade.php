@@ -52,9 +52,8 @@
         </select>
         <select class="filter-select-el" id="filterPayment" onchange="filterClosing()">
             <option value="">Semua Status Komisi</option>
-            <option value="paid-off">Lunas</option>
-            <option value="installment">Cicilan</option>
-            <option value="dp">DP</option>
+            <option value="pending">Pending</option>
+            <option value="terbayar">Terbayar</option>
         </select>
     </div>
 
@@ -76,7 +75,7 @@
                     data-nama="{{ strtolower($closing->customer_name) }}"
                     data-phone="{{ $closing->customer_phone ?? '' }}"
                     data-tipe="{{ $closing->tipeRumah ? $closing->tipeRumah->nama_tipe : '' }}"
-                    data-payment="{{ $closing->payment_status }}"
+                    data-payment="{{ $closing->komisi_status ?? 'pending' }}"
                     data-date="{{ $closing->tanggal_closing ? $closing->tanggal_closing->format('Y-m-d') : '' }}"
                 >
                     <td data-label="Nama Pelanggan">
@@ -96,12 +95,10 @@
                     </td>
                     <td data-label="Komisi">
                         <div style="font-weight: 600; color: #059669;">Rp {{ number_format($closing->komisi_nominal, 0, ',', '.') }}</div>
-                        @if($closing->payment_status === 'paid-off')
-                            <span class="badge badge-sudah" style="margin-top: 4px;">Lunas</span>
-                        @elseif($closing->payment_status === 'installment')
-                            <span class="badge badge-ig" style="margin-top: 4px; background: #dbeafe; color: #1e40af;">Cicilan</span>
+                        @if(($closing->komisi_status ?? 'pending') === 'terbayar')
+                            <span class="badge badge-sudah" style="margin-top: 4px;">Terbayar</span>
                         @else
-                            <span class="badge badge-pending" style="margin-top: 4px; background: #fef3c7; color: #92400e;">DP</span>
+                            <span class="badge badge-pending" style="margin-top: 4px; background: #fef3c7; color: #92400e;">Pending</span>
                         @endif
                     </td>
                 </tr>

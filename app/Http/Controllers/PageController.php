@@ -482,7 +482,7 @@ class PageController extends Controller
             'harga_jual'      => $hargaJual,
             'komisi_persen'   => $komisiPersen,
             'komisi_nominal'  => $komisiNominal,
-            'payment_status'  => 'pending',
+            'payment_status'  => 'dp',
             'komisi_status'   => 'pending',
             'tanggal_closing' => now()->toDateString(),
             'created_by'      => $clientData->created_by,
