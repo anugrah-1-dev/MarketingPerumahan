@@ -32,7 +32,7 @@
         <div class="card">
             <div class="card-header"><h2>Top 5 Agen</h2></div>
             <div class="card-body">
-                <div class="agent-list" id="topAgensList"></div>
+                <div class="agent-list" id="topAgentsList"></div>
             </div>
         </div>
     </div>
