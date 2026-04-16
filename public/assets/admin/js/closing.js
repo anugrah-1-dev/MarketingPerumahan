@@ -216,9 +216,8 @@ function formatTimeAgo(datetime) {
 
 function getPaymentBadge(status) {
     const map = {
-        dp: '<span class="badge warning">DP</span>',
-        installment: '<span class="badge info">Cicilan</span>',
-        "paid-off": '<span class="badge success">Lunas</span>',
+        pending: '<span class="badge warning">Pending</span>',
+        terbayar: '<span class="badge success">Terbayar</span>',
     };
     return map[status] ?? '<span class="badge">-</span>';
 }

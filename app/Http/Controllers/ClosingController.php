@@ -62,7 +62,7 @@ class ClosingController extends Controller
             'customer_name'   => 'required|string|max:255',
             'customer_phone'  => 'required|string|max:20',
             'harga_jual'      => 'required|integer|min:0',
-            'payment_status'  => 'required|in:dp,installment,paid-off',
+            'payment_status'  => 'required|in:pending,terbayar',
             'catatan'         => 'nullable|string',
         ]);
 
@@ -121,7 +121,7 @@ class ClosingController extends Controller
             'customer_name'   => 'required|string|max:255',
             'customer_phone'  => 'required|string|max:20',
             'harga_jual'      => 'required|integer|min:0',
-            'payment_status'  => 'required|in:dp,installment,paid-off',
+            'payment_status'  => 'required|in:pending,terbayar',
             'catatan'         => 'nullable|string',
         ]);
 
