@@ -18,8 +18,14 @@ class ClientData extends Model
         'alamat',
         'bukti_pembayaran',
         'tipe_rumah_id',
+        'status_pembayaran',
         'created_by',
     ];
+
+    public function closing(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(Closing::class);
+    }
 
     public function creator(): BelongsTo
     {

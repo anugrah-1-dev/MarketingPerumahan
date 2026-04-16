@@ -172,8 +172,8 @@ class AffiliateController extends Controller
             ->get();
 
         $totalKomisi    = $closings->sum('komisi_nominal');
-        $komisiTerbayar = $closings->where('payment_status', 'paid-off')->sum('komisi_nominal');
-        $komisiPending  = $totalKomisi - $komisiTerbayar;
+        $komisiTerbayar = $closings->where('komisi_status', 'terbayar')->sum('komisi_nominal');
+        $komisiPending  = $closings->where('komisi_status', 'pending')->sum('komisi_nominal');
 
         $closingBulanIni = $closings->filter(function ($c) {
             return $c->tanggal_closing && $c->tanggal_closing->isCurrentMonth();

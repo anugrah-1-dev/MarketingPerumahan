@@ -31,6 +31,8 @@ function normalizeClosing(c) {
         salePrice: c.harga_jual,
         commission: c.komisi_nominal,
         paymentStatus: c.payment_status,
+        komisiStatus: c.komisi_status ?? "pending",
+        buktiTransfer: c.bukti_transfer ?? null,
         notes: c.catatan ?? "",
         createdAt: c.created_at,
     };
@@ -221,6 +223,12 @@ function getPaymentBadge(status) {
     return map[status] ?? '<span class="badge">-</span>';
 }
 
+function getKomisiBadge(status) {
+    if (status === "terbayar")
+        return '<span class="badge success">Terbayar</span>';
+    return '<span class="badge warning">Pending</span>';
+}
+
 // -- Filter & Render Table --------------------------------------------------
 
 function filterClosings() {
@@ -260,7 +268,7 @@ function renderClosingsTable() {
 
     if (filteredClosings.length === 0) {
         tbody.innerHTML =
-            '<tr><td colspan="8" style="text-align:center;padding:2rem;color:#64748b;">Tidak ada data closing</td></tr>';
+            '<tr><td colspan="9" style="text-align:center;padding:2rem;color:#64748b;">Tidak ada data closing</td></tr>';
         return;
     }
 
@@ -287,6 +295,12 @@ function renderClosingsTable() {
             <td><strong>${formatCurrency(c.salePrice)}</strong></td>
             <td style="color:#10b981;font-weight:600;">${formatCurrency(c.commission)}</td>
             <td>${getPaymentBadge(c.paymentStatus)}</td>
+            <td>
+                ${getKomisiBadge(c.komisiStatus)}
+                <button class="btn-icon" onclick="openKomisiModal(${c.id})" title="Update Komisi" style="margin-left:.25rem">
+                    <i class="fas fa-pencil-alt" style="font-size:.75rem"></i>
+                </button>
+            </td>
             <td>
                 <div style="display:flex;gap:.5rem;">
                     <button class="btn-icon" onclick="viewDetails(${c.id})" title="Lihat Detail">
@@ -490,6 +504,11 @@ function viewDetails(id) {
                 <label>Status Pembayaran</label>
                 <p>${getPaymentBadge(c.paymentStatus)}</p>
             </div>
+            <div class="detail-item">
+                <label>Status Komisi</label>
+                <p>${getKomisiBadge(c.komisiStatus)}</p>
+                ${c.buktiTransfer ? '<a href="' + c.buktiTransfer + '" target="_blank" style="color:#3d81af;font-size:.875rem"><i class="fas fa-image"></i> Lihat Bukti Transfer</a>' : ""}
+            </div>
             <div class="detail-item" style="grid-column:1/-1;">
                 <label>Catatan</label>
                 <p>${c.notes || "Tidak ada catatan"}</p>
@@ -527,7 +546,7 @@ function renderAgentSummary() {
         map[key].totalClosing++;
         map[key].totalSales += c.salePrice;
         map[key].totalKomisi += c.commission;
-        if (c.paymentStatus === "paid-off") {
+        if (c.komisiStatus === "terbayar") {
             map[key].paidKomisi += c.commission;
         } else {
             map[key].unpaidKomisi += c.commission;
@@ -572,11 +591,73 @@ function renderAgentSummary() {
         .join("");
 }
 
+// -- Komisi Status Modal ----------------------------------------------------
+
+function openKomisiModal(id) {
+    const c = closings.find((x) => x.id === id);
+    if (!c) return;
+    document.getElementById("komisiClosingId").value = c.id;
+    document.getElementById("komisiStatusSelect").value = c.komisiStatus;
+    document.getElementById("buktiTransferFile").value = "";
+
+    const preview = document.getElementById("buktiTransferPreview");
+    if (c.buktiTransfer) {
+        document.getElementById("buktiTransferLink").href = c.buktiTransfer;
+        preview.style.display = "block";
+    } else {
+        preview.style.display = "none";
+    }
+    document.getElementById("komisiModal").style.display = "flex";
+}
+
+function closeKomisiModal() {
+    document.getElementById("komisiModal").style.display = "none";
+    document.getElementById("komisiForm").reset();
+}
+
+async function saveKomisiStatus() {
+    const id = document.getElementById("komisiClosingId").value;
+    const status = document.getElementById("komisiStatusSelect").value;
+    const fileInput = document.getElementById("buktiTransferFile");
+
+    const formData = new FormData();
+    formData.append("komisi_status", status);
+    formData.append("_method", "PATCH");
+    if (fileInput.files.length > 0) {
+        formData.append("bukti_transfer", fileInput.files[0]);
+    }
+
+    try {
+        const res = await fetch(closingBasePath + "/" + id + "/komisi-status", {
+            method: "POST",
+            headers: {
+                Accept: "application/json",
+                "X-CSRF-TOKEN": csrfToken(),
+                "X-Requested-With": "XMLHttpRequest",
+            },
+            body: formData,
+        });
+        if (!res.ok) {
+            const err = await res.json().catch(() => ({}));
+            alert("Gagal memperbarui: " + (err.message ?? res.statusText));
+            return;
+        }
+        alert("Status komisi berhasil diperbarui!");
+        closeKomisiModal();
+        await fetchAndRenderClosings();
+    } catch (e) {
+        console.error(e);
+        alert("Terjadi kesalahan jaringan.");
+    }
+}
+
 // -- Close modal on outside click -------------------------------------------
 
 window.onclick = function (event) {
     const cm = document.getElementById("closingModal");
     const dm = document.getElementById("detailsModal");
+    const km = document.getElementById("komisiModal");
     if (event.target === cm) closeClosingModal();
     if (event.target === dm) closeDetailsModal();
+    if (event.target === km) closeKomisiModal();
 };

@@ -95,6 +95,7 @@
                     <th>Tarif Komisi</th>
                     <th>Komisi</th>
                     <th>Status Bayar</th>
+                    <th>Status Komisi</th>
                 </tr>
             </thead>
             <tbody>
@@ -120,10 +121,22 @@
                             <span style="background:#fef3c7;color:#92400e;padding:.25rem .6rem;border-radius:1rem;font-size:.8rem;font-weight:600">DP</span>
                         @endif
                     </td>
+                    <td data-label="Status Komisi">
+                        @if($closing->komisi_status === 'terbayar')
+                            <span style="background:#d1fae5;color:#065f46;padding:.25rem .6rem;border-radius:1rem;font-size:.8rem;font-weight:600">Terbayar</span>
+                            @if($closing->bukti_transfer)
+                                <a href="{{ Storage::url($closing->bukti_transfer) }}" target="_blank" style="display:block;font-size:.75rem;color:#3d81af;margin-top:.25rem">
+                                    <i class="fas fa-image"></i> Bukti Transfer
+                                </a>
+                            @endif
+                        @else
+                            <span style="background:#fef3c7;color:#92400e;padding:.25rem .6rem;border-radius:1rem;font-size:.8rem;font-weight:600">Pending</span>
+                        @endif
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" style="text-align:center;padding:2rem;color:#6b7280;">
+                    <td colspan="8" style="text-align:center;padding:2rem;color:#6b7280;">
                         Belum ada data closing.
                     </td>
                 </tr>

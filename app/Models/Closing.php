@@ -19,6 +19,8 @@ class Closing extends Model
         'payment_status',
         'catatan',
         'tanggal_closing',
+        'komisi_status',
+        'bukti_transfer',
         'created_by',
     ];
 

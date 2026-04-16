@@ -205,17 +205,16 @@ class PageController extends Controller
         }
 
         $clientData = ClientData::create([
-            'nama_lengkap'    => $request->nama_lengkap,
-            'email'           => $request->email,
-            'nik'             => $request->nik,
-            'no_whatsapp'     => $request->no_whatsapp,
-            'alamat'          => $request->alamat,
+            'nama_lengkap'     => $request->nama_lengkap,
+            'email'            => $request->email,
+            'nik'              => $request->nik,
+            'no_whatsapp'      => $request->no_whatsapp,
+            'alamat'           => $request->alamat,
             'bukti_pembayaran' => $buktiPath,
-            'tipe_rumah_id'   => $request->tipe_rumah_id,
-            'created_by'      => Auth::id(),
+            'tipe_rumah_id'    => $request->tipe_rumah_id,
+            'status_pembayaran'=> 'baru',
+            'created_by'       => Auth::id(),
         ]);
-
-        $this->autoCreateClosing($clientData);
 
         if ($request->input('_from') === 'leads') {
             return redirect()->route('affiliate.leads')->with('pengisian_ok', true);
@@ -442,10 +441,9 @@ class PageController extends Controller
             'alamat'           => $request->alamat,
             'bukti_pembayaran' => $buktiPath,
             'tipe_rumah_id'    => $request->tipe_rumah_id,
+            'status_pembayaran'=> 'baru',
             'created_by'       => Auth::id(),
         ]);
-
-        $this->autoCreateClosing($clientData, $request->filled('agent_id') ? (int) $request->agent_id : null);
 
         $user  = Auth::user();
         $route = $user->isAdmin() ? 'manager.pengisian-data' : 'admin.pengisian-data';

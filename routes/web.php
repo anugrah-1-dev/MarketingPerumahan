@@ -15,6 +15,7 @@ use App\Http\Controllers\SocialMediaController;
 use App\Http\Controllers\HeroSlideController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\ClosingController;
+use App\Http\Controllers\ClientDataController;
 
 Route::get('/',                      [PageController::class, 'landing'])->name('landing');
 Route::get('/login',                 [PageController::class, 'login'])->name('login');
@@ -30,10 +31,15 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     Route::get('/tracking',               [TrackingController::class, 'index'])->name('tracking');
     Route::get('/tracking/data',           [TrackingController::class, 'data'])->name('tracking.data');
     Route::patch('/tracking/{id}/status',  [TrackingController::class, 'updateStatus'])->name('tracking.status');
-    Route::get('/closing',                 [ClosingController::class, 'index'])->name('closing');
-    Route::post('/closing',                [ClosingController::class, 'store'])->name('closing.store');
-    Route::put('/closing/{id}',            [ClosingController::class, 'update'])->name('closing.update');
-    Route::delete('/closing/{id}',         [ClosingController::class, 'destroy'])->name('closing.destroy');
+    Route::get('/closing',                          [ClosingController::class, 'index'])->name('closing');
+    Route::post('/closing',                         [ClosingController::class, 'store'])->name('closing.store');
+    Route::put('/closing/{id}',                     [ClosingController::class, 'update'])->name('closing.update');
+    Route::patch('/closing/{id}/komisi-status',     [ClosingController::class, 'updateKomisiStatus'])->name('closing.komisi-status');
+    Route::delete('/closing/{id}',                  [ClosingController::class, 'destroy'])->name('closing.destroy');
+
+    // ── Manajemen Data Client ─────────────────────────────────────────────
+    Route::get('/client-data',                      [ClientDataController::class, 'index'])->name('client-data');
+    Route::patch('/client-data/{id}/status',        [ClientDataController::class, 'updateStatus'])->name('client-data.status');
 
     // ── Agent pages & API ──────────────────────────────────────────────────
     Route::get('/agents',                [AgentController::class, 'index'])->name('agents');
@@ -157,10 +163,15 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     Route::delete('/users/{id}',         [UserController::class, 'destroy'])->name('users.destroy');
 
     // ── Manajemen Closing ─────────────────────────────────────────────────
-    Route::get('/closing',                 [ClosingController::class, 'index'])->name('closing');
-    Route::post('/closing',                [ClosingController::class, 'store'])->name('closing.store');
-    Route::put('/closing/{id}',            [ClosingController::class, 'update'])->name('closing.update');
-    Route::delete('/closing/{id}',         [ClosingController::class, 'destroy'])->name('closing.destroy');
+    Route::get('/closing',                          [ClosingController::class, 'index'])->name('closing');
+    Route::post('/closing',                         [ClosingController::class, 'store'])->name('closing.store');
+    Route::put('/closing/{id}',                     [ClosingController::class, 'update'])->name('closing.update');
+    Route::patch('/closing/{id}/komisi-status',     [ClosingController::class, 'updateKomisiStatus'])->name('closing.komisi-status');
+    Route::delete('/closing/{id}',                  [ClosingController::class, 'destroy'])->name('closing.destroy');
+
+    // ── Manajemen Data Client ─────────────────────────────────────────────
+    Route::get('/client-data',                      [ClientDataController::class, 'index'])->name('client-data');
+    Route::patch('/client-data/{id}/status',        [ClientDataController::class, 'updateStatus'])->name('client-data.status');
 
     // ── Manajemen Unit ────────────────────────────────────────────────────
     Route::get('/units',               [UnitController::class, 'index'])->name('units');

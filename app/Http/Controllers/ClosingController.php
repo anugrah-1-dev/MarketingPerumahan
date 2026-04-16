@@ -7,6 +7,7 @@ use App\Models\Closing;
 use App\Models\TipeRumah;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ClosingController extends Controller
 {
@@ -35,6 +36,8 @@ class ClosingController extends Controller
                 'harga_jual'      => $c->harga_jual,
                 'komisi_nominal'  => $c->komisi_nominal,
                 'payment_status'  => $c->payment_status,
+                'komisi_status'   => $c->komisi_status ?? 'pending',
+                'bukti_transfer'  => $c->bukti_transfer ? Storage::url($c->bukti_transfer) : null,
                 'catatan'         => $c->catatan,
                 'created_at'      => $c->created_at?->format('Y-m-d H:i:s'),
             ]));
@@ -78,6 +81,7 @@ class ClosingController extends Controller
             'komisi_nominal'  => $komisiNominal,
             'payment_status'  => $request->payment_status,
             'catatan'         => $request->catatan,
+            'komisi_status'   => 'pending',
             'created_by'      => Auth::id(),
         ]);
 
@@ -96,6 +100,8 @@ class ClosingController extends Controller
             'harga_jual'      => $closing->harga_jual,
             'komisi_nominal'  => $closing->komisi_nominal,
             'payment_status'  => $closing->payment_status,
+            'komisi_status'   => $closing->komisi_status ?? 'pending',
+            'bukti_transfer'  => $closing->bukti_transfer ? Storage::url($closing->bukti_transfer) : null,
             'catatan'         => $closing->catatan,
             'created_at'      => $closing->created_at->format('Y-m-d H:i:s'),
         ], 201);
@@ -151,8 +157,42 @@ class ClosingController extends Controller
             'harga_jual'      => $closing->harga_jual,
             'komisi_nominal'  => $closing->komisi_nominal,
             'payment_status'  => $closing->payment_status,
+            'komisi_status'   => $closing->komisi_status ?? 'pending',
+            'bukti_transfer'  => $closing->bukti_transfer ? Storage::url($closing->bukti_transfer) : null,
             'catatan'         => $closing->catatan,
             'created_at'      => $closing->created_at->format('Y-m-d H:i:s'),
+        ]);
+    }
+
+    /**
+     * PATCH /admin/closing/{id}/komisi-status
+     * Perbarui status komisi + upload bukti transfer.
+     */
+    public function updateKomisiStatus(Request $request, $id)
+    {
+        $closing = Closing::findOrFail($id);
+
+        $request->validate([
+            'komisi_status'  => 'required|in:pending,terbayar',
+            'bukti_transfer' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ]);
+
+        $data = ['komisi_status' => $request->komisi_status];
+
+        if ($request->hasFile('bukti_transfer')) {
+            if ($closing->bukti_transfer) {
+                Storage::disk('public')->delete($closing->bukti_transfer);
+            }
+            $path = $request->file('bukti_transfer')->store('bukti-transfer', 'public');
+            $data['bukti_transfer'] = $path;
+        }
+
+        $closing->update($data);
+
+        return response()->json([
+            'message'        => 'Status komisi berhasil diperbarui.',
+            'komisi_status'  => $closing->komisi_status,
+            'bukti_transfer' => $closing->bukti_transfer ? Storage::url($closing->bukti_transfer) : null,
         ]);
     }
 

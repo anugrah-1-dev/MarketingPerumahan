@@ -67,7 +67,7 @@
                         <tr>
                             <th>Tanggal</th><th>Agen</th><th>Pelanggan</th>
                             <th>Properti</th><th>Harga Jual</th><th>Komisi</th>
-                            <th>Status Pembayaran</th><th>Aksi</th>
+                            <th>Status Pembayaran</th><th>Status Komisi</th><th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="closingsTableBody"></tbody>
@@ -159,6 +159,45 @@
             </div>
             <div class="modal-footer">
                 <button class="btn btn-secondary" onclick="closeDetailsModal()">Tutup</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Komisi Status Modal -->
+    <div id="komisiModal" class="modal">
+        <div class="modal-content" style="max-width:480px">
+            <div class="modal-header">
+                <h2>Update Status Komisi</h2>
+                <button class="close-btn" onclick="closeKomisiModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="komisiForm" enctype="multipart/form-data">
+                    <input type="hidden" id="komisiClosingId">
+                    <div class="form-group">
+                        <label>Status Komisi *</label>
+                        <select id="komisiStatusSelect" required>
+                            <option value="pending">Pending</option>
+                            <option value="terbayar">Terbayar</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bukti Transfer (Opsional)</label>
+                        <input type="file" id="buktiTransferFile" accept="image/jpeg,image/png,image/webp">
+                        <small style="color:#64748b">Format: JPG, PNG, WebP. Maks 5MB.</small>
+                    </div>
+                    <div id="buktiTransferPreview" style="display:none;margin-top:.5rem">
+                        <label>Bukti Transfer Saat Ini:</label>
+                        <a id="buktiTransferLink" href="#" target="_blank" style="color:#3d81af">
+                            <i class="fas fa-image"></i> Lihat Bukti Transfer
+                        </a>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeKomisiModal()">Batal</button>
+                <button class="btn btn-primary" onclick="saveKomisiStatus()">
+                    <i class="fas fa-save"></i> Simpan
+                </button>
             </div>
         </div>
     </div>

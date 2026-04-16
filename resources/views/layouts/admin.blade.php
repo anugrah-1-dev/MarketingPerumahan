@@ -35,6 +35,10 @@
                 <i class="fas fa-clipboard-list"></i>
                 <span>Pengisian Data Klien</span>
             </a>
+            <a href="{{ route('admin.client-data') }}" class="nav-item {{ request()->routeIs('admin.client-data*') ? 'active' : '' }}">
+                <i class="fas fa-users-cog"></i>
+                <span>Data Klien</span>
+            </a>
             <a href="{{ route('admin.closing') }}" class="nav-item {{ request()->routeIs('admin.closing') ? 'active' : '' }}">
                 <i class="fas fa-handshake"></i>
                 <span>Manajemen Client</span>
