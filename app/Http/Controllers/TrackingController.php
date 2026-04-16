@@ -126,7 +126,7 @@ class TrackingController extends Controller
         $clicks = $query->get()->map(function ($c) {
             return [
                 'id'                => $c->id,
-                'timestamp'         => $c->created_at->format('Y-m-d H:i:s'),
+                'timestamp'         => $c->created_at->toIso8601String(),
                 'agentId'           => $c->agent_id,
                 'agentName'         => $c->agent?->nama ?? '(Umum)',
                 'agentSlug'         => $c->agent_slug ?? '-',
