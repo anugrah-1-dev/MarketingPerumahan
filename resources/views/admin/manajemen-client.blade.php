@@ -117,6 +117,9 @@ async function fetchClients() {
     } catch (e) {
         console.error(e);
         clients = [];
+        const tbody = document.getElementById('clientTableBody');
+        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#e53935">Gagal memuat data klien. Periksa koneksi database.</td></tr>';
+        return;
     }
     updateStats();
     renderTable();
