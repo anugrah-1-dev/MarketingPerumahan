@@ -90,16 +90,30 @@ class AffiliateController extends Controller
     public function leadsPage()
     {
         $user   = Auth::user();
-        $clicks = WaClick::where($this->waClickScope($user))
-                         ->latest()
-                         ->get();
+        $scope  = $this->waClickScope($user);
+        $baseQuery = fn() => WaClick::where($scope);
+        $clicks = $baseQuery()->latest()->get();
+
+        // Data closing nyata dari tabel closings
+        $agent    = Agent::where('user_id', $user->id)->first();
+        $closings = $agent ? Closing::where('agent_id', $agent->id)->get() : collect();
 
         // Stats ringkas
+        $totalKlik  = $clicks->count();
+        $totalLeads = $clicks->whereIn('status', ['new', 'follow-up', 'interested'])->count();
+
         $stats = [
-            'total'     => $clicks->count(),
-            'baru'      => $clicks->where('status', 'new')->count(),
-            'follow_up' => $clicks->where('status', 'follow-up')->count(),
-            'closing'   => $clicks->where('status', 'closed')->count(),
+            'total'           => $totalKlik,
+            'klik_bulan'      => $baseQuery()->where('created_at', '>=', now()->startOfMonth())->count(),
+            'total_leads'     => $totalLeads,
+            'conversion_rate' => $totalKlik > 0
+                ? number_format(($totalLeads / $totalKlik) * 100, 1)
+                : 0,
+            'total_closing'   => $closings->count(),
+            'total_komisi'    => $closings->sum('komisi_nominal'),
+            'baru'            => $clicks->where('status', 'new')->count(),
+            'follow_up'       => $clicks->where('status', 'follow-up')->count(),
+            'closing'         => $clicks->where('status', 'closed')->count(),
         ];
 
         $tipeRumah = $this->tipeRumahList();

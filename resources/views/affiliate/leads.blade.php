@@ -41,6 +41,12 @@
 .stat-icon.blue   { background: rgba(59,130,246,0.12);  color: #2563eb; }
 .stat-info .label { font-size: 12px; color: #888; font-weight: 500; }
 .stat-info .value { font-size: 24px; font-weight: 800; color: #1e1e1e; line-height: 1.2; margin-top: 2px; }
+.stat-info .badge {
+    display: inline-block; margin-top: 6px;
+    padding: 2px 10px; border-radius: 20px;
+    font-size: 12px; font-weight: 500;
+    background: rgba(99,211,174,0.2); color: #065f46;
+}
 
 /* Filter Bar */
 .filter-bar {
@@ -219,29 +225,39 @@
         <div class="stat-card">
             <div class="stat-icon purple"><i class="fas fa-mouse-pointer"></i></div>
             <div class="stat-info">
-                <div class="label">Total Klik WA</div>
+                <div class="label">Total Klik</div>
                 <div class="value">{{ $stats['total'] }}</div>
+                @if($stats['total'] > 0)
+                    <span class="badge">{{ $stats['klik_bulan'] }} bln ini</span>
+                @else
+                    <span class="badge" style="background:#f3f4f6;color:#6b7280;">Bulan ini</span>
+                @endif
             </div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon blue"><i class="fas fa-bell"></i></div>
+            <div class="stat-icon blue"><i class="fas fa-users"></i></div>
             <div class="stat-info">
-                <div class="label">Prospek</div>
-                <div class="value">{{ $stats['baru'] }}</div>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon amber"><i class="fas fa-phone-alt"></i></div>
-            <div class="stat-info">
-                <div class="label">Tindak Lanjut</div>
-                <div class="value">{{ $stats['follow_up'] }}</div>
+                <div class="label">Total Prospek</div>
+                <div class="value">{{ $stats['total_leads'] }}</div>
+                @if($stats['conversion_rate'] > 0)
+                    <span class="badge" style="background:rgba(59,130,246,0.12);color:#2563eb;">{{ $stats['conversion_rate'] }}% Konv.</span>
+                @else
+                    <span class="badge" style="background:#f3f4f6;color:#6b7280;">Tingkat Konv.</span>
+                @endif
             </div>
         </div>
         <div class="stat-card">
             <div class="stat-icon green"><i class="fas fa-check-circle"></i></div>
             <div class="stat-info">
-                <div class="label">Penutupan</div>
-                <div class="value">{{ $stats['closing'] }}</div>
+                <div class="label">Total Penutupan</div>
+                <div class="value">{{ $stats['total_closing'] }}</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon amber"><i class="fas fa-coins"></i></div>
+            <div class="stat-info">
+                <div class="label">Total Komisi</div>
+                <div class="value">Rp {{ number_format($stats['total_komisi'], 0, ',', '.') }}</div>
             </div>
         </div>
     </div>
