@@ -81,6 +81,24 @@
                         </select>
                         <small style="color:#94a3b8;">Manajer hanya dapat mengelola pengguna afiliasi.</small>
                     </div>
+
+                    <hr style="border:none;border-top:1px solid #e2e8f0;margin:1rem 0">
+                    <h4 style="margin:0 0 .75rem;color:#334155;font-size:.95rem"><i class="fas fa-university" style="margin-right:.4rem;color:#3d81af"></i>Informasi Rekening</h4>
+
+                    <div class="form-group">
+                        <label for="userNamaBank">Nama Bank</label>
+                        <input type="text" id="userNamaBank" placeholder="Contoh: BCA, BRI, Mandiri">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userNoRekening">Nomor Rekening</label>
+                        <input type="text" id="userNoRekening" placeholder="Contoh: 1234567890">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userAtasNama">Atas Nama Rekening</label>
+                        <input type="text" id="userAtasNama" placeholder="Nama pemilik rekening">
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

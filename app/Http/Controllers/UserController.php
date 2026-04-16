@@ -20,7 +20,7 @@ class UserController extends Controller
         if ($request->expectsJson()) {
             $users = $this->manageableUsersQuery()
                 ->orderBy('created_at', 'desc')
-                ->get(['id', 'name', 'email', 'role', 'created_at']);
+                ->get(['id', 'name', 'email', 'role', 'nama_bank', 'no_rekening', 'atas_nama_rekening', 'created_at']);
 
             return response()->json($users);
         }
@@ -38,17 +38,23 @@ class UserController extends Controller
         $allowedRoles = $this->allowedRoles();
 
         $request->validate([
-            'name'     => 'required|string|max:100',
-            'email'    => 'required|email|max:150|unique:users,email',
-            'password' => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
-            'role'     => ['required', Rule::in($allowedRoles)],
+            'name'              => 'required|string|max:100',
+            'email'             => 'required|email|max:150|unique:users,email',
+            'password'          => ['required', Password::min(8)->letters()->mixedCase()->numbers()],
+            'role'              => ['required', Rule::in($allowedRoles)],
+            'nama_bank'         => 'nullable|string|max:50',
+            'no_rekening'       => 'nullable|string|max:30',
+            'atas_nama_rekening'=> 'nullable|string|max:100',
         ]);
 
         $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'role'     => $request->role,
+            'name'               => $request->name,
+            'email'              => $request->email,
+            'password'           => Hash::make($request->password),
+            'role'               => $request->role,
+            'nama_bank'          => $request->nama_bank,
+            'no_rekening'        => $request->no_rekening,
+            'atas_nama_rekening' => $request->atas_nama_rekening,
         ]);
 
         return response()->json($user, 201);
@@ -65,15 +71,21 @@ class UserController extends Controller
         $allowedRoles = $this->allowedRoles();
 
         $request->validate([
-            'name'     => 'required|string|max:100',
-            'email'    => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($id)],
-            'password' => ['nullable', Password::min(8)->letters()->mixedCase()->numbers()],
-            'role'     => ['required', Rule::in($allowedRoles)],
+            'name'              => 'required|string|max:100',
+            'email'             => ['required', 'email', 'max:150', Rule::unique('users', 'email')->ignore($id)],
+            'password'          => ['nullable', Password::min(8)->letters()->mixedCase()->numbers()],
+            'role'              => ['required', Rule::in($allowedRoles)],
+            'nama_bank'         => 'nullable|string|max:50',
+            'no_rekening'       => 'nullable|string|max:30',
+            'atas_nama_rekening'=> 'nullable|string|max:100',
         ]);
 
-        $user->name  = $request->name;
-        $user->email = $request->email;
-        $user->role  = $request->role;
+        $user->name               = $request->name;
+        $user->email              = $request->email;
+        $user->role               = $request->role;
+        $user->nama_bank          = $request->nama_bank;
+        $user->no_rekening        = $request->no_rekening;
+        $user->atas_nama_rekening = $request->atas_nama_rekening;
 
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

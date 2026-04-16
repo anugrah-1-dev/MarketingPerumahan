@@ -20,6 +20,9 @@ class User extends Authenticatable
         'password',
         'role',
         'referral_code',
+        'nama_bank',
+        'no_rekening',
+        'atas_nama_rekening',
     ];
 
     protected $hidden = [

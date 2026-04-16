@@ -6,14 +6,16 @@
 // Helpers
 // ──────────────────────────────────────────────────────────────
 function getCsrf() {
-    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    return document
+        .querySelector('meta[name="csrf-token"]')
+        .getAttribute("content");
 }
 
 function getRoleBadge(role) {
-    if (role === 'super_admin') {
+    if (role === "super_admin") {
         return '<span class="badge" style="background:#fef3c7;color:#92400e;">Super Admin</span>';
     }
-    if (role === 'admin') {
+    if (role === "admin") {
         return '<span class="badge" style="background:#dbeafe;color:#1e40af;">Admin</span>';
     }
     return '<span class="badge success">Affiliate</span>';
@@ -21,11 +23,15 @@ function getRoleBadge(role) {
 
 function formatDate(dateStr) {
     const d = new Date(dateStr);
-    return d.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
+    return d.toLocaleDateString("id-ID", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+    });
 }
 
 function showLoading() {
-    document.getElementById('usersTableBody').innerHTML = `
+    document.getElementById("usersTableBody").innerHTML = `
         <tr>
             <td colspan="5" style="text-align:center; padding:2rem; color:#94a3b8;">
                 <i class="fas fa-spinner fa-spin"></i> Memuat data…
@@ -36,7 +42,7 @@ function showLoading() {
 // ──────────────────────────────────────────────────────────────
 // Init
 // ──────────────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener("DOMContentLoaded", () => {
     loadUsers();
 });
 
@@ -46,14 +52,14 @@ document.addEventListener('DOMContentLoaded', () => {
 async function loadUsers() {
     showLoading();
     try {
-        const resp = await fetch('/admin/users', {
-            headers: { 'Accept': 'application/json' }
+        const resp = await fetch("/admin/users", {
+            headers: { Accept: "application/json" },
         });
-        if (!resp.ok) throw new Error('Gagal memuat data user.');
+        if (!resp.ok) throw new Error("Gagal memuat data user.");
         const users = await resp.json();
         renderTable(users);
     } catch (err) {
-        document.getElementById('usersTableBody').innerHTML = `
+        document.getElementById("usersTableBody").innerHTML = `
             <tr>
                 <td colspan="5" style="text-align:center;padding:2rem;color:#ef4444;">
                     <i class="fas fa-exclamation-circle"></i> ${err.message}
@@ -66,7 +72,7 @@ async function loadUsers() {
 // Render tabel
 // ──────────────────────────────────────────────────────────────
 function renderTable(users) {
-    const tbody = document.getElementById('usersTableBody');
+    const tbody = document.getElementById("usersTableBody");
 
     if (users.length === 0) {
         tbody.innerHTML = `
@@ -78,9 +84,9 @@ function renderTable(users) {
         return;
     }
 
-    tbody.innerHTML = '';
-    users.forEach(user => {
-        const tr = document.createElement('tr');
+    tbody.innerHTML = "";
+    users.forEach((user) => {
+        const tr = document.createElement("tr");
         tr.innerHTML = `
             <td>
                 <div style="display:flex;align-items:center;gap:.75rem;">
@@ -111,53 +117,68 @@ function renderTable(users) {
 let _allUsers = [];
 
 function openAddUserModal() {
-    document.getElementById('userModalTitle').textContent = 'Tambah User';
-    document.getElementById('userForm').reset();
-    document.getElementById('userId').value = '';
-    document.getElementById('passwordLabel').textContent = 'Password *';
-    document.getElementById('passwordHint').textContent = 'Wajib diisi saat membuat user baru.';
-    document.getElementById('userPassword').required = true;
-    document.getElementById('userModal').style.display = 'flex';
+    document.getElementById("userModalTitle").textContent = "Tambah User";
+    document.getElementById("userForm").reset();
+    document.getElementById("userId").value = "";
+    document.getElementById("passwordLabel").textContent = "Password *";
+    document.getElementById("passwordHint").textContent =
+        "Wajib diisi saat membuat user baru.";
+    document.getElementById("userPassword").required = true;
+    document.getElementById("userNamaBank").value = "";
+    document.getElementById("userNoRekening").value = "";
+    document.getElementById("userAtasNama").value = "";
+    document.getElementById("userModal").style.display = "flex";
 }
 
 function closeUserModal() {
-    document.getElementById('userModal').style.display = 'none';
-    document.getElementById('userForm').reset();
+    document.getElementById("userModal").style.display = "none";
+    document.getElementById("userForm").reset();
 }
 
 async function editUser(id) {
     try {
-        const resp = await fetch('/admin/users', { headers: { 'Accept': 'application/json' } });
+        const resp = await fetch("/admin/users", {
+            headers: { Accept: "application/json" },
+        });
         const users = await resp.json();
-        const user = users.find(u => u.id === id);
-        if (!user) { alert('Pengguna tidak ditemukan.'); return; }
+        const user = users.find((u) => u.id === id);
+        if (!user) {
+            alert("Pengguna tidak ditemukan.");
+            return;
+        }
 
         _allUsers = users;
 
-        document.getElementById('userModalTitle').textContent = 'Edit User';
-        document.getElementById('userId').value = user.id;
-        document.getElementById('userName').value = user.name;
-        document.getElementById('userEmail').value = user.email;
-        document.getElementById('userRole').value = user.role;
-        document.getElementById('userPassword').value = '';
-        document.getElementById('userPassword').required = false;
-        document.getElementById('passwordLabel').textContent = 'Ganti Password';
-        document.getElementById('passwordHint').textContent = 'Kosongkan jika tidak ingin mengganti password.';
-        document.getElementById('userModal').style.display = 'flex';
+        document.getElementById("userModalTitle").textContent = "Edit User";
+        document.getElementById("userId").value = user.id;
+        document.getElementById("userName").value = user.name;
+        document.getElementById("userEmail").value = user.email;
+        document.getElementById("userRole").value = user.role;
+        document.getElementById("userPassword").value = "";
+        document.getElementById("userPassword").required = false;
+        document.getElementById("passwordLabel").textContent = "Ganti Password";
+        document.getElementById("passwordHint").textContent =
+            "Kosongkan jika tidak ingin mengganti password.";
+        document.getElementById("userNamaBank").value = user.nama_bank || "";
+        document.getElementById("userNoRekening").value =
+            user.no_rekening || "";
+        document.getElementById("userAtasNama").value =
+            user.atas_nama_rekening || "";
+        document.getElementById("userModal").style.display = "flex";
     } catch {
-        alert('Gagal memuat data pengguna.');
+        alert("Gagal memuat data pengguna.");
     }
 }
 
 function togglePassword() {
-    const input = document.getElementById('userPassword');
-    const icon = document.getElementById('passwordEyeIcon');
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    const input = document.getElementById("userPassword");
+    const icon = document.getElementById("passwordEyeIcon");
+    if (input.type === "password") {
+        input.type = "text";
+        icon.classList.replace("fa-eye", "fa-eye-slash");
     } else {
-        input.type = 'password';
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
+        input.type = "password";
+        icon.classList.replace("fa-eye-slash", "fa-eye");
     }
 }
 
@@ -165,39 +186,51 @@ function togglePassword() {
 // CREATE / UPDATE
 // ──────────────────────────────────────────────────────────────
 async function saveUser() {
-    const id = document.getElementById('userId').value;
-    const name = document.getElementById('userName').value.trim();
-    const email = document.getElementById('userEmail').value.trim();
-    const password = document.getElementById('userPassword').value;
-    const role = document.getElementById('userRole').value;
+    const id = document.getElementById("userId").value;
+    const name = document.getElementById("userName").value.trim();
+    const email = document.getElementById("userEmail").value.trim();
+    const password = document.getElementById("userPassword").value;
+    const role = document.getElementById("userRole").value;
+    const nama_bank = document.getElementById("userNamaBank").value.trim();
+    const no_rekening = document.getElementById("userNoRekening").value.trim();
+    const atas_nama_rekening = document
+        .getElementById("userAtasNama")
+        .value.trim();
     const isEdit = !!id;
 
     if (!name || !email || !role) {
-        alert('Nama, Email, dan Peran wajib diisi!');
+        alert("Nama, Email, dan Peran wajib diisi!");
         return;
     }
     if (!isEdit && !password) {
-        alert('Kata sandi wajib diisi untuk pengguna baru!');
+        alert("Kata sandi wajib diisi untuk pengguna baru!");
         return;
     }
 
-    const btn = document.getElementById('saveUserBtn');
+    const btn = document.getElementById("saveUserBtn");
     btn.disabled = true;
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan…';
 
     try {
-        const url = isEdit ? `/admin/users/${id}` : '/admin/users';
-        const method = isEdit ? 'PUT' : 'POST';
+        const url = isEdit ? `/admin/users/${id}` : "/admin/users";
+        const method = isEdit ? "PUT" : "POST";
 
-        const payload = { name, email, role };
+        const payload = {
+            name,
+            email,
+            role,
+            nama_bank,
+            no_rekening,
+            atas_nama_rekening,
+        };
         if (password) payload.password = password;
 
         const resp = await fetch(url, {
             method,
             headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json',
-                'X-CSRF-TOKEN': getCsrf(),
+                "Content-Type": "application/json",
+                Accept: "application/json",
+                "X-CSRF-TOKEN": getCsrf(),
             },
             body: JSON.stringify(payload),
         });
@@ -205,8 +238,8 @@ async function saveUser() {
         if (!resp.ok) {
             const err = await resp.json();
             const msg = err.errors
-                ? Object.values(err.errors).flat().join('\n')
-                : (err.message || 'Terjadi kesalahan.');
+                ? Object.values(err.errors).flat().join("\n")
+                : err.message || "Terjadi kesalahan.";
             alert(msg);
             return;
         }
@@ -214,7 +247,7 @@ async function saveUser() {
         closeUserModal();
         await loadUsers();
     } catch {
-        alert('Gagal menyimpan. Cek koneksi atau coba lagi.');
+        alert("Gagal menyimpan. Cek koneksi atau coba lagi.");
     } finally {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-save"></i> Simpan';
@@ -225,20 +258,25 @@ async function saveUser() {
 // DELETE
 // ──────────────────────────────────────────────────────────────
 async function deleteUser(id, name) {
-    if (!confirm(`Hapus pengguna "${name}"? Tindakan ini tidak dapat dibatalkan!`)) return;
+    if (
+        !confirm(
+            `Hapus pengguna "${name}"? Tindakan ini tidak dapat dibatalkan!`,
+        )
+    )
+        return;
     try {
         const resp = await fetch(`/admin/users/${id}`, {
-            method: 'DELETE',
-            headers: { 'Accept': 'application/json', 'X-CSRF-TOKEN': getCsrf() },
+            method: "DELETE",
+            headers: { Accept: "application/json", "X-CSRF-TOKEN": getCsrf() },
         });
         if (!resp.ok) {
             const err = await resp.json();
-            alert(err.message || 'Gagal menghapus pengguna.');
+            alert(err.message || "Gagal menghapus pengguna.");
             return;
         }
         await loadUsers();
     } catch {
-        alert('Gagal menghapus pengguna.');
+        alert("Gagal menghapus pengguna.");
     }
 }
 
@@ -246,15 +284,17 @@ async function deleteUser(id, name) {
 // SEARCH (filter di sisi klien)
 // ──────────────────────────────────────────────────────────────
 function searchUsers() {
-    const term = document.getElementById('searchUser').value.toLowerCase();
-    const rows = document.querySelectorAll('#usersTableBody tr');
-    rows.forEach(row => {
-        row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+    const term = document.getElementById("searchUser").value.toLowerCase();
+    const rows = document.querySelectorAll("#usersTableBody tr");
+    rows.forEach((row) => {
+        row.style.display = row.textContent.toLowerCase().includes(term)
+            ? ""
+            : "none";
     });
 }
 
 // Close modal bila klik di luar
 window.onclick = function (event) {
-    const modal = document.getElementById('userModal');
+    const modal = document.getElementById("userModal");
     if (event.target === modal) closeUserModal();
 };
