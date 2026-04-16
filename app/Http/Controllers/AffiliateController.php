@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Agent;
 use App\Models\Closing;
+use App\Models\TipeRumah;
 use App\Models\WaClick;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,13 +38,17 @@ class AffiliateController extends Controller
         $scope     = $this->waClickScope($user);
         $baseQuery = fn() => WaClick::where($scope);
 
+        // Data closing nyata dari tabel closings
+        $agent    = Agent::where('user_id', $user->id)->first();
+        $closings = $agent ? Closing::where('agent_id', $agent->id)->get() : collect();
+
         $stats = [
             'total_klik'   => $baseQuery()->count(),
             'klik_hari_ini'=> $baseQuery()->whereDate('created_at', today())->count(),
             'klik_bulan'   => $baseQuery()->where('created_at', '>=', now()->startOfMonth())->count(),
             'total_leads'  => $baseQuery()->whereIn('status', ['new', 'follow-up', 'interested'])->count(),
-            'total_closing'=> $baseQuery()->where('status', 'closed')->count(),
-            'pendapatan'   => 0, // Dikosongkan sementara atau bisa fetch dari komisi di-develop selanjutnya
+            'total_closing'=> $closings->count(),
+            'pendapatan'   => $closings->sum('komisi_nominal'),
         ];
 
         // Hitung conversion rate (Leads / Klik * 100)
@@ -97,7 +102,14 @@ class AffiliateController extends Controller
             'closing'   => $clicks->where('status', 'closed')->count(),
         ];
 
-        return view('affiliate.leads', compact('clicks', 'stats'));
+        $tipeRumah = $this->tipeRumahList();
+
+        return view('affiliate.leads', compact('clicks', 'stats', 'tipeRumah'));
+    }
+
+    private function tipeRumahList()
+    {
+        return TipeRumah::select('id', 'nama_tipe', 'harga')->orderBy('harga')->get();
     }
 
     /**

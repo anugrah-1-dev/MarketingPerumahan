@@ -217,6 +217,10 @@ class PageController extends Controller
 
         $this->autoCreateClosing($clientData);
 
+        if ($request->input('_from') === 'leads') {
+            return redirect()->route('affiliate.leads')->with('pengisian_ok', true);
+        }
+
         return redirect()->route('affiliate.pengisian-data')->with('step', 'selesai');
     }
 
