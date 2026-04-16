@@ -216,6 +216,8 @@ class PageController extends Controller
             'created_by'       => Auth::id(),
         ]);
 
+        $this->autoCreateClosing($clientData);
+
         if ($request->input('_from') === 'leads') {
             return redirect()->route('affiliate.leads')->with('pengisian_ok', true);
         }
@@ -445,6 +447,8 @@ class PageController extends Controller
             'created_by'       => Auth::id(),
         ]);
 
+        $this->autoCreateClosing($clientData, $request->input('agent_id') ? (int) $request->input('agent_id') : null);
+
         $user  = Auth::user();
         $route = $user->isAdmin() ? 'manager.pengisian-data' : 'admin.pengisian-data';
         return redirect()->route($route)->with('step', 'selesai');
@@ -479,6 +483,7 @@ class PageController extends Controller
             'komisi_persen'   => $komisiPersen,
             'komisi_nominal'  => $komisiNominal,
             'payment_status'  => 'dp',
+            'komisi_status'   => 'pending',
             'tanggal_closing' => now()->toDateString(),
             'created_by'      => $clientData->created_by,
         ]);

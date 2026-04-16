@@ -169,7 +169,6 @@
             <p>Data calon pembeli telah berhasil dikirim dan akan diproses oleh tim marketing.</p>
         </div>
         <div class="form-actions" style="justify-content:center; margin-top:24px;">
-            <a href="{{ route('admin.pengisian-data') }}" class="btn-new">+ Tambah Data Baru</a>
             <a href="{{ route('admin.dashboard') }}" class="btn-back" style="text-decoration:none;">Kembali ke Beranda</a>
         </div>
     </div>
