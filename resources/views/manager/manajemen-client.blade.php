@@ -74,14 +74,21 @@
                         </select>
                     </div>
                     <div class="form-group" id="agentGroup" style="display:none">
-                        <label>Agent (Opsional)</label>
-                        <select id="agentSelect">
-                            <option value="">— Otomatis dari pembuat —</option>
-                            @foreach($agents as $a)
-                                <option value="{{ $a->id }}">{{ $a->nama }} ({{ $a->commission }}%)</option>
-                            @endforeach
-                        </select>
-                        <small style="color:#64748b">Kosongkan jika ingin menggunakan agent dari akun pengisi form.</small>
+                        <label>Agent</label>
+                        <div id="agentAutoInfo" style="display:none;padding:.5rem .75rem;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:.375rem;color:#166534;font-weight:500">
+                            <i class="fas fa-user-check" style="margin-right:.25rem"></i>
+                            <span id="agentAutoName"></span>
+                            <input type="hidden" id="agentAutoId">
+                        </div>
+                        <div id="agentManualGroup">
+                            <select id="agentSelect">
+                                <option value="">— Pilih Agent —</option>
+                                @foreach($agents as $a)
+                                    <option value="{{ $a->id }}">{{ $a->nama }} ({{ $a->commission }}%)</option>
+                                @endforeach
+                            </select>
+                            <small style="color:#64748b">Pembuat bukan affiliate. Pilih agent secara manual.</small>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -180,9 +187,12 @@ function renderTable() {
         </tr>`).join('');
 }
 
+let currentClient = null;
+
 function openStatusModal(id) {
     const c = clients.find(x => x.id === id);
     if (!c) return;
+    currentClient = c;
     document.getElementById('statusClientId').value = c.id;
     document.getElementById('statusSelect').value = c.status_pembayaran;
     document.getElementById('agentSelect').value = '';
@@ -196,7 +206,18 @@ function closeStatusModal() {
 
 function toggleAgentSelect() {
     const val = document.getElementById('statusSelect').value;
-    document.getElementById('agentGroup').style.display = (val === 'dp' || val === 'lunas') ? 'block' : 'none';
+    const show = (val === 'dp' || val === 'lunas');
+    document.getElementById('agentGroup').style.display = show ? 'block' : 'none';
+
+    if (show && currentClient) {
+        const hasCreatorAgent = currentClient.creator_agent_id;
+        document.getElementById('agentAutoInfo').style.display = hasCreatorAgent ? 'block' : 'none';
+        document.getElementById('agentManualGroup').style.display = hasCreatorAgent ? 'none' : 'block';
+        if (hasCreatorAgent) {
+            document.getElementById('agentAutoName').textContent = currentClient.creator_agent_name;
+            document.getElementById('agentAutoId').value = currentClient.creator_agent_id;
+        }
+    }
 }
 
 async function saveStatus() {
@@ -204,8 +225,13 @@ async function saveStatus() {
     const status = document.getElementById('statusSelect').value;
     const agentId = document.getElementById('agentSelect').value;
 
+    const autoAgentId = document.getElementById('agentAutoId')?.value;
     const payload = { status_pembayaran: status };
-    if (agentId) payload.agent_id = agentId;
+    if (autoAgentId) {
+        payload.agent_id = autoAgentId;
+    } else if (agentId) {
+        payload.agent_id = agentId;
+    }
 
     try {
         const res = await fetch(clientBasePath + '/' + id + '/status', {

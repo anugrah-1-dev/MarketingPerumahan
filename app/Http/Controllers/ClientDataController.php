@@ -29,28 +29,30 @@ class ClientDataController extends Controller
     public function index(Request $request)
     {
         if ($request->expectsJson()) {
-            $clients = ClientData::with(['tipeRumah', 'creator', 'closing.agent'])
+            $clients = ClientData::with(['tipeRumah', 'creator.agent', 'closing.agent'])
                 ->latest()
                 ->orderByDesc('id')
                 ->get();
 
             return response()->json($clients->map(fn($c) => [
-                'id'               => $c->id,
-                'nama_lengkap'     => $c->nama_lengkap,
-                'email'            => $c->email,
-                'nik'              => $c->nik,
-                'no_whatsapp'      => $c->no_whatsapp,
-                'alamat'           => $c->alamat,
-                'tipe_rumah_id'    => $c->tipe_rumah_id,
-                'tipe_rumah_nama'  => $c->tipeRumah?->nama_tipe ?? '-',
-                'status_pembayaran'=> $c->status_pembayaran ?? 'baru',
-                'bukti_pembayaran' => $this->fileUrl($c->bukti_pembayaran),
-                'created_by_name'  => $c->creator?->name ?? '-',
-                'closing_id'       => $c->closing?->id,
-                'agent_name'       => $c->closing?->agent?->nama ?? '-',
-                'komisi_nominal'   => $c->closing?->komisi_nominal ?? 0,
-                'komisi_status'    => $c->closing?->komisi_status ?? '-',
-                'created_at'       => $c->created_at?->toIso8601String(),
+                'id'                  => $c->id,
+                'nama_lengkap'        => $c->nama_lengkap,
+                'email'               => $c->email,
+                'nik'                 => $c->nik,
+                'no_whatsapp'         => $c->no_whatsapp,
+                'alamat'              => $c->alamat,
+                'tipe_rumah_id'       => $c->tipe_rumah_id,
+                'tipe_rumah_nama'     => $c->tipeRumah?->nama_tipe ?? '-',
+                'status_pembayaran'   => $c->status_pembayaran ?? 'baru',
+                'bukti_pembayaran'    => $this->fileUrl($c->bukti_pembayaran),
+                'created_by_name'     => $c->creator?->name ?? '-',
+                'creator_agent_id'    => $c->creator?->agent?->id,
+                'creator_agent_name'  => $c->creator?->agent?->nama,
+                'closing_id'          => $c->closing?->id,
+                'agent_name'          => $c->closing?->agent?->nama ?? '-',
+                'komisi_nominal'      => $c->closing?->komisi_nominal ?? 0,
+                'komisi_status'       => $c->closing?->komisi_status ?? '-',
+                'created_at'          => $c->created_at?->toIso8601String(),
             ]));
         }
 
