@@ -40,9 +40,7 @@ class DashboardController extends Controller
 
         // ── Top 5 Agent ───────────────────────────────────────────────────────
         $topAgents = Agent::withCount(['waClicks as clicks_count'])
-            ->withCount(['waClicks as closings_count' => function ($q) {
-                $q->where('status', 'closed');
-            }])
+            ->withCount(['closings as closings_count'])
             ->aktif()
             ->orderByDesc('clicks_count')
             ->take(5)
