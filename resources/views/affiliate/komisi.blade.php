@@ -53,12 +53,11 @@
     <!-- Info Row -->
     <div class="info-row">
         <div class="info-box">
-            <h3>📅 Jadwal Pembayaran</h3>
+            <h3>🏦 Informasi Rekening</h3>
             <ul>
-                <li>Komisi dibayarkan setiap tanggal 25 setiap bulan</li>
-                <li>Transfer langsung ke rekening yang terdaftar</li>
-                <li>Minimum penarikan Rp 1.000.000</li>
-                <li>Komisi dihitung setelah DP/Pelunasan diterima developer</li>
+                <li>Bank: <strong>{{ $agent->nama_bank ?? '-' }}</strong></li>
+                <li>No. Rekening: <strong>{{ $agent->no_rekening ?? '-' }}</strong></li>
+                <li>Atas Nama: <strong>{{ $agent->atas_nama_rekening ?? '-' }}</strong></li>
             </ul>
         </div>
         <div class="info-box">
