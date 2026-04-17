@@ -45,7 +45,7 @@
                     <thead>
                         <tr>
                             <th>Nama</th><th>No WA</th><th>Tipe Rumah</th>
-                            <th>Status Pembayaran</th><th>Agent</th><th>Dibuat Oleh</th><th>Aksi</th>
+                            <th>Status Pembayaran</th><th>Agent</th><th>Dibuat Oleh</th><th>Tanggal</th><th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="clientTableBody"></tbody>
@@ -118,7 +118,7 @@ async function fetchClients() {
         console.error(e);
         clients = [];
         const tbody = document.getElementById('clientTableBody');
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#e53935">Gagal memuat data klien. Periksa koneksi database.</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:2rem;color:#e53935">Gagal memuat data klien. Periksa koneksi database.</td></tr>';
         return;
     }
     updateStats();
@@ -148,7 +148,7 @@ function renderTable() {
     const tbody = document.getElementById('clientTableBody');
 
     if (list.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:#64748b">Tidak ada data klien</td></tr>';
+        tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:2rem;color:#64748b">Tidak ada data klien</td></tr>';
         return;
     }
 
@@ -167,6 +167,7 @@ function renderTable() {
             <td>${getStatusBadge(c.status_pembayaran)}</td>
             <td>${c.agent_name}</td>
             <td>${c.created_by_name}</td>
+            <td style="white-space:nowrap;font-size:.85rem">${c.created_at ? new Date(c.created_at).toLocaleDateString('id-ID', {day:'2-digit',month:'short',year:'numeric'}) + ' ' + new Date(c.created_at).toLocaleTimeString('id-ID', {hour:'2-digit',minute:'2-digit'}) : '-'}</td>
             <td>
                 <div style="display:flex;gap:.5rem">
                     <button class="btn-icon" onclick="openStatusModal(${c.id})" title="Ubah Status">
