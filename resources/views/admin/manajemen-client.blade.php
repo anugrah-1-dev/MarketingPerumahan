@@ -114,6 +114,7 @@ async function fetchClients() {
         });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         clients = await res.json();
+        clients.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
     } catch (e) {
         console.error(e);
         clients = [];

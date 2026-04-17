@@ -31,6 +31,7 @@ class ClientDataController extends Controller
         if ($request->expectsJson()) {
             $clients = ClientData::with(['tipeRumah', 'creator', 'closing.agent'])
                 ->latest()
+                ->orderByDesc('id')
                 ->get();
 
             return response()->json($clients->map(fn($c) => [

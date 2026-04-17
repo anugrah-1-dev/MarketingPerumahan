@@ -33,6 +33,7 @@ class ClosingController extends Controller
         if ($request->expectsJson()) {
             $closings = Closing::with(['agent', 'tipeRumah'])
                 ->latest('tanggal_closing')
+                ->orderByDesc('id')
                 ->get();
 
             return response()->json($closings->map(fn($c) => [

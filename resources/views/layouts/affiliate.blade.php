@@ -45,6 +45,10 @@
                 <span class="nav-icon"><i class="fas fa-users"></i></span>
                 Rekap
             </a>
+            <a href="{{ route('affiliate.pengisian-data') }}" class="nav-item {{ request()->routeIs('affiliate.pengisian-data') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
+                <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
+                Pengisian Data
+            </a>
             <a href="{{ route('affiliate.closing') }}" class="nav-item {{ request()->routeIs('affiliate.closing') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-check-circle"></i></span>
                 Penutupan
@@ -52,10 +56,6 @@
             <a href="{{ route('affiliate.komisi') }}" class="nav-item {{ request()->routeIs('affiliate.komisi') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-coins"></i></span>
                 Komisi
-            </a>
-            <a href="{{ route('affiliate.pengisian-data') }}" class="nav-item {{ request()->routeIs('affiliate.pengisian-data') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
-                <span class="nav-icon"><i class="fas fa-clipboard-list"></i></span>
-                Pengisian Data
             </a>
             <a href="{{ route('affiliate.profile') }}" class="nav-item {{ request()->routeIs('affiliate.profile') ? 'active' : '' }}" onclick="closeSidebarOnNav()">
                 <span class="nav-icon"><i class="fas fa-user-circle"></i></span>

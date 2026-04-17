@@ -145,6 +145,7 @@ class AffiliateController extends Controller
         $closings = Closing::with('tipeRumah')
             ->where('agent_id', $agent->id)
             ->latest('tanggal_closing')
+            ->orderByDesc('id')
             ->get();
 
         $stats = [
@@ -183,6 +184,7 @@ class AffiliateController extends Controller
         $closings = Closing::with('tipeRumah')
             ->where('agent_id', $agent->id)
             ->latest('tanggal_closing')
+            ->orderByDesc('id')
             ->get();
 
         $totalKomisi    = $closings->sum('komisi_nominal');
