@@ -1,6 +1,6 @@
 ﻿@extends('layouts.manager')
-@section('title', 'Manajemen Client')
-@section('page-title', 'Manajemen Client')
+@section('title', 'Manajemen Klien')
+@section('page-title', 'Manajemen Klien')
 
 @section('content')
     <!-- Stats Summary -->

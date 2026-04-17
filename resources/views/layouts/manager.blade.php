@@ -41,7 +41,7 @@
             </a>
             <a href="{{ route('manager.closing') }}" class="nav-item {{ request()->routeIs('manager.closing') ? 'active' : '' }}">
                 <i class="fas fa-handshake"></i>
-                <span>Manajemen Client</span>
+                <span>Manajemen Klien</span>
             </a>
             <a href="{{ route('manager.users') }}" class="nav-item {{ request()->routeIs('manager.users*') ? 'active' : '' }}">
                 <i class="fas fa-user-lock"></i>
