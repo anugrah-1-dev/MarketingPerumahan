@@ -1,4 +1,4 @@
-﻿@extends('layouts.manager')
+@extends('layouts.manager')
 @section('title', 'Pengisian Data Klien')
 @section('page-title', 'Pengisian Data Klien')
 
@@ -169,8 +169,8 @@
             <p>Data calon pembeli telah berhasil dikirim dan akan diproses oleh tim marketing.</p>
         </div>
         <div class="form-actions" style="justify-content:center; margin-top:24px;">
-            <a href="{{ route('manager.pengisian-data') }}" class="btn-new">+ Tambah Data Baru</a>
             <a href="{{ route('manager.dashboard') }}" class="btn-back" style="text-decoration:none;">Kembali ke Beranda</a>
+            <a href="{{ route('manager.pengisian-data') }}" class="btn-new">+ Tambah Data Baru</a>
         </div>
     </div>
 
@@ -223,7 +223,7 @@
                 <select id="f_agent" name="agent_id" style="width:100%;padding:11px 14px;border:1.5px solid #d1d5db;border-radius:8px;font-size:14px;color:#333;background:#fff;outline:none;box-sizing:border-box;cursor:pointer;">
                     <option value="">-- Pilih Agen --</option>
                     @foreach($agents ?? [] as $agent)
-                    <option value="{{ $agent->id }}">{{ $agent->nama }} (Komisi: {{ $agent->commission }}%)</option>
+                    <option value="{{ $agent->id }}">{{ $agent->nama }} (Komisi: {{ $agent->commission}}%)</option>
                     @endforeach
                 </select>
             </div>
@@ -341,6 +341,7 @@ function goToReview() {
 
     if (!valid) return;
 
+    // Isi tabel review
     document.getElementById('rv_nama').textContent   = nama;
     document.getElementById('rv_email').textContent  = email;
     document.getElementById('rv_nik').textContent    = nik;
@@ -352,6 +353,7 @@ function goToReview() {
     document.getElementById('rv_agent').textContent  = agentEl.value
         ? agentEl.options[agentEl.selectedIndex].text : '(tidak ada)';
 
+    // Isi hidden inputs
     document.getElementById('hd_nama').value          = nama;
     document.getElementById('hd_email').value         = email;
     document.getElementById('hd_nik').value           = nik;
@@ -365,6 +367,7 @@ function goToReview() {
     if (fileInput && placeholder) {
         placeholder.innerHTML = '';
         placeholder.appendChild(fileInput);
+        // Tampilkan nama file di review table
         const rvBukti = document.getElementById('rv_bukti');
         if (fileInput.files && fileInput.files.length > 0) {
             rvBukti.textContent = fileInput.files[0].name;
@@ -373,6 +376,7 @@ function goToReview() {
         }
     }
 
+    // Update stepper
     document.getElementById('stepper-1').classList.remove('active');
     document.getElementById('stepper-1').classList.add('done');
     document.getElementById('stepper-2').classList.add('active');
@@ -399,7 +403,7 @@ function backToForm() {
 
 function confirmBatal() {
     if (confirm('Yakin ingin membatalkan pengisian data?')) {
-        window.location.href = '{{ route("manager.dashboard") }}';
+        window.location.href = '{{ route("admin.dashboard") }}';
     }
 }
 </script>

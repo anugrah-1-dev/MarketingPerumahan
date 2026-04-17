@@ -1,4 +1,4 @@
-﻿@extends('layouts.manager')
+@extends('layouts.manager')
 
 @section('title', 'Tipe Rumah')
 @section('page-title', 'Tipe Rumah')
@@ -199,7 +199,7 @@
 @push('scripts')
 
 <script>
-var globalCounter = 0;
+let globalCounter = 0;
 
 function trAddFotoSlot(btn) {
     var list = btn.closest('.form-group').querySelector('.foto-tambahan-list');
@@ -299,9 +299,11 @@ function trOpenEditModal(data) {
     form.querySelector('[name="deskripsi"]').value      = data.deskripsi || '';
     form.querySelector('[name="is_diskon"]').checked    = data.is_diskon == 1;
 
+    // Sertifikat
     var sertSelect = form.querySelector('[name="sertifikat"]');
     if (sertSelect) sertSelect.value = data.sertifikat || 'SHM';
 
+    // Fasilitas - isi ulang daftar dari array
     var fasilitasList = form.querySelector('.fasilitas-list');
     if (fasilitasList) {
         fasilitasList.innerHTML = '';

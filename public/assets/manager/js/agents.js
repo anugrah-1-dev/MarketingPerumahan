@@ -1,4 +1,4 @@
-﻿/**
+/**
  * agents.js — Agent CRUD via Laravel API
  * Optimized: local in-memory cache + optimistic UI updates
  * - Edit: baca dari cache, TIDAK fetch ulang ke server
@@ -12,7 +12,7 @@ let agentsCache = [];
 // ── Panel detection (admin / manager) ───────────────────────
 const agentsBasePath = (() => {
     const seg = window.location.pathname.split("/").filter(Boolean)[0];
-    return seg === "manager" ? "/manager/agents" : "/admin/agents";
+    return seg === "manager" ? "/manager/agents" : "/manager/agents";
 })();
 const agentsDataPath = `${agentsBasePath}/data`;
 
@@ -301,7 +301,7 @@ function editAgent(id) {
     document.getElementById("agentEmail").value = agent.email ?? "";
     document.getElementById("agentPhone").value = agent.phone ?? "";
     // Tampilkan teks '1%' di popup (komisi dikunci)
-    document.getElementById("agentCommission").value = "1%";
+    document.getElementById("agentCommission").value = agent.commission ?? 0;
     document.getElementById("agentNamaBank").value = agent.nama_bank ?? "";
     document.getElementById("agentNoRekening").value = agent.no_rekening ?? "";
     document.getElementById("agentAtasNama").value =
@@ -336,11 +336,19 @@ async function saveAgent() {
         const url = isEdit ? `${agentsBasePath}/${id}` : agentsBasePath;
         const method = isEdit ? "PUT" : "POST";
 
+        const commissionVal = parseFloat(
+            document.getElementById("agentCommission").value,
+        );
         const payload = { nama, jabatan, email };
         if (phone) payload.phone = phone;
         if (password) payload.password = password;
-        // Paksa komisi 1% untuk semua agent yang dibuat/diupdate dari modal ini
-        payload.commission = 1;
+        payload.commission = isNaN(commissionVal) ? 0 : commissionVal;
+        payload.nama_bank =
+            document.getElementById("agentNamaBank").value.trim() || null;
+        payload.no_rekening =
+            document.getElementById("agentNoRekening").value.trim() || null;
+        payload.atas_nama_rekening =
+            document.getElementById("agentAtasNama").value.trim() || null;
         payload.nama_bank =
             document.getElementById("agentNamaBank").value.trim() || null;
         payload.no_rekening =

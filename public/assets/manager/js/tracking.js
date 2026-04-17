@@ -12,12 +12,18 @@ const csrf = () =>
     document.querySelector('meta[name="csrf-token"]')?.content ?? "";
 const trackingBasePath = (() => {
     const firstSegment = window.location.pathname.split("/").filter(Boolean)[0];
-    return firstSegment === "manager" ? "/manager/tracking" : "/admin/tracking";
+    return firstSegment === "manager" ? "/manager/tracking" : "/manager/tracking";
 })();
 
 // ─── Init ───────────────────────────────────────────────────────────────────
 document.addEventListener("DOMContentLoaded", () => {
     loadData();
+    // Auto-refresh data dari server setiap 30 detik
+    setInterval(loadData, 30000);
+    // Re-render tabel setiap menit agar teks "X menit lalu" ikut bergerak
+    setInterval(() => {
+        if (filteredClicks.length) renderTable();
+    }, 60000);
 });
 
 // ─── Ambil data dari server ──────────────────────────────────────────────────
@@ -67,6 +73,7 @@ function updateStats(stats) {
 // ─── Isi dropdown Agent dari database ───────────────────────────────────────
 function populateAgentFilter(agents) {
     const sel = document.getElementById("filterAgen");
+    const currentValue = sel.value; // simpan pilihan sebelum rebuild
     // Hapus option lama kecuali "Semua Agent"
     while (sel.options.length > 1) sel.remove(1);
     agents.forEach((a) => {
@@ -75,6 +82,7 @@ function populateAgentFilter(agents) {
         opt.textContent = a.nama;
         sel.appendChild(opt);
     });
+    if (currentValue) sel.value = currentValue; // kembalikan pilihan
 }
 
 // ─── Filter dipanggil saat user ubah dropdown/search ────────────────────────
@@ -145,7 +153,7 @@ function renderTable() {
     renderPagination();
 }
 
-// ─── Format nomor HP ─────────────────────────────────────────────────────────
+// ─── Format nomor HP ──────────────────────────────────────────────────────────
 function formatPhone(phone) {
     if (!phone) return "-";
     return (
@@ -156,7 +164,7 @@ function formatPhone(phone) {
     );
 }
 
-// ─── Escape HTML ──────────────────────────────────────────────────────────────
+// ─── Escape HTML ─────────────────────────────────────────────────────────────
 function escHtml(str) {
     return (str || "")
         .replace(/&/g, "&amp;")

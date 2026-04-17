@@ -1,4 +1,4 @@
-﻿@extends('layouts.manager')
+@extends('layouts.manager')
 @section('title', 'Manajemen Klien')
 @section('page-title', 'Manajemen Klien')
 
@@ -118,8 +118,9 @@
                     <div class="form-group">
                         <label>Status Pembayaran *</label>
                         <select id="paymentStatus" required>
-                            <option value="pending">Pending</option>
-                            <option value="terbayar">Terbayar</option>
+                            <option value="dp">DP (Uang Muka)</option>
+                            <option value="installment">Cicilan</option>
+                            <option value="paid-off">Lunas</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -145,6 +146,7 @@
             </div>
         </div>
     </div>
+
     <!-- Details Modal -->
     <div id="detailsModal" class="modal">
         <div class="modal-content" style="max-width:600px">
@@ -206,6 +208,6 @@
 window.TIPE_RUMAH    = @json($tipeRumah ?? []);
 window.CLOSING_PANEL = 'manager';
 </script>
-<script src="{{ asset('assets/admin/js/closing.js') }}?v={{ filemtime(public_path('assets/admin/js/closing.js')) }}"></script>
+<script src="{{ asset('assets/manager/js/closing.js') }}?v={{ filemtime(public_path('assets/manager/js/closing.js')) }}"></script>
 @endpush
 

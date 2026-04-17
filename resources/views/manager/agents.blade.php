@@ -1,4 +1,4 @@
-﻿@extends('layouts.manager')
+@extends('layouts.manager')
 @section('title', 'Manajemen Agen')
 @section('page-title', 'Manajemen Agen')
 
@@ -102,6 +102,8 @@
                         <label for="agentAtasNama">Atas Nama Rekening</label>
                         <input type="text" id="agentAtasNama" placeholder="Nama pemilik rekening">
                     </div>
+
+
                 </form>
             </div>
             <div class="modal-footer">
@@ -112,6 +114,7 @@
             </div>
         </div>
     </div>
+
     <!-- Detail Agent Modal -->
     <div id="agentDetailModal" class="modal">
         <div class="modal-content" style="max-width:600px;">
@@ -126,6 +129,7 @@
             </div>
         </div>
     </div>
+
 @endsection
 
 @push('scripts')

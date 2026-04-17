@@ -15,7 +15,7 @@ function getRoleBadge(role) {
     if (role === "super_admin") {
         return '<span class="badge" style="background:#fef3c7;color:#92400e;">Super Admin</span>';
     }
-    if (role === "admin") {
+    if (role === "manager") {
         return '<span class="badge" style="background:#dbeafe;color:#1e40af;">Admin</span>';
     }
     return '<span class="badge success">Affiliate</span>';
@@ -199,7 +199,7 @@ async function saveUser() {
     btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Menyimpan…';
 
     try {
-        const url = isEdit ? `/manager/users/${id}` : "/manager/users";
+        const url = isEdit ? `/admin/users/${id}` : "/manager/users";
         const method = isEdit ? "PUT" : "POST";
 
         const payload = {
@@ -249,7 +249,7 @@ async function deleteUser(id, name) {
     )
         return;
     try {
-        const resp = await fetch(`/manager/users/${id}`, {
+        const resp = await fetch(`/admin/users/${id}`, {
             method: "DELETE",
             headers: { Accept: "application/json", "X-CSRF-TOKEN": getCsrf() },
         });

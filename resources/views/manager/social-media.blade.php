@@ -1,4 +1,4 @@
-﻿@extends('layouts.manager')
+@extends('layouts.manager')
 @section('title', 'Konten Media Sosial')
 @section('page-title', 'Media Sosial')
 
@@ -402,6 +402,5 @@
     </script>
 
 @endsection
-
 
 

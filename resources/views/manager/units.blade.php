@@ -3,7 +3,7 @@
 @section('page-title', 'Manajemen Unit')
 
 @push('styles')
-<link rel="stylesheet" href="{{ asset('assets/admin/css/units.css') }}">
+<link rel="stylesheet" href="{{ asset('assets/manager/css/units.css') }}">
 @endpush
 
 @section('content')

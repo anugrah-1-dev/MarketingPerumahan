@@ -1,4 +1,4 @@
-﻿@extends('layouts.manager')
+@extends('layouts.manager')
 @section('title', 'Pelacakan Klik WA')
 @section('page-title', 'Pelacakan Klik WhatsApp')
 
@@ -75,17 +75,17 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Waktu Klik</th>
-                                <th>Nama / No HP</th>
-                                <th>Agen</th>
-                                <th>Perangkat</th>
-                                <th>Status Lead</th>
-                                <th>Catatan</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
+                            <thead>
+                                <tr>
+                                    <th>Waktu Klik</th>
+                                    <th>Nama / No HP</th>
+                                    <th>Agen</th>
+                                    <th>Perangkat</th>
+                                    <th>Status Prospek</th>
+                                    <th>Catatan</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
                     <tbody id="clicksTableBody"></tbody>
                 </table>
             </div>
