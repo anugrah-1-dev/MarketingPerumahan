@@ -14,7 +14,7 @@
             <div class="stat-content"><h3 id="totalBaru">0</h3><p>Baru</p></div>
         </div>
         <div class="stat-card">
-            <div class="stat-icon info"><i class="fas fa-hand-holding-usd"></i></div>
+            <div class="stat-icon orange"><i class="fas fa-hand-holding-dollar"></i></div>
             <div class="stat-content"><h3 id="totalDp">0</h3><p>DP</p></div>
         </div>
         <div class="stat-card">

@@ -264,6 +264,9 @@ body {
 .stat-icon.red {
     background-color: #ef4444;
 }
+.stat-icon.orange {
+    background-color: #f97316;
+}
 
 .stat-content {
     min-width: 0;
