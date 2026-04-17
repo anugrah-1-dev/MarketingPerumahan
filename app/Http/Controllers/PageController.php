@@ -201,7 +201,7 @@ class PageController extends Controller
         $buktiPath = null;
         if ($request->hasFile('bukti_pembayaran')) {
             $buktiPath = $request->file('bukti_pembayaran')
-                ->store('bukti-pembayaran', 'public');
+                ->store('bukti-pembayaran', 'uploads');
         }
 
         $clientData = ClientData::create([
@@ -432,7 +432,7 @@ class PageController extends Controller
         $buktiPath = null;
         if ($request->hasFile('bukti_pembayaran')) {
             $buktiPath = $request->file('bukti_pembayaran')
-                ->store('bukti-pembayaran', 'public');
+                ->store('bukti-pembayaran', 'uploads');
         }
 
         $clientData = ClientData::create([

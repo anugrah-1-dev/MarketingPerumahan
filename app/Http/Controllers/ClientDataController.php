@@ -35,7 +35,7 @@ class ClientDataController extends Controller
                 'tipe_rumah_nama'  => $c->tipeRumah?->nama_tipe ?? '-',
                 'status_pembayaran'=> $c->status_pembayaran ?? 'baru',
                 'bukti_pembayaran' => $c->bukti_pembayaran
-                    ? Storage::disk('public')->url($c->bukti_pembayaran)
+                    ? Storage::disk('uploads')->url($c->bukti_pembayaran)
                     : null,
                 'created_by_name'  => $c->creator?->name ?? '-',
                 'closing_id'       => $c->closing?->id,
