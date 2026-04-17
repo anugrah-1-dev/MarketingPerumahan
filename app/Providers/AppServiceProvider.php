@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        // Set Carbon locale sesuai app locale (id = Indonesia)
+        Carbon::setLocale(config('app.locale'));
+
         // Auto-generate referral_code saat user baru dibuat
         User::observe(UserObserver::class);
 
