@@ -95,13 +95,13 @@ class AgentController extends Controller
         $komisiTerbayar = Closing::where('agent_id', $id)->where('komisi_status', 'paid')->sum('komisi_nominal');
 
         $recentClosings = Closing::where('agent_id', $id)
-            ->with('tipeRumah:id,nama')
+            ->with('tipeRumah:id,nama_tipe')
             ->latest('tanggal_closing')
             ->take(5)
             ->get()
             ->map(fn($c) => [
                 'customer'    => $c->customer_name,
-                'tipe'        => $c->tipeRumah?->nama ?? '-',
+                'tipe'        => $c->tipeRumah?->nama_tipe ?? '-',
                 'harga_jual'  => $c->harga_jual,
                 'komisi'      => $c->komisi_nominal,
                 'status'      => $c->komisi_status,
