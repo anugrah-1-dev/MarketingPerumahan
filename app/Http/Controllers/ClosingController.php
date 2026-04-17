@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\ClientData;
 use App\Models\Closing;
 use App\Models\TipeRumah;
 use Illuminate\Http\Request;
@@ -100,6 +101,9 @@ class ClosingController extends Controller
 
         $closing->load('tipeRumah');
 
+        // Sync status ke client_data jika ada yang cocok
+        $this->syncClientDataStatus($closing);
+
         return response()->json([
             'id'              => $closing->id,
             'tanggal_closing' => $closing->tanggal_closing->format('Y-m-d'),
@@ -157,6 +161,9 @@ class ClosingController extends Controller
 
         $closing->load('tipeRumah');
 
+        // Sync status ke client_data jika terhubung
+        $this->syncClientDataStatus($closing);
+
         return response()->json([
             'id'              => $closing->id,
             'tanggal_closing' => $closing->tanggal_closing->format('Y-m-d'),
@@ -208,6 +215,33 @@ class ClosingController extends Controller
             'komisi_status'  => $closing->komisi_status,
             'bukti_transfer' => $this->fileUrl($closing->bukti_transfer),
         ]);
+    }
+
+    /**
+     * Sync payment_status closing → status_pembayaran client_data.
+     */
+    private function syncClientDataStatus(Closing $closing): void
+    {
+        $statusMap = ['dp' => 'dp', 'installment' => 'dp', 'paid-off' => 'lunas'];
+        $newStatus = $statusMap[$closing->payment_status] ?? 'dp';
+
+        // Jika closing sudah terhubung ke client_data
+        if ($closing->client_data_id) {
+            ClientData::where('id', $closing->client_data_id)
+                ->update(['status_pembayaran' => $newStatus]);
+            return;
+        }
+
+        // Cari client_data yang cocok berdasarkan nama + no WA (belum punya closing)
+        $clientData = ClientData::where('nama_lengkap', $closing->customer_name)
+            ->where('no_whatsapp', $closing->customer_phone)
+            ->whereDoesntHave('closing')
+            ->first();
+
+        if ($clientData) {
+            $closing->update(['client_data_id' => $clientData->id]);
+            $clientData->update(['status_pembayaran' => $newStatus]);
+        }
     }
 
     /**

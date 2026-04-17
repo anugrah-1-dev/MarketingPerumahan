@@ -42,6 +42,7 @@ class DashboardController extends Controller
         $topAgents = Agent::withCount(['waClicks as clicks_count'])
             ->withCount(['closings as closings_count'])
             ->aktif()
+            ->orderByDesc('closings_count')
             ->orderByDesc('clicks_count')
             ->take(5)
             ->get()
