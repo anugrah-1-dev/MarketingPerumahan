@@ -53,6 +53,7 @@ Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')
     // ── Agent pages & API ──────────────────────────────────────────────────
     Route::get('/agents',                [AgentController::class, 'index'])->name('agents');
     Route::get('/agents/data',           [AgentController::class, 'data'])->name('agents.data');
+    Route::get('/agents/{id}/detail',    [AgentController::class, 'show'])->name('agents.show');
     Route::post('/agents',               [AgentController::class, 'store'])->name('agents.store');
     Route::put('/agents/{id}',           [AgentController::class, 'update'])->name('agents.update');
     Route::delete('/agents/{id}',        [AgentController::class, 'destroy'])->name('agents.destroy');
@@ -127,6 +128,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('manager')->name('manager.')->
     // ── Agent ─────────────────────────────────────────────────────────────
     Route::get('/agents',                [AgentController::class, 'index'])->name('agents');
     Route::get('/agents/data',           [AgentController::class, 'data'])->name('agents.data');
+    Route::get('/agents/{id}/detail',    [AgentController::class, 'show'])->name('agents.show');
     Route::post('/agents',               [AgentController::class, 'store'])->name('agents.store');
     Route::put('/agents/{id}',           [AgentController::class, 'update'])->name('agents.update');
     Route::delete('/agents/{id}',        [AgentController::class, 'destroy'])->name('agents.destroy');

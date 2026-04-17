@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\Closing;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -79,6 +80,54 @@ class AgentController extends Controller
         });
 
         return response()->json($agents->filter()->values());
+    }
+
+    /**
+     * GET /admin/agents/{id}/detail
+     * Detail agent + statistik (klik, closing, komisi).
+     */
+    public function show($id)
+    {
+        $agent = Agent::withCount(['waClicks', 'closings'])
+            ->findOrFail($id);
+
+        $totalKomisi = Closing::where('agent_id', $id)->sum('komisi_nominal');
+        $komisiTerbayar = Closing::where('agent_id', $id)->where('komisi_status', 'paid')->sum('komisi_nominal');
+
+        $recentClosings = Closing::where('agent_id', $id)
+            ->with('tipeRumah:id,nama')
+            ->latest('tanggal_closing')
+            ->take(5)
+            ->get()
+            ->map(fn($c) => [
+                'customer'    => $c->customer_name,
+                'tipe'        => $c->tipeRumah?->nama ?? '-',
+                'harga_jual'  => $c->harga_jual,
+                'komisi'      => $c->komisi_nominal,
+                'status'      => $c->komisi_status,
+                'tanggal'     => $c->tanggal_closing?->format('d M Y'),
+            ]);
+
+        return response()->json([
+            'id'                  => $agent->id,
+            'nama'                => $agent->nama,
+            'jabatan'             => $agent->jabatan,
+            'email'               => $agent->email,
+            'phone'               => $agent->phone,
+            'commission'          => $agent->commission,
+            'nama_bank'           => $agent->nama_bank,
+            'no_rekening'         => $agent->no_rekening,
+            'atas_nama_rekening'  => $agent->atas_nama_rekening,
+            'aktif'               => $agent->aktif,
+            'slug'                => $agent->slug,
+            'created_at'          => $agent->created_at?->format('d M Y'),
+            'total_klik'          => $agent->wa_clicks_count,
+            'total_closing'       => $agent->closings_count,
+            'total_komisi'        => $totalKomisi,
+            'komisi_terbayar'     => $komisiTerbayar,
+            'recent_closings'     => $recentClosings,
+            'referral_code'       => $agent->user?->referral_code,
+        ]);
     }
 
     /**

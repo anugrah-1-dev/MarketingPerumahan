@@ -167,6 +167,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!id) return;
 
             if (act === "edit") editAgent(id);
+            if (act === "view") viewAgent(id);
             if (act === "toggle") toggleStatus(id);
             if (act === "delete") deleteAgent(id);
         });
@@ -223,7 +224,7 @@ function buildRow(agent) {
 
     tr.innerHTML = `
         <td>
-            <div style="display:flex;align-items:center;gap:.75rem;">
+            <div style="display:flex;align-items:center;gap:.75rem;cursor:pointer;" onclick="viewAgent('${agent.id}')">
                 <div class="agent-avatar">${getInitials(agent.nama)}</div>
                 <div>
                     <strong>${agent.nama}</strong>
@@ -247,6 +248,9 @@ function buildRow(agent) {
         <td>${statusBadge}</td>
         <td>
             <div style="display:flex;gap:.5rem;">
+                <button class="btn-icon" data-action="view" data-id="${agent.id}" title="Detail">
+                    <i class="fas fa-eye"></i>
+                </button>
                 <button class="btn-icon" data-action="edit" data-id="${agent.id}" title="Edit">
                     <i class="fas fa-edit"></i>
                 </button>
@@ -523,8 +527,135 @@ function copyLink(link, event) {
         .catch(() => showToast("Gagal menyalin link.", "error"));
 }
 
+// ── VIEW DETAIL — fetch dari server ────────────────────────────
+async function viewAgent(id) {
+    const modal = document.getElementById("agentDetailModal");
+    const body = document.getElementById("agentDetailBody");
+    modal.style.display = "flex";
+    body.innerHTML = `<div style="text-align:center;padding:2rem;color:#94a3b8;">
+        <i class="fas fa-spinner fa-spin"></i> Memuat detail…</div>`;
+
+    try {
+        const resp = await fetch(`${agentsBasePath}/${id}/detail`, {
+            headers: { Accept: "application/json" },
+        });
+        if (!resp.ok) throw new Error("Gagal memuat detail agent.");
+        const d = await resp.json();
+
+        const statusBadge = d.aktif
+            ? '<span class="badge success">Aktif</span>'
+            : '<span class="badge danger">Nonaktif</span>';
+        const fmtRp = (v) =>
+            v ? "Rp " + Number(v).toLocaleString("id-ID") : "Rp 0";
+
+        let closingsHtml = "";
+        if (d.recent_closings && d.recent_closings.length) {
+            closingsHtml = `
+                <h4 style="margin:1rem 0 .5rem;font-size:.9rem;color:#334155;">
+                    <i class="fas fa-history" style="margin-right:.3rem;color:#3d81af;"></i> Closing Terakhir
+                </h4>
+                <div style="overflow-x:auto;">
+                <table style="width:100%;font-size:.82rem;border-collapse:collapse;">
+                    <thead>
+                        <tr style="background:#f8fafc;text-align:left;">
+                            <th style="padding:.4rem .5rem;border-bottom:1px solid #e2e8f0;">Customer</th>
+                            <th style="padding:.4rem .5rem;border-bottom:1px solid #e2e8f0;">Tipe</th>
+                            <th style="padding:.4rem .5rem;border-bottom:1px solid #e2e8f0;">Komisi</th>
+                            <th style="padding:.4rem .5rem;border-bottom:1px solid #e2e8f0;">Status</th>
+                            <th style="padding:.4rem .5rem;border-bottom:1px solid #e2e8f0;">Tanggal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${d.recent_closings
+                            .map(
+                                (c) => `
+                            <tr>
+                                <td style="padding:.4rem .5rem;border-bottom:1px solid #f1f5f9;">${c.customer}</td>
+                                <td style="padding:.4rem .5rem;border-bottom:1px solid #f1f5f9;">${c.tipe}</td>
+                                <td style="padding:.4rem .5rem;border-bottom:1px solid #f1f5f9;">${fmtRp(c.komisi)}</td>
+                                <td style="padding:.4rem .5rem;border-bottom:1px solid #f1f5f9;">
+                                    <span class="badge ${c.status === "paid" ? "success" : "warning"}" style="font-size:.75rem;">
+                                        ${c.status === "paid" ? "Dibayar" : "Belum"}
+                                    </span>
+                                </td>
+                                <td style="padding:.4rem .5rem;border-bottom:1px solid #f1f5f9;">${c.tanggal ?? "-"}</td>
+                            </tr>`,
+                            )
+                            .join("")}
+                    </tbody>
+                </table>
+                </div>`;
+        }
+
+        body.innerHTML = `
+            <div style="display:flex;align-items:center;gap:1rem;margin-bottom:1.25rem;">
+                <div class="agent-avatar" style="width:56px;height:56px;font-size:1.2rem;">${getInitials(d.nama)}</div>
+                <div>
+                    <h3 style="margin:0;font-size:1.1rem;color:#111827;">${d.nama}</h3>
+                    <div style="color:#64748b;font-size:.85rem;">${d.jabatan} ${statusBadge}</div>
+                    <div style="color:#94a3b8;font-size:.8rem;">Bergabung: ${d.created_at ?? "-"}</div>
+                </div>
+            </div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;">
+                <div style="background:#f0fdf4;border-radius:.5rem;padding:.75rem;text-align:center;">
+                    <div style="font-size:1.25rem;font-weight:700;color:#16a34a;">${d.total_closing}</div>
+                    <div style="font-size:.78rem;color:#64748b;">Total Closing</div>
+                </div>
+                <div style="background:#eff6ff;border-radius:.5rem;padding:.75rem;text-align:center;">
+                    <div style="font-size:1.25rem;font-weight:700;color:#2563eb;">${d.total_klik}</div>
+                    <div style="font-size:.78rem;color:#64748b;">Total Klik WA</div>
+                </div>
+                <div style="background:#fefce8;border-radius:.5rem;padding:.75rem;text-align:center;">
+                    <div style="font-size:1rem;font-weight:700;color:#ca8a04;">${fmtRp(d.total_komisi)}</div>
+                    <div style="font-size:.78rem;color:#64748b;">Total Komisi</div>
+                </div>
+                <div style="background:#f0fdf4;border-radius:.5rem;padding:.75rem;text-align:center;">
+                    <div style="font-size:1rem;font-weight:700;color:#16a34a;">${fmtRp(d.komisi_terbayar)}</div>
+                    <div style="font-size:.78rem;color:#64748b;">Komisi Terbayar</div>
+                </div>
+            </div>
+
+            <div style="background:#f8fafc;border-radius:.5rem;padding:.75rem 1rem;margin-bottom:.75rem;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:.5rem;font-size:.85rem;">
+                    <div><span style="color:#94a3b8;">Email:</span> ${d.email || "-"}</div>
+                    <div><span style="color:#94a3b8;">Telepon:</span> ${d.phone || "-"}</div>
+                    <div><span style="color:#94a3b8;">Komisi:</span> ${d.commission != null ? d.commission + "%" : "-"}</div>
+                    <div><span style="color:#94a3b8;">Slug:</span> /${d.slug}</div>
+                </div>
+            </div>
+
+            ${
+                d.nama_bank
+                    ? `<div style="background:#f8fafc;border-radius:.5rem;padding:.75rem 1rem;margin-bottom:.75rem;">
+                    <h4 style="margin:0 0 .4rem;font-size:.85rem;color:#334155;">
+                        <i class="fas fa-university" style="margin-right:.3rem;color:#3d81af;"></i> Informasi Rekening
+                    </h4>
+                    <div style="font-size:.85rem;display:grid;grid-template-columns:1fr 1fr;gap:.3rem;">
+                        <div><span style="color:#94a3b8;">Bank:</span> ${d.nama_bank}</div>
+                        <div><span style="color:#94a3b8;">No. Rek:</span> ${d.no_rekening || "-"}</div>
+                        <div><span style="color:#94a3b8;">Atas Nama:</span> ${d.atas_nama_rekening || "-"}</div>
+                    </div>
+                </div>`
+                    : ""
+            }
+
+            ${closingsHtml}
+        `;
+    } catch (err) {
+        body.innerHTML = `<div style="text-align:center;padding:2rem;color:#ef4444;">
+            <i class="fas fa-exclamation-circle"></i> ${err.message}</div>`;
+    }
+}
+
+function closeDetailModal() {
+    document.getElementById("agentDetailModal").style.display = "none";
+}
+
 // Close modal bila klik di luar
 window.onclick = function (event) {
     const modal = document.getElementById("agentModal");
     if (event.target === modal) closeAgentModal();
+    const detailModal = document.getElementById("agentDetailModal");
+    if (event.target === detailModal) closeDetailModal();
 };

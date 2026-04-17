@@ -114,7 +114,22 @@
             </div>
         </div>
     </div>
-    
+
+    <!-- Detail Agent Modal -->
+    <div id="agentDetailModal" class="modal">
+        <div class="modal-content" style="max-width:600px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-circle" style="margin-right:.4rem;"></i> Detail Agen</h2>
+                <button class="close-btn" onclick="closeDetailModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="agentDetailBody">
+                <div style="text-align:center;padding:2rem;color:#94a3b8;">
+                    <i class="fas fa-spinner fa-spin"></i> Memuat detail…
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
