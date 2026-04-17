@@ -131,8 +131,8 @@
                             <p class="text-xs text-[#676767] mb-1">Blok {{ $u['blok'] }} · {{ $u['tipe'] }}</p>
                             <p class="text-lg font-bold text-[#393939] mb-2">{{ $u['harga'] }}</p>
                             <div class="flex items-center gap-3 text-xs text-[#676767] mb-4">
-                                <span>🛏 {{ $u['kt'] }} KT</span>
-                                <span>🚿 {{ $u['km'] }} KM</span>
+                                <span><i class="fas fa-bed"></i> {{ $u['kt'] }} KT</span>
+                                <span><i class="fas fa-bath"></i> {{ $u['km'] }} KM</span>
                             </div>
                             @if ($u['status'] !== 'terjual')
                                 <span class="btn-primary text-sm w-full block text-center">Lihat Detail</span>

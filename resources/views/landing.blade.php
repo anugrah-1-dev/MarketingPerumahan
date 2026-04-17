@@ -138,37 +138,17 @@
         {{-- Bar statistik --}}
         @php
             $stats = [
-                ['value' => $unitStats['total'] ?? 0, 'label' => 'Jumlah Unit', 'icon' => 'home', 'iconClass' => 'bg-[#EEF5FF] text-[#1D4ED8]'],
-                ['value' => $unitStats['tersedia'] ?? 0, 'label' => 'Unit Tersedia', 'icon' => 'check', 'iconClass' => 'bg-[#ECFDF3] text-[#047857]'],
-                ['value' => $unitStats['terjual'] ?? 0, 'label' => 'Unit Terjual', 'icon' => 'chart', 'iconClass' => 'bg-[#FFF1F2] text-[#BE123C]'],
-                ['value' => $unitStats['booking'] ?? 0, 'label' => 'Unit Dipesan', 'icon' => 'calendar', 'iconClass' => 'bg-[#FFFBEB] text-[#B45309]'],
+                ['value' => $unitStats['total'] ?? 0, 'label' => 'Jumlah Unit', 'iconFA' => 'fa-building', 'iconClass' => 'bg-[#EEF5FF] text-[#1D4ED8]'],
+                ['value' => $unitStats['tersedia'] ?? 0, 'label' => 'Unit Tersedia', 'iconFA' => 'fa-door-open', 'iconClass' => 'bg-[#ECFDF3] text-[#047857]'],
+                ['value' => $unitStats['terjual'] ?? 0, 'label' => 'Unit Terjual', 'iconFA' => 'fa-house-circle-xmark', 'iconClass' => 'bg-[#FFF1F2] text-[#BE123C]'],
+                ['value' => $unitStats['booking'] ?? 0, 'label' => 'Unit Dipesan', 'iconFA' => 'fa-bookmark', 'iconClass' => 'bg-[#FFFBEB] text-[#B45309]'],
             ];
         @endphp
         <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
             @foreach ($stats as $stat)
                 <div class="card text-center shadow-sm flex flex-col items-center">
                     <div class="w-11 h-11 rounded-full flex items-center justify-center {{ $stat['iconClass'] }} mb-3">
-                        @if($stat['icon'] === 'home')
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10.5L12 3l9 7.5" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9.5V20h14V9.5" />
-                            </svg>
-                        @elseif($stat['icon'] === 'check')
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
-                            </svg>
-                        @elseif($stat['icon'] === 'chart')
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 19h16" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l4-5 3 3 3-5" />
-                            </svg>
-                        @else
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3" />
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 9h16M5 5h14a1 1 0 011 1v13a1 1 0 01-1 1H5a1 1 0 01-1-1V6a1 1 0 011-1z" />
-                            </svg>
-                        @endif
+                        <i class="fas {{ $stat['iconFA'] }} text-lg"></i>
                     </div>
                     <p class="text-3xl font-bold text-[#393939]">{{ $stat['value'] }}</p>
                     <p class="text-[#676767] text-sm mt-1">{{ $stat['label'] }}</p>

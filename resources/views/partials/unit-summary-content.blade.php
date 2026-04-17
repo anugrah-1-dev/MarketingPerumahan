@@ -32,22 +32,22 @@
 
     <div class="unit-stats-grid">
         <div class="unit-stat-card">
-            <div class="unit-stat-icon blue"><i class="fas fa-home"></i></div>
+            <div class="unit-stat-icon blue"><i class="fas fa-building"></i></div>
             <div class="unit-stat-num">{{ number_format($stats['total']) }}</div>
             <div class="unit-stat-label">Total Unit</div>
         </div>
         <div class="unit-stat-card">
-            <div class="unit-stat-icon green"><i class="fas fa-check-circle"></i></div>
+            <div class="unit-stat-icon green"><i class="fas fa-door-open"></i></div>
             <div class="unit-stat-num">{{ number_format($stats['tersedia']) }}</div>
             <div class="unit-stat-label">Unit Tersedia</div>
         </div>
         <div class="unit-stat-card">
-            <div class="unit-stat-icon red"><i class="fas fa-chart-line"></i></div>
+            <div class="unit-stat-icon red"><i class="fas fa-house-circle-xmark"></i></div>
             <div class="unit-stat-num">{{ number_format($stats['terjual']) }}</div>
             <div class="unit-stat-label">Unit Terjual</div>
         </div>
         <div class="unit-stat-card">
-            <div class="unit-stat-icon orange"><i class="fas fa-calendar-check"></i></div>
+            <div class="unit-stat-icon orange"><i class="fas fa-bookmark"></i></div>
             <div class="unit-stat-num">{{ number_format($stats['booking']) }}</div>
             <div class="unit-stat-label">Unit Booking</div>
         </div>
