@@ -66,6 +66,9 @@ class AgentController extends Controller
                 'email' => $user->email,
                 'phone' => $agent->phone,
                 'commission' => $agent->commission,
+                'nama_bank' => $agent->nama_bank,
+                'no_rekening' => $agent->no_rekening,
+                'atas_nama_rekening' => $agent->atas_nama_rekening,
                 'slug' => $agent->slug,
                 'aktif' => $agent->aktif,
                 'user' => [
@@ -91,6 +94,9 @@ class AgentController extends Controller
             'jabatan'    => 'nullable|string|max:100', // hidden, default Affiliate
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:1|max:100',
+            'nama_bank'  => 'nullable|string|max:100',
+            'no_rekening' => 'nullable|string|max:50',
+            'atas_nama_rekening' => 'nullable|string|max:100',
         ]);
 
         // Auto-generate referral code using Model's method
@@ -123,6 +129,9 @@ class AgentController extends Controller
             'email'      => $request->email,
             'phone'      => $request->phone,
             'commission' => $request->commission ?? 1,
+            'nama_bank'  => $request->nama_bank,
+            'no_rekening' => $request->no_rekening,
+            'atas_nama_rekening' => $request->atas_nama_rekening,
         ]);
 
         return response()->json($agent, 201);
@@ -155,6 +164,9 @@ class AgentController extends Controller
             'jabatan'    => 'nullable|string|max:100',
             'phone'      => 'nullable|string|max:20',
             'commission' => 'nullable|numeric|min:1|max:100',
+            'nama_bank'  => 'nullable|string|max:100',
+            'no_rekening' => 'nullable|string|max:50',
+            'atas_nama_rekening' => 'nullable|string|max:100',
         ]);
 
         // 1. Update User first (if exists)
@@ -187,6 +199,9 @@ class AgentController extends Controller
             $agent->email      = $request->email;
             $agent->phone      = $request->phone;
             $agent->commission = $request->commission ?? $agent->commission;
+            $agent->nama_bank  = $request->nama_bank;
+            $agent->no_rekening = $request->no_rekening;
+            $agent->atas_nama_rekening = $request->atas_nama_rekening;
             $agent->save();
         } else {
             // Create target agent for this user since it doesn't exist yet
@@ -204,6 +219,9 @@ class AgentController extends Controller
                 'email'      => $request->email,
                 'phone'      => $request->phone,
                 'commission' => $request->commission ?? 1,
+                'nama_bank'  => $request->nama_bank,
+                'no_rekening' => $request->no_rekening,
+                'atas_nama_rekening' => $request->atas_nama_rekening,
             ]);
         }
 

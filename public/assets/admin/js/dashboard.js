@@ -68,7 +68,7 @@ function loadDashboard() {
 function renderStats(stats) {
     animateValue("totalClicks", 0, stats.totalClicks, 800);
     animateValue("totalClosing", 0, stats.totalClosing, 800);
-    animateValue("activeAgents", 0, stats.activeAgents, 800);
+    animateValue("totalAgents", 0, stats.totalAgents, 800);
     document.getElementById("totalCommission").textContent =
         formatCurrencyCompact(stats.totalCommission);
 }

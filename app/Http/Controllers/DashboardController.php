@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\Closing;
 use App\Models\Unit;
 use App\Models\WaClick;
 use Carbon\Carbon;
@@ -17,10 +18,9 @@ class DashboardController extends Controller
         $unitStats       = Unit::stats();
         $totalClicks    = WaClick::count();
         $totalClosing   = $unitStats['terjual'];
-        $activeAgents   = Agent::aktif()->count();
-        // Komisi = 1% dari total nilai unit terjual
-        $totalNilai     = Unit::where('status', 'terjual')->sum('harga_jual');
-        $totalCommission = $totalNilai * 0.01;
+        $totalAgents    = Agent::count();
+        // Komisi = total dari semua closing yang tercatat
+        $totalCommission = Closing::sum('komisi_nominal');
 
         // ── Tren klik 7 hari terakhir ─────────────────────────────────────────
         $trendData = WaClick::selectRaw('DATE(created_at) as tgl, COUNT(*) as total')
@@ -79,7 +79,7 @@ class DashboardController extends Controller
                 'totalClicks'     => $totalClicks,
                 'totalClosing'    => $totalClosing,
                 'totalCommission' => $totalCommission,
-                'activeAgents'    => $activeAgents,
+                'totalAgents'     => $totalAgents,
             ],
             'clickTrends' => [
                 'labels' => $labels,

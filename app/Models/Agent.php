@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Agent extends Model
 {
-    protected $fillable = ['user_id', 'nama', 'jabatan', 'slug', 'aktif', 'email', 'phone', 'commission'];
+    protected $fillable = ['user_id', 'nama', 'jabatan', 'slug', 'aktif', 'email', 'phone', 'commission', 'nama_bank', 'no_rekening', 'atas_nama_rekening'];
 
     protected $casts = ['aktif' => 'boolean'];
 

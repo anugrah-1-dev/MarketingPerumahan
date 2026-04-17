@@ -124,9 +124,6 @@ function openAddUserModal() {
     document.getElementById("passwordHint").textContent =
         "Wajib diisi saat membuat user baru.";
     document.getElementById("userPassword").required = true;
-    document.getElementById("userNamaBank").value = "";
-    document.getElementById("userNoRekening").value = "";
-    document.getElementById("userAtasNama").value = "";
     document.getElementById("userModal").style.display = "flex";
 }
 
@@ -159,11 +156,6 @@ async function editUser(id) {
         document.getElementById("passwordLabel").textContent = "Ganti Password";
         document.getElementById("passwordHint").textContent =
             "Kosongkan jika tidak ingin mengganti password.";
-        document.getElementById("userNamaBank").value = user.nama_bank || "";
-        document.getElementById("userNoRekening").value =
-            user.no_rekening || "";
-        document.getElementById("userAtasNama").value =
-            user.atas_nama_rekening || "";
         document.getElementById("userModal").style.display = "flex";
     } catch {
         alert("Gagal memuat data pengguna.");
@@ -191,11 +183,6 @@ async function saveUser() {
     const email = document.getElementById("userEmail").value.trim();
     const password = document.getElementById("userPassword").value;
     const role = document.getElementById("userRole").value;
-    const nama_bank = document.getElementById("userNamaBank").value.trim();
-    const no_rekening = document.getElementById("userNoRekening").value.trim();
-    const atas_nama_rekening = document
-        .getElementById("userAtasNama")
-        .value.trim();
     const isEdit = !!id;
 
     if (!name || !email || !role) {
@@ -219,9 +206,6 @@ async function saveUser() {
             name,
             email,
             role,
-            nama_bank,
-            no_rekening,
-            atas_nama_rekening,
         };
         if (password) payload.password = password;
 

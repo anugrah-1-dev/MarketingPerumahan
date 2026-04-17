@@ -19,7 +19,7 @@
         </div>
         <div class="stat-card">
             <div class="stat-icon purple"><i class="fas fa-users"></i></div>
-            <div class="stat-content"><h3 id="activeAgens">0</h3><p>Agen Aktif</p></div>
+            <div class="stat-content"><h3 id="totalAgents">0</h3><p>Total Agen</p></div>
         </div>
     </div>
 

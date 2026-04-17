@@ -298,6 +298,10 @@ function editAgent(id) {
     document.getElementById("agentPhone").value = agent.phone ?? "";
     // Tampilkan teks '1%' di popup (komisi dikunci)
     document.getElementById("agentCommission").value = "1%";
+    document.getElementById("agentNamaBank").value = agent.nama_bank ?? "";
+    document.getElementById("agentNoRekening").value = agent.no_rekening ?? "";
+    document.getElementById("agentAtasNama").value =
+        agent.atas_nama_rekening ?? "";
     document.getElementById("agentPassword").value = "";
     document.getElementById("agentPassword").required = false;
     document.getElementById("helpPasswordEdit").style.display = "block";
@@ -333,6 +337,12 @@ async function saveAgent() {
         if (password) payload.password = password;
         // Paksa komisi 1% untuk semua agent yang dibuat/diupdate dari modal ini
         payload.commission = 1;
+        payload.nama_bank =
+            document.getElementById("agentNamaBank").value.trim() || null;
+        payload.no_rekening =
+            document.getElementById("agentNoRekening").value.trim() || null;
+        payload.atas_nama_rekening =
+            document.getElementById("agentAtasNama").value.trim() || null;
 
         const resp = await fetch(url, {
             method,
@@ -376,6 +386,12 @@ async function saveAgent() {
                     email: saved.email ?? email,
                     phone: saved.phone ?? (phone || null),
                     commission: saved.commission ?? agentsCache[idx].commission,
+                    nama_bank: saved.nama_bank ?? agentsCache[idx].nama_bank,
+                    no_rekening:
+                        saved.no_rekening ?? agentsCache[idx].no_rekening,
+                    atas_nama_rekening:
+                        saved.atas_nama_rekening ??
+                        agentsCache[idx].atas_nama_rekening,
                     aktif: saved.aktif ?? agentsCache[idx].aktif,
                 };
                 const oldRow = findRow(id);
