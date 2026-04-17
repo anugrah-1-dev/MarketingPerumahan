@@ -22,6 +22,15 @@ Route::get('/login',                 [PageController::class, 'login'])->name('lo
 Route::post('/login',                [PageController::class, 'authenticate'])->middleware('throttle:login')->name('login.post');
 Route::post('/logout',               [PageController::class, 'logout'])->name('logout');
 
+// ── Serve legacy files from storage/app/public (shared-hosting symlink fallback) ──
+Route::get('/storage/{path}', function (string $path) {
+    $fullPath = storage_path('app/public/' . $path);
+    if (! file_exists($fullPath)) {
+        abort(404);
+    }
+    return response()->file($fullPath);
+})->where('path', '.*')->name('storage.serve');
+
 
 // ── Super Admin Panel (/admin) ─────────────────────────────────────────────
 Route::middleware(['auth', 'role:super_admin'])->prefix('admin')->name('admin.')->group(function () {

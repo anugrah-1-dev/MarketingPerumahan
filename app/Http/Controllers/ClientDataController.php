@@ -13,6 +13,15 @@ use Illuminate\Support\Facades\Storage;
 
 class ClientDataController extends Controller
 {
+    private function fileUrl(?string $path): ?string
+    {
+        if (!$path) return null;
+        if (file_exists(public_path('uploads/' . $path))) {
+            return asset('uploads/' . $path);
+        }
+        return asset('storage/' . $path);
+    }
+
     /**
      * GET /admin/client-data
      * HTML → tampilkan view, AJAX JSON → return daftar client data
@@ -34,9 +43,7 @@ class ClientDataController extends Controller
                 'tipe_rumah_id'    => $c->tipe_rumah_id,
                 'tipe_rumah_nama'  => $c->tipeRumah?->nama_tipe ?? '-',
                 'status_pembayaran'=> $c->status_pembayaran ?? 'baru',
-                'bukti_pembayaran' => $c->bukti_pembayaran
-                    ? Storage::disk('uploads')->url($c->bukti_pembayaran)
-                    : null,
+                'bukti_pembayaran' => $this->fileUrl($c->bukti_pembayaran),
                 'created_by_name'  => $c->creator?->name ?? '-',
                 'closing_id'       => $c->closing?->id,
                 'agent_name'       => $c->closing?->agent?->nama ?? '-',

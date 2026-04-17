@@ -12,6 +12,18 @@ use Illuminate\Support\Facades\Storage;
 class ClosingController extends Controller
 {
     /**
+     * Resolve file URL: cek public/uploads/ dulu, fallback ke /storage/ route.
+     */
+    private function fileUrl(?string $path): ?string
+    {
+        if (!$path) return null;
+        if (file_exists(public_path('uploads/' . $path))) {
+            return asset('uploads/' . $path);
+        }
+        return asset('storage/' . $path);
+    }
+
+    /**
      * GET /admin/closing  atau  /manager/closing
      * Browser  → tampilkan view dengan data properti
      * AJAX JSON → return daftar closings
@@ -37,7 +49,7 @@ class ClosingController extends Controller
                 'komisi_nominal'  => $c->komisi_nominal,
                 'payment_status'  => $c->payment_status,
                 'komisi_status'   => $c->komisi_status ?? 'pending',
-                'bukti_transfer'  => $c->bukti_transfer ? Storage::disk('uploads')->url($c->bukti_transfer) : null,
+                'bukti_transfer'  => $this->fileUrl($c->bukti_transfer),
                 'catatan'         => $c->catatan,
                 'created_at'      => $c->created_at?->toIso8601String(),
             ]));
@@ -101,7 +113,7 @@ class ClosingController extends Controller
             'komisi_nominal'  => $closing->komisi_nominal,
             'payment_status'  => $closing->payment_status,
             'komisi_status'   => $closing->komisi_status ?? 'pending',
-            'bukti_transfer'  => $closing->bukti_transfer ? Storage::disk('uploads')->url($closing->bukti_transfer) : null,
+            'bukti_transfer'  => $this->fileUrl($closing->bukti_transfer),
             'catatan'         => $closing->catatan,
             'created_at'      => $closing->created_at->format('Y-m-d H:i:s'),
         ], 201);
@@ -158,7 +170,7 @@ class ClosingController extends Controller
             'komisi_nominal'  => $closing->komisi_nominal,
             'payment_status'  => $closing->payment_status,
             'komisi_status'   => $closing->komisi_status ?? 'pending',
-            'bukti_transfer'  => $closing->bukti_transfer ? Storage::disk('uploads')->url($closing->bukti_transfer) : null,
+            'bukti_transfer'  => $this->fileUrl($closing->bukti_transfer),
             'catatan'         => $closing->catatan,
             'created_at'      => $closing->created_at->format('Y-m-d H:i:s'),
         ]);
@@ -193,7 +205,7 @@ class ClosingController extends Controller
         return response()->json([
             'message'        => 'Status komisi berhasil diperbarui.',
             'komisi_status'  => $closing->komisi_status,
-            'bukti_transfer' => $closing->bukti_transfer ? Storage::disk('uploads')->url($closing->bukti_transfer) : null,
+            'bukti_transfer' => $this->fileUrl($closing->bukti_transfer),
         ]);
     }
 
