@@ -37,9 +37,9 @@ class ClosingController extends Controller
                 'komisi_nominal'  => $c->komisi_nominal,
                 'payment_status'  => $c->payment_status,
                 'komisi_status'   => $c->komisi_status ?? 'pending',
-                'bukti_transfer'  => $c->bukti_transfer ? Storage::url($c->bukti_transfer) : null,
+                'bukti_transfer'  => $c->bukti_transfer ? Storage::disk('public')->url($c->bukti_transfer) : null,
                 'catatan'         => $c->catatan,
-                'created_at'      => $c->created_at?->format('Y-m-d H:i:s'),
+                'created_at'      => $c->created_at?->toIso8601String(),
             ]));
         }
 
@@ -101,7 +101,7 @@ class ClosingController extends Controller
             'komisi_nominal'  => $closing->komisi_nominal,
             'payment_status'  => $closing->payment_status,
             'komisi_status'   => $closing->komisi_status ?? 'pending',
-            'bukti_transfer'  => $closing->bukti_transfer ? Storage::url($closing->bukti_transfer) : null,
+            'bukti_transfer'  => $closing->bukti_transfer ? Storage::disk('public')->url($closing->bukti_transfer) : null,
             'catatan'         => $closing->catatan,
             'created_at'      => $closing->created_at->format('Y-m-d H:i:s'),
         ], 201);
@@ -158,7 +158,7 @@ class ClosingController extends Controller
             'komisi_nominal'  => $closing->komisi_nominal,
             'payment_status'  => $closing->payment_status,
             'komisi_status'   => $closing->komisi_status ?? 'pending',
-            'bukti_transfer'  => $closing->bukti_transfer ? Storage::url($closing->bukti_transfer) : null,
+            'bukti_transfer'  => $closing->bukti_transfer ? Storage::disk('public')->url($closing->bukti_transfer) : null,
             'catatan'         => $closing->catatan,
             'created_at'      => $closing->created_at->format('Y-m-d H:i:s'),
         ]);
@@ -192,7 +192,7 @@ class ClosingController extends Controller
         return response()->json([
             'message'        => 'Status komisi berhasil diperbarui.',
             'komisi_status'  => $closing->komisi_status,
-            'bukti_transfer' => $closing->bukti_transfer ? Storage::url($closing->bukti_transfer) : null,
+            'bukti_transfer' => $closing->bukti_transfer ? Storage::disk('public')->url($closing->bukti_transfer) : null,
         ]);
     }
 

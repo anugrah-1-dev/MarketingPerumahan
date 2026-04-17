@@ -125,7 +125,7 @@
                         @if($closing->komisi_status === 'terbayar')
                             <span style="background:#d1fae5;color:#065f46;padding:.25rem .6rem;border-radius:1rem;font-size:.8rem;font-weight:600">Terbayar</span>
                             @if($closing->bukti_transfer)
-                                <a href="{{ Storage::url($closing->bukti_transfer) }}" target="_blank" style="display:block;font-size:.75rem;color:#3d81af;margin-top:.25rem">
+                                <a href="{{ Storage::disk('public')->url($closing->bukti_transfer) }}" target="_blank" style="display:block;font-size:.75rem;color:#3d81af;margin-top:.25rem">
                                     <i class="fas fa-image"></i> Bukti Transfer
                                 </a>
                             @endif

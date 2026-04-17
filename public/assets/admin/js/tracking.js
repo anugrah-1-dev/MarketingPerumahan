@@ -193,7 +193,7 @@ function openStatusModal(id) {
     document.getElementById("leadStatus").value = c.status;
     document.getElementById("leadNotes").value = c.notes || "";
     document.getElementById("followUpDate").value = c.followUpDate
-        ? c.followUpDate.replace(" ", "T").substring(0, 16)
+        ? new Date(c.followUpDate).toISOString().substring(0, 16)
         : "";
     document.getElementById("statusModal").style.display = "flex";
 }

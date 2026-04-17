@@ -22,6 +22,11 @@ class ClientData extends Model
         'created_by',
     ];
 
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime',
+    ];
+
     public function closing(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(Closing::class);

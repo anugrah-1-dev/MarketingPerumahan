@@ -138,7 +138,7 @@ class TrackingController extends Controller
                 'pageUrl'           => $c->page_url ?? '-',
                 'status'            => $c->status,
                 'notes'             => $c->notes ?? '',
-                'followUpDate'      => $c->follow_up_date?->format('Y-m-d H:i:s'),
+                'followUpDate'      => $c->follow_up_date?->toIso8601String(),
                 'senderPhone'       => $c->sender_phone ?? '',
                 'senderName'        => $c->sender_name ?? '',
                 'lastMessage'       => $c->last_message ?? '',

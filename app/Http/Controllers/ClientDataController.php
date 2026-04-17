@@ -35,14 +35,14 @@ class ClientDataController extends Controller
                 'tipe_rumah_nama'  => $c->tipeRumah?->nama_tipe ?? '-',
                 'status_pembayaran'=> $c->status_pembayaran ?? 'baru',
                 'bukti_pembayaran' => $c->bukti_pembayaran
-                    ? Storage::url($c->bukti_pembayaran)
+                    ? Storage::disk('public')->url($c->bukti_pembayaran)
                     : null,
                 'created_by_name'  => $c->creator?->name ?? '-',
                 'closing_id'       => $c->closing?->id,
                 'agent_name'       => $c->closing?->agent?->nama ?? '-',
                 'komisi_nominal'   => $c->closing?->komisi_nominal ?? 0,
                 'komisi_status'    => $c->closing?->komisi_status ?? '-',
-                'created_at'       => $c->created_at?->format('Y-m-d H:i:s'),
+                'created_at'       => $c->created_at?->toIso8601String(),
             ]));
         }
 
