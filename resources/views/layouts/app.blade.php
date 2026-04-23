@@ -514,7 +514,7 @@
             <!-- Footer House Photo -->
             <div>
                 <h4 class="text-lg font-semibold mb-4">Foto Kawasan</h4>
-                <img src="{{ asset('assets/landing/fotokawasan.jpeg') }}"
+                <img src="{{ asset('assets/landing/fotokawasan_v2.jpeg') }}"
                     onerror="this.src='{{ asset('assets/landing/default.jpg') }}';"
                     alt="Foto kawasan Bukit Shangrilla Asri"
                     class="w-full h-[170px] object-cover rounded-2xl border border-white/10 shadow-lg">
