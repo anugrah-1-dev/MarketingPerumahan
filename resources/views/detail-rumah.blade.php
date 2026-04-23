@@ -164,11 +164,10 @@
                 <div class="bg-[#393939] rounded-[20px] p-6 text-white">
                     <h3 class="font-bold mb-2">Butuh Bantuan?</h3>
                     <p class="text-gray-300 text-sm mb-4">Tim kami siap membantu Anda memilih unit terbaik.</p>
-                    <button type="button"
-                        onclick="openDetailWaPopup('{{ $waUrlDetail }}', '{{ $waNamaDetail }}')"
-                        class="block w-full bg-white text-[#393939] text-center font-semibold rounded-[25px] py-3 hover:bg-gray-100 transition-colors cursor-pointer border-0">
+                    <a href="{{ $waUrlDetail }}" target="_blank"
+                        class="block w-full bg-white text-[#393939] text-center font-semibold rounded-[25px] py-3 hover:bg-gray-100 transition-colors cursor-pointer border-0 no-underline">
                         📞 Chat {{ $waNamaDetail }} via WhatsApp
-                    </button>
+                    </a>
                 </div>
             </div>
 
