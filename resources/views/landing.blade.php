@@ -926,11 +926,12 @@
     let _pendingWaUrl  = null;
     let _pendingWaSlug = null;
 
+
+    // Ubah: langsung buka WhatsApp tanpa popup form
     function openWaPopup(waUrl, slug) {
         _pendingWaUrl  = waUrl;
         _pendingWaSlug = slug;
-        document.getElementById('wa-contact-modal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
+        submitWaPopup();
     }
 
     function closeWaPopupDirect() {
