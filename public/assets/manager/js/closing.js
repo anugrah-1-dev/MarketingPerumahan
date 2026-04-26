@@ -566,7 +566,7 @@ function renderAgentSummary() {
             </div>
             <div style="display:flex;flex-direction:column;gap:.4rem;font-size:.875rem">
                 <div style="display:flex;justify-content:space-between">
-                    <span style="color:#64748b">Total Closing</span>
+                    <span style="color:#64748b">Unit Terjual</span>
                     <strong>${a.totalClosing}</strong>
                 </div>
                 <div style="display:flex;justify-content:space-between">
