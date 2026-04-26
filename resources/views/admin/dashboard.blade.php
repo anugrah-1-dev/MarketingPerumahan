@@ -11,7 +11,7 @@
         </div>
         <div class="stat-card">
             <div class="stat-icon green"><i class="fas fa-handshake"></i></div>
-            <div class="stat-content"><h3 id="totalClosing">0</h3><p>Total Closing</p></div>
+            <div class="stat-content"><h3 id="totalClosing">0</h3><p>Unit Terjual</p></div>
         </div>
         <div class="stat-card">
             <div class="stat-icon yellow"><i class="fas fa-rupiah-sign"></i></div>

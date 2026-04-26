@@ -608,7 +608,7 @@ async function viewAgent(id) {
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:1rem;">
                 <div style="background:#f0fdf4;border-radius:.5rem;padding:.75rem;text-align:center;">
                     <div style="font-size:1.25rem;font-weight:700;color:#16a34a;">${d.total_closing}</div>
-                    <div style="font-size:.78rem;color:#64748b;">Unit Terjual</div>
+                    <div style="font-size:.78rem;color:#64748b;">Total Closing</div>
                 </div>
                 <div style="background:#eff6ff;border-radius:.5rem;padding:.75rem;text-align:center;">
                     <div style="font-size:1.25rem;font-weight:700;color:#2563eb;">${d.total_klik}</div>

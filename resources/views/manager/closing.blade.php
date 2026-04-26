@@ -7,7 +7,7 @@
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-icon green"><i class="fas fa-handshake"></i></div>
-            <div class="stat-content"><h3 id="totalClosing">0</h3><p>Unit Terjual</p></div>
+            <div class="stat-content"><h3 id="totalClosing">0</h3><p>Total Penutupan</p></div>
         </div>
         <div class="stat-card">
             <div class="stat-icon blue"><i class="fas fa-chart-line"></i></div>
