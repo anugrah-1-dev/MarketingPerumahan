@@ -866,7 +866,7 @@ body {
 /* Modal Box Responsive & User Friendly */
 .tr-modal-box {
     min-width: 400px !important;
-    max-width: 480px !important;
+    max-width: 640px !important;
     padding: 2rem 2rem 1.5rem 2rem !important;
 }
 .tr-modal-body .form-group {
