@@ -47,7 +47,7 @@
     <!-- Add/Edit Agen Modal -->
     <div id="agentModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
+                <div class="modal-header" style="pointer-events:none;">
                 <h2 id="modalTitle">Tambah Afiliasi</h2>
                 <button class="close-btn" onclick="closeAgentModal()"><i class="fas fa-times"></i></button>
             </div>

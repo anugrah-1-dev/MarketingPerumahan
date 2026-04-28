@@ -43,7 +43,7 @@
     <!-- Add/Edit User Modal -->
     <div id="userModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">
+                <div class="modal-header" style="pointer-events:none;">
                 <h2 id="userModalTitle">Tambah Pengguna</h2>
                 <button class="close-btn" onclick="closeUserModal()"><i class="fas fa-times"></i></button>
             </div>
