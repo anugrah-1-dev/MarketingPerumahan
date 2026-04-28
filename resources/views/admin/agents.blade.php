@@ -45,7 +45,7 @@
     </div>
 
     <!-- Add/Edit Agen Modal (custom overlay) -->
-    <div id="agentModal" class="tr-modal-overlay" style="z-index:9999">
+    <div id="agentModal" class="tr-modal-overlay" style="z-index:9999; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(30,41,59,0.25); display:none; align-items:center; justify-content:center;">
         <div class="tr-modal-box">
             <div class="tr-modal-header">
                 <h3>
