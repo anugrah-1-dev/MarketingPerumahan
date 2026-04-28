@@ -661,9 +661,3 @@ function closeDetailModal() {
 }
 
 // Close modal bila klik di luar
-window.onclick = function (event) {
-    const modal = document.getElementById("agentModal");
-    if (event.target === modal) closeAgentModal();
-    const detailModal = document.getElementById("agentDetailModal");
-    if (event.target === detailModal) closeDetailModal();
-};
