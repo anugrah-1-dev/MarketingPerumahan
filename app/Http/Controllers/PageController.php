@@ -259,6 +259,7 @@ class PageController extends Controller
 
     public function unitTersedia()
     {
+<<<<<<< HEAD
         $units = $this->getUnits();
         return view('unit-tersedia', compact('units'));
     }
@@ -267,6 +268,13 @@ class PageController extends Controller
     {
         $units = $this->getUnits();
         return view('site-plan', compact('units'));
+=======
+        $units = \App\Models\TipeRumah::orderBy('harga')->get();
+        $totalUnit     = $units->sum('stok_tersedia');
+        $totalTersedia = $units->where('stok_tersedia', '>', 0)->sum('stok_tersedia');
+        $totalTerjual  = $units->sum('stok_terjual');
+        return view('unit-tersedia', compact('units', 'totalUnit', 'totalTersedia', 'totalTerjual'));
+>>>>>>> 838a49331ec14f5815876624a71d1d49d524ee6f
     }
 
     public function detailRumah($blok = 'A3')
