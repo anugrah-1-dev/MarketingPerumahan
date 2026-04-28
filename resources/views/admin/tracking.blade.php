@@ -52,7 +52,6 @@
                         <option value="follow-up">Tindak Lanjut</option>
                         <option value="interested">Tertarik</option>
                         <option value="not-interested">Tidak Tertarik</option>
-                        <option value="closed">Penutupan</option>
                     </select>
                 </div>
 

@@ -274,7 +274,6 @@
             <option value="follow-up">Tindak Lanjut</option>
             <option value="interested">Tertarik</option>
             <option value="not-interested">Tidak Tertarik</option>
-            <option value="closed">Penutupan</option>
         </select>
         <select class="filter-select" id="filterDevice" onchange="filterTable()">
             <option value="">Semua Perangkat</option>
