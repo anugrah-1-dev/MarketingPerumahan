@@ -256,27 +256,26 @@ class PageController extends Controller
         $request->session()->regenerateToken();
         return redirect('/');
     }
-
     public function unitTersedia()
     {
-<<<<<<< HEAD
-        $units = $this->getUnits();
-        return view('unit-tersedia', compact('units'));
+        $totalUnit     = (int) \App\Models\Setting::get('unit_total', 0);
+        $totalTerjual  = (int) \App\Models\Setting::get('unit_terjual', 0);
+        $totalBooking  = (int) \App\Models\Setting::get('unit_booking', 0);
+        $totalTersedia = $totalUnit - $totalTerjual - $totalBooking;
+        $tipeRumah     = \App\Models\TipeRumah::orderBy('harga')->get();
+        return view('unit-tersedia', [
+            'units'         => $tipeRumah,
+            'totalUnit'     => $totalUnit,
+            'totalTersedia' => $totalTersedia,
+            'totalTerjual'  => $totalTerjual,
+            'totalBooking'  => $totalBooking,
+        ]);
     }
-
     public function sitePlan()
     {
         $units = $this->getUnits();
         return view('site-plan', compact('units'));
-=======
-        $units = \App\Models\TipeRumah::orderBy('harga')->get();
-        $totalUnit     = $units->sum('stok_tersedia');
-        $totalTersedia = $units->where('stok_tersedia', '>', 0)->sum('stok_tersedia');
-        $totalTerjual  = $units->sum('stok_terjual');
-        return view('unit-tersedia', compact('units', 'totalUnit', 'totalTersedia', 'totalTerjual'));
->>>>>>> 838a49331ec14f5815876624a71d1d49d524ee6f
     }
-
     public function detailRumah($blok = 'A3')
     {
         $unit = $this->getUnitDetail($blok);
