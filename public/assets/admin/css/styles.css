@@ -862,3 +862,35 @@ body {
         opacity: 1;
     }
 }
+
+/* Modal Box Responsive & User Friendly */
+.tr-modal-box {
+    min-width: 400px !important;
+    max-width: 480px !important;
+    padding: 2rem 2rem 1.5rem 2rem !important;
+}
+.tr-modal-body .form-group {
+    margin-bottom: 1.25rem;
+}
+.tr-modal-body input,
+.tr-modal-body select {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e2e8f0;
+    margin-top: 0.25rem;
+}
+.tr-modal-footer {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+    margin-top: 1.5rem;
+}
+@media (max-width: 600px) {
+  .tr-modal-box {
+    min-width: 90vw !important;
+    max-width: 98vw !important;
+    padding: 1rem !important;
+  }
+}
