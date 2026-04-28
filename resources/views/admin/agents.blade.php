@@ -64,41 +64,51 @@
                 <input type="hidden" id="agentId">
                 <input type="hidden" id="agentJabatan" value="Affiliate">
                 <div class="tr-modal-body">
-                    <div class="form-group">
-                        <label for="agentName">Nama Lengkap *</label>
-                        <input type="text" id="agentName" placeholder="Contoh: Budi Santoso" required>
+                    <div class="tr-form-row">
+                        <div class="form-group">
+                            <label for="agentName">Nama Lengkap <span class="req">*</span></label>
+                            <input type="text" id="agentName" placeholder="Contoh: Budi Santoso" class="form-input" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="agentEmail">Email <span class="req">*</span></label>
+                            <input type="email" id="agentEmail" placeholder="affiliate@email.com" class="form-input" required>
+                        </div>
                     </div>
-                    <div class="form-group" id="groupPassword">
-                        <label for="agentPassword">Kata Sandi *</label>
-                        <input type="password" id="agentPassword" placeholder="Kata sandi untuk login Afiliasi">
-                        <small style="color:#94a3b8; display:none;" id="helpPasswordEdit">Kosongkan jika tidak ingin mengubah kata sandi.</small>
+                    <div class="tr-form-row">
+                        <div class="form-group" id="groupPassword">
+                            <label for="agentPassword">Kata Sandi <span class="req">*</span></label>
+                            <input type="password" id="agentPassword" placeholder="Kata sandi untuk login Afiliasi" class="form-input">
+                            <small style="color:#94a3b8; display:none;" id="helpPasswordEdit">Kosongkan jika tidak ingin mengubah kata sandi.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="agentPhone">Telepon</label>
+                            <input type="tel" id="agentPhone" placeholder="Contoh: 081234567890" class="form-input">
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="agentEmail">Email *</label>
-                        <input type="email" id="agentEmail" placeholder="affiliate@email.com" required>
+                    <div class="tr-form-row">
+                        <div class="form-group">
+                            <label for="agentCommission">Komisi (%)</label>
+                            <input type="number" id="agentCommission" placeholder="Contoh: 2.5" min="0" max="100" step="0.01" value="0" class="form-input">
+                            <small style="color:#94a3b8;">Persentase komisi penjualan (0-100%)</small>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="agentPhone">Telepon</label>
-                        <input type="tel" id="agentPhone" placeholder="Contoh: 081234567890">
+                    <hr style="border:none;border-top:1px solid #e2e8f0;margin:1.5rem 0 1rem 0">
+                    <div style="margin-bottom:.75rem;color:#334155;font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.4rem">
+                        <i class="fas fa-university" style="color:#3d81af"></i> Informasi Rekening
                     </div>
-                    <div class="form-group">
-                        <label for="agentCommission">Komisi (%)</label>
-                        <input type="number" id="agentCommission" placeholder="Contoh: 2.5" min="0" max="100" step="0.01" value="0">
-                        <small style="color:#94a3b8;">Persentase komisi penjualan (0-100%)</small>
-                    </div>
-                    <hr style="border:none;border-top:1px solid #e2e8f0;margin:1rem 0">
-                    <h4 style="margin:0 0 .75rem;color:#334155;font-size:.95rem"><i class="fas fa-university" style="margin-right:.4rem;color:#3d81af"></i>Informasi Rekening</h4>
-                    <div class="form-group">
-                        <label for="agentNamaBank">Nama Bank</label>
-                        <input type="text" id="agentNamaBank" placeholder="Contoh: BCA, BRI, Mandiri">
-                    </div>
-                    <div class="form-group">
-                        <label for="agentNoRekening">Nomor Rekening</label>
-                        <input type="text" id="agentNoRekening" placeholder="Contoh: 1234567890">
-                    </div>
-                    <div class="form-group">
-                        <label for="agentAtasNama">Atas Nama Rekening</label>
-                        <input type="text" id="agentAtasNama" placeholder="Nama pemilik rekening">
+                    <div class="tr-form-row">
+                        <div class="form-group">
+                            <label for="agentNamaBank">Nama Bank</label>
+                            <input type="text" id="agentNamaBank" placeholder="Contoh: BCA, BRI, Mandiri" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="agentNoRekening">Nomor Rekening</label>
+                            <input type="text" id="agentNoRekening" placeholder="Contoh: 1234567890" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label for="agentAtasNama">Atas Nama Rekening</label>
+                            <input type="text" id="agentAtasNama" placeholder="Nama pemilik rekening" class="form-input">
+                        </div>
                     </div>
                 </div>
                 <div class="tr-modal-footer">
