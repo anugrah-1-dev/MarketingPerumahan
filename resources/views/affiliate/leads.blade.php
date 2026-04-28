@@ -293,6 +293,7 @@
                     <th>Halaman Asal</th>
                     <th>Waktu Klik</th>
                     <th>Status</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
@@ -349,6 +350,11 @@
                         <span class="badge {{ $badgeMap[$click->status] ?? 'badge-new' }}">
                             {{ $labelMap[$click->status] ?? $click->status }}
                         </span>
+                    </td>
+                    <td data-label="Aksi">
+                        <button class="btn-icon" title="Edit" onclick="alert('Fitur edit hanya tersedia di panel admin/superadmin.')">
+                            <i class="fas fa-edit"></i>
+                        </button>
                     </td>
                 </tr>
                 @empty
