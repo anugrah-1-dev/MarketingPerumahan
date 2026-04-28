@@ -22,7 +22,7 @@ Route::get('/login', [PageController::class, 'login'])->name('login');
 Route::post('/login', [PageController::class, 'authenticate'])->middleware('throttle:login')->name('login.post');
 Route::post('/logout', [PageController::class, 'logout'])->name('logout');
 Route::get('/unit-tersedia', [PageController::class, 'unitTersedia'])->name('unit-tersedia');
-Route::get('/tipe-rumah/{id}/detail', [TipeRumahController::class, 'detail'])->name('tipe-rumah.detail');
+Route::get('/tipe-rumah/{id}/detail', [TipeRumahController::class, 'publicDetail'])->name('tipe-rumah.detail');
 Route::post('/wa-click/record', [TrackingController::class, 'record'])->name('wa-click.record');
 
 Route::get('/storage/{path}', function (string $path) {

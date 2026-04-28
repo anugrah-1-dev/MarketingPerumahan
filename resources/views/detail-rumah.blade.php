@@ -10,7 +10,7 @@
         <nav class="text-sm text-[#676767] mb-8 flex items-center gap-2">
             <a href="{{ route('landing') }}" class="hover:text-[#393939]">Beranda</a>
             <span>/</span>
-            <a href="{{ route('tipe-rumah.publik') }}" class="hover:text-[#393939]">Tipe Rumah</a>
+            <a href="{{ route('unit-tersedia') }}" class="hover:text-[#393939]">Tipe Rumah</a>
             <span>/</span>
             <span class="text-[#393939] font-medium">Blok {{ $unit['blok'] }}</span>
         </nav>
