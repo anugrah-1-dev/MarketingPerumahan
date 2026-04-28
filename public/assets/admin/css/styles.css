@@ -865,9 +865,23 @@ body {
 
 /* Modal Box Responsive & User Friendly */
 .tr-modal-box {
-    min-width: 400px !important;
-    max-width: 640px !important;
+    min-width: 320px !important;
+    max-width: 700px !important;
+    width: 100%;
     padding: 2rem 2rem 1.5rem 2rem !important;
+}
+@media (max-width: 700px) {
+    .tr-modal-box {
+        min-width: 98vw !important;
+        max-width: 98vw !important;
+        width: 100% !important;
+        padding: 1rem !important;
+    }
+    .tr-form-row,
+    .tr-form-row-3 {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
 }
 .tr-modal-body .form-group {
     margin-bottom: 1.25rem;
