@@ -134,5 +134,13 @@
 
 @push('scripts')
 <script src="{{ asset('assets/admin/js/agents.js') }}?v={{ filemtime(public_path('assets/admin/js/agents.js')) }}"></script>
+<script>
+document.getElementById('agentModal').addEventListener('mousedown', function(e) {
+    if (e.target === this) {
+        // Jangan tutup modal jika klik di luar modal-content
+        e.stopPropagation();
+    }
+});
+</script>
 @endpush
 

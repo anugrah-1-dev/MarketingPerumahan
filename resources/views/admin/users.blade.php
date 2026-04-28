@@ -96,5 +96,13 @@
 
 @push('scripts')
 <script src="{{ asset('assets/admin/js/users.js') }}?v={{ filemtime(public_path('assets/admin/js/users.js')) }}"></script>
+<script>
+document.getElementById('userModal').addEventListener('mousedown', function(e) {
+    if (e.target === this) {
+        // Jangan tutup modal jika klik di luar modal-content
+        e.stopPropagation();
+    }
+});
+</script>
 @endpush
 
