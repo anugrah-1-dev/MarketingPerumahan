@@ -46,7 +46,7 @@
 
     <!-- Add/Edit Agen Modal (custom overlay) -->
     <div id="agentModal" class="tr-modal-overlay" style="z-index:9999; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(30,41,59,0.25); display:none; align-items:center; justify-content:center;">
-        <div class="tr-modal-box" style="background:#fff;">
+        <div class="tr-modal-box">
             <div class="tr-modal-header">
                 <h3>
                     <svg xmlns="http://www.w3.org/2000/svg" style="display:inline;width:18px;height:18px;vertical-align:-3px;margin-right:6px;color:#2563eb" fill="none" viewBox="0 0 24 24" stroke="currentColor">
