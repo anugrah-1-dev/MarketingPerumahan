@@ -44,74 +44,70 @@
         </div>
     </div>
 
-    <!-- Add/Edit Agen Modal -->
-    <div id="agentModal" class="modal">
-        <div class="modal-content">
-                <div class="modal-header" style="pointer-events:none;">
-                <h2 id="modalTitle">Tambah Afiliasi</h2>
-                <button class="close-btn" onclick="closeAgentModal()"><i class="fas fa-times"></i></button>
+    <!-- Add/Edit Agen Modal (custom overlay) -->
+    <div id="agentModal" class="tr-modal-overlay" style="z-index:9999">
+        <div class="tr-modal-box">
+            <div class="tr-modal-header">
+                <h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display:inline;width:18px;height:18px;vertical-align:-3px;margin-right:6px;color:#2563eb" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    <span id="modalTitle">Tambah Afiliasi</span>
+                </h3>
+                <button onclick="closeAgentModal()" class="tr-modal-close" aria-label="Tutup">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
             </div>
-            <div class="modal-body">
-                <form id="agentForm">
-                    <input type="hidden" id="agentId">
-
+            <form id="agentForm">
+                <input type="hidden" id="agentId">
+                <input type="hidden" id="agentJabatan" value="Affiliate">
+                <div class="tr-modal-body">
                     <div class="form-group">
                         <label for="agentName">Nama Lengkap *</label>
                         <input type="text" id="agentName" placeholder="Contoh: Budi Santoso" required>
                     </div>
-
-                    <!-- Jabatan hidden (default to Affiliate in JS/Backend) -->
-                    <input type="hidden" id="agentJabatan" value="Affiliate">
-
                     <div class="form-group" id="groupPassword">
                         <label for="agentPassword">Kata Sandi *</label>
                         <input type="password" id="agentPassword" placeholder="Kata sandi untuk login Afiliasi">
                         <small style="color:#94a3b8; display:none;" id="helpPasswordEdit">Kosongkan jika tidak ingin mengubah kata sandi.</small>
                     </div>
-
                     <div class="form-group">
                         <label for="agentEmail">Email *</label>
                         <input type="email" id="agentEmail" placeholder="affiliate@email.com" required>
                     </div>
-
                     <div class="form-group">
                         <label for="agentPhone">Telepon</label>
                         <input type="tel" id="agentPhone" placeholder="Contoh: 081234567890">
                     </div>
-
                     <div class="form-group">
                         <label for="agentCommission">Komisi (%)</label>
                         <input type="number" id="agentCommission" placeholder="Contoh: 2.5" min="0" max="100" step="0.01" value="0">
                         <small style="color:#94a3b8;">Persentase komisi penjualan (0-100%)</small>
                     </div>
-
                     <hr style="border:none;border-top:1px solid #e2e8f0;margin:1rem 0">
                     <h4 style="margin:0 0 .75rem;color:#334155;font-size:.95rem"><i class="fas fa-university" style="margin-right:.4rem;color:#3d81af"></i>Informasi Rekening</h4>
-
                     <div class="form-group">
                         <label for="agentNamaBank">Nama Bank</label>
                         <input type="text" id="agentNamaBank" placeholder="Contoh: BCA, BRI, Mandiri">
                     </div>
-
                     <div class="form-group">
                         <label for="agentNoRekening">Nomor Rekening</label>
                         <input type="text" id="agentNoRekening" placeholder="Contoh: 1234567890">
                     </div>
-
                     <div class="form-group">
                         <label for="agentAtasNama">Atas Nama Rekening</label>
                         <input type="text" id="agentAtasNama" placeholder="Nama pemilik rekening">
                     </div>
-
-
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary" onclick="closeAgentModal()">Batal</button>
-                <button class="btn btn-primary" id="saveBtn" onclick="saveAgent()">
-                    <i class="fas fa-save"></i> Simpan
-                </button>
-            </div>
+                </div>
+                <div class="tr-modal-footer">
+                    <button type="button" class="btn btn-secondary" onclick="closeAgentModal()">Batal</button>
+                    <button type="button" class="btn btn-primary" id="saveBtn" onclick="saveAgent()">
+                        <i class="fas fa-save"></i> Simpan
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 
