@@ -42,7 +42,7 @@
 
     <!-- Add/Edit User Modal (custom overlay) -->
     <div id="userModal" class="tr-modal-overlay" style="z-index:9999; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(30,41,59,0.25); display:none; align-items:center; justify-content:center;">
-        <div class="tr-modal-box" style="background:#fff;">
+        <div class="tr-modal-box" style="background:#fff; max-width:560px; min-width:400px;">
             <div class="tr-modal-header">
                 <h3>
                     <svg xmlns="http://www.w3.org/2000/svg" style="display:inline;width:18px;height:18px;vertical-align:-3px;margin-right:6px;color:#2563eb" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -59,33 +59,37 @@
             <form id="userForm">
                 <input type="hidden" id="userId">
                 <div class="tr-modal-body">
-                    <div class="form-group">
-                        <label for="userName">Nama Lengkap *</label>
-                        <input type="text" id="userName" placeholder="Contoh: Budi Santoso" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="userEmail">Email *</label>
-                        <input type="email" id="userEmail" placeholder="email@domain.com" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="userPassword" id="passwordLabel">Kata Sandi *</label>
-                        <div style="position:relative;">
-                            <input type="password" id="userPassword" placeholder="Minimal 8 karakter">
-                            <button type="button"
-                                onclick="togglePassword()"
-                                style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;">
-                                <i class="fas fa-eye" id="passwordEyeIcon"></i>
-                            </button>
+                    <div class="tr-form-row">
+                        <div class="form-group">
+                            <label for="userName">Nama Lengkap *</label>
+                            <input type="text" id="userName" placeholder="Contoh: Budi Santoso" required>
                         </div>
-                        <small id="passwordHint" style="color:#94a3b8;">Wajib diisi saat membuat pengguna baru.</small>
+                        <div class="form-group">
+                            <label for="userEmail">Email *</label>
+                            <input type="email" id="userEmail" placeholder="email@domain.com" required>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="userRole">Peran *</label>
-                        <select id="userRole" style="width:100%;padding:.625rem .875rem;border:1px solid #e2e8f0;border-radius:.5rem;font-size:.9375rem;">
-                            <option value="affiliate">Afiliasi</option>
-                            <option value="admin">Admin</option>
-                            <option value="super_admin">Super Admin</option>
-                        </select>
+                    <div class="tr-form-row">
+                        <div class="form-group">
+                            <label for="userPassword" id="passwordLabel">Kata Sandi *</label>
+                            <div style="position:relative;">
+                                <input type="password" id="userPassword" placeholder="Minimal 8 karakter">
+                                <button type="button"
+                                    onclick="togglePassword()"
+                                    style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;">
+                                    <i class="fas fa-eye" id="passwordEyeIcon"></i>
+                                </button>
+                            </div>
+                            <small id="passwordHint" style="color:#94a3b8;">Wajib diisi saat membuat pengguna baru.</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="userRole">Peran *</label>
+                            <select id="userRole" class="form-input">
+                                <option value="affiliate">Afiliasi</option>
+                                <option value="admin">Admin</option>
+                                <option value="super_admin">Super Admin</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="tr-modal-footer">
