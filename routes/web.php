@@ -1,7 +1,4 @@
-// Include custom affiliate leads status route (hanya sekali, di paling bawah)
-if (file_exists(__DIR__.'/affiliate-leads-status.php')) {
-    require __DIR__.'/affiliate-leads-status.php';
-}
+// (Dihapus, tidak boleh ada include apapun sebelum <?php)
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -244,4 +241,10 @@ Route::get('/ref/{code}',            [ReferralController::class, 'handle'])->nam
 // menimpa route-route spesifik di atas.
 // Contoh: /anugrah, /fajar, /rizky
 // -------------------------------------------------------
+
 Route::get('/{nama}',                [PageController::class, 'agentLanding'])->name('agent-landing');
+
+// Include custom affiliate leads status route (hanya sekali, di paling bawah)
+if (file_exists(__DIR__.'/affiliate-leads-status.php')) {
+    require __DIR__.'/affiliate-leads-status.php';
+}
