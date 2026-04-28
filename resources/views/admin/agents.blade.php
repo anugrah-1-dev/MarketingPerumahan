@@ -91,12 +91,13 @@
                             <input type="number" id="agentCommission" placeholder="Contoh: 2.5" min="0" max="100" step="0.01" value="0" class="form-input">
                             <small style="color:#94a3b8;">Persentase komisi penjualan (0-100%)</small>
                         </div>
+                        <div class="form-group"></div>
                     </div>
                     <hr style="border:none;border-top:1px solid #e2e8f0;margin:1.5rem 0 1rem 0">
-                    <div style="margin-bottom:.75rem;color:#334155;font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.4rem">
-                        <i class="fas fa-university" style="color:#3d81af"></i> Informasi Rekening
+                    <div class="tr-section-title">
+                        <i class="fas fa-university"></i> Informasi Rekening
                     </div>
-                    <div class="tr-form-row">
+                    <div class="tr-form-row-3">
                         <div class="form-group">
                             <label for="agentNamaBank">Nama Bank</label>
                             <input type="text" id="agentNamaBank" placeholder="Contoh: BCA, BRI, Mandiri" class="form-input">
