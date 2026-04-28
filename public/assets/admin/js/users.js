@@ -278,7 +278,3 @@ function searchUsers() {
 }
 
 // Close modal bila klik di luar
-window.onclick = function (event) {
-    const modal = document.getElementById("userModal");
-    if (event.target === modal) closeUserModal();
-};
