@@ -1,4 +1,4 @@
-// Include custom affiliate leads status route
+// Include custom affiliate leads status route (hanya sekali, di paling bawah)
 if (file_exists(__DIR__.'/affiliate-leads-status.php')) {
     require __DIR__.'/affiliate-leads-status.php';
 }
