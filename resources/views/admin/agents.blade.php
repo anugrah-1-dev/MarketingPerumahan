@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 @section('title', 'Manajemen Agen')
 @section('page-title', 'Manajemen Agen')
 
@@ -103,8 +103,8 @@
                 </div>
                 <div class="tr-modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeAgentModal()">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveBtn" onclick="saveAgent()">
-                        <i class="fas fa-save"></i> Simpan
+                    <button type="button" class="tr-btn-submit" id="saveBtn" onclick="saveAgent()">
+                        <i class="fas fa-save"></i> Simpan Agen
                     </button>
                 </div>
             </form>

@@ -1,0 +1,679 @@
+/* =============================================
+   USERS-AGENTS.CSS
+   Manajemen Pengguna & Manajemen Agen
+   Desain seragam dengan Tipe Rumah
+   ============================================= */
+
+/* ── Page Header ── */
+.ua-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.ua-page-header h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.ua-page-header p {
+    font-size: 0.82rem;
+    color: #6b7280;
+    margin-top: 3px;
+}
+
+/* ── Tombol Tambah ── */
+.ua-btn-tambah {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+    box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.ua-btn-tambah:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(37, 99, 235, 0.4);
+}
+
+/* ── Search Bar ── */
+.ua-search-bar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+}
+
+.ua-search-input-wrap {
+    position: relative;
+    flex: 1;
+    min-width: 220px;
+    max-width: 420px;
+}
+
+.ua-search-icon {
+    position: absolute;
+    left: 13px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9ca3af;
+    pointer-events: none;
+}
+
+.ua-search-input {
+    width: 100%;
+    padding: 9px 38px 9px 38px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 0.875rem;
+    color: #111827;
+    background: #ffffff;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    font-family: inherit;
+}
+
+.ua-search-input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.ua-search-input::placeholder {
+    color: #b0bac8;
+}
+
+.ua-search-clear {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: #e5e7eb;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s;
+    padding: 0;
+}
+
+.ua-search-clear:hover {
+    background: #d1d5db;
+    color: #374151;
+}
+
+.ua-search-clear.hidden {
+    display: none;
+}
+
+.ua-search-count {
+    font-size: 0.8rem;
+    color: #6b7280;
+    white-space: nowrap;
+    font-weight: 500;
+}
+
+/* ── Wrapper Tabel ── */
+.ua-table-wrapper {
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08), 0 0 0 1px #e5e7eb;
+    overflow: hidden;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ── Table ── */
+.ua-table {
+    width: 100%;
+    min-width: 600px;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+
+/* ── Thead ── */
+.ua-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.ua-table thead th {
+    padding: 13px 16px;
+    text-align: left;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    white-space: nowrap;
+    border-right: 1px solid #e9edf2;
+}
+
+.ua-table thead th:last-child {
+    border-right: none;
+    text-align: center;
+}
+
+.ua-table thead th.center {
+    text-align: center;
+}
+
+/* ── Tbody rows ── */
+.ua-table tbody tr {
+    border-bottom: 1px solid #e9edf2;
+    transition: background 0.15s ease;
+}
+
+.ua-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+.ua-table tbody tr:hover {
+    background: #f1f5fb;
+}
+
+/* ── Tbody cells ── */
+.ua-table tbody td {
+    padding: 12px 16px;
+    color: #374151;
+    vertical-align: middle;
+    border-right: 1px solid #e9edf2;
+}
+
+.ua-table tbody td:last-child {
+    border-right: none;
+}
+
+.ua-table tbody td.center {
+    text-align: center;
+}
+
+/* ── Avatar / Inisial ── */
+.ua-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: #fff;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+}
+
+.ua-avatar.green {
+    background: linear-gradient(135deg, #059669, #10b981);
+}
+
+.ua-avatar.orange {
+    background: linear-gradient(135deg, #d97706, #f59e0b);
+}
+
+.ua-user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ua-user-name {
+    font-weight: 600;
+    color: #111827;
+    white-space: nowrap;
+}
+
+.ua-user-email {
+    font-size: 0.78rem;
+    color: #6b7280;
+}
+
+/* ── Cell Styles ── */
+.ua-cell-bold {
+    font-weight: 600;
+    color: #111827;
+}
+
+.ua-cell-muted {
+    color: #6b7280;
+    font-size: 0.82rem;
+}
+
+/* ── Badge Role/Status ── */
+.ua-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 50px;
+    white-space: nowrap;
+}
+
+.ua-badge-admin {
+    background: #eff6ff;
+    color: #1d4ed8;
+}
+
+.ua-badge-super {
+    background: #f5f3ff;
+    color: #6d28d9;
+}
+
+.ua-badge-affiliate {
+    background: #ecfdf5;
+    color: #065f46;
+}
+
+.ua-badge-active {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.ua-badge-inactive {
+    background: #f1f5f9;
+    color: #94a3b8;
+}
+
+/* ── Tombol Aksi ── */
+.ua-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.ua-btn-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #bfdbfe;
+    background: #eff6ff;
+    color: #2563eb;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.ua-btn-edit:hover {
+    background: #dbeafe;
+    border-color: #93c5fd;
+    transform: scale(1.08);
+}
+
+.ua-btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #fecaca;
+    background: #fff1f2;
+    color: #dc2626;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.ua-btn-delete:hover {
+    background: #fee2e2;
+    border-color: #fca5a5;
+    transform: scale(1.08);
+}
+
+.ua-btn-view {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid #a7f3d0;
+    background: #ecfdf5;
+    color: #059669;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.ua-btn-view:hover {
+    background: #d1fae5;
+    border-color: #6ee7b7;
+    transform: scale(1.08);
+}
+
+/* ── Empty state row ── */
+.ua-empty-row td {
+    padding: 48px 20px;
+    text-align: center;
+    color: #9ca3af;
+    font-size: 0.9rem;
+}
+
+/* ── Afiliasi link copy ── */
+.ua-link-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 220px;
+}
+
+.ua-link-text {
+    font-size: 0.78rem;
+    color: #6b7280;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+}
+
+.ua-copy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background: #f8fafc;
+    color: #64748b;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.15s, color 0.15s;
+}
+
+.ua-copy-btn:hover {
+    background: #dbeafe;
+    color: #2563eb;
+    border-color: #93c5fd;
+}
+
+/* ============================================
+   MODAL STYLES — Users & Agents
+   ============================================ */
+
+/* ── Overlay ── */
+.ua-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.ua-modal-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* ── Modal Box ── */
+.ua-modal-box {
+    background: #ffffff;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 540px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+    transform: translateY(24px) scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.ua-modal-overlay.is-open .ua-modal-box {
+    transform: translateY(0) scale(1);
+}
+
+/* scrollbar modal */
+.ua-modal-box::-webkit-scrollbar { width: 5px; }
+.ua-modal-box::-webkit-scrollbar-track { background: #f9fafb; }
+.ua-modal-box::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 10px; }
+
+/* ── Modal Header ── */
+.ua-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 24px;
+    border-bottom: 1px solid #f3f4f6;
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 1;
+}
+
+.ua-modal-header h3 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ua-modal-close {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: #f3f4f6;
+    color: #6b7280;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, color 0.2s;
+    flex-shrink: 0;
+}
+
+.ua-modal-close:hover {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+/* ── Modal Body ── */
+.ua-modal-body {
+    padding: 24px;
+}
+
+.ua-modal-body .form-group {
+    margin-bottom: 16px;
+}
+
+.ua-modal-body .form-group label {
+    display: block;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.ua-modal-body .form-group input,
+.ua-modal-body .form-group select,
+.ua-modal-body .form-group textarea {
+    width: 100%;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.875rem;
+    color: #111827;
+    background: #fafafa;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+    font-family: inherit;
+}
+
+.ua-modal-body .form-group input:focus,
+.ua-modal-body .form-group select:focus,
+.ua-modal-body .form-group textarea:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+    background: #fff;
+}
+
+.ua-modal-body .form-group small {
+    display: block;
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin-top: 4px;
+}
+
+.ua-modal-body .input-icon-wrap {
+    position: relative;
+}
+
+.ua-modal-body .input-icon-wrap input {
+    padding-right: 40px;
+}
+
+.ua-modal-body .input-icon-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    transition: color 0.2s;
+}
+
+.ua-modal-body .input-icon-btn:hover {
+    color: #374151;
+}
+
+.ua-form-divider {
+    border: none;
+    border-top: 1px solid #e9edf2;
+    margin: 18px 0 14px;
+}
+
+.ua-form-section-title {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #334155;
+    margin: 0 0 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ua-form-section-title i {
+    color: #3d81af;
+}
+
+/* ── Modal Footer ── */
+.ua-modal-footer {
+    padding: 16px 24px 24px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.ua-btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 22px;
+    border: none;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+    cursor: pointer;
+    transition: opacity 0.2s, transform 0.15s;
+    letter-spacing: 0.2px;
+}
+
+.ua-btn-submit:hover {
+    opacity: 0.92;
+    transform: translateY(-1px);
+}
+
+.ua-btn-cancel {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 18px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+    background: #f8fafc;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.ua-btn-cancel:hover {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+}
+
+/* ── Detail Modal (wide) ── */
+.ua-modal-box.wide {
+    max-width: 640px;
+}
+
+/* ── Detail info grid ── */
+.ua-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+@media (max-width: 540px) {
+    .ua-detail-grid { grid-template-columns: 1fr; }
+}
+
+.ua-detail-item label {
+    display: block;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.ua-detail-item p {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: #111827;
+}

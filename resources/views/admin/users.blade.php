@@ -1,4 +1,4 @@
-﻿@extends('layouts.admin')
+@extends('layouts.admin')
 @section('title', 'Manajemen Pengguna')
 @section('page-title', 'Manajemen Pengguna')
 
@@ -90,8 +90,8 @@
                 </div>
                 <div class="tr-modal-footer">
                     <button type="button" class="btn btn-secondary" onclick="closeUserModal()">Batal</button>
-                    <button type="button" class="btn btn-primary" id="saveUserBtn" onclick="saveUser()">
-                        <i class="fas fa-save"></i> Simpan
+                    <button type="button" class="tr-btn-submit" id="saveUserBtn" onclick="saveUser()">
+                        <i class="fas fa-save"></i> Simpan Pengguna
                     </button>
                 </div>
             </form>
