@@ -1,3 +1,7 @@
+// Include custom affiliate leads status route
+if (file_exists(__DIR__.'/affiliate-leads-status.php')) {
+    require __DIR__.'/affiliate-leads-status.php';
+}
 <?php
 
 use Illuminate\Support\Facades\Route;
