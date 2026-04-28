@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>@yield('title', 'Pengelola') - Manajemen Properti</title>
+    <link rel="stylesheet" href="{{ asset('assets/manager/css/styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @stack('styles')
+</head>
+<body>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>Manajer Properti</h2>
+            <button class="toggle-btn" id="toggleSidebar">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="{{ route('manager.dashboard') }}" class="nav-item {{ request()->routeIs('manager.dashboard') ? 'active' : '' }}">
+                <i class="fas fa-home"></i>
+                <span>Beranda</span>
+            </a>
+            <a href="{{ route('manager.units') }}" class="nav-item {{ request()->routeIs('manager.units*') ? 'active' : '' }}">
+                <i class="fas fa-building"></i>
+                <span>Manajemen Unit</span>
+            </a>
+            <a href="{{ route('manager.tracking') }}" class="nav-item {{ request()->routeIs('manager.tracking') ? 'active' : '' }}">
+                <i class="fas fa-mouse-pointer"></i>
+                <span>Pelacakan Klik WA</span>
+            </a>
+            <a href="{{ route('manager.pengisian-data') }}" class="nav-item {{ request()->routeIs('manager.pengisian-data') ? 'active' : '' }}">
+                <i class="fas fa-clipboard-list"></i>
+                <span>Pengisian Data Klien</span>
+            </a>
+            <a href="{{ route('manager.client-data') }}" class="nav-item {{ request()->routeIs('manager.client-data*') ? 'active' : '' }}">
+                <i class="fas fa-users-cog"></i>
+                <span>Data Klien</span>
+            </a>
+            <a href="{{ route('manager.closing') }}" class="nav-item {{ request()->routeIs('manager.closing') ? 'active' : '' }}">
+                <i class="fas fa-handshake"></i>
+                <span>Manajemen Klien</span>
+            </a>
+            <a href="{{ route('manager.users') }}" class="nav-item {{ request()->routeIs('manager.users*') ? 'active' : '' }}">
+                <i class="fas fa-user-lock"></i>
+                <span>Manajemen Pengguna</span>
+            </a>
+            <a href="{{ route('manager.social-media') }}" class="nav-item {{ request()->routeIs('manager.social-media*') ? 'active' : '' }}">
+                <i class="fas fa-share-alt"></i>
+                <span>Media Sosial</span>
+            </a>
+            <a href="{{ route('manager.agents') }}" class="nav-item {{ request()->routeIs('manager.agents*') ? 'active' : '' }}">
+                <i class="fas fa-users"></i>
+                <span>Manajemen Agen</span>
+            </a>
+            <a href="{{ route('manager.tipe-rumah') }}" class="nav-item {{ request()->routeIs('manager.tipe-rumah*') ? 'active' : '' }}">
+                <i class="fas fa-home"></i>
+                <span>Tipe Rumah</span>
+            </a>
+            <a href="{{ route('manager.hero-slides') }}" class="nav-item {{ request()->routeIs('manager.hero-slides*') ? 'active' : '' }}">
+                <i class="fas fa-images"></i>
+                <span>Galeri Beranda</span>
+            </a>
+            <a href="{{ route('manager.denah') }}" class="nav-item {{ request()->routeIs('manager.denah*') ? 'active' : '' }}">
+                <i class="fas fa-map"></i>
+                <span>Denah Perumahan</span>
+            </a>
+            <a href="{{ route('manager.lokasi-video') }}" class="nav-item {{ request()->routeIs('manager.lokasi-video*') ? 'active' : '' }}">
+                <i class="fas fa-video"></i>
+                <span>Video Lokasi</span>
+            </a>
+            <a href="{{ route('manager.settings') }}" class="nav-item {{ request()->routeIs('manager.settings*') ? 'active' : '' }}">
+                <i class="fas fa-cog"></i>
+                <span>Pengaturan</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <div style="padding:12px 16px; font-size:13px; color:#aaa; border-top:1px solid rgba(255,255,255,0.1)">
+                <i class="fas fa-user-cog" style="margin-right:6px"></i>
+                {{ auth()->user()->name ?? 'Admin' }}
+                <span style="display:block;font-size:10px;opacity:0.6;margin-top:2px;text-transform:uppercase;letter-spacing:1px">
+                    Admin
+                </span>
+            </div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="logout-btn">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Keluar</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Main Konten -->
+    <div class="main-content" id="mainKonten">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="mobile-toggle" id="mobileToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1>@yield('page-title', 'Beranda')</h1>
+            </div>
+            <div class="header-right">
+                <div class="user-info">
+                    <span class="user-name">{{ auth()->user()->name ?? 'Admin' }}</span>
+                    <div class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Konten -->
+        <div class="content">
+            @yield('content')
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{{ asset('assets/manager/js/sidebar.js') }}"></script>
+    @stack('scripts')
+</body>
+</html>
+

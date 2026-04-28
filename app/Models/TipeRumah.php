@@ -1,0 +1,132 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+use App\Models\TipeRumahFoto;
+
+class TipeRumah extends Model
+{
+    protected $table = 'tipe_rumah';
+
+    protected $fillable = [
+        'nama_tipe',
+        'luas_bangunan',
+        'luas_tanah',
+        'kamar_tidur',
+        'kamar_mandi',
+        'lantai',
+        'garasi',
+        'sertifikat',
+        'fasilitas',
+        'harga',
+        'harga_diskon',
+        'is_diskon',
+        'deskripsi',
+        'gambar',
+        'stok_tersedia',
+    ];
+
+    protected $casts = [
+        'is_diskon' => 'boolean',
+        'fasilitas' => 'array',
+    ];
+
+    /**
+     * Format harga ke Rupiah
+     */
+    public function getHargaFormatAttribute(): string
+    {
+        return 'Rp ' . number_format($this->harga, 0, ',', '.');
+    }
+
+    public function getHargaDiskonFormatAttribute(): ?string
+    {
+        return $this->harga_diskon
+            ? 'Rp ' . number_format($this->harga_diskon, 0, ',', '.')
+            : null;
+    }
+
+    /**
+     * URL gambar, fallback ke placeholder jika tidak ada
+     */
+    public function getGambarUrlAttribute(): string
+    {
+        if ($this->gambar) {
+            // New location: public/uploads/ (no symlink needed)
+            if (file_exists(public_path('uploads/' . $this->gambar))) {
+                return asset('uploads/' . $this->gambar);
+            }
+            // Legacy: public/storage/ (via symlink)
+            if (file_exists(storage_path('app/public/' . $this->gambar))) {
+                return asset('storage/' . $this->gambar);
+            }
+        }
+        return 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80';
+    }
+
+    /**
+     * Kumpulan URL foto tipe rumah.
+     * Jika ada file di public/assets/tipe-rumah/{id}, gunakan itu.
+     * Jika tidak ada, fallback ke gambar utama dari database.
+     */
+    public function getGalleryUrlsAttribute(): array
+    {
+        $pattern = public_path('assets/tipe-rumah/' . $this->id . '/*.{jpg,jpeg,png,webp,JPG,JPEG,PNG,WEBP}');
+        $files = glob($pattern, GLOB_BRACE) ?: [];
+
+        sort($files, SORT_NATURAL | SORT_FLAG_CASE);
+
+        if (!empty($files)) {
+            return array_map(
+                fn ($file) => asset('assets/tipe-rumah/' . $this->id . '/' . basename($file)),
+                $files
+            );
+        }
+
+        return [$this->gambar_url];
+    }
+
+    /**
+     * Scope untuk tipe rumah yang sedang diskon
+     */
+    public function scopeDiskon($query)
+    {
+        return $query->where('is_diskon', true);
+    }
+
+    /**
+     * Relasi ke foto-foto tambahan
+     */
+    public function fotos()
+    {
+        return $this->hasMany(TipeRumahFoto::class, 'tipe_rumah_id')->orderBy('urutan');
+    }
+
+    /**
+     * Semua foto: foto utama (gambar) + foto tambahan dari relasi
+     */
+    public function getAllFotosAttribute(): array
+    {
+        $urls = [];
+
+        // Foto utama dari kolom gambar
+        $gambarOk = $this->gambar && (
+            file_exists(public_path('uploads/' . $this->gambar)) ||
+            file_exists(storage_path('app/public/' . $this->gambar))
+        );
+        if ($gambarOk) {
+            $urls[] = ['url' => $this->gambar_url, 'keterangan' => 'Foto Utama'];
+        } else {
+            $urls[] = ['url' => 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?w=600&q=80', 'keterangan' => 'Foto Utama'];
+        }
+
+        // Foto tambahan dari tabel relasi
+        foreach ($this->fotos as $foto) {
+            $urls[] = ['url' => $foto->url, 'keterangan' => $foto->keterangan ?? 'Foto Tambahan'];
+        }
+
+        return $urls;
+    }
+}

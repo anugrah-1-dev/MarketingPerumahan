@@ -1,0 +1,40 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\User;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+
+class DatabaseSeeder extends Seeder
+{
+    use WithoutModelEvents;
+
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
+    {
+        $this->call(TipeRumahSeeder::class);
+
+        User::updateOrCreate(
+            ['email' => 'superadmin@perumahan.com'],
+            [
+                'name'     => 'Super Admin',
+                'email'    => 'superadmin@perumahan.com',
+                'password' => bcrypt('superadmin123'),
+                'role'     => 'super_admin',
+            ]
+        );
+
+        User::updateOrCreate(
+            ['email' => 'affiliate@perumahan.com'],
+            [
+                'name'     => 'Affiliate User',
+                'email'    => 'affiliate@perumahan.com',
+                'password' => bcrypt('affiliate123'),
+                'role'     => 'affiliate',
+            ]
+        );
+    }
+}

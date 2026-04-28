@@ -1,0 +1,145 @@
+/* =========================================================
+   LEADS PAGE
+   ========================================================= */
+
+/* Wrapper */
+.leads-affiliate {
+    background: #f4f6f9;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Heading */
+.daftar-leads {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+}
+
+/* Stats Row */
+.stats-mini {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    gap: 18px;
+    margin-bottom: 28px;
+}
+
+/* Card boxes (matching the rectangles from design) */
+.rectangle-1286, .rectangle-12862, .rectangle-12863 {
+    background: #fff;
+    border-radius: 14px;
+    padding: 22px 24px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    min-width: 160px;
+}
+
+._50, ._148, ._25 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+}
+
+.leads-baru, .total-leads, .closing2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #475569;
+}
+
+._12-minggu-ini, .bulan-ini, .bulan-ini2 {
+    font-size: 12px;
+    color: #10b981;
+    font-weight: 500;
+    margin-top: 4px;
+}
+
+/* Filter area */
+.rectangle-1288, .rectangle-1289 {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    color: #94a3b8;
+}
+
+/* Tab filter */
+.rectangle-1292, .rectangle-1293, .rectangle-1294, .rectangle-1295 {
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #f1f5f9;
+    font-size: 13px;
+    cursor: pointer;
+    margin-right: 8px;
+    margin-bottom: 16px;
+}
+
+.baru, .hot-lead, .semua {
+    font-size: 13px;
+    color: #334155;
+    font-weight: 500;
+}
+
+/* Table Headers */
+.status, .tanggal-masuk, .minat-unit, .sumber-link {
+    font-size: 13px;
+    font-weight: 600;
+    color: #475569;
+}
+
+/* Table Rows */
+.group-33, .group-332, .group-333, .group-334, .group-335 {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.whats-app, .instagram, .tik-tok {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    background: #f1f5f9;
+    color: #334155;
+}
+
+._27-feb-2026-09-14-wib, ._27-feb-2026-09-14-wib2 {
+    font-size: 13px;
+    color: #334155;
+}
+
+.andi-saputra-62-812-3456-7890,
+.andi-saputra-62-812-3456-78902 {
+    font-size: 13px;
+    color: #334155;
+    font-weight: 500;
+}
+
+.follow-up {
+    background: rgba(245,158,11,0.1);
+    color: #d97706;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.closing3 {
+    background: rgba(16,185,129,0.1);
+    color: #059669;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.tipe-45-blok-a, .tipe-45-blok-a2 {
+    font-size: 13px;
+    color: #475569;
+}
