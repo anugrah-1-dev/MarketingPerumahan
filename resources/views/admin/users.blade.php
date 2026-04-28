@@ -60,20 +60,20 @@
                 <input type="hidden" id="userId">
                 <div class="tr-modal-body">
                     <div class="tr-form-row">
-                        <div class="form-group">
-                            <label for="userName">Nama Lengkap *</label>
-                            <input type="text" id="userName" placeholder="Contoh: Budi Santoso" required>
+                        <div class="form-group" style="flex:1; min-width:0;">
+                            <label for="userName">Nama Lengkap <span class="req">*</span></label>
+                            <input type="text" id="userName" placeholder="Contoh: Budi Santoso" class="form-input" required>
                         </div>
-                        <div class="form-group">
-                            <label for="userEmail">Email *</label>
-                            <input type="email" id="userEmail" placeholder="email@domain.com" required>
+                        <div class="form-group" style="flex:1; min-width:0;">
+                            <label for="userEmail">Email <span class="req">*</span></label>
+                            <input type="email" id="userEmail" placeholder="email@domain.com" class="form-input" required>
                         </div>
                     </div>
                     <div class="tr-form-row">
-                        <div class="form-group">
-                            <label for="userPassword" id="passwordLabel">Kata Sandi *</label>
+                        <div class="form-group" style="flex:1; min-width:0;">
+                            <label for="userPassword" id="passwordLabel">Kata Sandi <span class="req">*</span></label>
                             <div style="position:relative;">
-                                <input type="password" id="userPassword" placeholder="Minimal 8 karakter">
+                                <input type="password" id="userPassword" placeholder="Minimal 8 karakter" class="form-input">
                                 <button type="button"
                                     onclick="togglePassword()"
                                     style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;color:#94a3b8;">
@@ -82,8 +82,8 @@
                             </div>
                             <small id="passwordHint" style="color:#94a3b8;">Wajib diisi saat membuat pengguna baru.</small>
                         </div>
-                        <div class="form-group">
-                            <label for="userRole">Peran *</label>
+                        <div class="form-group" style="flex:1; min-width:0;">
+                            <label for="userRole">Peran <span class="req">*</span></label>
                             <select id="userRole" class="form-input">
                                 <option value="affiliate">Afiliasi</option>
                                 <option value="admin">Admin</option>
