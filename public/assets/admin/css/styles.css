@@ -840,7 +840,7 @@ body {
 }
 
 .tr-modal-box {
-    background: #fff;
+    background: #fff !important;
     border-radius: 1rem;
     box-shadow: 0 8px 32px rgba(30, 41, 59, 0.18);
     min-width: 400px;
