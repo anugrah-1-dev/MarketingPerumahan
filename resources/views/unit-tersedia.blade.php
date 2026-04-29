@@ -60,13 +60,7 @@
         </div>
     </section>
 
-    {{-- Filter Buttons --}}
-    <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-8 flex flex-wrap items-center gap-3">
-        <span class="text-[#393939] font-semibold text-sm mr-1">Filter:</span>
-        <button class="filter-btn active" data-filter="semua">Semua</button>
-        <button class="filter-btn" data-filter="tersedia">Tersedia</button>
-        <button class="filter-btn" data-filter="terjual">Terjual</button>
-    </section>
+    {{-- Filter Buttons Dihapus --}}
 
     {{-- Unit Cards Grid --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] pb-24">
@@ -151,34 +145,10 @@
 
         </div>
 
-        {{-- Empty state (hidden by default, shown by JS when filter returns 0 results) --}}
-        <p id="emptyState" class="hidden text-center text-[#676767] py-16 text-lg">Tidak ada unit yang sesuai filter.</p>
+        {{-- Empty state dihapus karena filter dihapus --}}
     </section>
 
 @endsection
 
-@section('scripts')
-<script>
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const cards      = document.querySelectorAll('#unitGrid [data-status]');
-    const empty      = document.getElementById('emptyState');
-
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function () {
-            filterBtns.forEach(b => b.classList.remove('active'));
-            this.classList.add('active');
-
-            const filter = this.dataset.filter;
-            let visible  = 0;
-
-            cards.forEach(card => {
-                const show = filter === 'semua' || card.dataset.status === filter;
-                card.style.display = show ? '' : 'none';
-                if (show) visible++;
-            });
-
-            empty.classList.toggle('hidden', visible > 0);
-        });
-    });
-</script>
+{{-- Script filter dihapus --}}
 @endsection
