@@ -46,34 +46,48 @@
     {{-- Summary Stats (Card Style Beranda) --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-10">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <!-- Total Unit -->
+            <!-- Total Unit (icon gedung) -->
             <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
                 <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21V7a2 2 0 012-2h2a2 2 0 012 2v14M7 21h10M17 21V7a2 2 0 012-2h2a2 2 0 012 2v14" /></svg>
+                    <!-- Icon: gedung (building) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21V3a1 1 0 011-1h8a1 1 0 011 1v18M7 21h10M10 9h4M10 13h4M10 17h4" />
+                    </svg>
                 </span>
                 <p class="text-3xl font-bold text-[#393939]">{{ $totalUnit }}</p>
                 <p class="text-base mt-1 font-medium text-[#676767]">Jumlah Unit</p>
             </div>
-            <!-- Unit Tersedia -->
+            <!-- Unit Tersedia (icon pintu) -->
             <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
                 <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-50 mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21V9a2 2 0 012-2h2a2 2 0 012 2v12" /></svg>
+                    <!-- Icon: pintu (door) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v18m0 0H7a2 2 0 01-2-2V7a2 2 0 012-2h10a2 2 0 012 2v12a2 2 0 01-2 2h-5z" />
+                        <circle cx="15" cy="12" r="1" fill="currentColor" />
+                    </svg>
                 </span>
                 <p class="text-3xl font-bold text-[#393939]">{{ $totalTersedia }}</p>
                 <p class="text-base mt-1 font-medium text-[#676767]">Unit Tersedia</p>
             </div>
-            <!-- Unit Terjual -->
+            <!-- Unit Terjual (icon rumah) -->
             <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
                 <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V13a2 2 0 00-2-2h-2a2 2 0 00-2 2v8" /></svg>
+                    <!-- Icon: rumah (house) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9M4 10v10a1 1 0 001 1h3m10-11v10a1 1 0 01-1 1h-3m-4 0h4" />
+                        <circle cx="17" cy="9" r="1" fill="currentColor" />
+                    </svg>
                 </span>
                 <p class="text-3xl font-bold text-[#393939]">{{ $totalTerjual }}</p>
                 <p class="text-base mt-1 font-medium text-[#676767]">Unit Terjual</p>
             </div>
-            <!-- Unit Booking -->
+            <!-- Unit Booking (icon bookmark) -->
             <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
                 <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-50 mb-2">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14l7-7 7 7V5a2 2 0 00-2-2H7a2 2 0 00-2 2z" /></svg>
+                    <!-- Icon: bookmark -->
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14l7-7 7 7V5a2 2 0 00-2-2H7a2 2 0 00-2 2z" />
+                    </svg>
                 </span>
                 <p class="text-3xl font-bold text-[#393939]">{{ $totalBooking }}</p>
                 <p class="text-base mt-1 font-medium text-[#676767]">Unit Dipesan</p>
