@@ -43,22 +43,39 @@
         <p class="text-[#676767] text-[16px]">Pilih unit favoritmu dan segera hubungi kami sebelum kehabisan.</p>
     </section>
 
-    {{-- Summary Stats: include partial agar sama persis dengan beranda --}}
-    @include('partials.unit-summary-content', [
-        'panel' => 'public',
-        'summary' => [
-            'configured' => true,
-            'total' => $totalUnit,
-            'terjual' => $totalTerjual,
-            'booking' => $totalBooking,
-        ],
-        'stats' => [
-            'total' => $totalUnit,
-            'tersedia' => $totalTersedia,
-            'terjual' => $totalTerjual,
-            'booking' => $totalBooking,
-        ]
-    ])
+    {{-- Summary Stats: copy dari landing page, hanya tampilan --}}
+    <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 mb-2">
+                    <i class="fas fa-building text-blue-400 text-2xl"></i>
+                </span>
+                <p class="text-3xl font-bold text-[#393939]">{{ $totalUnit }}</p>
+                <p class="text-base mt-1 font-medium text-[#676767]">Jumlah Unit</p>
+            </div>
+            <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-50 mb-2">
+                    <i class="fas fa-door-open text-green-600 text-2xl"></i>
+                </span>
+                <p class="text-3xl font-bold text-[#393939]">{{ $totalTersedia }}</p>
+                <p class="text-base mt-1 font-medium text-[#676767]">Unit Tersedia</p>
+            </div>
+            <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mb-2">
+                    <i class="fas fa-house-circle-xmark text-red-500 text-2xl"></i>
+                </span>
+                <p class="text-3xl font-bold text-[#393939]">{{ $totalTerjual }}</p>
+                <p class="text-base mt-1 font-medium text-[#676767]">Unit Terjual</p>
+            </div>
+            <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-50 mb-2">
+                    <i class="fas fa-bookmark text-yellow-600 text-2xl"></i>
+                </span>
+                <p class="text-3xl font-bold text-[#393939]">{{ $totalBooking }}</p>
+                <p class="text-base mt-1 font-medium text-[#676767]">Unit Dipesan</p>
+            </div>
+        </div>
+    </section>
 
     {{-- Filter Buttons Dihapus --}}
 
