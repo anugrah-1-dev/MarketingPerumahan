@@ -43,24 +43,40 @@
         <p class="text-[#676767] text-[16px]">Pilih unit favoritmu dan segera hubungi kami sebelum kehabisan.</p>
     </section>
 
-    {{-- Summary Stats --}}
+    {{-- Summary Stats (Card Style Beranda) --}}
     <section class="max-w-[1440px] mx-auto px-6 lg:px-[80px] mb-10">
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="rounded-[20px] bg-[#393939] text-white p-5 text-center shadow-sm">
-                <p class="text-3xl font-bold">{{ $totalUnit }}</p>
-                <p class="text-sm mt-1 font-medium">Total Unit</p>
+            <!-- Total Unit -->
+            <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-50 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21V7a2 2 0 012-2h2a2 2 0 012 2v14M7 21h10M17 21V7a2 2 0 012-2h2a2 2 0 012 2v14" /></svg>
+                </span>
+                <p class="text-3xl font-bold text-[#393939]">{{ $totalUnit }}</p>
+                <p class="text-base mt-1 font-medium text-[#676767]">Jumlah Unit</p>
             </div>
-            <div class="rounded-[20px] bg-[#D1FAE5] text-[#065F46] p-5 text-center shadow-sm">
-                <p class="text-3xl font-bold">{{ $totalTersedia }}</p>
-                <p class="text-sm mt-1 font-medium">Unit Tersedia</p>
+            <!-- Unit Tersedia -->
+            <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-green-50 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 21V9a2 2 0 012-2h2a2 2 0 012 2v12" /></svg>
+                </span>
+                <p class="text-3xl font-bold text-[#393939]">{{ $totalTersedia }}</p>
+                <p class="text-base mt-1 font-medium text-[#676767]">Unit Tersedia</p>
             </div>
-            <div class="rounded-[20px] bg-[#FEE2E2] text-[#991B1B] p-5 text-center shadow-sm">
-                <p class="text-3xl font-bold">{{ $totalTerjual }}</p>
-                <p class="text-sm mt-1 font-medium">Unit Terjual</p>
+            <!-- Unit Terjual -->
+            <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-red-50 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V13a2 2 0 00-2-2h-2a2 2 0 00-2 2v8" /></svg>
+                </span>
+                <p class="text-3xl font-bold text-[#393939]">{{ $totalTerjual }}</p>
+                <p class="text-base mt-1 font-medium text-[#676767]">Unit Terjual</p>
             </div>
-            <div class="rounded-[20px] bg-[#FEF3C7] text-[#92400E] p-5 text-center shadow-sm">
-                <p class="text-3xl font-bold">{{ $totalBooking }}</p>
-                <p class="text-sm mt-1 font-medium">Unit Booking</p>
+            <!-- Unit Booking -->
+            <div class="rounded-[20px] bg-white p-7 text-center shadow-sm flex flex-col items-center">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-50 mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5v14l7-7 7 7V5a2 2 0 00-2-2H7a2 2 0 00-2 2z" /></svg>
+                </span>
+                <p class="text-3xl font-bold text-[#393939]">{{ $totalBooking }}</p>
+                <p class="text-base mt-1 font-medium text-[#676767]">Unit Dipesan</p>
             </div>
         </div>
     </section>
