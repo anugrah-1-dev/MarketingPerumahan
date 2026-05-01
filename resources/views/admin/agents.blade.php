@@ -44,7 +44,24 @@
         </div>
     </div>
 
-    <!-- Add/Edit Agen Modal (custom overlay) -->
+@endsection
+
+@push('modals')
+    <!-- Detail Agent Modal -->
+    <div id="agentDetailModal" class="modal">
+        <div class="modal-content" style="max-width:600px;">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-circle" style="margin-right:.4rem;"></i> Detail Agen</h2>
+                <button class="close-btn" onclick="closeDetailModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" id="agentDetailBody">
+                <div style="text-align:center;padding:2rem;color:#94a3b8;">
+                    <i class="fas fa-spinner fa-spin"></i> Memuat detail…
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Add/Edit Agen Modal -->
     <div id="agentModal" class="tr-modal-overlay" style="z-index:9999; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(30,41,59,0.25); display:none; align-items:center; justify-content:center;">
         <div class="tr-modal-box" style="background:#fff;">
             <div class="tr-modal-header">
@@ -121,23 +138,7 @@
             </form>
         </div>
     </div>
-
-    <!-- Detail Agent Modal -->
-    <div id="agentDetailModal" class="modal">
-        <div class="modal-content" style="max-width:600px;">
-            <div class="modal-header">
-                <h2><i class="fas fa-user-circle" style="margin-right:.4rem;"></i> Detail Agen</h2>
-                <button class="close-btn" onclick="closeDetailModal()"><i class="fas fa-times"></i></button>
-            </div>
-            <div class="modal-body" id="agentDetailBody">
-                <div style="text-align:center;padding:2rem;color:#94a3b8;">
-                    <i class="fas fa-spinner fa-spin"></i> Memuat detail…
-                </div>
-            </div>
-        </div>
-    </div>
-
-@endsection
+@endpush
 
 @push('scripts')
 <script src="{{ asset('assets/admin/js/agents.js') }}?v={{ filemtime(public_path('assets/admin/js/agents.js')) }}"></script>

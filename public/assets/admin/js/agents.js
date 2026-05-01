@@ -275,7 +275,6 @@ function findRow(id) {
 // ── Modal helpers ─────────────────────────────────────────────
 function openAddAgentModal() {
     const modal = document.getElementById("agentModal");
-    if (modal.parentElement !== document.body) document.body.appendChild(modal);
     document.getElementById("modalTitle").textContent = "Tambah Affiliate";
     document.getElementById("agentForm").reset();
     document.getElementById("agentId").value = "";
@@ -314,7 +313,6 @@ function editAgent(id) {
     document.getElementById("agentPassword").required = false;
     document.getElementById("helpPasswordEdit").style.display = "block";
     const modal = document.getElementById("agentModal");
-    if (modal.parentElement !== document.body) document.body.appendChild(modal);
     modal.style.display = "flex";
     document.body.style.overflow = "hidden";
 }

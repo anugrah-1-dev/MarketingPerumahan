@@ -118,7 +118,6 @@ let _allUsers = [];
 
 function openAddUserModal() {
     const modal = document.getElementById("userModal");
-    if (modal.parentElement !== document.body) document.body.appendChild(modal);
     document.getElementById("userModalTitle").textContent = "Tambah User";
     document.getElementById("userForm").reset();
     document.getElementById("userId").value = "";
@@ -161,8 +160,6 @@ async function editUser(id) {
         document.getElementById("passwordHint").textContent =
             "Kosongkan jika tidak ingin mengganti password.";
         const modal = document.getElementById("userModal");
-        if (modal.parentElement !== document.body)
-            document.body.appendChild(modal);
         modal.style.display = "flex";
         document.body.style.overflow = "hidden";
     } catch {

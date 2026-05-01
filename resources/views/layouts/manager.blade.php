@@ -120,6 +120,7 @@
         </div>
     </div>
 
+    @stack('modals')
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="{{ asset('assets/manager/js/sidebar.js') }}"></script>
     @stack('scripts')

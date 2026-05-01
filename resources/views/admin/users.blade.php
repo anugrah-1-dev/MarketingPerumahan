@@ -40,7 +40,10 @@
         </div>
     </div>
 
-    <!-- Add/Edit User Modal (custom overlay) -->
+@endsection
+
+@push('modals')
+    <!-- Add/Edit User Modal -->
     <div id="userModal" class="tr-modal-overlay" style="z-index:9999; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(30,41,59,0.25); display:none; align-items:center; justify-content:center;">
         <div class="tr-modal-box" style="background:#fff;">
             <div class="tr-modal-header">
@@ -101,7 +104,7 @@
             </form>
         </div>
     </div>
-@endsection
+@endpush
 
 @push('scripts')
 <script src="{{ asset('assets/admin/js/users.js') }}?v={{ filemtime(public_path('assets/admin/js/users.js')) }}"></script>
