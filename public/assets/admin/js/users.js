@@ -117,6 +117,8 @@ function renderTable(users) {
 let _allUsers = [];
 
 function openAddUserModal() {
+    const modal = document.getElementById("userModal");
+    if (modal.parentElement !== document.body) document.body.appendChild(modal);
     document.getElementById("userModalTitle").textContent = "Tambah User";
     document.getElementById("userForm").reset();
     document.getElementById("userId").value = "";
@@ -124,7 +126,7 @@ function openAddUserModal() {
     document.getElementById("passwordHint").textContent =
         "Wajib diisi saat membuat user baru.";
     document.getElementById("userPassword").required = true;
-    document.getElementById("userModal").style.display = "flex";
+    modal.style.display = "flex";
     document.body.style.overflow = "hidden";
 }
 
@@ -158,7 +160,10 @@ async function editUser(id) {
         document.getElementById("passwordLabel").textContent = "Ganti Password";
         document.getElementById("passwordHint").textContent =
             "Kosongkan jika tidak ingin mengganti password.";
-        document.getElementById("userModal").style.display = "flex";
+        const modal = document.getElementById("userModal");
+        if (modal.parentElement !== document.body)
+            document.body.appendChild(modal);
+        modal.style.display = "flex";
         document.body.style.overflow = "hidden";
     } catch {
         alert("Gagal memuat data pengguna.");
