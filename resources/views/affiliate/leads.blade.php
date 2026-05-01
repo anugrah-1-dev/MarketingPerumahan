@@ -291,14 +291,14 @@
                     <th>IP Address</th>
                     <th>Perangkat / Browser</th>
                     <th>Halaman Asal</th>
-<<<<<<< HEAD
                     <th>Waktu Klik</th>
                     <th>Status</th>
+                    <th>Aksi</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($clicks as $i => $click)
-                <tr data-status="{{ $click->status }}" data-device="{{ $click->device }}">
+                <tr data-status="{{ $click->status }}" data-device="{{ $click->device }}" data-id="{{ $click->id }}" data-notes="{{ $click->notes }}" data-followup="{{ $click->follow_up_date }}">
                     <td class="click-no">{{ $i + 1 }}</td>
                     <td>
                         <div class="click-ip">{{ $click->ip_address ?? '-' }}</div>
@@ -351,10 +351,15 @@
                             {{ $labelMap[$click->status] ?? $click->status }}
                         </span>
                     </td>
+                    <td data-label="Aksi">
+                        <button class="btn-icon" title="Edit" onclick="openEditModal(this)">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6">
+                    <td colspan="7">
                         <div class="empty-state">
                             <div class="es-icon"><i class="fas fa-search"></i></div>
                             <p><strong>Belum ada klik WhatsApp</strong></p>
@@ -372,100 +377,10 @@
         </div>
         @endif
     </div>
-=======
-                    <table id="leadsTable">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>IP Address</th>
-                                <th>Perangkat / Browser</th>
-                                <th>Halaman Asal</th>
-                                <th>Waktu Klik</th>
-                                <th>Status</th>
-                                <th>Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($clicks as $i => $click)
-                            <tr data-status="{{ $click->status }}" data-device="{{ $click->device }}" data-id="{{ $click->id }}" data-notes="{{ $click->notes }}" data-followup="{{ $click->follow_up_date }}">
-                                <td class="click-no">{{ $i + 1 }}</td>
-                                <td>
-                                    <div class="click-ip">{{ $click->ip_address ?? '-' }}</div>
-                                    <div class="click-sub">{{ $click->page_url ? \Illuminate\Support\Str::limit($click->page_url, 40) : '-' }}</div>
-                                </td>
-                                <td data-label="Perangkat / Browser">
-                                    <span class="click-device">
-                                        @if($click->device === 'Mobile')
-                                            <i class="fas fa-mobile-alt"></i>
-                                        @else
-                                            <i class="fas fa-desktop"></i>
-                                        @endif
-                                        {{ $click->device ?? '-' }}
-                                    </span>
-                                    <div class="click-sub" style="margin-top:5px;">{{ $click->browser ?? '-' }}</div>
-                                </td>
-                                <td data-label="Halaman Asal">
-                                    @if($click->page_url)
-                                        <a href="{{ $click->page_url }}" target="_blank"
-                                           style="color:#3d81af;font-size:12px;word-break:break-all;text-decoration:none;"
-                                           title="{{ $click->page_url }}">
-                                            {{ \Illuminate\Support\Str::limit($click->page_url, 50) }}
-                                        </a>
-                                    @else
-                                        <span style="color:#bbb;">-</span>
-                                    @endif
-                                </td>
-                                <td data-label="Waktu Klik">
-                                    <div class="click-date">{{ $click->created_at->format('d M Y') }}</div>
-                                    <div class="click-time">{{ $click->created_at->format('H:i') }} WIB</div>
-                                </td>
-                                <td data-label="Status">
-                                    @php
-                                        $badgeMap = [
-                                            'new'           => 'badge-new',
-                                            'follow-up'     => 'badge-follow-up',
-                                            'interested'    => 'badge-interested',
-                                            'not-interested'=> 'badge-not-interested',
-                                            'closed'        => 'badge-closed',
-                                        ];
-                                        $labelMap = [
-                                            'new'           => 'Prospek',
-                                            'follow-up'     => 'Tindak Lanjut',
-                                            'interested'    => 'Tertarik',
-                                            'not-interested'=> 'Tidak Tertarik',
-                                            'closed'        => 'Penutupan',
-                                        ];
-                                    @endphp
-                                    <span class="badge {{ $badgeMap[$click->status] ?? 'badge-new' }}">
-                                        {{ $labelMap[$click->status] ?? $click->status }}
-                                    </span>
-                                </td>
-                                <td data-label="Aksi">
-                                    <button class="btn-icon" title="Edit" onclick="openEditModal(this)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="7">
-                                    <div class="empty-state">
-                                        <div class="es-icon"><i class="fas fa-search"></i></div>
-                                        <p><strong>Belum ada klik WhatsApp</strong></p>
-                                        <small>Bagikan link referral Anda agar pengunjung mulai tercatat di sini</small>
-                                    </div>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
->>>>>>> 838a49331ec14f5815876624a71d1d49d524ee6f
 
 </div>
 @endsection
 
-<<<<<<< HEAD
-=======
 <!-- Modal Edit Status -->
 <div id="editModal" class="modal" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100vw;height:100vh;background:rgba(0,0,0,0.25);align-items:center;justify-content:center;">
     <div class="modal-content" style="background:#fff;padding:2rem 1.5rem;border-radius:12px;max-width:400px;width:100%;position:relative;">
@@ -499,25 +414,17 @@
         </form>
     </div>
 </div>
-
->>>>>>> 838a49331ec14f5815876624a71d1d49d524ee6f
 @push('scripts')
 <script>
 function filterTable() {
     const search = document.getElementById('searchInput').value.toLowerCase();
     const status = document.getElementById('filterStatus').value;
     const device = document.getElementById('filterDevice').value;
-<<<<<<< HEAD
-
-=======
->>>>>>> 838a49331ec14f5815876624a71d1d49d524ee6f
     let visible = 0;
     document.querySelectorAll('#leadsTable tbody tr[data-status]').forEach(row => {
         const text      = row.innerText.toLowerCase();
         const rowStatus = row.dataset.status;
         const rowDevice = row.dataset.device;
-<<<<<<< HEAD
-
         const ok = (!search || text.includes(search))
                 && (!status || rowStatus === status)
                 && (!device || rowDevice === device);
@@ -525,21 +432,10 @@ function filterTable() {
         row.style.display = ok ? '' : 'none';
         if (ok) visible++;
     });
-
-=======
-        const ok = (!search || text.includes(search))
-                && (!status || rowStatus === status)
-                && (!device || rowDevice === device);
-        row.style.display = ok ? '' : 'none';
-        if (ok) visible++;
-    });
->>>>>>> 838a49331ec14f5815876624a71d1d49d524ee6f
     // Update total bar
     const bar = document.querySelector('.total-bar span');
     if (bar) bar.textContent = visible;
 }
-<<<<<<< HEAD
-=======
 
 function openEditModal(btn) {
     const row = btn.closest('tr');
@@ -577,7 +473,6 @@ function saveEditModal() {
     .catch(() => alert('Gagal menyimpan.'));
     return false;
 }
->>>>>>> 838a49331ec14f5815876624a71d1d49d524ee6f
 </script>
 @endpush
 

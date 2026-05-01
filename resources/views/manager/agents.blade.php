@@ -62,7 +62,7 @@
         </div>
     </div>
     <!-- Add/Edit Agen Modal -->
-    <div id="agentModal" class="tr-modal-overlay" style="z-index:9999; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(30,41,59,0.45); display:none; align-items:center; justify-content:center;">
+    <div id="agentModal" class="tr-modal-overlay" style="display:none;">
         <div class="tr-modal-box" style="background:#fff;">
             <div class="tr-modal-header">
                 <h3 id="modalTitle">Tambah Afiliasi</h3>
