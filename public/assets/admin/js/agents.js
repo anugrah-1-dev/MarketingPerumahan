@@ -280,10 +280,12 @@ function openAddAgentModal() {
     document.getElementById("agentPassword").required = true;
     document.getElementById("helpPasswordEdit").style.display = "none";
     document.getElementById("agentModal").style.display = "flex";
+    document.body.style.overflow = "hidden";
 }
 function closeAgentModal() {
     document.getElementById("agentModal").style.display = "none";
     document.getElementById("agentForm").reset();
+    document.body.style.overflow = "";
 }
 
 // ── EDIT — pakai cache lokal, TIDAK fetch ke server ───────────
@@ -310,6 +312,7 @@ function editAgent(id) {
     document.getElementById("agentPassword").required = false;
     document.getElementById("helpPasswordEdit").style.display = "block";
     document.getElementById("agentModal").style.display = "flex";
+    document.body.style.overflow = "hidden";
 }
 
 // ── CREATE / UPDATE ───────────────────────────────────────────

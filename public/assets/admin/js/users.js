@@ -125,11 +125,13 @@ function openAddUserModal() {
         "Wajib diisi saat membuat user baru.";
     document.getElementById("userPassword").required = true;
     document.getElementById("userModal").style.display = "flex";
+    document.body.style.overflow = "hidden";
 }
 
 function closeUserModal() {
     document.getElementById("userModal").style.display = "none";
     document.getElementById("userForm").reset();
+    document.body.style.overflow = "";
 }
 
 async function editUser(id) {
@@ -157,6 +159,7 @@ async function editUser(id) {
         document.getElementById("passwordHint").textContent =
             "Kosongkan jika tidak ingin mengganti password.";
         document.getElementById("userModal").style.display = "flex";
+        document.body.style.overflow = "hidden";
     } catch {
         alert("Gagal memuat data pengguna.");
     }
